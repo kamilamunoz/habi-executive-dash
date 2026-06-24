@@ -49,10 +49,10 @@ const KPIS_41 = [
   { id: "ingresos_totales",    nombre: "Ingresos totales",     file: "kpi_ingresos.json" },
   { id: "gmv",                 nombre: "GMV / Valor transado", file: "kpi_gmv.json" },
   { id: "margen_bruto",        nombre: "Margen bruto",         file: "kpi_margen_bruto.json" },
-  { id: "contribution_margin", nombre: "Contribution margin",  file: null },
-  { id: "ebitda",              nombre: "EBITDA",               file: null },
-  { id: "opex_ingreso",        nombre: "OpEx / Ingreso",       file: null },
-  { id: "burn_runway",         nombre: "Burn neto y runway",   file: null },
+  { id: "contribution_margin", nombre: "Contribution margin",  file: "kpi_contribution.json" },
+  { id: "ebitda",              nombre: "EBITDA",               file: "kpi_ebitda.json" },
+  { id: "opex_ingreso",        nombre: "OpEx",                 file: "kpi_opex.json" },
+  { id: "burn_runway",         nombre: "Burn neto",            file: "kpi_burn.json" },
 ];
 const KPIS_42 = [
   { id: "inventario_libros",   nombre: "Inventario en libros", file: null },
@@ -92,10 +92,17 @@ function fmtMoneda(n, moneda, opts){
   return `${sign}$${v.toFixed(decimals)}${unit ? (opts.compact ? unit : " "+unit) : ""}`;
 }
 
-function fmtDelta(diff){
+function fmtDelta(diff, invertir){
   if(diff == null || isNaN(diff)) return "";
-  const cls = diff > 0 ? "up" : (diff < 0 ? "down" : "flat");
+  // Por default: ▲ verde, ▼ rojo. Si invertir=true (ej. OpEx donde gastar mas
+  // es malo): ▲ rojo, ▼ verde — el arrow refleja la direccion del numero,
+  // el color refleja si es bueno o malo.
   const arrow = diff > 0 ? "▲" : (diff < 0 ? "▼" : "—");
+  let cls = diff > 0 ? "up" : (diff < 0 ? "down" : "flat");
+  if(invertir){
+    if(cls === "up") cls = "down";
+    else if(cls === "down") cls = "up";
+  }
   return `<span class="${cls}">${arrow} ${Math.abs(diff*100).toFixed(1)}%</span>`;
 }
 
@@ -126,16 +133,116 @@ function monedaMostrada(paisLocal){
 
 /* ======================================================== FACTS HELPERS = */
 
-/* Aplica filtros activos a la fact table. NO aplica filtro de mes — la mayoria
- * de operaciones quiere ver varios meses (para series). Para el mes corte
- * filtramos aparte. */
+/* Aplica filtros activos a la fact table. NO aplica filtro de mes.
+ *
+ * Graceful degradation: si el filtro de subsidiaria/linea no aplica porque el
+ * KPI no tiene esa dimension poblada (ej. GMV no tiene c_subsidiaria), caemos
+ * al pais inferido. Asi el usuario no ve la card vacia cuando filtra Habi —
+ * en su lugar ve el dato de Colombia, con un indicador visual en la card. */
 function filtrarFacts(facts, filters){
+  // Detectar si el KPI tiene la dimension de subsidiaria/linea poblada
+  const tieneSubKPI = facts.some(r => r.subsidiaria != null);
+  const tieneLineaKPI = facts.some(r => r.linea != null);
+
   return facts.filter(r => {
-    if(filters.pais && filters.pais !== "Global" && r.pais !== filters.pais) return false;
-    if(filters.subsidiaria && filters.subsidiaria !== "Todas" && r.subsidiaria !== filters.subsidiaria) return false;
-    if(filters.linea && filters.linea !== "Todas" && r.linea !== filters.linea) return false;
+    // Filtro de pais
+    let paisActivo = filters.pais;
+    // Si filtro de subsidiaria activo y el KPI no la tiene, fall back a pais inferido
+    if(filters.subsidiaria !== "Todas" && !tieneSubKPI && paisActivo === "Global"){
+      paisActivo = paisDeSubsidiaria(filters.subsidiaria);
+    }
+    if(paisActivo && paisActivo !== "Global" && r.pais !== paisActivo) return false;
+
+    // Filtro de subsidiaria SOLO si el KPI la tiene
+    if(filters.subsidiaria !== "Todas" && tieneSubKPI){
+      if(r.subsidiaria !== filters.subsidiaria) return false;
+    }
+    // Filtro de linea SOLO si el KPI la tiene
+    if(filters.linea !== "Todas" && tieneLineaKPI){
+      if(r.linea !== filters.linea) return false;
+    }
     return true;
   });
+}
+
+/* Calcula runway en meses para un KPI con cash_balances.
+ *
+ * Estrategia:
+ *   - Burn = filtrar facts del mes corte por filtros activos y sumar (con FX)
+ *   - Burn promedio = promedio de los ultimos N meses (data.burn_avg_meses)
+ *   - Cash = data.cash_balances[mes_corte][clave_segun_filtro]
+ *   - Runway = cash / burn_promedio si burn > 0; sino Infinity
+ *
+ * Si la subsidiaria filtrada no existe en cash_balances (ej. GMV-style),
+ * caemos al pais inferido.
+ */
+function calcularRunway(kpiData){
+  const f = STATE.filters;
+  const elim = f.elim;
+  const N = kpiData.burn_avg_meses || 3;
+
+  // Burn promedio ultimos N meses (incluyendo mes corte)
+  const meses = kpiData.meses_disponibles || [];
+  const idxCorte = meses.indexOf(f.mes);
+  if(idxCorte < 0) return null;
+  const mesesParaPromedio = meses.slice(Math.max(0, idxCorte - N + 1), idxCorte + 1);
+
+  const filtered = filtrarFacts(kpiData.facts, f);
+  let burnSum = 0, n = 0;
+  for(const m of mesesParaPromedio){
+    const delMes = filtered.filter(r => r.mes === m);
+    if(!delMes.length) continue;
+    const s = sumarConFX(delMes, elim);
+    burnSum += s.actuals;
+    n++;
+  }
+  if(n === 0) return null;
+  const burnAvg = burnSum / n;
+  if(burnAvg <= 0) return Infinity; // empresa genera cash
+
+  // Cash actual del mes corte
+  const bucket = kpiData.cash_balances[f.mes];
+  if(!bucket) return null;
+  let cash = 0;
+  let paisLocalCash = null;
+  if(f.subsidiaria !== "Todas"){
+    cash = bucket.por_subsidiaria[f.subsidiaria];
+    if(cash == null){
+      // fallback al pais de esa subsidiaria
+      const p = paisDeSubsidiaria(f.subsidiaria);
+      cash = p ? (bucket.por_pais[p] || 0) : 0;
+      paisLocalCash = p;
+    } else {
+      paisLocalCash = paisDeSubsidiaria(f.subsidiaria);
+    }
+  } else if(f.pais !== "Global"){
+    cash = bucket.por_pais[f.pais] || 0;
+    paisLocalCash = f.pais;
+  } else {
+    cash = bucket.Global || 0;
+    paisLocalCash = null;
+  }
+  // Convertir cash a moneda mostrada
+  const cashConvertido = convertir(cash, paisLocalCash);
+  // burnAvg ya viene en la moneda mostrada (de sumarConFX)
+  return cashConvertido / burnAvg;
+}
+
+/* Devuelve true si algun filtro activo no se esta aplicando porque el KPI no
+ * tiene esa dimension. La UI muestra un aviso en la card cuando esto ocurre. */
+function filtrosDegradados(kpiData, filters){
+  const avisos = [];
+  if(filters.subsidiaria !== "Todas"){
+    if(!kpiData.facts.some(r => r.subsidiaria != null)){
+      avisos.push(`Sin granularidad de subsidiaria — mostrando ${paisDeSubsidiaria(filters.subsidiaria) || "país"}`);
+    }
+  }
+  if(filters.linea !== "Todas"){
+    if(!kpiData.facts.some(r => r.linea != null)){
+      avisos.push(`Sin granularidad de línea — mostrando todas`);
+    }
+  }
+  return avisos;
 }
 
 /* Agrupa filas por una clave y suma actuals/budget en el elim seleccionado.
@@ -368,7 +475,30 @@ function renderCard(kpiDef){
   const valor = fmtMoneda(actuals, mon);
   const budgetTxt = budget != null && budget !== 0 ? fmtMoneda(budget, mon) : "—";
   const diff = (actuals != null && budget != null && budget !== 0) ? (actuals - budget)/Math.abs(budget) : null;
-  const conRatio = data.unidad === "MONEDA_CON_RATIO" && ratio != null;
+  const invertir = !!data.invertir_delta;
+  // Ratio puede venir embebido (Margen) o cross-KPI (OpEx vs Ingresos)
+  let ratioVal = data.unidad === "MONEDA_CON_RATIO" ? ratio : null;
+  let ratioBud = data.unidad === "MONEDA_CON_RATIO" ? ratio_budget : null;
+  let ratioLabel = data.ratio_label;
+  let ratioComoMeses = false;
+  if(data.ratio_against && STATE.kpis[data.ratio_against] && actuals != null){
+    const ref = montoMesActual(STATE.kpis[data.ratio_against]);
+    if(ref.actuals && ref.actuals !== 0){
+      ratioVal = Math.abs(actuals) / Math.abs(ref.actuals);
+      if(ref.budget && ref.budget !== 0 && budget != null){
+        ratioBud = Math.abs(budget) / Math.abs(ref.budget);
+      }
+    }
+  }
+  // KPIs con runway (Burn): calcular meses = cash / burn promedio
+  if(data.unidad === "MONEDA_CON_RUNWAY" && data.cash_balances){
+    const runway = calcularRunway(data);
+    if(runway != null){
+      ratioVal = runway;
+      ratioComoMeses = true;
+    }
+  }
+  const conRatio = ratioVal != null;
 
   // Sparkline: serie del KPI con los filtros activos
   const filtered = filtrarFacts(data.facts, STATE.filters);
@@ -379,8 +509,19 @@ function renderCard(kpiDef){
   const diffMoM = (last && prev && prev.actuals !== 0) ? (last.actuals - prev.actuals)/Math.abs(prev.actuals) : null;
   const color = SPARK_COLOR[data.estado] || SPARK_COLOR.ejemplo;
 
+  const ratioFmt = ratioComoMeses
+    ? (ratioVal === Infinity ? "∞ (genera cash)" : `${ratioVal.toFixed(1)} meses`)
+    : (ratioVal != null ? `${(ratioVal*100).toFixed(1)}%` : "");
+  const ratioBudFmt = (!ratioComoMeses && ratioBud != null)
+    ? ` <span class="vs">vs bud ${(ratioBud*100).toFixed(1)}%</span>`
+    : "";
   const ratioHTML = conRatio
-    ? `<div class="ratio-line">${data.ratio_label || "Ratio"}: <b>${(ratio*100).toFixed(1)}%</b>${ratio_budget != null ? ` <span class="vs">vs bud ${(ratio_budget*100).toFixed(1)}%</span>` : ""}</div>`
+    ? `<div class="ratio-line">${ratioLabel || "Ratio"}: <b>${ratioFmt}</b>${ratioBudFmt}</div>`
+    : "";
+
+  const avisos = filtrosDegradados(data, STATE.filters);
+  const avisosHTML = avisos.length
+    ? `<div class="card-aviso" title="${avisos.join(' · ')}">ⓘ ${avisos[0]}</div>`
     : "";
 
   return `<div class="card ${data.estado}" onclick="abrirDrill('${kpiDef.id}')">
@@ -389,10 +530,11 @@ function renderCard(kpiDef){
     ${ratioHTML}
     <div class="budget-line">Budget: <b>${budgetTxt}</b></div>
     <div class="delta">
-      ${diff != null ? fmtDelta(diff) + ' <span class="vs">vs budget</span>' : ''}
-      ${diffMoM != null ? fmtDelta(diffMoM) + ' <span class="vs">vs mes ant.</span>' : ''}
+      ${diff != null ? fmtDelta(diff, invertir) + ' <span class="vs">vs budget</span>' : ''}
+      ${diffMoM != null ? fmtDelta(diffMoM, invertir) + ' <span class="vs">vs mes ant.</span>' : ''}
     </div>
     ${sparkSVG(serie, color)}
+    ${avisosHTML}
     <div class="src">◷ ${data.fuente || ""}</div>
     <div class="card-cta">Click para drill-down →</div>
   </div>`;
@@ -455,6 +597,7 @@ function abrirDrill(kpiId){
 
   // Helper para pintar lista agrupada
   const conRatio = data.unidad === "MONEDA_CON_RATIO";
+  const invertirKPI = !!data.invertir_delta;
   function pintarLista(rows, totalAbs){
     if(!rows.length) return `<div class="drill-empty">Sin datos para esta vista.</div>`;
     let html = "";
@@ -465,7 +608,7 @@ function abrirDrill(kpiId){
       const pct = totalAbs ? Math.abs(a / totalAbs) : 0;
       const mon = f.moneda === "USD" ? "USD" : monedaDePais(r.paisLocal || "Colombia");
       const diff = (a != null && b != null && b !== 0) ? (a - b) / Math.abs(b) : null;
-      // Ratio si el KPI tiene revenue_actuals
+      // Ratio si el KPI tiene revenue_actuals (Margen)
       let ratioHTML = "";
       if(conRatio && r.revenue_actuals && r.revenue_actuals !== 0){
         const ratio = a / (f.moneda === "USD" ? convertir(r.revenue_actuals, r.paisLocal) : r.revenue_actuals);
@@ -477,7 +620,7 @@ function abrirDrill(kpiId){
           <span class="v">${fmtMoneda(a, mon)}</span>
           ${ratioHTML}
           <span class="v-bud">/ ${b != null ? fmtMoneda(b, mon) : "—"}</span>
-          ${diff != null ? fmtDelta(diff) : ""}
+          ${diff != null ? fmtDelta(diff, invertirKPI) : ""}
         </span>
       </div>`;
     }
@@ -488,9 +631,10 @@ function abrirDrill(kpiId){
   const totales = sumarConFX(delMes, elim);
   const totalAbs = Math.abs(totales.actuals);
 
-  // Detectar si el KPI tiene info de subsidiaria / cuenta (no todos la tienen,
-  // ej. GMV en bet_data_p2 no trae c_subsidiaria ni c_cuenta).
+  // Detectar si el KPI tiene info de subsidiaria / linea / cuenta (no todos
+  // la tienen — ej. GMV no trae subsidiaria; OpEx no tiene business line).
   const tieneSubsidiaria = delMes.some(r => r.subsidiaria != null);
+  const tieneLinea = delMes.some(r => r.linea != null);
   const tieneCuenta = delMes.some(r => r.cuenta != null);
 
   let html = `<div class="drill-grid">`;
@@ -510,12 +654,30 @@ function abrirDrill(kpiId){
       ${pintarLista(porSub, totalAbs)}
     </div>`;
   }
-  // Por linea SOLO si linea=Todas
-  if(f.linea === "Todas"){
+  // Por linea SOLO si el KPI la tiene Y linea=Todas
+  if(tieneLinea && f.linea === "Todas"){
     const porLinea = agrupar(delMes, r => r.linea || "(sin asignar)", elim);
     html += `<div class="drill-block">
       <h3>Por línea de negocio${f.subsidiaria !== "Todas" ? " · " + f.subsidiaria : ""}</h3>
       ${pintarLista(porLinea, totalAbs)}
+    </div>`;
+  }
+  // Si el KPI trae categoria_gasto (OpEx), mostrar un bloque dedicado
+  const tieneCategoriaGasto = delMes.some(r => r.categoria_gasto != null);
+  if(tieneCategoriaGasto){
+    const porCategoria = agrupar(delMes, r => r.categoria_gasto || "(sin asignar)", elim);
+    html += `<div class="drill-block">
+      <h3>Por categoría de gasto</h3>
+      ${pintarLista(porCategoria, totalAbs)}
+    </div>`;
+  }
+  // Si el KPI trae bloque_pyl (EBITDA), mostrar el desglose Gross Profit / Other Costs / OpEx
+  const tieneBloquePyL = delMes.some(r => r.bloque_pyl != null);
+  if(tieneBloquePyL){
+    const porBloque = agrupar(delMes, r => r.bloque_pyl || "(sin asignar)", elim);
+    html += `<div class="drill-block">
+      <h3>Por bloque del P&amp;L</h3>
+      ${pintarLista(porBloque, totalAbs)}
     </div>`;
   }
   html += `</div>`;
@@ -568,7 +730,7 @@ function abrirDrill(kpiId){
       <td>${c.desc || "(sin descripción)"}</td>
       <td class="num">${fmtMoneda(a, mon)}</td>
       <td class="num">${b != null ? fmtMoneda(b, mon) : "—"}</td>
-      <td class="num">${diff != null ? fmtDelta(diff) : "—"}</td>
+      <td class="num">${diff != null ? fmtDelta(diff, invertirKPI) : "—"}</td>
     </tr>`;
   }
   html += `</tbody></table>
