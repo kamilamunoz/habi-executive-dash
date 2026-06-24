@@ -95,6 +95,9 @@ html,body{background:var(--bg);color:var(--txt);font-family:'IBM Plex Sans',sans
 .card.pendiente .val{color:var(--txt3);font-size:15px;font-style:italic;font-weight:400}
 .budget-line{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--txt2);margin-top:2px}
 .budget-line b{color:var(--txt);font-weight:500}
+.ratio-line{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--purple);margin-top:3px;font-weight:500}
+.ratio-line b{color:var(--purple);font-weight:700;font-size:14px}
+.ratio-line .vs{color:var(--txt3);font-weight:400;font-size:11px;margin-left:5px}
 .delta{font-size:11px;font-family:'IBM Plex Mono',monospace;display:flex;align-items:center;gap:10px;margin-top:6px;flex-wrap:wrap}
 .delta .vs{color:var(--txt3)}
 .up{color:var(--green-tx)} .down{color:var(--red-tx)} .flat{color:var(--txt2)}
@@ -124,6 +127,7 @@ html,body{background:var(--bg);color:var(--txt);font-family:'IBM Plex Sans',sans
 .drill-row .v-pair{display:flex;align-items:center;gap:10px;font-family:'IBM Plex Mono',monospace;font-variant-numeric:tabular-nums}
 .drill-row .v{font-weight:600;color:var(--txt)}
 .drill-row .v-bud{color:var(--txt3);font-size:12px}
+.drill-row .v-ratio{font-weight:700;color:var(--purple);background:var(--purple-soft);padding:2px 7px;border-radius:5px;font-size:11.5px}
 .drill-row .bar{display:inline-block;height:6px;background:var(--purple);border-radius:3px;vertical-align:middle;margin-right:7px;opacity:.65}
 .drill-empty{font-size:12px;color:var(--txt3);font-style:italic;padding:8px 0}
 

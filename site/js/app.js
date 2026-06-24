@@ -47,8 +47,8 @@ const LINEAS_POR_PAIS = {
 };
 const KPIS_41 = [
   { id: "ingresos_totales",    nombre: "Ingresos totales",     file: "kpi_ingresos.json" },
-  { id: "gmv",                 nombre: "GMV / Valor transado", file: null },
-  { id: "margen_bruto",        nombre: "Margen bruto $ y %",   file: null },
+  { id: "gmv",                 nombre: "GMV / Valor transado", file: "kpi_gmv.json" },
+  { id: "margen_bruto",        nombre: "Margen bruto",         file: "kpi_margen_bruto.json" },
   { id: "contribution_margin", nombre: "Contribution margin",  file: null },
   { id: "ebitda",              nombre: "EBITDA",               file: null },
   { id: "opex_ingreso",        nombre: "OpEx / Ingreso",       file: null },
@@ -139,16 +139,18 @@ function filtrarFacts(facts, filters){
 }
 
 /* Agrupa filas por una clave y suma actuals/budget en el elim seleccionado.
- * Devuelve [{key, actuals, budget, paisLocal}]. paisLocal se infiere de la
- * primera fila si todas las filas son del mismo pais (para FX). */
+ * Tambien acumula revenue_actuals/revenue_budget si presentes (KPIs con ratio).
+ * paisLocal se infiere si todas las filas son del mismo pais. */
 function agrupar(facts, keyFn, elim){
   const map = new Map();
   for(const r of facts){
     const k = keyFn(r);
     if(k === null || k === undefined) continue;
-    const entry = map.get(k) || {key: k, actuals: 0, budget: 0, paises: new Set()};
+    const entry = map.get(k) || {key: k, actuals: 0, budget: 0, revenue_actuals: 0, revenue_budget: 0, paises: new Set()};
     entry.actuals += (r.actuals && r.actuals[elim]) || 0;
     entry.budget  += (r.budget && r.budget[elim]) || 0;
+    entry.revenue_actuals += (r.revenue_actuals && r.revenue_actuals[elim]) || 0;
+    entry.revenue_budget  += (r.revenue_budget  && r.revenue_budget[elim])  || 0;
     if(r.pais) entry.paises.add(r.pais);
     map.set(k, entry);
   }
@@ -156,19 +158,24 @@ function agrupar(facts, keyFn, elim){
     key: e.key,
     actuals: e.actuals,
     budget: e.budget,
+    revenue_actuals: e.revenue_actuals,
+    revenue_budget: e.revenue_budget,
     paisLocal: e.paises.size === 1 ? [...e.paises][0] : null,
   })).sort((a,b) => Math.abs(b.actuals) - Math.abs(a.actuals));
 }
 
-/* Suma un fact con FX a la moneda mostrada. */
+/* Suma un fact con FX a la moneda mostrada. Tambien suma revenue_actuals y
+ * revenue_budget si estan presentes (KPIs con ratio como Margen bruto). */
 function sumarConFX(facts, elim){
-  let a = 0, b = 0;
+  let a = 0, b = 0, ra = 0, rb = 0;
   for(const r of facts){
     const pais = r.pais;
     a += convertir((r.actuals && r.actuals[elim]) || 0, pais) || 0;
     b += convertir((r.budget && r.budget[elim]) || 0, pais) || 0;
+    ra += convertir((r.revenue_actuals && r.revenue_actuals[elim]) || 0, pais) || 0;
+    rb += convertir((r.revenue_budget  && r.revenue_budget[elim])  || 0, pais) || 0;
   }
-  return {actuals: a, budget: b};
+  return {actuals: a, budget: b, revenue_actuals: ra, revenue_budget: rb};
 }
 
 /* Serie mensual filtrada con FX aplicado. */
@@ -211,12 +218,14 @@ function montoMesActual(kpiData){
   const f = STATE.filters;
   const filtered = filtrarFacts(kpiData.facts, f);
   const delMes = filtered.filter(r => r.mes === f.mes);
-  if(delMes.length === 0) return {actuals: null, budget: null, paisLocal: null};
-  // Si todas las filas son del mismo pais, podemos mostrarlo en moneda local
+  if(delMes.length === 0) return {actuals: null, budget: null, paisLocal: null, ratio: null, ratio_budget: null};
   const paises = new Set(delMes.map(r => r.pais).filter(Boolean));
   const paisLocal = paises.size === 1 ? [...paises][0] : null;
-  const {actuals, budget} = sumarConFX(delMes, f.elim);
-  return {actuals, budget, paisLocal};
+  const sums = sumarConFX(delMes, f.elim);
+  // Si el KPI tiene revenue (MONEDA_CON_RATIO), calcular el ratio
+  const ratio = sums.revenue_actuals !== 0 ? sums.actuals / sums.revenue_actuals : null;
+  const ratio_budget = sums.revenue_budget !== 0 ? sums.budget / sums.revenue_budget : null;
+  return {actuals: sums.actuals, budget: sums.budget, paisLocal, ratio, ratio_budget};
 }
 
 /* ========================================================= SPARK + CHART = */
@@ -354,11 +363,12 @@ function renderCard(kpiDef){
       <div class="src">Por construir</div>
     </div>`;
   }
-  const {actuals, budget, paisLocal} = montoMesActual(data);
+  const {actuals, budget, paisLocal, ratio, ratio_budget} = montoMesActual(data);
   const mon = monedaMostrada(paisLocal);
   const valor = fmtMoneda(actuals, mon);
   const budgetTxt = budget != null && budget !== 0 ? fmtMoneda(budget, mon) : "—";
   const diff = (actuals != null && budget != null && budget !== 0) ? (actuals - budget)/Math.abs(budget) : null;
+  const conRatio = data.unidad === "MONEDA_CON_RATIO" && ratio != null;
 
   // Sparkline: serie del KPI con los filtros activos
   const filtered = filtrarFacts(data.facts, STATE.filters);
@@ -369,9 +379,14 @@ function renderCard(kpiDef){
   const diffMoM = (last && prev && prev.actuals !== 0) ? (last.actuals - prev.actuals)/Math.abs(prev.actuals) : null;
   const color = SPARK_COLOR[data.estado] || SPARK_COLOR.ejemplo;
 
+  const ratioHTML = conRatio
+    ? `<div class="ratio-line">${data.ratio_label || "Ratio"}: <b>${(ratio*100).toFixed(1)}%</b>${ratio_budget != null ? ` <span class="vs">vs bud ${(ratio_budget*100).toFixed(1)}%</span>` : ""}</div>`
+    : "";
+
   return `<div class="card ${data.estado}" onclick="abrirDrill('${kpiDef.id}')">
     <div class="kpi-name"><span class="nm">${kpiDef.nombre}</span><span class="tag ${data.estado}">${TAG_LABEL[data.estado]}</span></div>
     <div class="val">${valor}</div>
+    ${ratioHTML}
     <div class="budget-line">Budget: <b>${budgetTxt}</b></div>
     <div class="delta">
       ${diff != null ? fmtDelta(diff) + ' <span class="vs">vs budget</span>' : ''}
@@ -439,6 +454,7 @@ function abrirDrill(kpiId){
     `Mes: <b>${mesYYYYMM_a_label(f.mes)}</b> · Vista: <b>${filtrosTxt}</b> · Moneda: <b>${monedaTxt}</b> · Eliminaciones: <b>${f.elim}</b>`;
 
   // Helper para pintar lista agrupada
+  const conRatio = data.unidad === "MONEDA_CON_RATIO";
   function pintarLista(rows, totalAbs){
     if(!rows.length) return `<div class="drill-empty">Sin datos para esta vista.</div>`;
     let html = "";
@@ -449,10 +465,17 @@ function abrirDrill(kpiId){
       const pct = totalAbs ? Math.abs(a / totalAbs) : 0;
       const mon = f.moneda === "USD" ? "USD" : monedaDePais(r.paisLocal || "Colombia");
       const diff = (a != null && b != null && b !== 0) ? (a - b) / Math.abs(b) : null;
+      // Ratio si el KPI tiene revenue_actuals
+      let ratioHTML = "";
+      if(conRatio && r.revenue_actuals && r.revenue_actuals !== 0){
+        const ratio = a / (f.moneda === "USD" ? convertir(r.revenue_actuals, r.paisLocal) : r.revenue_actuals);
+        ratioHTML = `<span class="v-ratio">${(ratio*100).toFixed(1)}%</span>`;
+      }
       html += `<div class="drill-row">
         <span class="k"><span class="bar" style="width:${(pct*70).toFixed(0)}px"></span>${r.key}</span>
         <span class="v-pair">
           <span class="v">${fmtMoneda(a, mon)}</span>
+          ${ratioHTML}
           <span class="v-bud">/ ${b != null ? fmtMoneda(b, mon) : "—"}</span>
           ${diff != null ? fmtDelta(diff) : ""}
         </span>
@@ -465,6 +488,11 @@ function abrirDrill(kpiId){
   const totales = sumarConFX(delMes, elim);
   const totalAbs = Math.abs(totales.actuals);
 
+  // Detectar si el KPI tiene info de subsidiaria / cuenta (no todos la tienen,
+  // ej. GMV en bet_data_p2 no trae c_subsidiaria ni c_cuenta).
+  const tieneSubsidiaria = delMes.some(r => r.subsidiaria != null);
+  const tieneCuenta = delMes.some(r => r.cuenta != null);
+
   let html = `<div class="drill-grid">`;
   // Por pais SOLO si vista=Global (sino seria 1 fila)
   if(f.pais === "Global"){
@@ -474,8 +502,8 @@ function abrirDrill(kpiId){
       ${pintarLista(porPais, totalAbs)}
     </div>`;
   }
-  // Por subsidiaria SOLO si subsidiaria=Todas (sino seria 1 fila)
-  if(f.subsidiaria === "Todas"){
+  // Por subsidiaria SOLO si el KPI la tiene Y el filtro esta en Todas
+  if(tieneSubsidiaria && f.subsidiaria === "Todas"){
     const porSub = agrupar(delMes, r => r.subsidiaria || "(sin asignar)", elim);
     html += `<div class="drill-block">
       <h3>Por subsidiaria${f.pais !== "Global" ? " · " + f.pais : ""}</h3>
@@ -504,8 +532,10 @@ function abrirDrill(kpiId){
     ${lineChartSVG(serieMensual, monedaSerie)}
   </div>`;
 
-  // Top 20 cuentas — ahora respetan TODOS los filtros incluyendo subsidiaria/linea
-  const porCuenta = (() => {
+  // Top 20 detalle — respeta TODOS los filtros activos.
+  // Si el KPI tiene cuenta contable, se muestra como tabla cuenta+descripcion.
+  // Si no (ej. GMV), se muestra como "Detalle" con la submetrica completa.
+  const porDetalle = (() => {
     const map = new Map();
     for(const r of delMes){
       const k = `${r.cuenta || "—"}|${r.cuenta_desc || ""}`;
@@ -516,20 +546,25 @@ function abrirDrill(kpiId){
     }
     return [...map.values()].sort((a,b) => Math.abs(b.actuals) - Math.abs(a.actuals)).slice(0, 20);
   })();
+  const tituloDetalle = tieneCuenta ? "Top 20 cuentas contables" : "Top 20 detalle";
   html += `<div class="drill-block">
-    <h3>Top 20 cuentas contables${filtrosTxt && filtrosTxt !== "Global · todas" ? " · " + filtrosTxt : ""}</h3>
+    <h3>${tituloDetalle}${filtrosTxt && filtrosTxt !== "Global · todas" ? " · " + filtrosTxt : ""}</h3>
     <table class="drill-table">
       <thead><tr>
-        <th>Cuenta</th><th>Descripción</th><th style="text-align:right">Actuals</th><th style="text-align:right">Budget</th><th style="text-align:right">vs Bud</th>
+        ${tieneCuenta ? "<th>Cuenta</th>" : ""}
+        <th>${tieneCuenta ? "Descripción" : "Detalle"}</th>
+        <th style="text-align:right">Actuals</th>
+        <th style="text-align:right">Budget</th>
+        <th style="text-align:right">vs Bud</th>
       </tr></thead>
       <tbody>`;
-  for(const c of porCuenta){
+  for(const c of porDetalle){
     const a = f.moneda === "USD" ? convertir(c.actuals, c.pais) : c.actuals;
     const b = c.budget !== 0 ? (f.moneda === "USD" ? convertir(c.budget, c.pais) : c.budget) : null;
     const mon = f.moneda === "USD" ? "USD" : monedaDePais(c.pais || "Colombia");
     const diff = (a != null && b != null && b !== 0) ? (a - b) / Math.abs(b) : null;
     html += `<tr>
-      <td><code>${c.cuenta ?? "—"}</code></td>
+      ${tieneCuenta ? `<td><code>${c.cuenta ?? "—"}</code></td>` : ""}
       <td>${c.desc || "(sin descripción)"}</td>
       <td class="num">${fmtMoneda(a, mon)}</td>
       <td class="num">${b != null ? fmtMoneda(b, mon) : "—"}</td>
@@ -537,10 +572,13 @@ function abrirDrill(kpiId){
     </tr>`;
   }
   html += `</tbody></table>
-  </div>
-  <div class="drill-note">
-    <b>Nota</b>: Si los valores no cuadran con tu referencia, el primer sospechoso es el filtro <code>m_metrica != '01. Total Revenue'</code> que excluye el marcador agregado.
   </div>`;
+  // Solo mostrar la nota especifica de Ingresos cuando el KPI sea ingresos
+  if(kpiId === "ingresos_totales"){
+    html += `<div class="drill-note">
+      <b>Nota</b>: Si los valores no cuadran con tu referencia, el primer sospechoso es el filtro <code>m_metrica != '01. Total Revenue'</code> que excluye el marcador agregado.
+    </div>`;
+  }
 
   document.getElementById("drillBody").innerHTML = html;
   document.getElementById("drillModal").hidden = false;

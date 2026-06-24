@@ -1,0 +1,5291 @@
+{
+  "id": "gmv",
+  "nombre": "GMV / Valor transado",
+  "seccion": "4.1",
+  "unidad": "MONEDA",
+  "estado": "real",
+  "fuente": "bet_data_p2 · Transactions · dummie_gmv=1 + HC Loans Disbursed",
+  "receta": {
+    "tabla": "papyrus-delivery-data.corp_gov_global.bet_data_p2",
+    "opcion": "A (solo dummie_gmv=1) + HC Loans Disbursed",
+    "filtros": [
+      "m_tipo = '2. Transactions'",
+      "dummie_gmv = 1  -- ventas MM valuadas a Purchase price",
+      "OR m_categoria='04. Habicredit' AND m_metrica='03. Loans Disbursed'"
+    ],
+    "medida": "actuals_managerial (operativo, no accounting)",
+    "notas": [
+      "GMV es operativo: no tiene c_subsidiaria ni c_cuenta en bet_data_p2.",
+      "Drill-down granular usa la submetrica (Tradicional / Alianzas / HC100 / etc.)",
+      "Opcion A excluye compras MM y Brokerage por convencion de Habi."
+    ],
+    "monedas": {
+      "1. Colombia": "COP",
+      "2. Mexico": "MXN",
+      "3. Offshore": "USD"
+    }
+  },
+  "meses_disponibles": [
+    "2025-05",
+    "2025-06",
+    "2025-07",
+    "2025-08",
+    "2025-09",
+    "2025-10",
+    "2025-11",
+    "2025-12",
+    "2026-01",
+    "2026-02",
+    "2026-03",
+    "2026-04",
+    "2026-05"
+  ],
+  "series": {
+    "global": [
+      {
+        "mes": "2025-05",
+        "actuals": {
+          "sin_elim": 247557466602.9,
+          "solo_elim": 0.0,
+          "con_elim": 247557466602.9
+        },
+        "budget": {
+          "sin_elim": 199349247317.96997,
+          "solo_elim": 0.0,
+          "con_elim": 199349247317.96997
+        }
+      },
+      {
+        "mes": "2025-06",
+        "actuals": {
+          "sin_elim": 236931985249.45,
+          "solo_elim": 0.0,
+          "con_elim": 236931985249.45
+        },
+        "budget": {
+          "sin_elim": 165275907019.43,
+          "solo_elim": 0.0,
+          "con_elim": 165275907019.43
+        }
+      },
+      {
+        "mes": "2025-07",
+        "actuals": {
+          "sin_elim": 280416980736.72003,
+          "solo_elim": 0.0,
+          "con_elim": 280416980736.72003
+        },
+        "budget": {
+          "sin_elim": 198007952659.69998,
+          "solo_elim": 0.0,
+          "con_elim": 198007952659.69998
+        }
+      },
+      {
+        "mes": "2025-08",
+        "actuals": {
+          "sin_elim": 247203002242.8,
+          "solo_elim": 0.0,
+          "con_elim": 247203002242.8
+        },
+        "budget": {
+          "sin_elim": 168877387741.62,
+          "solo_elim": 0.0,
+          "con_elim": 168877387741.62
+        }
+      },
+      {
+        "mes": "2025-09",
+        "actuals": {
+          "sin_elim": 258288922595.6,
+          "solo_elim": 0.0,
+          "con_elim": 258288922595.6
+        },
+        "budget": {
+          "sin_elim": 208040309356.46,
+          "solo_elim": 0.0,
+          "con_elim": 208040309356.46
+        }
+      },
+      {
+        "mes": "2025-10",
+        "actuals": {
+          "sin_elim": 247410211730.42,
+          "solo_elim": 0.0,
+          "con_elim": 247410211730.42
+        },
+        "budget": {
+          "sin_elim": 225292597755.65997,
+          "solo_elim": 0.0,
+          "con_elim": 225292597755.65997
+        }
+      },
+      {
+        "mes": "2025-11",
+        "actuals": {
+          "sin_elim": 248643697286.42,
+          "solo_elim": 0.0,
+          "con_elim": 248643697286.42
+        },
+        "budget": {
+          "sin_elim": 239135712980.97998,
+          "solo_elim": 0.0,
+          "con_elim": 239135712980.97998
+        }
+      },
+      {
+        "mes": "2025-12",
+        "actuals": {
+          "sin_elim": 258809950331.52,
+          "solo_elim": 0.0,
+          "con_elim": 258809950331.52
+        },
+        "budget": {
+          "sin_elim": 219857567751.88,
+          "solo_elim": 0.0,
+          "con_elim": 219857567751.88
+        }
+      },
+      {
+        "mes": "2026-01",
+        "actuals": {
+          "sin_elim": 164208123002.66,
+          "solo_elim": 0.0,
+          "con_elim": 164208123002.66
+        },
+        "budget": {
+          "sin_elim": 145180258992.70816,
+          "solo_elim": 0.0,
+          "con_elim": 145180258992.70816
+        }
+      },
+      {
+        "mes": "2026-02",
+        "actuals": {
+          "sin_elim": 221412348790.12,
+          "solo_elim": 0.0,
+          "con_elim": 221412348790.12
+        },
+        "budget": {
+          "sin_elim": 199384222098.23758,
+          "solo_elim": 0.0,
+          "con_elim": 199384222098.23758
+        }
+      },
+      {
+        "mes": "2026-03",
+        "actuals": {
+          "sin_elim": 278230533616.13,
+          "solo_elim": 0.0,
+          "con_elim": 278230533616.13
+        },
+        "budget": {
+          "sin_elim": 244435342170.53293,
+          "solo_elim": 0.0,
+          "con_elim": 244435342170.53293
+        }
+      },
+      {
+        "mes": "2026-04",
+        "actuals": {
+          "sin_elim": 234709139477.45,
+          "solo_elim": 0.0,
+          "con_elim": 234709139477.45
+        },
+        "budget": {
+          "sin_elim": 214476049148.5183,
+          "solo_elim": 0.0,
+          "con_elim": 214476049148.5183
+        }
+      },
+      {
+        "mes": "2026-05",
+        "actuals": {
+          "sin_elim": 243625658039.01,
+          "solo_elim": 0.0,
+          "con_elim": 243625658039.01
+        },
+        "budget": {
+          "sin_elim": 225201415464.0784,
+          "solo_elim": 0.0,
+          "con_elim": 225201415464.0784
+        }
+      }
+    ],
+    "por_pais": {
+      "Colombia": [
+        {
+          "mes": "2025-05",
+          "actuals": {
+            "sin_elim": 247027531602.34998,
+            "solo_elim": 0.0,
+            "con_elim": 247027531602.34998
+          },
+          "budget": {
+            "sin_elim": 198820766400.81,
+            "solo_elim": 0.0,
+            "con_elim": 198820766400.81
+          }
+        },
+        {
+          "mes": "2025-06",
+          "actuals": {
+            "sin_elim": 236438571804.76,
+            "solo_elim": 0.0,
+            "con_elim": 236438571804.76
+          },
+          "budget": {
+            "sin_elim": 164760712830.75,
+            "solo_elim": 0.0,
+            "con_elim": 164760712830.75
+          }
+        },
+        {
+          "mes": "2025-07",
+          "actuals": {
+            "sin_elim": 279914710596.33997,
+            "solo_elim": 0.0,
+            "con_elim": 279914710596.33997
+          },
+          "budget": {
+            "sin_elim": 197475837661.34,
+            "solo_elim": 0.0,
+            "con_elim": 197475837661.34
+          }
+        },
+        {
+          "mes": "2025-08",
+          "actuals": {
+            "sin_elim": 246761299842.72,
+            "solo_elim": 0.0,
+            "con_elim": 246761299842.72
+          },
+          "budget": {
+            "sin_elim": 168328292184.32,
+            "solo_elim": 0.0,
+            "con_elim": 168328292184.32
+          }
+        },
+        {
+          "mes": "2025-09",
+          "actuals": {
+            "sin_elim": 257876473188.59998,
+            "solo_elim": 0.0,
+            "con_elim": 257876473188.59998
+          },
+          "budget": {
+            "sin_elim": 207471671201.21,
+            "solo_elim": 0.0,
+            "con_elim": 207471671201.21
+          }
+        },
+        {
+          "mes": "2025-10",
+          "actuals": {
+            "sin_elim": 246943383333.78,
+            "solo_elim": 0.0,
+            "con_elim": 246943383333.78
+          },
+          "budget": {
+            "sin_elim": 224699341441.18,
+            "solo_elim": 0.0,
+            "con_elim": 224699341441.18
+          }
+        },
+        {
+          "mes": "2025-11",
+          "actuals": {
+            "sin_elim": 248241684842.05,
+            "solo_elim": 0.0,
+            "con_elim": 248241684842.05
+          },
+          "budget": {
+            "sin_elim": 238558065720.81,
+            "solo_elim": 0.0,
+            "con_elim": 238558065720.81
+          }
+        },
+        {
+          "mes": "2025-12",
+          "actuals": {
+            "sin_elim": 258417851174.4,
+            "solo_elim": 0.0,
+            "con_elim": 258417851174.4
+          },
+          "budget": {
+            "sin_elim": 219344343389.21,
+            "solo_elim": 0.0,
+            "con_elim": 219344343389.21
+          }
+        },
+        {
+          "mes": "2026-01",
+          "actuals": {
+            "sin_elim": 163906410143.58002,
+            "solo_elim": 0.0,
+            "con_elim": 163906410143.58002
+          },
+          "budget": {
+            "sin_elim": 144935397563.8,
+            "solo_elim": 0.0,
+            "con_elim": 144935397563.8
+          }
+        },
+        {
+          "mes": "2026-02",
+          "actuals": {
+            "sin_elim": 220971886831.84,
+            "solo_elim": 0.0,
+            "con_elim": 220971886831.84
+          },
+          "budget": {
+            "sin_elim": 199014258845.3136,
+            "solo_elim": 0.0,
+            "con_elim": 199014258845.3136
+          }
+        },
+        {
+          "mes": "2026-03",
+          "actuals": {
+            "sin_elim": 277853520507.86,
+            "solo_elim": 0.0,
+            "con_elim": 277853520507.86
+          },
+          "budget": {
+            "sin_elim": 244172140385.29007,
+            "solo_elim": 0.0,
+            "con_elim": 244172140385.29007
+          }
+        },
+        {
+          "mes": "2026-04",
+          "actuals": {
+            "sin_elim": 234232811330.43,
+            "solo_elim": 0.0,
+            "con_elim": 234232811330.43
+          },
+          "budget": {
+            "sin_elim": 214100888352.5,
+            "solo_elim": 0.0,
+            "con_elim": 214100888352.5
+          }
+        },
+        {
+          "mes": "2026-05",
+          "actuals": {
+            "sin_elim": 243158912599.49,
+            "solo_elim": 0.0,
+            "con_elim": 243158912599.49
+          },
+          "budget": {
+            "sin_elim": 224849251812.0,
+            "solo_elim": 0.0,
+            "con_elim": 224849251812.0
+          }
+        }
+      ],
+      "Mexico": [
+        {
+          "mes": "2025-05",
+          "actuals": {
+            "sin_elim": 529935000.5500001,
+            "solo_elim": 0.0,
+            "con_elim": 529935000.5500001
+          },
+          "budget": {
+            "sin_elim": 528480917.15999997,
+            "solo_elim": 0.0,
+            "con_elim": 528480917.15999997
+          }
+        },
+        {
+          "mes": "2025-06",
+          "actuals": {
+            "sin_elim": 493413444.69,
+            "solo_elim": 0.0,
+            "con_elim": 493413444.69
+          },
+          "budget": {
+            "sin_elim": 515194188.68,
+            "solo_elim": 0.0,
+            "con_elim": 515194188.68
+          }
+        },
+        {
+          "mes": "2025-07",
+          "actuals": {
+            "sin_elim": 502270140.38,
+            "solo_elim": 0.0,
+            "con_elim": 502270140.38
+          },
+          "budget": {
+            "sin_elim": 532114998.35999995,
+            "solo_elim": 0.0,
+            "con_elim": 532114998.35999995
+          }
+        },
+        {
+          "mes": "2025-08",
+          "actuals": {
+            "sin_elim": 441702400.08,
+            "solo_elim": 0.0,
+            "con_elim": 441702400.08
+          },
+          "budget": {
+            "sin_elim": 549095557.3,
+            "solo_elim": 0.0,
+            "con_elim": 549095557.3
+          }
+        },
+        {
+          "mes": "2025-09",
+          "actuals": {
+            "sin_elim": 412449407.0,
+            "solo_elim": 0.0,
+            "con_elim": 412449407.0
+          },
+          "budget": {
+            "sin_elim": 568638155.25,
+            "solo_elim": 0.0,
+            "con_elim": 568638155.25
+          }
+        },
+        {
+          "mes": "2025-10",
+          "actuals": {
+            "sin_elim": 466828396.64,
+            "solo_elim": 0.0,
+            "con_elim": 466828396.64
+          },
+          "budget": {
+            "sin_elim": 593256314.48,
+            "solo_elim": 0.0,
+            "con_elim": 593256314.48
+          }
+        },
+        {
+          "mes": "2025-11",
+          "actuals": {
+            "sin_elim": 402012444.37,
+            "solo_elim": 0.0,
+            "con_elim": 402012444.37
+          },
+          "budget": {
+            "sin_elim": 577647260.1700001,
+            "solo_elim": 0.0,
+            "con_elim": 577647260.1700001
+          }
+        },
+        {
+          "mes": "2025-12",
+          "actuals": {
+            "sin_elim": 392099157.12,
+            "solo_elim": 0.0,
+            "con_elim": 392099157.12
+          },
+          "budget": {
+            "sin_elim": 513224362.66999996,
+            "solo_elim": 0.0,
+            "con_elim": 513224362.66999996
+          }
+        },
+        {
+          "mes": "2026-01",
+          "actuals": {
+            "sin_elim": 301712859.08,
+            "solo_elim": 0.0,
+            "con_elim": 301712859.08
+          },
+          "budget": {
+            "sin_elim": 244861428.90817726,
+            "solo_elim": 0.0,
+            "con_elim": 244861428.90817726
+          }
+        },
+        {
+          "mes": "2026-02",
+          "actuals": {
+            "sin_elim": 440461958.28,
+            "solo_elim": 0.0,
+            "con_elim": 440461958.28
+          },
+          "budget": {
+            "sin_elim": 369963252.92398643,
+            "solo_elim": 0.0,
+            "con_elim": 369963252.92398643
+          }
+        },
+        {
+          "mes": "2026-03",
+          "actuals": {
+            "sin_elim": 377013108.27,
+            "solo_elim": 0.0,
+            "con_elim": 377013108.27
+          },
+          "budget": {
+            "sin_elim": 263201785.2428907,
+            "solo_elim": 0.0,
+            "con_elim": 263201785.2428907
+          }
+        },
+        {
+          "mes": "2026-04",
+          "actuals": {
+            "sin_elim": 476328147.02,
+            "solo_elim": 0.0,
+            "con_elim": 476328147.02
+          },
+          "budget": {
+            "sin_elim": 375160796.01834023,
+            "solo_elim": 0.0,
+            "con_elim": 375160796.01834023
+          }
+        },
+        {
+          "mes": "2026-05",
+          "actuals": {
+            "sin_elim": 466745439.52,
+            "solo_elim": 0.0,
+            "con_elim": 466745439.52
+          },
+          "budget": {
+            "sin_elim": 352163652.0784024,
+            "solo_elim": 0.0,
+            "con_elim": 352163652.0784024
+          }
+        }
+      ]
+    },
+    "por_subsidiaria": {
+      "(sin asignar)": [
+        {
+          "mes": "2025-05",
+          "actuals": {
+            "sin_elim": 247557466602.9,
+            "solo_elim": 0.0,
+            "con_elim": 247557466602.9
+          },
+          "budget": {
+            "sin_elim": 199349247317.96997,
+            "solo_elim": 0.0,
+            "con_elim": 199349247317.96997
+          }
+        },
+        {
+          "mes": "2025-06",
+          "actuals": {
+            "sin_elim": 236931985249.45,
+            "solo_elim": 0.0,
+            "con_elim": 236931985249.45
+          },
+          "budget": {
+            "sin_elim": 165275907019.43,
+            "solo_elim": 0.0,
+            "con_elim": 165275907019.43
+          }
+        },
+        {
+          "mes": "2025-07",
+          "actuals": {
+            "sin_elim": 280416980736.72003,
+            "solo_elim": 0.0,
+            "con_elim": 280416980736.72003
+          },
+          "budget": {
+            "sin_elim": 198007952659.69998,
+            "solo_elim": 0.0,
+            "con_elim": 198007952659.69998
+          }
+        },
+        {
+          "mes": "2025-08",
+          "actuals": {
+            "sin_elim": 247203002242.8,
+            "solo_elim": 0.0,
+            "con_elim": 247203002242.8
+          },
+          "budget": {
+            "sin_elim": 168877387741.62,
+            "solo_elim": 0.0,
+            "con_elim": 168877387741.62
+          }
+        },
+        {
+          "mes": "2025-09",
+          "actuals": {
+            "sin_elim": 258288922595.6,
+            "solo_elim": 0.0,
+            "con_elim": 258288922595.6
+          },
+          "budget": {
+            "sin_elim": 208040309356.46,
+            "solo_elim": 0.0,
+            "con_elim": 208040309356.46
+          }
+        },
+        {
+          "mes": "2025-10",
+          "actuals": {
+            "sin_elim": 247410211730.42,
+            "solo_elim": 0.0,
+            "con_elim": 247410211730.42
+          },
+          "budget": {
+            "sin_elim": 225292597755.65997,
+            "solo_elim": 0.0,
+            "con_elim": 225292597755.65997
+          }
+        },
+        {
+          "mes": "2025-11",
+          "actuals": {
+            "sin_elim": 248643697286.42,
+            "solo_elim": 0.0,
+            "con_elim": 248643697286.42
+          },
+          "budget": {
+            "sin_elim": 239135712980.97998,
+            "solo_elim": 0.0,
+            "con_elim": 239135712980.97998
+          }
+        },
+        {
+          "mes": "2025-12",
+          "actuals": {
+            "sin_elim": 258809950331.52,
+            "solo_elim": 0.0,
+            "con_elim": 258809950331.52
+          },
+          "budget": {
+            "sin_elim": 219857567751.88,
+            "solo_elim": 0.0,
+            "con_elim": 219857567751.88
+          }
+        },
+        {
+          "mes": "2026-01",
+          "actuals": {
+            "sin_elim": 164208123002.66,
+            "solo_elim": 0.0,
+            "con_elim": 164208123002.66
+          },
+          "budget": {
+            "sin_elim": 145180258992.70816,
+            "solo_elim": 0.0,
+            "con_elim": 145180258992.70816
+          }
+        },
+        {
+          "mes": "2026-02",
+          "actuals": {
+            "sin_elim": 221412348790.12,
+            "solo_elim": 0.0,
+            "con_elim": 221412348790.12
+          },
+          "budget": {
+            "sin_elim": 199384222098.23758,
+            "solo_elim": 0.0,
+            "con_elim": 199384222098.23758
+          }
+        },
+        {
+          "mes": "2026-03",
+          "actuals": {
+            "sin_elim": 278230533616.13,
+            "solo_elim": 0.0,
+            "con_elim": 278230533616.13
+          },
+          "budget": {
+            "sin_elim": 244435342170.53293,
+            "solo_elim": 0.0,
+            "con_elim": 244435342170.53293
+          }
+        },
+        {
+          "mes": "2026-04",
+          "actuals": {
+            "sin_elim": 234709139477.45,
+            "solo_elim": 0.0,
+            "con_elim": 234709139477.45
+          },
+          "budget": {
+            "sin_elim": 214476049148.5183,
+            "solo_elim": 0.0,
+            "con_elim": 214476049148.5183
+          }
+        },
+        {
+          "mes": "2026-05",
+          "actuals": {
+            "sin_elim": 243625658039.01,
+            "solo_elim": 0.0,
+            "con_elim": 243625658039.01
+          },
+          "budget": {
+            "sin_elim": 225201415464.0784,
+            "solo_elim": 0.0,
+            "con_elim": 225201415464.0784
+          }
+        }
+      ]
+    },
+    "por_linea": {
+      "HabiCredit": [
+        {
+          "mes": "2025-05",
+          "actuals": {
+            "sin_elim": 90279089955.0,
+            "solo_elim": 0.0,
+            "con_elim": 90279089955.0
+          },
+          "budget": {
+            "sin_elim": 78864743041.43,
+            "solo_elim": 0.0,
+            "con_elim": 78864743041.43
+          }
+        },
+        {
+          "mes": "2025-06",
+          "actuals": {
+            "sin_elim": 94036895426.0,
+            "solo_elim": 0.0,
+            "con_elim": 94036895426.0
+          },
+          "budget": {
+            "sin_elim": 65342993533.86,
+            "solo_elim": 0.0,
+            "con_elim": 65342993533.86
+          }
+        },
+        {
+          "mes": "2025-07",
+          "actuals": {
+            "sin_elim": 123966665352.0,
+            "solo_elim": 0.0,
+            "con_elim": 123966665352.0
+          },
+          "budget": {
+            "sin_elim": 72206241860.57,
+            "solo_elim": 0.0,
+            "con_elim": 72206241860.57
+          }
+        },
+        {
+          "mes": "2025-08",
+          "actuals": {
+            "sin_elim": 100725783518.0,
+            "solo_elim": 0.0,
+            "con_elim": 100725783518.0
+          },
+          "budget": {
+            "sin_elim": 64688241815.57,
+            "solo_elim": 0.0,
+            "con_elim": 64688241815.57
+          }
+        },
+        {
+          "mes": "2025-09",
+          "actuals": {
+            "sin_elim": 110237466008.0,
+            "solo_elim": 0.0,
+            "con_elim": 110237466008.0
+          },
+          "budget": {
+            "sin_elim": 75847740738.71,
+            "solo_elim": 0.0,
+            "con_elim": 75847740738.71
+          }
+        },
+        {
+          "mes": "2025-10",
+          "actuals": {
+            "sin_elim": 112881077110.0,
+            "solo_elim": 0.0,
+            "con_elim": 112881077110.0
+          },
+          "budget": {
+            "sin_elim": 88496989097.43,
+            "solo_elim": 0.0,
+            "con_elim": 88496989097.43
+          }
+        },
+        {
+          "mes": "2025-11",
+          "actuals": {
+            "sin_elim": 106009930551.0,
+            "solo_elim": 0.0,
+            "con_elim": 106009930551.0
+          },
+          "budget": {
+            "sin_elim": 99925736308.29,
+            "solo_elim": 0.0,
+            "con_elim": 99925736308.29
+          }
+        },
+        {
+          "mes": "2025-12",
+          "actuals": {
+            "sin_elim": 116953734739.0,
+            "solo_elim": 0.0,
+            "con_elim": 116953734739.0
+          },
+          "budget": {
+            "sin_elim": 79431740751.71,
+            "solo_elim": 0.0,
+            "con_elim": 79431740751.71
+          }
+        },
+        {
+          "mes": "2026-01",
+          "actuals": {
+            "sin_elim": 91841637116.0,
+            "solo_elim": 0.0,
+            "con_elim": 91841637116.0
+          },
+          "budget": {
+            "sin_elim": 91933452803.0,
+            "solo_elim": 0.0,
+            "con_elim": 91933452803.0
+          }
+        },
+        {
+          "mes": "2026-02",
+          "actuals": {
+            "sin_elim": 119275963012.0,
+            "solo_elim": 0.0,
+            "con_elim": 119275963012.0
+          },
+          "budget": {
+            "sin_elim": 119173962941.0,
+            "solo_elim": 0.0,
+            "con_elim": 119173962941.0
+          }
+        },
+        {
+          "mes": "2026-03",
+          "actuals": {
+            "sin_elim": 134614593406.0,
+            "solo_elim": 0.0,
+            "con_elim": 134614593406.0
+          },
+          "budget": {
+            "sin_elim": 131333493128.99998,
+            "solo_elim": 0.0,
+            "con_elim": 131333493128.99998
+          }
+        },
+        {
+          "mes": "2026-04",
+          "actuals": {
+            "sin_elim": 116052507359.0,
+            "solo_elim": 0.0,
+            "con_elim": 116052507359.0
+          },
+          "budget": {
+            "sin_elim": 118320000552.5,
+            "solo_elim": 0.0,
+            "con_elim": 118320000552.5
+          }
+        },
+        {
+          "mes": "2026-05",
+          "actuals": {
+            "sin_elim": 112631236213.0,
+            "solo_elim": 0.0,
+            "con_elim": 112631236213.0
+          },
+          "budget": {
+            "sin_elim": 131070000612.0,
+            "solo_elim": 0.0,
+            "con_elim": 131070000612.0
+          }
+        }
+      ],
+      "Market Maker": [
+        {
+          "mes": "2025-05",
+          "actuals": {
+            "sin_elim": 157278376647.9,
+            "solo_elim": 0.0,
+            "con_elim": 157278376647.9
+          },
+          "budget": {
+            "sin_elim": 120484504276.54002,
+            "solo_elim": 0.0,
+            "con_elim": 120484504276.54002
+          }
+        },
+        {
+          "mes": "2025-06",
+          "actuals": {
+            "sin_elim": 142895089823.45,
+            "solo_elim": 0.0,
+            "con_elim": 142895089823.45
+          },
+          "budget": {
+            "sin_elim": 99932913485.57,
+            "solo_elim": 0.0,
+            "con_elim": 99932913485.57
+          }
+        },
+        {
+          "mes": "2025-07",
+          "actuals": {
+            "sin_elim": 156450315384.71997,
+            "solo_elim": 0.0,
+            "con_elim": 156450315384.71997
+          },
+          "budget": {
+            "sin_elim": 125801710799.12999,
+            "solo_elim": 0.0,
+            "con_elim": 125801710799.12999
+          }
+        },
+        {
+          "mes": "2025-08",
+          "actuals": {
+            "sin_elim": 146477218724.8,
+            "solo_elim": 0.0,
+            "con_elim": 146477218724.8
+          },
+          "budget": {
+            "sin_elim": 104189145926.05,
+            "solo_elim": 0.0,
+            "con_elim": 104189145926.05
+          }
+        },
+        {
+          "mes": "2025-09",
+          "actuals": {
+            "sin_elim": 148051456587.6,
+            "solo_elim": 0.0,
+            "con_elim": 148051456587.6
+          },
+          "budget": {
+            "sin_elim": 132192568617.75003,
+            "solo_elim": 0.0,
+            "con_elim": 132192568617.75003
+          }
+        },
+        {
+          "mes": "2025-10",
+          "actuals": {
+            "sin_elim": 134529134620.42,
+            "solo_elim": 0.0,
+            "con_elim": 134529134620.42
+          },
+          "budget": {
+            "sin_elim": 136795608658.23,
+            "solo_elim": 0.0,
+            "con_elim": 136795608658.23
+          }
+        },
+        {
+          "mes": "2025-11",
+          "actuals": {
+            "sin_elim": 142633766735.41998,
+            "solo_elim": 0.0,
+            "con_elim": 142633766735.41998
+          },
+          "budget": {
+            "sin_elim": 139209976672.69,
+            "solo_elim": 0.0,
+            "con_elim": 139209976672.69
+          }
+        },
+        {
+          "mes": "2025-12",
+          "actuals": {
+            "sin_elim": 141856215592.52,
+            "solo_elim": 0.0,
+            "con_elim": 141856215592.52
+          },
+          "budget": {
+            "sin_elim": 140425827000.17,
+            "solo_elim": 0.0,
+            "con_elim": 140425827000.17
+          }
+        },
+        {
+          "mes": "2026-01",
+          "actuals": {
+            "sin_elim": 72366485886.66,
+            "solo_elim": 0.0,
+            "con_elim": 72366485886.66
+          },
+          "budget": {
+            "sin_elim": 53246806189.70818,
+            "solo_elim": 0.0,
+            "con_elim": 53246806189.70818
+          }
+        },
+        {
+          "mes": "2026-02",
+          "actuals": {
+            "sin_elim": 102136385778.12001,
+            "solo_elim": 0.0,
+            "con_elim": 102136385778.12001
+          },
+          "budget": {
+            "sin_elim": 80210259157.23756,
+            "solo_elim": 0.0,
+            "con_elim": 80210259157.23756
+          }
+        },
+        {
+          "mes": "2026-03",
+          "actuals": {
+            "sin_elim": 143615940210.13,
+            "solo_elim": 0.0,
+            "con_elim": 143615940210.13
+          },
+          "budget": {
+            "sin_elim": 113101849041.53299,
+            "solo_elim": 0.0,
+            "con_elim": 113101849041.53299
+          }
+        },
+        {
+          "mes": "2026-04",
+          "actuals": {
+            "sin_elim": 118656632118.45,
+            "solo_elim": 0.0,
+            "con_elim": 118656632118.45
+          },
+          "budget": {
+            "sin_elim": 96156048596.01834,
+            "solo_elim": 0.0,
+            "con_elim": 96156048596.01834
+          }
+        },
+        {
+          "mes": "2026-05",
+          "actuals": {
+            "sin_elim": 130994421826.01001,
+            "solo_elim": 0.0,
+            "con_elim": 130994421826.01001
+          },
+          "budget": {
+            "sin_elim": 94131414852.07841,
+            "solo_elim": 0.0,
+            "con_elim": 94131414852.07841
+          }
+        }
+      ]
+    }
+  },
+  "facts": [
+    {
+      "mes": "2025-05",
+      "pais": "Colombia",
+      "subsidiaria": null,
+      "linea": "HabiCredit",
+      "cuenta": null,
+      "cuenta_desc": "03. Loans Disbursed · 01. Market Maker Mortgages",
+      "actuals": {
+        "sin_elim": 10081679381.0,
+        "solo_elim": 0.0,
+        "con_elim": 10081679381.0
+      },
+      "budget": {
+        "sin_elim": 1608742597.43,
+        "solo_elim": 0.0,
+        "con_elim": 1608742597.43
+      }
+    },
+    {
+      "mes": "2025-05",
+      "pais": "Colombia",
+      "subsidiaria": null,
+      "linea": "HabiCredit",
+      "cuenta": null,
+      "cuenta_desc": "03. Loans Disbursed · 02. Non-Market Maker Mortgages",
+      "actuals": {
+        "sin_elim": 80196310489.0,
+        "solo_elim": 0.0,
+        "con_elim": 80196310489.0
+      },
+      "budget": {
+        "sin_elim": 77256000444.0,
+        "solo_elim": 0.0,
+        "con_elim": 77256000444.0
+      }
+    },
+    {
+      "mes": "2025-05",
+      "pais": "Colombia",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "05. Sale PSAs · 01. Sale PSAs (Tradicional)",
+      "actuals": {
+        "sin_elim": 41603797295.0,
+        "solo_elim": 0.0,
+        "con_elim": 41603797295.0
+      },
+      "budget": {
+        "sin_elim": 36613655585.94,
+        "solo_elim": 0.0,
+        "con_elim": 36613655585.94
+      }
+    },
+    {
+      "mes": "2025-05",
+      "pais": "Colombia",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "05. Sale PSAs · 02. Sale PSAs (Alianzas)",
+      "actuals": {
+        "sin_elim": 4795504226.0,
+        "solo_elim": 0.0,
+        "con_elim": 4795504226.0
+      },
+      "budget": {
+        "sin_elim": 7835607226.56,
+        "solo_elim": 0.0,
+        "con_elim": 7835607226.56
+      }
+    },
+    {
+      "mes": "2025-05",
+      "pais": "Colombia",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "07. Sale Deeds · 01. Sale Deeds (Tradicional)",
+      "actuals": {
+        "sin_elim": 34472717562.42,
+        "solo_elim": 0.0,
+        "con_elim": 34472717562.42
+      },
+      "budget": {
+        "sin_elim": 30630100976.56,
+        "solo_elim": 0.0,
+        "con_elim": 30630100976.56
+      }
+    },
+    {
+      "mes": "2025-05",
+      "pais": "Colombia",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "07. Sale Deeds · 02. Sale Deeds (Alianzas)",
+      "actuals": {
+        "sin_elim": 6006399174.87,
+        "solo_elim": 0.0,
+        "con_elim": 6006399174.87
+      },
+      "budget": {
+        "sin_elim": 7123279296.88,
+        "solo_elim": 0.0,
+        "con_elim": 7123279296.88
+      }
+    },
+    {
+      "mes": "2025-05",
+      "pais": "Colombia",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "08. Invoiced Sales · 01. Invoiced Sales (Tradicional)",
+      "actuals": {
+        "sin_elim": 32101075408.0,
+        "solo_elim": 0.0,
+        "con_elim": 32101075408.0
+      },
+      "budget": {
+        "sin_elim": 30630100976.56,
+        "solo_elim": 0.0,
+        "con_elim": 30630100976.56
+      }
+    },
+    {
+      "mes": "2025-05",
+      "pais": "Colombia",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "08. Invoiced Sales · 02. Invoiced Sales (Alianzas)",
+      "actuals": {
+        "sin_elim": 5514146710.87,
+        "solo_elim": 0.0,
+        "con_elim": 5514146710.87
+      },
+      "budget": {
+        "sin_elim": 7123279296.88,
+        "solo_elim": 0.0,
+        "con_elim": 7123279296.88
+      }
+    },
+    {
+      "mes": "2025-05",
+      "pais": "Colombia",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "10. Renovations · 01. Renovations (Tradicional)",
+      "actuals": {
+        "sin_elim": 26435044294.0,
+        "solo_elim": 0.0,
+        "con_elim": 26435044294.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      }
+    },
+    {
+      "mes": "2025-05",
+      "pais": "Colombia",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "10. Renovations · 02. Renovations (Alianzas)",
+      "actuals": {
+        "sin_elim": 5820857061.190001,
+        "solo_elim": 0.0,
+        "con_elim": 5820857061.190001
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      }
+    },
+    {
+      "mes": "2025-05",
+      "pais": "Mexico",
+      "subsidiaria": null,
+      "linea": "HabiCredit",
+      "cuenta": null,
+      "cuenta_desc": "03. Loans Disbursed · 01. Market Maker Mortgages",
+      "actuals": {
+        "sin_elim": 1100075.0,
+        "solo_elim": 0.0,
+        "con_elim": 1100075.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      }
+    },
+    {
+      "mes": "2025-05",
+      "pais": "Mexico",
+      "subsidiaria": null,
+      "linea": "HabiCredit",
+      "cuenta": null,
+      "cuenta_desc": "03. Loans Disbursed · 02. Non-Market Maker Mortgages",
+      "actuals": {
+        "sin_elim": 10.0,
+        "solo_elim": 0.0,
+        "con_elim": 10.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      }
+    },
+    {
+      "mes": "2025-05",
+      "pais": "Mexico",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "05. Sale PSAs · 01. Sale PSAs (Cierres + Pre Cierres)",
+      "actuals": {
+        "sin_elim": 150357390.40000004,
+        "solo_elim": 0.0,
+        "con_elim": 150357390.40000004
+      },
+      "budget": {
+        "sin_elim": 186209719.14,
+        "solo_elim": 0.0,
+        "con_elim": 186209719.14
+      }
+    },
+    {
+      "mes": "2025-05",
+      "pais": "Mexico",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "07. Sale Deeds · 01. Sale Deeds (HC100)",
+      "actuals": {
+        "sin_elim": 61745400.96,
+        "solo_elim": 0.0,
+        "con_elim": 61745400.96
+      },
+      "budget": {
+        "sin_elim": 101085276.1,
+        "solo_elim": 0.0,
+        "con_elim": 101085276.1
+      }
+    },
+    {
+      "mes": "2025-05",
+      "pais": "Mexico",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "07. Sale Deeds · 02. Sale Deeds (No-HC100)",
+      "actuals": {
+        "sin_elim": 80039630.78,
+        "solo_elim": 0.0,
+        "con_elim": 80039630.78
+      },
+      "budget": {
+        "sin_elim": 70050322.91,
+        "solo_elim": 0.0,
+        "con_elim": 70050322.91
+      }
+    },
+    {
+      "mes": "2025-05",
+      "pais": "Mexico",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "08. Invoiced Sales · 01. Invoiced Sales (HC100)",
+      "actuals": {
+        "sin_elim": 66797954.96,
+        "solo_elim": 0.0,
+        "con_elim": 66797954.96
+      },
+      "budget": {
+        "sin_elim": 101085276.1,
+        "solo_elim": 0.0,
+        "con_elim": 101085276.1
+      }
+    },
+    {
+      "mes": "2025-05",
+      "pais": "Mexico",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "08. Invoiced Sales · 02. Invoiced Sales (No-HC100)",
+      "actuals": {
+        "sin_elim": 79608936.78,
+        "solo_elim": 0.0,
+        "con_elim": 79608936.78
+      },
+      "budget": {
+        "sin_elim": 70050322.91,
+        "solo_elim": 0.0,
+        "con_elim": 70050322.91
+      }
+    },
+    {
+      "mes": "2025-05",
+      "pais": "Mexico",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "10. Renovations · 01. Renovations (Cierres + Pre Cierres)",
+      "actuals": {
+        "sin_elim": 90285601.67,
+        "solo_elim": 0.0,
+        "con_elim": 90285601.67
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      }
+    },
+    {
+      "mes": "2025-06",
+      "pais": "Colombia",
+      "subsidiaria": null,
+      "linea": "HabiCredit",
+      "cuenta": null,
+      "cuenta_desc": "03. Loans Disbursed · 01. Market Maker Mortgages",
+      "actuals": {
+        "sin_elim": 11239701842.0,
+        "solo_elim": 0.0,
+        "con_elim": 11239701842.0
+      },
+      "budget": {
+        "sin_elim": 1484993166.86,
+        "solo_elim": 0.0,
+        "con_elim": 1484993166.86
+      }
+    },
+    {
+      "mes": "2025-06",
+      "pais": "Colombia",
+      "subsidiaria": null,
+      "linea": "HabiCredit",
+      "cuenta": null,
+      "cuenta_desc": "03. Loans Disbursed · 02. Non-Market Maker Mortgages",
+      "actuals": {
+        "sin_elim": 82797193475.0,
+        "solo_elim": 0.0,
+        "con_elim": 82797193475.0
+      },
+      "budget": {
+        "sin_elim": 63858000367.0,
+        "solo_elim": 0.0,
+        "con_elim": 63858000367.0
+      }
+    },
+    {
+      "mes": "2025-06",
+      "pais": "Colombia",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "05. Sale PSAs · 01. Sale PSAs (Tradicional)",
+      "actuals": {
+        "sin_elim": 35277025843.44,
+        "solo_elim": 0.0,
+        "con_elim": 35277025843.44
+      },
+      "budget": {
+        "sin_elim": 33902157515.63,
+        "solo_elim": 0.0,
+        "con_elim": 33902157515.63
+      }
+    },
+    {
+      "mes": "2025-06",
+      "pais": "Colombia",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "05. Sale PSAs · 02. Sale PSAs (Alianzas)",
+      "actuals": {
+        "sin_elim": 7289305810.0,
+        "solo_elim": 0.0,
+        "con_elim": 7289305810.0
+      },
+      "budget": {
+        "sin_elim": 7438448062.5,
+        "solo_elim": 0.0,
+        "con_elim": 7438448062.5
+      }
+    },
+    {
+      "mes": "2025-06",
+      "pais": "Colombia",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "07. Sale Deeds · 01. Sale Deeds (Tradicional)",
+      "actuals": {
+        "sin_elim": 30561364820.0,
+        "solo_elim": 0.0,
+        "con_elim": 30561364820.0
+      },
+      "budget": {
+        "sin_elim": 21170967562.5,
+        "solo_elim": 0.0,
+        "con_elim": 21170967562.5
+      }
+    },
+    {
+      "mes": "2025-06",
+      "pais": "Colombia",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "07. Sale Deeds · 02. Sale Deeds (Alianzas)",
+      "actuals": {
+        "sin_elim": 4328317724.45,
+        "solo_elim": 0.0,
+        "con_elim": 4328317724.45
+      },
+      "budget": {
+        "sin_elim": 7867589296.88,
+        "solo_elim": 0.0,
+        "con_elim": 7867589296.88
+      }
+    },
+    {
+      "mes": "2025-06",
+      "pais": "Colombia",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "08. Invoiced Sales · 01. Invoiced Sales (Tradicional)",
+      "actuals": {
+        "sin_elim": 33551170261.42,
+        "solo_elim": 0.0,
+        "con_elim": 33551170261.42
+      },
+      "budget": {
+        "sin_elim": 21170967562.5,
+        "solo_elim": 0.0,
+        "con_elim": 21170967562.5
+      }
+    },
+    {
+      "mes": "2025-06",
+      "pais": "Colombia",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "08. Invoiced Sales · 02. Invoiced Sales (Alianzas)",
+      "actuals": {
+        "sin_elim": 4939301074.45,
+        "solo_elim": 0.0,
+        "con_elim": 4939301074.45
+      },
+      "budget": {
+        "sin_elim": 7867589296.88,
+        "solo_elim": 0.0,
+        "con_elim": 7867589296.88
+      }
+    },
+    {
+      "mes": "2025-06",
+      "pais": "Colombia",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "10. Renovations · 01. Renovations (Tradicional)",
+      "actuals": {
+        "sin_elim": 17023660399.0,
+        "solo_elim": 0.0,
+        "con_elim": 17023660399.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      }
+    },
+    {
+      "mes": "2025-06",
+      "pais": "Colombia",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "10. Renovations · 02. Renovations (Alianzas)",
+      "actuals": {
+        "sin_elim": 9431530555.0,
+        "solo_elim": 0.0,
+        "con_elim": 9431530555.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      }
+    },
+    {
+      "mes": "2025-06",
+      "pais": "Mexico",
+      "subsidiaria": null,
+      "linea": "HabiCredit",
+      "cuenta": null,
+      "cuenta_desc": "03. Loans Disbursed · 01. Market Maker Mortgages",
+      "actuals": {
+        "sin_elim": 86.0,
+        "solo_elim": 0.0,
+        "con_elim": 86.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      }
+    },
+    {
+      "mes": "2025-06",
+      "pais": "Mexico",
+      "subsidiaria": null,
+      "linea": "HabiCredit",
+      "cuenta": null,
+      "cuenta_desc": "03. Loans Disbursed · 02. Non-Market Maker Mortgages",
+      "actuals": {
+        "sin_elim": 23.0,
+        "solo_elim": 0.0,
+        "con_elim": 23.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      }
+    },
+    {
+      "mes": "2025-06",
+      "pais": "Mexico",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "05. Sale PSAs · 01. Sale PSAs (Cierres + Pre Cierres)",
+      "actuals": {
+        "sin_elim": 125448302.05,
+        "solo_elim": 0.0,
+        "con_elim": 125448302.05
+      },
+      "budget": {
+        "sin_elim": 186535826.94,
+        "solo_elim": 0.0,
+        "con_elim": 186535826.94
+      }
+    },
+    {
+      "mes": "2025-06",
+      "pais": "Mexico",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "07. Sale Deeds · 01. Sale Deeds (HC100)",
+      "actuals": {
+        "sin_elim": 86723809.45,
+        "solo_elim": 0.0,
+        "con_elim": 86723809.45
+      },
+      "budget": {
+        "sin_elim": 94156179.31,
+        "solo_elim": 0.0,
+        "con_elim": 94156179.31
+      }
+    },
+    {
+      "mes": "2025-06",
+      "pais": "Mexico",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "07. Sale Deeds · 02. Sale Deeds (No-HC100)",
+      "actuals": {
+        "sin_elim": 62239439.85,
+        "solo_elim": 0.0,
+        "con_elim": 62239439.85
+      },
+      "budget": {
+        "sin_elim": 70173001.56,
+        "solo_elim": 0.0,
+        "con_elim": 70173001.56
+      }
+    },
+    {
+      "mes": "2025-06",
+      "pais": "Mexico",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "08. Invoiced Sales · 01. Invoiced Sales (HC100)",
+      "actuals": {
+        "sin_elim": 84892217.45,
+        "solo_elim": 0.0,
+        "con_elim": 84892217.45
+      },
+      "budget": {
+        "sin_elim": 94156179.31,
+        "solo_elim": 0.0,
+        "con_elim": 94156179.31
+      }
+    },
+    {
+      "mes": "2025-06",
+      "pais": "Mexico",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "08. Invoiced Sales · 02. Invoiced Sales (No-HC100)",
+      "actuals": {
+        "sin_elim": 61082266.89,
+        "solo_elim": 0.0,
+        "con_elim": 61082266.89
+      },
+      "budget": {
+        "sin_elim": 70173001.56,
+        "solo_elim": 0.0,
+        "con_elim": 70173001.56
+      }
+    },
+    {
+      "mes": "2025-06",
+      "pais": "Mexico",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "10. Renovations · 01. Renovations (Cierres + Pre Cierres)",
+      "actuals": {
+        "sin_elim": 73027300.0,
+        "solo_elim": 0.0,
+        "con_elim": 73027300.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      }
+    },
+    {
+      "mes": "2025-07",
+      "pais": "Colombia",
+      "subsidiaria": null,
+      "linea": "HabiCredit",
+      "cuenta": null,
+      "cuenta_desc": "03. Loans Disbursed · 01. Market Maker Mortgages",
+      "actuals": {
+        "sin_elim": 10759736324.0,
+        "solo_elim": 0.0,
+        "con_elim": 10759736324.0
+      },
+      "budget": {
+        "sin_elim": 1856241458.57,
+        "solo_elim": 0.0,
+        "con_elim": 1856241458.57
+      }
+    },
+    {
+      "mes": "2025-07",
+      "pais": "Colombia",
+      "subsidiaria": null,
+      "linea": "HabiCredit",
+      "cuenta": null,
+      "cuenta_desc": "03. Loans Disbursed · 02. Non-Market Maker Mortgages",
+      "actuals": {
+        "sin_elim": 113206928912.0,
+        "solo_elim": 0.0,
+        "con_elim": 113206928912.0
+      },
+      "budget": {
+        "sin_elim": 70350000402.0,
+        "solo_elim": 0.0,
+        "con_elim": 70350000402.0
+      }
+    },
+    {
+      "mes": "2025-07",
+      "pais": "Colombia",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "05. Sale PSAs · 01. Sale PSAs (Tradicional)",
+      "actuals": {
+        "sin_elim": 30952154495.0,
+        "solo_elim": 0.0,
+        "con_elim": 30952154495.0
+      },
+      "budget": {
+        "sin_elim": 39227279142.19,
+        "solo_elim": 0.0,
+        "con_elim": 39227279142.19
+      }
+    },
+    {
+      "mes": "2025-07",
+      "pais": "Colombia",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "05. Sale PSAs · 02. Sale PSAs (Alianzas)",
+      "actuals": {
+        "sin_elim": 9424571008.14,
+        "solo_elim": 0.0,
+        "con_elim": 9424571008.14
+      },
+      "budget": {
+        "sin_elim": 8446749888.28,
+        "solo_elim": 0.0,
+        "con_elim": 8446749888.28
+      }
+    },
+    {
+      "mes": "2025-07",
+      "pais": "Colombia",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "07. Sale Deeds · 01. Sale Deeds (Tradicional)",
+      "actuals": {
+        "sin_elim": 34295387470.0,
+        "solo_elim": 0.0,
+        "con_elim": 34295387470.0
+      },
+      "budget": {
+        "sin_elim": 32212181777.34,
+        "solo_elim": 0.0,
+        "con_elim": 32212181777.34
+      }
+    },
+    {
+      "mes": "2025-07",
+      "pais": "Colombia",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "07. Sale Deeds · 02. Sale Deeds (Alianzas)",
+      "actuals": {
+        "sin_elim": 6370926473.24,
+        "solo_elim": 0.0,
+        "con_elim": 6370926473.24
+      },
+      "budget": {
+        "sin_elim": 6585601607.81,
+        "solo_elim": 0.0,
+        "con_elim": 6585601607.81
+      }
+    },
+    {
+      "mes": "2025-07",
+      "pais": "Colombia",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "08. Invoiced Sales · 01. Invoiced Sales (Tradicional)",
+      "actuals": {
+        "sin_elim": 32727631290.0,
+        "solo_elim": 0.0,
+        "con_elim": 32727631290.0
+      },
+      "budget": {
+        "sin_elim": 32212181777.34,
+        "solo_elim": 0.0,
+        "con_elim": 32212181777.34
+      }
+    },
+    {
+      "mes": "2025-07",
+      "pais": "Colombia",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "08. Invoiced Sales · 02. Invoiced Sales (Alianzas)",
+      "actuals": {
+        "sin_elim": 5886678677.24,
+        "solo_elim": 0.0,
+        "con_elim": 5886678677.24
+      },
+      "budget": {
+        "sin_elim": 6585601607.81,
+        "solo_elim": 0.0,
+        "con_elim": 6585601607.81
+      }
+    },
+    {
+      "mes": "2025-07",
+      "pais": "Colombia",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "10. Renovations · 01. Renovations (Tradicional)",
+      "actuals": {
+        "sin_elim": 26935446878.0,
+        "solo_elim": 0.0,
+        "con_elim": 26935446878.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      }
+    },
+    {
+      "mes": "2025-07",
+      "pais": "Colombia",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "10. Renovations · 02. Renovations (Alianzas)",
+      "actuals": {
+        "sin_elim": 9355249068.720001,
+        "solo_elim": 0.0,
+        "con_elim": 9355249068.720001
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      }
+    },
+    {
+      "mes": "2025-07",
+      "pais": "Mexico",
+      "subsidiaria": null,
+      "linea": "HabiCredit",
+      "cuenta": null,
+      "cuenta_desc": "03. Loans Disbursed · 01. Market Maker Mortgages",
+      "actuals": {
+        "sin_elim": 105.0,
+        "solo_elim": 0.0,
+        "con_elim": 105.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      }
+    },
+    {
+      "mes": "2025-07",
+      "pais": "Mexico",
+      "subsidiaria": null,
+      "linea": "HabiCredit",
+      "cuenta": null,
+      "cuenta_desc": "03. Loans Disbursed · 02. Non-Market Maker Mortgages",
+      "actuals": {
+        "sin_elim": 11.0,
+        "solo_elim": 0.0,
+        "con_elim": 11.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      }
+    },
+    {
+      "mes": "2025-07",
+      "pais": "Mexico",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "05. Sale PSAs · 01. Sale PSAs (Cierres + Pre Cierres)",
+      "actuals": {
+        "sin_elim": 131184487.08,
+        "solo_elim": 0.0,
+        "con_elim": 131184487.08
+      },
+      "budget": {
+        "sin_elim": 192202072.98,
+        "solo_elim": 0.0,
+        "con_elim": 192202072.98
+      }
+    },
+    {
+      "mes": "2025-07",
+      "pais": "Mexico",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "07. Sale Deeds · 01. Sale Deeds (HC100)",
+      "actuals": {
+        "sin_elim": 60459467.83,
+        "solo_elim": 0.0,
+        "con_elim": 60459467.83
+      },
+      "budget": {
+        "sin_elim": 98770509.73,
+        "solo_elim": 0.0,
+        "con_elim": 98770509.73
+      }
+    },
+    {
+      "mes": "2025-07",
+      "pais": "Mexico",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "07. Sale Deeds · 02. Sale Deeds (No-HC100)",
+      "actuals": {
+        "sin_elim": 74254532.53,
+        "solo_elim": 0.0,
+        "con_elim": 74254532.53
+      },
+      "budget": {
+        "sin_elim": 71185952.96,
+        "solo_elim": 0.0,
+        "con_elim": 71185952.96
+      }
+    },
+    {
+      "mes": "2025-07",
+      "pais": "Mexico",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "08. Invoiced Sales · 01. Invoiced Sales (HC100)",
+      "actuals": {
+        "sin_elim": 57317530.83,
+        "solo_elim": 0.0,
+        "con_elim": 57317530.83
+      },
+      "budget": {
+        "sin_elim": 98770509.73,
+        "solo_elim": 0.0,
+        "con_elim": 98770509.73
+      }
+    },
+    {
+      "mes": "2025-07",
+      "pais": "Mexico",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "08. Invoiced Sales · 02. Invoiced Sales (No-HC100)",
+      "actuals": {
+        "sin_elim": 77756950.53,
+        "solo_elim": 0.0,
+        "con_elim": 77756950.53
+      },
+      "budget": {
+        "sin_elim": 71185952.96,
+        "solo_elim": 0.0,
+        "con_elim": 71185952.96
+      }
+    },
+    {
+      "mes": "2025-07",
+      "pais": "Mexico",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "10. Renovations · 01. Renovations (Cierres + Pre Cierres)",
+      "actuals": {
+        "sin_elim": 101297055.58,
+        "solo_elim": 0.0,
+        "con_elim": 101297055.58
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      }
+    },
+    {
+      "mes": "2025-08",
+      "pais": "Colombia",
+      "subsidiaria": null,
+      "linea": "HabiCredit",
+      "cuenta": null,
+      "cuenta_desc": "03. Loans Disbursed · 01. Market Maker Mortgages",
+      "actuals": {
+        "sin_elim": 6602159121.0,
+        "solo_elim": 0.0,
+        "con_elim": 6602159121.0
+      },
+      "budget": {
+        "sin_elim": 1856241458.57,
+        "solo_elim": 0.0,
+        "con_elim": 1856241458.57
+      }
+    },
+    {
+      "mes": "2025-08",
+      "pais": "Colombia",
+      "subsidiaria": null,
+      "linea": "HabiCredit",
+      "cuenta": null,
+      "cuenta_desc": "03. Loans Disbursed · 02. Non-Market Maker Mortgages",
+      "actuals": {
+        "sin_elim": 94122653313.0,
+        "solo_elim": 0.0,
+        "con_elim": 94122653313.0
+      },
+      "budget": {
+        "sin_elim": 62832000357.0,
+        "solo_elim": 0.0,
+        "con_elim": 62832000357.0
+      }
+    },
+    {
+      "mes": "2025-08",
+      "pais": "Colombia",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "05. Sale PSAs · 01. Sale PSAs (Tradicional)",
+      "actuals": {
+        "sin_elim": 35004468606.0,
+        "solo_elim": 0.0,
+        "con_elim": 35004468606.0
+      },
+      "budget": {
+        "sin_elim": 38954859431.25,
+        "solo_elim": 0.0,
+        "con_elim": 38954859431.25
+      }
+    },
+    {
+      "mes": "2025-08",
+      "pais": "Colombia",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "05. Sale PSAs · 02. Sale PSAs (Alianzas)",
+      "actuals": {
+        "sin_elim": 6540434578.719999,
+        "solo_elim": 0.0,
+        "con_elim": 6540434578.719999
+      },
+      "budget": {
+        "sin_elim": 8337202387.5,
+        "solo_elim": 0.0,
+        "con_elim": 8337202387.5
+      }
+    },
+    {
+      "mes": "2025-08",
+      "pais": "Colombia",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "07. Sale Deeds · 01. Sale Deeds (Tradicional)",
+      "actuals": {
+        "sin_elim": 30375752144.0,
+        "solo_elim": 0.0,
+        "con_elim": 30375752144.0
+      },
+      "budget": {
+        "sin_elim": 22136709787.5,
+        "solo_elim": 0.0,
+        "con_elim": 22136709787.5
+      }
+    },
+    {
+      "mes": "2025-08",
+      "pais": "Colombia",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "07. Sale Deeds · 02. Sale Deeds (Alianzas)",
+      "actuals": {
+        "sin_elim": 5091166658.0,
+        "solo_elim": 0.0,
+        "con_elim": 5091166658.0
+      },
+      "budget": {
+        "sin_elim": 6037284487.5,
+        "solo_elim": 0.0,
+        "con_elim": 6037284487.5
+      }
+    },
+    {
+      "mes": "2025-08",
+      "pais": "Colombia",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "08. Invoiced Sales · 01. Invoiced Sales (Tradicional)",
+      "actuals": {
+        "sin_elim": 30546832945.0,
+        "solo_elim": 0.0,
+        "con_elim": 30546832945.0
+      },
+      "budget": {
+        "sin_elim": 22136709787.5,
+        "solo_elim": 0.0,
+        "con_elim": 22136709787.5
+      }
+    },
+    {
+      "mes": "2025-08",
+      "pais": "Colombia",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "08. Invoiced Sales · 02. Invoiced Sales (Alianzas)",
+      "actuals": {
+        "sin_elim": 5234828963.0,
+        "solo_elim": 0.0,
+        "con_elim": 5234828963.0
+      },
+      "budget": {
+        "sin_elim": 6037284487.5,
+        "solo_elim": 0.0,
+        "con_elim": 6037284487.5
+      }
+    },
+    {
+      "mes": "2025-08",
+      "pais": "Colombia",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "10. Renovations · 01. Renovations (Tradicional)",
+      "actuals": {
+        "sin_elim": 25451155613.0,
+        "solo_elim": 0.0,
+        "con_elim": 25451155613.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      }
+    },
+    {
+      "mes": "2025-08",
+      "pais": "Colombia",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "10. Renovations · 02. Renovations (Alianzas)",
+      "actuals": {
+        "sin_elim": 7791847901.0,
+        "solo_elim": 0.0,
+        "con_elim": 7791847901.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      }
+    },
+    {
+      "mes": "2025-08",
+      "pais": "Mexico",
+      "subsidiaria": null,
+      "linea": "HabiCredit",
+      "cuenta": null,
+      "cuenta_desc": "03. Loans Disbursed · 01. Market Maker Mortgages",
+      "actuals": {
+        "sin_elim": 971066.0,
+        "solo_elim": 0.0,
+        "con_elim": 971066.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      }
+    },
+    {
+      "mes": "2025-08",
+      "pais": "Mexico",
+      "subsidiaria": null,
+      "linea": "HabiCredit",
+      "cuenta": null,
+      "cuenta_desc": "03. Loans Disbursed · 02. Non-Market Maker Mortgages",
+      "actuals": {
+        "sin_elim": 18.0,
+        "solo_elim": 0.0,
+        "con_elim": 18.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      }
+    },
+    {
+      "mes": "2025-08",
+      "pais": "Mexico",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "05. Sale PSAs · 01. Sale PSAs (Cierres + Pre Cierres)",
+      "actuals": {
+        "sin_elim": 135616030.01999998,
+        "solo_elim": 0.0,
+        "con_elim": 135616030.01999998
+      },
+      "budget": {
+        "sin_elim": 196105556.18,
+        "solo_elim": 0.0,
+        "con_elim": 196105556.18
+      }
+    },
+    {
+      "mes": "2025-08",
+      "pais": "Mexico",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "07. Sale Deeds · 01. Sale Deeds (HC100)",
+      "actuals": {
+        "sin_elim": 48682195.3,
+        "solo_elim": 0.0,
+        "con_elim": 48682195.3
+      },
+      "budget": {
+        "sin_elim": 103401111.44,
+        "solo_elim": 0.0,
+        "con_elim": 103401111.44
+      }
+    },
+    {
+      "mes": "2025-08",
+      "pais": "Mexico",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "07. Sale Deeds · 02. Sale Deeds (No-HC100)",
+      "actuals": {
+        "sin_elim": 58740451.879999995,
+        "solo_elim": 0.0,
+        "con_elim": 58740451.879999995
+      },
+      "budget": {
+        "sin_elim": 73093889.12,
+        "solo_elim": 0.0,
+        "con_elim": 73093889.12
+      }
+    },
+    {
+      "mes": "2025-08",
+      "pais": "Mexico",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "08. Invoiced Sales · 01. Invoiced Sales (HC100)",
+      "actuals": {
+        "sin_elim": 44185675.0,
+        "solo_elim": 0.0,
+        "con_elim": 44185675.0
+      },
+      "budget": {
+        "sin_elim": 103401111.44,
+        "solo_elim": 0.0,
+        "con_elim": 103401111.44
+      }
+    },
+    {
+      "mes": "2025-08",
+      "pais": "Mexico",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "08. Invoiced Sales · 02. Invoiced Sales (No-HC100)",
+      "actuals": {
+        "sin_elim": 56450451.88,
+        "solo_elim": 0.0,
+        "con_elim": 56450451.88
+      },
+      "budget": {
+        "sin_elim": 73093889.12,
+        "solo_elim": 0.0,
+        "con_elim": 73093889.12
+      }
+    },
+    {
+      "mes": "2025-08",
+      "pais": "Mexico",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "10. Renovations · 01. Renovations (Cierres + Pre Cierres)",
+      "actuals": {
+        "sin_elim": 97056512.0,
+        "solo_elim": 0.0,
+        "con_elim": 97056512.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      }
+    },
+    {
+      "mes": "2025-09",
+      "pais": "Colombia",
+      "subsidiaria": null,
+      "linea": "HabiCredit",
+      "cuenta": null,
+      "cuenta_desc": "03. Loans Disbursed · 01. Market Maker Mortgages",
+      "actuals": {
+        "sin_elim": 7600903601.0,
+        "solo_elim": 0.0,
+        "con_elim": 7600903601.0
+      },
+      "budget": {
+        "sin_elim": 2103740319.71,
+        "solo_elim": 0.0,
+        "con_elim": 2103740319.71
+      }
+    },
+    {
+      "mes": "2025-09",
+      "pais": "Colombia",
+      "subsidiaria": null,
+      "linea": "HabiCredit",
+      "cuenta": null,
+      "cuenta_desc": "03. Loans Disbursed · 02. Non-Market Maker Mortgages",
+      "actuals": {
+        "sin_elim": 102636562304.0,
+        "solo_elim": 0.0,
+        "con_elim": 102636562304.0
+      },
+      "budget": {
+        "sin_elim": 73744000419.0,
+        "solo_elim": 0.0,
+        "con_elim": 73744000419.0
+      }
+    },
+    {
+      "mes": "2025-09",
+      "pais": "Colombia",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "05. Sale PSAs · 01. Sale PSAs (Tradicional)",
+      "actuals": {
+        "sin_elim": 33417656794.0,
+        "solo_elim": 0.0,
+        "con_elim": 33417656794.0
+      },
+      "budget": {
+        "sin_elim": 39111935477.34,
+        "solo_elim": 0.0,
+        "con_elim": 39111935477.34
+      }
+    },
+    {
+      "mes": "2025-09",
+      "pais": "Colombia",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "05. Sale PSAs · 02. Sale PSAs (Alianzas)",
+      "actuals": {
+        "sin_elim": 10166533025.0,
+        "solo_elim": 0.0,
+        "con_elim": 10166533025.0
+      },
+      "budget": {
+        "sin_elim": 8515144624.22,
+        "solo_elim": 0.0,
+        "con_elim": 8515144624.22
+      }
+    },
+    {
+      "mes": "2025-09",
+      "pais": "Colombia",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "07. Sale Deeds · 01. Sale Deeds (Tradicional)",
+      "actuals": {
+        "sin_elim": 29550717788.44,
+        "solo_elim": 0.0,
+        "con_elim": 29550717788.44
+      },
+      "budget": {
+        "sin_elim": 33050307100.78,
+        "solo_elim": 0.0,
+        "con_elim": 33050307100.78
+      }
+    },
+    {
+      "mes": "2025-09",
+      "pais": "Colombia",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "07. Sale Deeds · 02. Sale Deeds (Alianzas)",
+      "actuals": {
+        "sin_elim": 5920153821.86,
+        "solo_elim": 0.0,
+        "con_elim": 5920153821.86
+      },
+      "budget": {
+        "sin_elim": 8948118079.69,
+        "solo_elim": 0.0,
+        "con_elim": 8948118079.69
+      }
+    },
+    {
+      "mes": "2025-09",
+      "pais": "Colombia",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "08. Invoiced Sales · 01. Invoiced Sales (Tradicional)",
+      "actuals": {
+        "sin_elim": 30118753004.440002,
+        "solo_elim": 0.0,
+        "con_elim": 30118753004.440002
+      },
+      "budget": {
+        "sin_elim": 33050307100.78,
+        "solo_elim": 0.0,
+        "con_elim": 33050307100.78
+      }
+    },
+    {
+      "mes": "2025-09",
+      "pais": "Colombia",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "08. Invoiced Sales · 02. Invoiced Sales (Alianzas)",
+      "actuals": {
+        "sin_elim": 6011875208.860001,
+        "solo_elim": 0.0,
+        "con_elim": 6011875208.860001
+      },
+      "budget": {
+        "sin_elim": 8948118079.69,
+        "solo_elim": 0.0,
+        "con_elim": 8948118079.69
+      }
+    },
+    {
+      "mes": "2025-09",
+      "pais": "Colombia",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "10. Renovations · 01. Renovations (Tradicional)",
+      "actuals": {
+        "sin_elim": 21924957673.0,
+        "solo_elim": 0.0,
+        "con_elim": 21924957673.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      }
+    },
+    {
+      "mes": "2025-09",
+      "pais": "Colombia",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "10. Renovations · 02. Renovations (Alianzas)",
+      "actuals": {
+        "sin_elim": 10528359968.0,
+        "solo_elim": 0.0,
+        "con_elim": 10528359968.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      }
+    },
+    {
+      "mes": "2025-09",
+      "pais": "Mexico",
+      "subsidiaria": null,
+      "linea": "HabiCredit",
+      "cuenta": null,
+      "cuenta_desc": "03. Loans Disbursed · 01. Market Maker Mortgages",
+      "actuals": {
+        "sin_elim": 87.0,
+        "solo_elim": 0.0,
+        "con_elim": 87.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      }
+    },
+    {
+      "mes": "2025-09",
+      "pais": "Mexico",
+      "subsidiaria": null,
+      "linea": "HabiCredit",
+      "cuenta": null,
+      "cuenta_desc": "03. Loans Disbursed · 02. Non-Market Maker Mortgages",
+      "actuals": {
+        "sin_elim": 16.0,
+        "solo_elim": 0.0,
+        "con_elim": 16.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      }
+    },
+    {
+      "mes": "2025-09",
+      "pais": "Mexico",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "05. Sale PSAs · 01. Sale PSAs (Cierres + Pre Cierres)",
+      "actuals": {
+        "sin_elim": 106146023.6,
+        "solo_elim": 0.0,
+        "con_elim": 106146023.6
+      },
+      "budget": {
+        "sin_elim": 202063243.85,
+        "solo_elim": 0.0,
+        "con_elim": 202063243.85
+      }
+    },
+    {
+      "mes": "2025-09",
+      "pais": "Mexico",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "07. Sale Deeds · 01. Sale Deeds (HC100)",
+      "actuals": {
+        "sin_elim": 45912669.2,
+        "solo_elim": 0.0,
+        "con_elim": 45912669.2
+      },
+      "budget": {
+        "sin_elim": 106396132.82,
+        "solo_elim": 0.0,
+        "con_elim": 106396132.82
+      }
+    },
+    {
+      "mes": "2025-09",
+      "pais": "Mexico",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "07. Sale Deeds · 02. Sale Deeds (No-HC100)",
+      "actuals": {
+        "sin_elim": 59894625.0,
+        "solo_elim": 0.0,
+        "con_elim": 59894625.0
+      },
+      "budget": {
+        "sin_elim": 76891322.88,
+        "solo_elim": 0.0,
+        "con_elim": 76891322.88
+      }
+    },
+    {
+      "mes": "2025-09",
+      "pais": "Mexico",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "08. Invoiced Sales · 01. Invoiced Sales (HC100)",
+      "actuals": {
+        "sin_elim": 45963027.2,
+        "solo_elim": 0.0,
+        "con_elim": 45963027.2
+      },
+      "budget": {
+        "sin_elim": 106396132.82,
+        "solo_elim": 0.0,
+        "con_elim": 106396132.82
+      }
+    },
+    {
+      "mes": "2025-09",
+      "pais": "Mexico",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "08. Invoiced Sales · 02. Invoiced Sales (No-HC100)",
+      "actuals": {
+        "sin_elim": 59894625.0,
+        "solo_elim": 0.0,
+        "con_elim": 59894625.0
+      },
+      "budget": {
+        "sin_elim": 76891322.88,
+        "solo_elim": 0.0,
+        "con_elim": 76891322.88
+      }
+    },
+    {
+      "mes": "2025-09",
+      "pais": "Mexico",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "10. Renovations · 01. Renovations (Cierres + Pre Cierres)",
+      "actuals": {
+        "sin_elim": 94638334.0,
+        "solo_elim": 0.0,
+        "con_elim": 94638334.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      }
+    },
+    {
+      "mes": "2025-10",
+      "pais": "Colombia",
+      "subsidiaria": null,
+      "linea": "HabiCredit",
+      "cuenta": null,
+      "cuenta_desc": "03. Loans Disbursed · 01. Market Maker Mortgages",
+      "actuals": {
+        "sin_elim": 6204454463.0,
+        "solo_elim": 0.0,
+        "con_elim": 6204454463.0
+      },
+      "budget": {
+        "sin_elim": 2474988611.43,
+        "solo_elim": 0.0,
+        "con_elim": 2474988611.43
+      }
+    },
+    {
+      "mes": "2025-10",
+      "pais": "Colombia",
+      "subsidiaria": null,
+      "linea": "HabiCredit",
+      "cuenta": null,
+      "cuenta_desc": "03. Loans Disbursed · 02. Non-Market Maker Mortgages",
+      "actuals": {
+        "sin_elim": 106676622560.0,
+        "solo_elim": 0.0,
+        "con_elim": 106676622560.0
+      },
+      "budget": {
+        "sin_elim": 86022000486.0,
+        "solo_elim": 0.0,
+        "con_elim": 86022000486.0
+      }
+    },
+    {
+      "mes": "2025-10",
+      "pais": "Colombia",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "05. Sale PSAs · 01. Sale PSAs (Tradicional)",
+      "actuals": {
+        "sin_elim": 29948080663.0,
+        "solo_elim": 0.0,
+        "con_elim": 29948080663.0
+      },
+      "budget": {
+        "sin_elim": 40586278906.25,
+        "solo_elim": 0.0,
+        "con_elim": 40586278906.25
+      }
+    },
+    {
+      "mes": "2025-10",
+      "pais": "Colombia",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "05. Sale PSAs · 02. Sale PSAs (Alianzas)",
+      "actuals": {
+        "sin_elim": 7044277726.0,
+        "solo_elim": 0.0,
+        "con_elim": 7044277726.0
+      },
+      "budget": {
+        "sin_elim": 8954979687.5,
+        "solo_elim": 0.0,
+        "con_elim": 8954979687.5
+      }
+    },
+    {
+      "mes": "2025-10",
+      "pais": "Colombia",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "07. Sale Deeds · 01. Sale Deeds (Tradicional)",
+      "actuals": {
+        "sin_elim": 22872382322.0,
+        "solo_elim": 0.0,
+        "con_elim": 22872382322.0
+      },
+      "budget": {
+        "sin_elim": 33364521093.75,
+        "solo_elim": 0.0,
+        "con_elim": 33364521093.75
+      }
+    },
+    {
+      "mes": "2025-10",
+      "pais": "Colombia",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "07. Sale Deeds · 02. Sale Deeds (Alianzas)",
+      "actuals": {
+        "sin_elim": 6569750942.0,
+        "solo_elim": 0.0,
+        "con_elim": 6569750942.0
+      },
+      "budget": {
+        "sin_elim": 9966025781.25,
+        "solo_elim": 0.0,
+        "con_elim": 9966025781.25
+      }
+    },
+    {
+      "mes": "2025-10",
+      "pais": "Colombia",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "08. Invoiced Sales · 01. Invoiced Sales (Tradicional)",
+      "actuals": {
+        "sin_elim": 23908423966.0,
+        "solo_elim": 0.0,
+        "con_elim": 23908423966.0
+      },
+      "budget": {
+        "sin_elim": 33364521093.75,
+        "solo_elim": 0.0,
+        "con_elim": 33364521093.75
+      }
+    },
+    {
+      "mes": "2025-10",
+      "pais": "Colombia",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "08. Invoiced Sales · 02. Invoiced Sales (Alianzas)",
+      "actuals": {
+        "sin_elim": 6730470752.0,
+        "solo_elim": 0.0,
+        "con_elim": 6730470752.0
+      },
+      "budget": {
+        "sin_elim": 9966025781.25,
+        "solo_elim": 0.0,
+        "con_elim": 9966025781.25
+      }
+    },
+    {
+      "mes": "2025-10",
+      "pais": "Colombia",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "10. Renovations · 01. Renovations (Tradicional)",
+      "actuals": {
+        "sin_elim": 29129223919.0,
+        "solo_elim": 0.0,
+        "con_elim": 29129223919.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      }
+    },
+    {
+      "mes": "2025-10",
+      "pais": "Colombia",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "10. Renovations · 02. Renovations (Alianzas)",
+      "actuals": {
+        "sin_elim": 7859696020.78,
+        "solo_elim": 0.0,
+        "con_elim": 7859696020.78
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      }
+    },
+    {
+      "mes": "2025-10",
+      "pais": "Mexico",
+      "subsidiaria": null,
+      "linea": "HabiCredit",
+      "cuenta": null,
+      "cuenta_desc": "03. Loans Disbursed · 01. Market Maker Mortgages",
+      "actuals": {
+        "sin_elim": 73.0,
+        "solo_elim": 0.0,
+        "con_elim": 73.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      }
+    },
+    {
+      "mes": "2025-10",
+      "pais": "Mexico",
+      "subsidiaria": null,
+      "linea": "HabiCredit",
+      "cuenta": null,
+      "cuenta_desc": "03. Loans Disbursed · 02. Non-Market Maker Mortgages",
+      "actuals": {
+        "sin_elim": 14.0,
+        "solo_elim": 0.0,
+        "con_elim": 14.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      }
+    },
+    {
+      "mes": "2025-10",
+      "pais": "Mexico",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "05. Sale PSAs · 01. Sale PSAs (Cierres + Pre Cierres)",
+      "actuals": {
+        "sin_elim": 129092294.0,
+        "solo_elim": 0.0,
+        "con_elim": 129092294.0
+      },
+      "budget": {
+        "sin_elim": 209069243.36,
+        "solo_elim": 0.0,
+        "con_elim": 209069243.36
+      }
+    },
+    {
+      "mes": "2025-10",
+      "pais": "Mexico",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "07. Sale Deeds · 01. Sale Deeds (HC100)",
+      "actuals": {
+        "sin_elim": 50020358.019999996,
+        "solo_elim": 0.0,
+        "con_elim": 50020358.019999996
+      },
+      "budget": {
+        "sin_elim": 113469204.73,
+        "solo_elim": 0.0,
+        "con_elim": 113469204.73
+      }
+    },
+    {
+      "mes": "2025-10",
+      "pais": "Mexico",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "07. Sale Deeds · 02. Sale Deeds (No-HC100)",
+      "actuals": {
+        "sin_elim": 75808514.0,
+        "solo_elim": 0.0,
+        "con_elim": 75808514.0
+      },
+      "budget": {
+        "sin_elim": 78624330.83,
+        "solo_elim": 0.0,
+        "con_elim": 78624330.83
+      }
+    },
+    {
+      "mes": "2025-10",
+      "pais": "Mexico",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "08. Invoiced Sales · 01. Invoiced Sales (HC100)",
+      "actuals": {
+        "sin_elim": 47295354.620000005,
+        "solo_elim": 0.0,
+        "con_elim": 47295354.620000005
+      },
+      "budget": {
+        "sin_elim": 113469204.73,
+        "solo_elim": 0.0,
+        "con_elim": 113469204.73
+      }
+    },
+    {
+      "mes": "2025-10",
+      "pais": "Mexico",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "08. Invoiced Sales · 02. Invoiced Sales (No-HC100)",
+      "actuals": {
+        "sin_elim": 77280773.0,
+        "solo_elim": 0.0,
+        "con_elim": 77280773.0
+      },
+      "budget": {
+        "sin_elim": 78624330.83,
+        "solo_elim": 0.0,
+        "con_elim": 78624330.83
+      }
+    },
+    {
+      "mes": "2025-10",
+      "pais": "Mexico",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "10. Renovations · 01. Renovations (Cierres + Pre Cierres)",
+      "actuals": {
+        "sin_elim": 87331016.0,
+        "solo_elim": 0.0,
+        "con_elim": 87331016.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      }
+    },
+    {
+      "mes": "2025-11",
+      "pais": "Colombia",
+      "subsidiaria": null,
+      "linea": "HabiCredit",
+      "cuenta": null,
+      "cuenta_desc": "03. Loans Disbursed · 01. Market Maker Mortgages",
+      "actuals": {
+        "sin_elim": 5450808673.0,
+        "solo_elim": 0.0,
+        "con_elim": 5450808673.0
+      },
+      "budget": {
+        "sin_elim": 3093735764.29,
+        "solo_elim": 0.0,
+        "con_elim": 3093735764.29
+      }
+    },
+    {
+      "mes": "2025-11",
+      "pais": "Colombia",
+      "subsidiaria": null,
+      "linea": "HabiCredit",
+      "cuenta": null,
+      "cuenta_desc": "03. Loans Disbursed · 02. Non-Market Maker Mortgages",
+      "actuals": {
+        "sin_elim": 100559121795.0,
+        "solo_elim": 0.0,
+        "con_elim": 100559121795.0
+      },
+      "budget": {
+        "sin_elim": 96832000544.0,
+        "solo_elim": 0.0,
+        "con_elim": 96832000544.0
+      }
+    },
+    {
+      "mes": "2025-11",
+      "pais": "Colombia",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "05. Sale PSAs · 01. Sale PSAs (Tradicional)",
+      "actuals": {
+        "sin_elim": 25561167812.0,
+        "solo_elim": 0.0,
+        "con_elim": 25561167812.0
+      },
+      "budget": {
+        "sin_elim": 41038649815.63,
+        "solo_elim": 0.0,
+        "con_elim": 41038649815.63
+      }
+    },
+    {
+      "mes": "2025-11",
+      "pais": "Colombia",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "05. Sale PSAs · 02. Sale PSAs (Alianzas)",
+      "actuals": {
+        "sin_elim": 7221726285.190001,
+        "solo_elim": 0.0,
+        "con_elim": 7221726285.190001
+      },
+      "budget": {
+        "sin_elim": 9135812503.13,
+        "solo_elim": 0.0,
+        "con_elim": 9135812503.13
+      }
+    },
+    {
+      "mes": "2025-11",
+      "pais": "Colombia",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "07. Sale Deeds · 01. Sale Deeds (Tradicional)",
+      "actuals": {
+        "sin_elim": 33400940970.0,
+        "solo_elim": 0.0,
+        "con_elim": 33400940970.0
+      },
+      "budget": {
+        "sin_elim": 34658082353.13,
+        "solo_elim": 0.0,
+        "con_elim": 34658082353.13
+      }
+    },
+    {
+      "mes": "2025-11",
+      "pais": "Colombia",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "07. Sale Deeds · 02. Sale Deeds (Alianzas)",
+      "actuals": {
+        "sin_elim": 9480786667.0,
+        "solo_elim": 0.0,
+        "con_elim": 9480786667.0
+      },
+      "budget": {
+        "sin_elim": 9570851193.75,
+        "solo_elim": 0.0,
+        "con_elim": 9570851193.75
+      }
+    },
+    {
+      "mes": "2025-11",
+      "pais": "Colombia",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "08. Invoiced Sales · 01. Invoiced Sales (Tradicional)",
+      "actuals": {
+        "sin_elim": 32437035086.0,
+        "solo_elim": 0.0,
+        "con_elim": 32437035086.0
+      },
+      "budget": {
+        "sin_elim": 34658082353.13,
+        "solo_elim": 0.0,
+        "con_elim": 34658082353.13
+      }
+    },
+    {
+      "mes": "2025-11",
+      "pais": "Colombia",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "08. Invoiced Sales · 02. Invoiced Sales (Alianzas)",
+      "actuals": {
+        "sin_elim": 8550400173.0,
+        "solo_elim": 0.0,
+        "con_elim": 8550400173.0
+      },
+      "budget": {
+        "sin_elim": 9570851193.75,
+        "solo_elim": 0.0,
+        "con_elim": 9570851193.75
+      }
+    },
+    {
+      "mes": "2025-11",
+      "pais": "Colombia",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "10. Renovations · 01. Renovations (Tradicional)",
+      "actuals": {
+        "sin_elim": 18377378063.86,
+        "solo_elim": 0.0,
+        "con_elim": 18377378063.86
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      }
+    },
+    {
+      "mes": "2025-11",
+      "pais": "Colombia",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "10. Renovations · 02. Renovations (Alianzas)",
+      "actuals": {
+        "sin_elim": 7202319317.0,
+        "solo_elim": 0.0,
+        "con_elim": 7202319317.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      }
+    },
+    {
+      "mes": "2025-11",
+      "pais": "Mexico",
+      "subsidiaria": null,
+      "linea": "HabiCredit",
+      "cuenta": null,
+      "cuenta_desc": "03. Loans Disbursed · 01. Market Maker Mortgages",
+      "actuals": {
+        "sin_elim": 68.0,
+        "solo_elim": 0.0,
+        "con_elim": 68.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      }
+    },
+    {
+      "mes": "2025-11",
+      "pais": "Mexico",
+      "subsidiaria": null,
+      "linea": "HabiCredit",
+      "cuenta": null,
+      "cuenta_desc": "03. Loans Disbursed · 02. Non-Market Maker Mortgages",
+      "actuals": {
+        "sin_elim": 15.0,
+        "solo_elim": 0.0,
+        "con_elim": 15.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      }
+    },
+    {
+      "mes": "2025-11",
+      "pais": "Mexico",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "05. Sale PSAs · 01. Sale PSAs (Cierres + Pre Cierres)",
+      "actuals": {
+        "sin_elim": 108368668.27,
+        "solo_elim": 0.0,
+        "con_elim": 108368668.27
+      },
+      "budget": {
+        "sin_elim": 211595673.35,
+        "solo_elim": 0.0,
+        "con_elim": 211595673.35
+      }
+    },
+    {
+      "mes": "2025-11",
+      "pais": "Mexico",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "07. Sale Deeds · 01. Sale Deeds (HC100)",
+      "actuals": {
+        "sin_elim": 44854092.05,
+        "solo_elim": 0.0,
+        "con_elim": 44854092.05
+      },
+      "budget": {
+        "sin_elim": 112493902.29,
+        "solo_elim": 0.0,
+        "con_elim": 112493902.29
+      }
+    },
+    {
+      "mes": "2025-11",
+      "pais": "Mexico",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "07. Sale Deeds · 02. Sale Deeds (No-HC100)",
+      "actuals": {
+        "sin_elim": 47856150.0,
+        "solo_elim": 0.0,
+        "con_elim": 47856150.0
+      },
+      "budget": {
+        "sin_elim": 70531891.12,
+        "solo_elim": 0.0,
+        "con_elim": 70531891.12
+      }
+    },
+    {
+      "mes": "2025-11",
+      "pais": "Mexico",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "08. Invoiced Sales · 01. Invoiced Sales (HC100)",
+      "actuals": {
+        "sin_elim": 46099677.05,
+        "solo_elim": 0.0,
+        "con_elim": 46099677.05
+      },
+      "budget": {
+        "sin_elim": 112493902.29,
+        "solo_elim": 0.0,
+        "con_elim": 112493902.29
+      }
+    },
+    {
+      "mes": "2025-11",
+      "pais": "Mexico",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "08. Invoiced Sales · 02. Invoiced Sales (No-HC100)",
+      "actuals": {
+        "sin_elim": 49578822.0,
+        "solo_elim": 0.0,
+        "con_elim": 49578822.0
+      },
+      "budget": {
+        "sin_elim": 70531891.12,
+        "solo_elim": 0.0,
+        "con_elim": 70531891.12
+      }
+    },
+    {
+      "mes": "2025-11",
+      "pais": "Mexico",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "10. Renovations · 01. Renovations (Cierres + Pre Cierres)",
+      "actuals": {
+        "sin_elim": 105254952.0,
+        "solo_elim": 0.0,
+        "con_elim": 105254952.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      }
+    },
+    {
+      "mes": "2025-12",
+      "pais": "Colombia",
+      "subsidiaria": null,
+      "linea": "HabiCredit",
+      "cuenta": null,
+      "cuenta_desc": "03. Loans Disbursed · 01. Market Maker Mortgages",
+      "actuals": {
+        "sin_elim": 6608800603.0,
+        "solo_elim": 0.0,
+        "con_elim": 6608800603.0
+      },
+      "budget": {
+        "sin_elim": 2103740319.71,
+        "solo_elim": 0.0,
+        "con_elim": 2103740319.71
+      }
+    },
+    {
+      "mes": "2025-12",
+      "pais": "Colombia",
+      "subsidiaria": null,
+      "linea": "HabiCredit",
+      "cuenta": null,
+      "cuenta_desc": "03. Loans Disbursed · 02. Non-Market Maker Mortgages",
+      "actuals": {
+        "sin_elim": 110344934039.0,
+        "solo_elim": 0.0,
+        "con_elim": 110344934039.0
+      },
+      "budget": {
+        "sin_elim": 77328000432.0,
+        "solo_elim": 0.0,
+        "con_elim": 77328000432.0
+      }
+    },
+    {
+      "mes": "2025-12",
+      "pais": "Colombia",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "05. Sale PSAs · 01. Sale PSAs (Tradicional)",
+      "actuals": {
+        "sin_elim": 27737088274.0,
+        "solo_elim": 0.0,
+        "con_elim": 27737088274.0
+      },
+      "budget": {
+        "sin_elim": 36106478100.0,
+        "solo_elim": 0.0,
+        "con_elim": 36106478100.0
+      }
+    },
+    {
+      "mes": "2025-12",
+      "pais": "Colombia",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "05. Sale PSAs · 02. Sale PSAs (Alianzas)",
+      "actuals": {
+        "sin_elim": 9897547399.0,
+        "solo_elim": 0.0,
+        "con_elim": 9897547399.0
+      },
+      "budget": {
+        "sin_elim": 8298666337.5,
+        "solo_elim": 0.0,
+        "con_elim": 8298666337.5
+      }
+    },
+    {
+      "mes": "2025-12",
+      "pais": "Colombia",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "07. Sale Deeds · 01. Sale Deeds (Tradicional)",
+      "actuals": {
+        "sin_elim": 23692868749.7,
+        "solo_elim": 0.0,
+        "con_elim": 23692868749.7
+      },
+      "budget": {
+        "sin_elim": 33777027900.0,
+        "solo_elim": 0.0,
+        "con_elim": 33777027900.0
+      }
+    },
+    {
+      "mes": "2025-12",
+      "pais": "Colombia",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "07. Sale Deeds · 02. Sale Deeds (Alianzas)",
+      "actuals": {
+        "sin_elim": 8636487233.0,
+        "solo_elim": 0.0,
+        "con_elim": 8636487233.0
+      },
+      "budget": {
+        "sin_elim": 13976701200.0,
+        "solo_elim": 0.0,
+        "con_elim": 13976701200.0
+      }
+    },
+    {
+      "mes": "2025-12",
+      "pais": "Colombia",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "08. Invoiced Sales · 01. Invoiced Sales (Tradicional)",
+      "actuals": {
+        "sin_elim": 25068719550.7,
+        "solo_elim": 0.0,
+        "con_elim": 25068719550.7
+      },
+      "budget": {
+        "sin_elim": 33777027900.0,
+        "solo_elim": 0.0,
+        "con_elim": 33777027900.0
+      }
+    },
+    {
+      "mes": "2025-12",
+      "pais": "Colombia",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "08. Invoiced Sales · 02. Invoiced Sales (Alianzas)",
+      "actuals": {
+        "sin_elim": 9481486478.0,
+        "solo_elim": 0.0,
+        "con_elim": 9481486478.0
+      },
+      "budget": {
+        "sin_elim": 13976701200.0,
+        "solo_elim": 0.0,
+        "con_elim": 13976701200.0
+      }
+    },
+    {
+      "mes": "2025-12",
+      "pais": "Colombia",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "10. Renovations · 01. Renovations (Tradicional)",
+      "actuals": {
+        "sin_elim": 23486688878.0,
+        "solo_elim": 0.0,
+        "con_elim": 23486688878.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      }
+    },
+    {
+      "mes": "2025-12",
+      "pais": "Colombia",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "10. Renovations · 02. Renovations (Alianzas)",
+      "actuals": {
+        "sin_elim": 13463229970.0,
+        "solo_elim": 0.0,
+        "con_elim": 13463229970.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      }
+    },
+    {
+      "mes": "2025-12",
+      "pais": "Mexico",
+      "subsidiaria": null,
+      "linea": "HabiCredit",
+      "cuenta": null,
+      "cuenta_desc": "03. Loans Disbursed · 01. Market Maker Mortgages",
+      "actuals": {
+        "sin_elim": 79.0,
+        "solo_elim": 0.0,
+        "con_elim": 79.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      }
+    },
+    {
+      "mes": "2025-12",
+      "pais": "Mexico",
+      "subsidiaria": null,
+      "linea": "HabiCredit",
+      "cuenta": null,
+      "cuenta_desc": "03. Loans Disbursed · 02. Non-Market Maker Mortgages",
+      "actuals": {
+        "sin_elim": 18.0,
+        "solo_elim": 0.0,
+        "con_elim": 18.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      }
+    },
+    {
+      "mes": "2025-12",
+      "pais": "Mexico",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "05. Sale PSAs · 01. Sale PSAs (Cierres + Pre Cierres)",
+      "actuals": {
+        "sin_elim": 116869892.58,
+        "solo_elim": 0.0,
+        "con_elim": 116869892.58
+      },
+      "budget": {
+        "sin_elim": 167492069.49,
+        "solo_elim": 0.0,
+        "con_elim": 167492069.49
+      }
+    },
+    {
+      "mes": "2025-12",
+      "pais": "Mexico",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "07. Sale Deeds · 01. Sale Deeds (HC100)",
+      "actuals": {
+        "sin_elim": 42734189.269999996,
+        "solo_elim": 0.0,
+        "con_elim": 42734189.269999996
+      },
+      "budget": {
+        "sin_elim": 105690182.89,
+        "solo_elim": 0.0,
+        "con_elim": 105690182.89
+      }
+    },
+    {
+      "mes": "2025-12",
+      "pais": "Mexico",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "07. Sale Deeds · 02. Sale Deeds (No-HC100)",
+      "actuals": {
+        "sin_elim": 41688015.0,
+        "solo_elim": 0.0,
+        "con_elim": 41688015.0
+      },
+      "budget": {
+        "sin_elim": 67175963.7,
+        "solo_elim": 0.0,
+        "con_elim": 67175963.7
+      }
+    },
+    {
+      "mes": "2025-12",
+      "pais": "Mexico",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "08. Invoiced Sales · 01. Invoiced Sales (HC100)",
+      "actuals": {
+        "sin_elim": 45506970.269999996,
+        "solo_elim": 0.0,
+        "con_elim": 45506970.269999996
+      },
+      "budget": {
+        "sin_elim": 105690182.89,
+        "solo_elim": 0.0,
+        "con_elim": 105690182.89
+      }
+    },
+    {
+      "mes": "2025-12",
+      "pais": "Mexico",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "08. Invoiced Sales · 02. Invoiced Sales (No-HC100)",
+      "actuals": {
+        "sin_elim": 41688015.0,
+        "solo_elim": 0.0,
+        "con_elim": 41688015.0
+      },
+      "budget": {
+        "sin_elim": 67175963.7,
+        "solo_elim": 0.0,
+        "con_elim": 67175963.7
+      }
+    },
+    {
+      "mes": "2025-12",
+      "pais": "Mexico",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "10. Renovations · 01. Renovations (Cierres + Pre Cierres)",
+      "actuals": {
+        "sin_elim": 103611978.0,
+        "solo_elim": 0.0,
+        "con_elim": 103611978.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      }
+    },
+    {
+      "mes": "2026-01",
+      "pais": "Colombia",
+      "subsidiaria": null,
+      "linea": "HabiCredit",
+      "cuenta": null,
+      "cuenta_desc": "03. Loans Disbursed · 01. Market Maker Mortgages",
+      "actuals": {
+        "sin_elim": 5341181664.0,
+        "solo_elim": 0.0,
+        "con_elim": 5341181664.0
+      },
+      "budget": {
+        "sin_elim": 91933452803.0,
+        "solo_elim": 0.0,
+        "con_elim": 91933452803.0
+      }
+    },
+    {
+      "mes": "2026-01",
+      "pais": "Colombia",
+      "subsidiaria": null,
+      "linea": "HabiCredit",
+      "cuenta": null,
+      "cuenta_desc": "03. Loans Disbursed · 02. Non-Market Maker Mortgages",
+      "actuals": {
+        "sin_elim": 86500455407.0,
+        "solo_elim": 0.0,
+        "con_elim": 86500455407.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      }
+    },
+    {
+      "mes": "2026-01",
+      "pais": "Colombia",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "05. Sale PSAs · 01. Sale PSAs (Tradicional)",
+      "actuals": {
+        "sin_elim": 27593513026.0,
+        "solo_elim": 0.0,
+        "con_elim": 27593513026.0
+      },
+      "budget": {
+        "sin_elim": 26738294521.12,
+        "solo_elim": 0.0,
+        "con_elim": 26738294521.12
+      }
+    },
+    {
+      "mes": "2026-01",
+      "pais": "Colombia",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "05. Sale PSAs · 02. Sale PSAs (Alianzas)",
+      "actuals": {
+        "sin_elim": 9585045474.0,
+        "solo_elim": 0.0,
+        "con_elim": 9585045474.0
+      },
+      "budget": {
+        "sin_elim": 10442174191.68,
+        "solo_elim": 0.0,
+        "con_elim": 10442174191.68
+      }
+    },
+    {
+      "mes": "2026-01",
+      "pais": "Colombia",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "07. Sale Deeds · 01. Sale Deeds (Tradicional)",
+      "actuals": {
+        "sin_elim": 5771501856.0,
+        "solo_elim": 0.0,
+        "con_elim": 5771501856.0
+      },
+      "budget": {
+        "sin_elim": 5853946137.76,
+        "solo_elim": 0.0,
+        "con_elim": 5853946137.76
+      }
+    },
+    {
+      "mes": "2026-01",
+      "pais": "Colombia",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "07. Sale Deeds · 02. Sale Deeds (Alianzas)",
+      "actuals": {
+        "sin_elim": 2139236168.0,
+        "solo_elim": 0.0,
+        "con_elim": 2139236168.0
+      },
+      "budget": {
+        "sin_elim": 2056791886.2400002,
+        "solo_elim": 0.0,
+        "con_elim": 2056791886.2400002
+      }
+    },
+    {
+      "mes": "2026-01",
+      "pais": "Colombia",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "08. Invoiced Sales · 01. Invoiced Sales (Tradicional)",
+      "actuals": {
+        "sin_elim": 4670878117.0,
+        "solo_elim": 0.0,
+        "con_elim": 4670878117.0
+      },
+      "budget": {
+        "sin_elim": 5853946137.76,
+        "solo_elim": 0.0,
+        "con_elim": 5853946137.76
+      }
+    },
+    {
+      "mes": "2026-01",
+      "pais": "Colombia",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "08. Invoiced Sales · 02. Invoiced Sales (Alianzas)",
+      "actuals": {
+        "sin_elim": 2139575930.0,
+        "solo_elim": 0.0,
+        "con_elim": 2139575930.0
+      },
+      "budget": {
+        "sin_elim": 2056791886.2400002,
+        "solo_elim": 0.0,
+        "con_elim": 2056791886.2400002
+      }
+    },
+    {
+      "mes": "2026-01",
+      "pais": "Colombia",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "10. Renovations · 01. Renovations (Tradicional)",
+      "actuals": {
+        "sin_elim": 16982659780.58,
+        "solo_elim": 0.0,
+        "con_elim": 16982659780.58
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      }
+    },
+    {
+      "mes": "2026-01",
+      "pais": "Colombia",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "10. Renovations · 02. Renovations (Alianzas)",
+      "actuals": {
+        "sin_elim": 3182362721.0,
+        "solo_elim": 0.0,
+        "con_elim": 3182362721.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      }
+    },
+    {
+      "mes": "2026-01",
+      "pais": "Mexico",
+      "subsidiaria": null,
+      "linea": "HabiCredit",
+      "cuenta": null,
+      "cuenta_desc": "03. Loans Disbursed · 01. Market Maker Mortgages",
+      "actuals": {
+        "sin_elim": 36.0,
+        "solo_elim": 0.0,
+        "con_elim": 36.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      }
+    },
+    {
+      "mes": "2026-01",
+      "pais": "Mexico",
+      "subsidiaria": null,
+      "linea": "HabiCredit",
+      "cuenta": null,
+      "cuenta_desc": "03. Loans Disbursed · 02. Non-Market Maker Mortgages",
+      "actuals": {
+        "sin_elim": 9.0,
+        "solo_elim": 0.0,
+        "con_elim": 9.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      }
+    },
+    {
+      "mes": "2026-01",
+      "pais": "Mexico",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "05. Sale PSAs · 01. Sale PSAs (Cierres + Pre Cierres)",
+      "actuals": {
+        "sin_elim": 126751860.08,
+        "solo_elim": 0.0,
+        "con_elim": 126751860.08
+      },
+      "budget": {
+        "sin_elim": 126855921.00062196,
+        "solo_elim": 0.0,
+        "con_elim": 126855921.00062196
+      }
+    },
+    {
+      "mes": "2026-01",
+      "pais": "Mexico",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "07. Sale Deeds · 01. Sale Deeds (HC100)",
+      "actuals": {
+        "sin_elim": 23403031.0,
+        "solo_elim": 0.0,
+        "con_elim": 23403031.0
+      },
+      "budget": {
+        "sin_elim": 37368410.83739252,
+        "solo_elim": 0.0,
+        "con_elim": 37368410.83739252
+      }
+    },
+    {
+      "mes": "2026-01",
+      "pais": "Mexico",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "07. Sale Deeds · 02. Sale Deeds (No-HC100)",
+      "actuals": {
+        "sin_elim": 23438334.0,
+        "solo_elim": 0.0,
+        "con_elim": 23438334.0
+      },
+      "budget": {
+        "sin_elim": 21634343.116385143,
+        "solo_elim": 0.0,
+        "con_elim": 21634343.116385143
+      }
+    },
+    {
+      "mes": "2026-01",
+      "pais": "Mexico",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "08. Invoiced Sales · 01. Invoiced Sales (HC100)",
+      "actuals": {
+        "sin_elim": 24010616.0,
+        "solo_elim": 0.0,
+        "con_elim": 24010616.0
+      },
+      "budget": {
+        "sin_elim": 37368410.83739252,
+        "solo_elim": 0.0,
+        "con_elim": 37368410.83739252
+      }
+    },
+    {
+      "mes": "2026-01",
+      "pais": "Mexico",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "08. Invoiced Sales · 02. Invoiced Sales (No-HC100)",
+      "actuals": {
+        "sin_elim": 23438334.0,
+        "solo_elim": 0.0,
+        "con_elim": 23438334.0
+      },
+      "budget": {
+        "sin_elim": 21634343.116385143,
+        "solo_elim": 0.0,
+        "con_elim": 21634343.116385143
+      }
+    },
+    {
+      "mes": "2026-01",
+      "pais": "Mexico",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "10. Renovations · 01. Renovations (Cierres + Pre Cierres)",
+      "actuals": {
+        "sin_elim": 80670639.0,
+        "solo_elim": 0.0,
+        "con_elim": 80670639.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      }
+    },
+    {
+      "mes": "2026-02",
+      "pais": "Colombia",
+      "subsidiaria": null,
+      "linea": "HabiCredit",
+      "cuenta": null,
+      "cuenta_desc": "03. Loans Disbursed · 01. Market Maker Mortgages",
+      "actuals": {
+        "sin_elim": 8712802174.0,
+        "solo_elim": 0.0,
+        "con_elim": 8712802174.0
+      },
+      "budget": {
+        "sin_elim": 119173962941.0,
+        "solo_elim": 0.0,
+        "con_elim": 119173962941.0
+      }
+    },
+    {
+      "mes": "2026-02",
+      "pais": "Colombia",
+      "subsidiaria": null,
+      "linea": "HabiCredit",
+      "cuenta": null,
+      "cuenta_desc": "03. Loans Disbursed · 02. Non-Market Maker Mortgages",
+      "actuals": {
+        "sin_elim": 110563160768.0,
+        "solo_elim": 0.0,
+        "con_elim": 110563160768.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      }
+    },
+    {
+      "mes": "2026-02",
+      "pais": "Colombia",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "05. Sale PSAs · 01. Sale PSAs (Tradicional)",
+      "actuals": {
+        "sin_elim": 31422451790.0,
+        "solo_elim": 0.0,
+        "con_elim": 31422451790.0
+      },
+      "budget": {
+        "sin_elim": 24709309547.757614,
+        "solo_elim": 0.0,
+        "con_elim": 24709309547.757614
+      }
+    },
+    {
+      "mes": "2026-02",
+      "pais": "Colombia",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "05. Sale PSAs · 02. Sale PSAs (Alianzas)",
+      "actuals": {
+        "sin_elim": 9177063662.779999,
+        "solo_elim": 0.0,
+        "con_elim": 9177063662.779999
+      },
+      "budget": {
+        "sin_elim": 8369282266.175965,
+        "solo_elim": 0.0,
+        "con_elim": 8369282266.175965
+      }
+    },
+    {
+      "mes": "2026-02",
+      "pais": "Colombia",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "07. Sale Deeds · 01. Sale Deeds (Tradicional)",
+      "actuals": {
+        "sin_elim": 17255664725.0,
+        "solo_elim": 0.0,
+        "con_elim": 17255664725.0
+      },
+      "budget": {
+        "sin_elim": 17004256032.865454,
+        "solo_elim": 0.0,
+        "con_elim": 17004256032.865454
+      }
+    },
+    {
+      "mes": "2026-02",
+      "pais": "Colombia",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "07. Sale Deeds · 02. Sale Deeds (Alianzas)",
+      "actuals": {
+        "sin_elim": 6225187320.190001,
+        "solo_elim": 0.0,
+        "con_elim": 6225187320.190001
+      },
+      "budget": {
+        "sin_elim": 6376596012.324546,
+        "solo_elim": 0.0,
+        "con_elim": 6376596012.324546
+      }
+    },
+    {
+      "mes": "2026-02",
+      "pais": "Colombia",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "08. Invoiced Sales · 01. Invoiced Sales (Tradicional)",
+      "actuals": {
+        "sin_elim": 16811470385.0,
+        "solo_elim": 0.0,
+        "con_elim": 16811470385.0
+      },
+      "budget": {
+        "sin_elim": 17004256032.865454,
+        "solo_elim": 0.0,
+        "con_elim": 17004256032.865454
+      }
+    },
+    {
+      "mes": "2026-02",
+      "pais": "Colombia",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "08. Invoiced Sales · 02. Invoiced Sales (Alianzas)",
+      "actuals": {
+        "sin_elim": 5756539347.190001,
+        "solo_elim": 0.0,
+        "con_elim": 5756539347.190001
+      },
+      "budget": {
+        "sin_elim": 6376596012.324546,
+        "solo_elim": 0.0,
+        "con_elim": 6376596012.324546
+      }
+    },
+    {
+      "mes": "2026-02",
+      "pais": "Colombia",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "10. Renovations · 01. Renovations (Tradicional)",
+      "actuals": {
+        "sin_elim": 14747283665.68,
+        "solo_elim": 0.0,
+        "con_elim": 14747283665.68
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      }
+    },
+    {
+      "mes": "2026-02",
+      "pais": "Colombia",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "10. Renovations · 02. Renovations (Alianzas)",
+      "actuals": {
+        "sin_elim": 300262994.0,
+        "solo_elim": 0.0,
+        "con_elim": 300262994.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      }
+    },
+    {
+      "mes": "2026-02",
+      "pais": "Mexico",
+      "subsidiaria": null,
+      "linea": "HabiCredit",
+      "cuenta": null,
+      "cuenta_desc": "03. Loans Disbursed · 01. Market Maker Mortgages",
+      "actuals": {
+        "sin_elim": 57.0,
+        "solo_elim": 0.0,
+        "con_elim": 57.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      }
+    },
+    {
+      "mes": "2026-02",
+      "pais": "Mexico",
+      "subsidiaria": null,
+      "linea": "HabiCredit",
+      "cuenta": null,
+      "cuenta_desc": "03. Loans Disbursed · 02. Non-Market Maker Mortgages",
+      "actuals": {
+        "sin_elim": 13.0,
+        "solo_elim": 0.0,
+        "con_elim": 13.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      }
+    },
+    {
+      "mes": "2026-02",
+      "pais": "Mexico",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "05. Sale PSAs · 01. Sale PSAs (Cierres + Pre Cierres)",
+      "actuals": {
+        "sin_elim": 117738199.96000001,
+        "solo_elim": 0.0,
+        "con_elim": 117738199.96000001
+      },
+      "budget": {
+        "sin_elim": 117762950.9307337,
+        "solo_elim": 0.0,
+        "con_elim": 117762950.9307337
+      }
+    },
+    {
+      "mes": "2026-02",
+      "pais": "Mexico",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "07. Sale Deeds · 01. Sale Deeds (HC100)",
+      "actuals": {
+        "sin_elim": 53921473.58,
+        "solo_elim": 0.0,
+        "con_elim": 53921473.58
+      },
+      "budget": {
+        "sin_elim": 81287700.64245336,
+        "solo_elim": 0.0,
+        "con_elim": 81287700.64245336
+      }
+    },
+    {
+      "mes": "2026-02",
+      "pais": "Mexico",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "07. Sale Deeds · 02. Sale Deeds (No-HC100)",
+      "actuals": {
+        "sin_elim": 52901650.08,
+        "solo_elim": 0.0,
+        "con_elim": 52901650.08
+      },
+      "budget": {
+        "sin_elim": 44812450.354173005,
+        "solo_elim": 0.0,
+        "con_elim": 44812450.354173005
+      }
+    },
+    {
+      "mes": "2026-02",
+      "pais": "Mexico",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "08. Invoiced Sales · 01. Invoiced Sales (HC100)",
+      "actuals": {
+        "sin_elim": 54358879.58,
+        "solo_elim": 0.0,
+        "con_elim": 54358879.58
+      },
+      "budget": {
+        "sin_elim": 81287700.64245336,
+        "solo_elim": 0.0,
+        "con_elim": 81287700.64245336
+      }
+    },
+    {
+      "mes": "2026-02",
+      "pais": "Mexico",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "08. Invoiced Sales · 02. Invoiced Sales (No-HC100)",
+      "actuals": {
+        "sin_elim": 54303537.08,
+        "solo_elim": 0.0,
+        "con_elim": 54303537.08
+      },
+      "budget": {
+        "sin_elim": 44812450.354173005,
+        "solo_elim": 0.0,
+        "con_elim": 44812450.354173005
+      }
+    },
+    {
+      "mes": "2026-02",
+      "pais": "Mexico",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "10. Renovations · 01. Renovations (Cierres + Pre Cierres)",
+      "actuals": {
+        "sin_elim": 107238148.0,
+        "solo_elim": 0.0,
+        "con_elim": 107238148.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      }
+    },
+    {
+      "mes": "2026-03",
+      "pais": "Colombia",
+      "subsidiaria": null,
+      "linea": "HabiCredit",
+      "cuenta": null,
+      "cuenta_desc": "03. Loans Disbursed · 01. Market Maker Mortgages",
+      "actuals": {
+        "sin_elim": 2421573790.0,
+        "solo_elim": 0.0,
+        "con_elim": 2421573790.0
+      },
+      "budget": {
+        "sin_elim": 131333493128.99998,
+        "solo_elim": 0.0,
+        "con_elim": 131333493128.99998
+      }
+    },
+    {
+      "mes": "2026-03",
+      "pais": "Colombia",
+      "subsidiaria": null,
+      "linea": "HabiCredit",
+      "cuenta": null,
+      "cuenta_desc": "03. Loans Disbursed · 02. Non-Market Maker Mortgages",
+      "actuals": {
+        "sin_elim": 132193019533.0,
+        "solo_elim": 0.0,
+        "con_elim": 132193019533.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      }
+    },
+    {
+      "mes": "2026-03",
+      "pais": "Colombia",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "05. Sale PSAs · 01. Sale PSAs (Tradicional)",
+      "actuals": {
+        "sin_elim": 24956720511.68,
+        "solo_elim": 0.0,
+        "con_elim": 24956720511.68
+      },
+      "budget": {
+        "sin_elim": 23684047619.301525,
+        "solo_elim": 0.0,
+        "con_elim": 23684047619.301525
+      }
+    },
+    {
+      "mes": "2026-03",
+      "pais": "Colombia",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "05. Sale PSAs · 02. Sale PSAs (Alianzas)",
+      "actuals": {
+        "sin_elim": 9425098506.0,
+        "solo_elim": 0.0,
+        "con_elim": 9425098506.0
+      },
+      "budget": {
+        "sin_elim": 10107205034.988548,
+        "solo_elim": 0.0,
+        "con_elim": 10107205034.988548
+      }
+    },
+    {
+      "mes": "2026-03",
+      "pais": "Colombia",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "07. Sale Deeds · 01. Sale Deeds (Tradicional)",
+      "actuals": {
+        "sin_elim": 27718536533.0,
+        "solo_elim": 0.0,
+        "con_elim": 27718536533.0
+      },
+      "budget": {
+        "sin_elim": 27304538975.118317,
+        "solo_elim": 0.0,
+        "con_elim": 27304538975.118317
+      }
+    },
+    {
+      "mes": "2026-03",
+      "pais": "Colombia",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "07. Sale Deeds · 02. Sale Deeds (Alianzas)",
+      "actuals": {
+        "sin_elim": 11884860768.0,
+        "solo_elim": 0.0,
+        "con_elim": 11884860768.0
+      },
+      "budget": {
+        "sin_elim": 12219158325.88168,
+        "solo_elim": 0.0,
+        "con_elim": 12219158325.88168
+      }
+    },
+    {
+      "mes": "2026-03",
+      "pais": "Colombia",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "08. Invoiced Sales · 01. Invoiced Sales (Tradicional)",
+      "actuals": {
+        "sin_elim": 26879632885.0,
+        "solo_elim": 0.0,
+        "con_elim": 26879632885.0
+      },
+      "budget": {
+        "sin_elim": 27304538975.118317,
+        "solo_elim": 0.0,
+        "con_elim": 27304538975.118317
+      }
+    },
+    {
+      "mes": "2026-03",
+      "pais": "Colombia",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "08. Invoiced Sales · 02. Invoiced Sales (Alianzas)",
+      "actuals": {
+        "sin_elim": 12204387461.0,
+        "solo_elim": 0.0,
+        "con_elim": 12204387461.0
+      },
+      "budget": {
+        "sin_elim": 12219158325.88168,
+        "solo_elim": 0.0,
+        "con_elim": 12219158325.88168
+      }
+    },
+    {
+      "mes": "2026-03",
+      "pais": "Colombia",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "10. Renovations · 01. Renovations (Tradicional)",
+      "actuals": {
+        "sin_elim": 27049974282.77,
+        "solo_elim": 0.0,
+        "con_elim": 27049974282.77
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      }
+    },
+    {
+      "mes": "2026-03",
+      "pais": "Colombia",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "10. Renovations · 02. Renovations (Alianzas)",
+      "actuals": {
+        "sin_elim": 3119716237.41,
+        "solo_elim": 0.0,
+        "con_elim": 3119716237.41
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      }
+    },
+    {
+      "mes": "2026-03",
+      "pais": "Mexico",
+      "subsidiaria": null,
+      "linea": "HabiCredit",
+      "cuenta": null,
+      "cuenta_desc": "03. Loans Disbursed · 01. Market Maker Mortgages",
+      "actuals": {
+        "sin_elim": 71.0,
+        "solo_elim": 0.0,
+        "con_elim": 71.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      }
+    },
+    {
+      "mes": "2026-03",
+      "pais": "Mexico",
+      "subsidiaria": null,
+      "linea": "HabiCredit",
+      "cuenta": null,
+      "cuenta_desc": "03. Loans Disbursed · 02. Non-Market Maker Mortgages",
+      "actuals": {
+        "sin_elim": 12.0,
+        "solo_elim": 0.0,
+        "con_elim": 12.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      }
+    },
+    {
+      "mes": "2026-03",
+      "pais": "Mexico",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "05. Sale PSAs · 01. Sale PSAs (Cierres + Pre Cierres)",
+      "actuals": {
+        "sin_elim": 146764622.25,
+        "solo_elim": 0.0,
+        "con_elim": 146764622.25
+      },
+      "budget": {
+        "sin_elim": 147314432.03893134,
+        "solo_elim": 0.0,
+        "con_elim": 147314432.03893134
+      }
+    },
+    {
+      "mes": "2026-03",
+      "pais": "Mexico",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "07. Sale Deeds · 01. Sale Deeds (HC100)",
+      "actuals": {
+        "sin_elim": 21715338.0,
+        "solo_elim": 0.0,
+        "con_elim": 21715338.0
+      },
+      "budget": {
+        "sin_elim": 33391271.262157775,
+        "solo_elim": 0.0,
+        "con_elim": 33391271.262157775
+      }
+    },
+    {
+      "mes": "2026-03",
+      "pais": "Mexico",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "07. Sale Deeds · 02. Sale Deeds (No-HC100)",
+      "actuals": {
+        "sin_elim": 40531660.0,
+        "solo_elim": 0.0,
+        "con_elim": 40531660.0
+      },
+      "budget": {
+        "sin_elim": 24552405.339821894,
+        "solo_elim": 0.0,
+        "con_elim": 24552405.339821894
+      }
+    },
+    {
+      "mes": "2026-03",
+      "pais": "Mexico",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "08. Invoiced Sales · 01. Invoiced Sales (HC100)",
+      "actuals": {
+        "sin_elim": 26758928.0,
+        "solo_elim": 0.0,
+        "con_elim": 26758928.0
+      },
+      "budget": {
+        "sin_elim": 33391271.262157775,
+        "solo_elim": 0.0,
+        "con_elim": 33391271.262157775
+      }
+    },
+    {
+      "mes": "2026-03",
+      "pais": "Mexico",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "08. Invoiced Sales · 02. Invoiced Sales (No-HC100)",
+      "actuals": {
+        "sin_elim": 40531660.0,
+        "solo_elim": 0.0,
+        "con_elim": 40531660.0
+      },
+      "budget": {
+        "sin_elim": 24552405.339821894,
+        "solo_elim": 0.0,
+        "con_elim": 24552405.339821894
+      }
+    },
+    {
+      "mes": "2026-03",
+      "pais": "Mexico",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "10. Renovations · 01. Renovations (Cierres + Pre Cierres)",
+      "actuals": {
+        "sin_elim": 100710817.02,
+        "solo_elim": 0.0,
+        "con_elim": 100710817.02
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      }
+    },
+    {
+      "mes": "2026-04",
+      "pais": "Colombia",
+      "subsidiaria": null,
+      "linea": "HabiCredit",
+      "cuenta": null,
+      "cuenta_desc": "03. Loans Disbursed · 01. Market Maker Mortgages",
+      "actuals": {
+        "sin_elim": 3839969220.0,
+        "solo_elim": 0.0,
+        "con_elim": 3839969220.0
+      },
+      "budget": {
+        "sin_elim": 118320000552.5,
+        "solo_elim": 0.0,
+        "con_elim": 118320000552.5
+      }
+    },
+    {
+      "mes": "2026-04",
+      "pais": "Colombia",
+      "subsidiaria": null,
+      "linea": "HabiCredit",
+      "cuenta": null,
+      "cuenta_desc": "03. Loans Disbursed · 02. Non-Market Maker Mortgages",
+      "actuals": {
+        "sin_elim": 112212538092.0,
+        "solo_elim": 0.0,
+        "con_elim": 112212538092.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      }
+    },
+    {
+      "mes": "2026-04",
+      "pais": "Colombia",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "05. Sale PSAs · 01. Sale PSAs (Tradicional)",
+      "actuals": {
+        "sin_elim": 25235910118.94,
+        "solo_elim": 0.0,
+        "con_elim": 25235910118.94
+      },
+      "budget": {
+        "sin_elim": 28028352300.0,
+        "solo_elim": 0.0,
+        "con_elim": 28028352300.0
+      }
+    },
+    {
+      "mes": "2026-04",
+      "pais": "Colombia",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "05. Sale PSAs · 02. Sale PSAs (Alianzas)",
+      "actuals": {
+        "sin_elim": 5670203017.780001,
+        "solo_elim": 0.0,
+        "con_elim": 5670203017.780001
+      },
+      "budget": {
+        "sin_elim": 7484010299.999999,
+        "solo_elim": 0.0,
+        "con_elim": 7484010299.999999
+      }
+    },
+    {
+      "mes": "2026-04",
+      "pais": "Colombia",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "07. Sale Deeds · 01. Sale Deeds (Tradicional)",
+      "actuals": {
+        "sin_elim": 22415363083.68,
+        "solo_elim": 0.0,
+        "con_elim": 22415363083.68
+      },
+      "budget": {
+        "sin_elim": 23772738599.999996,
+        "solo_elim": 0.0,
+        "con_elim": 23772738599.999996
+      }
+    },
+    {
+      "mes": "2026-04",
+      "pais": "Colombia",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "07. Sale Deeds · 02. Sale Deeds (Alianzas)",
+      "actuals": {
+        "sin_elim": 7831164715.0,
+        "solo_elim": 0.0,
+        "con_elim": 7831164715.0
+      },
+      "budget": {
+        "sin_elim": 6361523999.999999,
+        "solo_elim": 0.0,
+        "con_elim": 6361523999.999999
+      }
+    },
+    {
+      "mes": "2026-04",
+      "pais": "Colombia",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "08. Invoiced Sales · 01. Invoiced Sales (Tradicional)",
+      "actuals": {
+        "sin_elim": 18380671077.68,
+        "solo_elim": 0.0,
+        "con_elim": 18380671077.68
+      },
+      "budget": {
+        "sin_elim": 23772738599.999996,
+        "solo_elim": 0.0,
+        "con_elim": 23772738599.999996
+      }
+    },
+    {
+      "mes": "2026-04",
+      "pais": "Colombia",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "08. Invoiced Sales · 02. Invoiced Sales (Alianzas)",
+      "actuals": {
+        "sin_elim": 5711148577.0,
+        "solo_elim": 0.0,
+        "con_elim": 5711148577.0
+      },
+      "budget": {
+        "sin_elim": 6361523999.999999,
+        "solo_elim": 0.0,
+        "con_elim": 6361523999.999999
+      }
+    },
+    {
+      "mes": "2026-04",
+      "pais": "Colombia",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "10. Renovations · 01. Renovations (Tradicional)",
+      "actuals": {
+        "sin_elim": 28509798973.029995,
+        "solo_elim": 0.0,
+        "con_elim": 28509798973.029995
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      }
+    },
+    {
+      "mes": "2026-04",
+      "pais": "Colombia",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "10. Renovations · 02. Renovations (Alianzas)",
+      "actuals": {
+        "sin_elim": 4426044455.32,
+        "solo_elim": 0.0,
+        "con_elim": 4426044455.32
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      }
+    },
+    {
+      "mes": "2026-04",
+      "pais": "Mexico",
+      "subsidiaria": null,
+      "linea": "HabiCredit",
+      "cuenta": null,
+      "cuenta_desc": "03. Loans Disbursed · 01. Market Maker Mortgages",
+      "actuals": {
+        "sin_elim": 39.0,
+        "solo_elim": 0.0,
+        "con_elim": 39.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      }
+    },
+    {
+      "mes": "2026-04",
+      "pais": "Mexico",
+      "subsidiaria": null,
+      "linea": "HabiCredit",
+      "cuenta": null,
+      "cuenta_desc": "03. Loans Disbursed · 02. Non-Market Maker Mortgages",
+      "actuals": {
+        "sin_elim": 8.0,
+        "solo_elim": 0.0,
+        "con_elim": 8.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      }
+    },
+    {
+      "mes": "2026-04",
+      "pais": "Mexico",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "05. Sale PSAs · 01. Sale PSAs (Cierres + Pre Cierres)",
+      "actuals": {
+        "sin_elim": 119132843.02,
+        "solo_elim": 0.0,
+        "con_elim": 119132843.02
+      },
+      "budget": {
+        "sin_elim": 138312293.4718218,
+        "solo_elim": 0.0,
+        "con_elim": 138312293.4718218
+      }
+    },
+    {
+      "mes": "2026-04",
+      "pais": "Mexico",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "07. Sale Deeds · 01. Sale Deeds (HC100)",
+      "actuals": {
+        "sin_elim": 73446802.0,
+        "solo_elim": 0.0,
+        "con_elim": 73446802.0
+      },
+      "budget": {
+        "sin_elim": 83168176.4667164,
+        "solo_elim": 0.0,
+        "con_elim": 83168176.4667164
+      }
+    },
+    {
+      "mes": "2026-04",
+      "pais": "Mexico",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "07. Sale Deeds · 02. Sale Deeds (No-HC100)",
+      "actuals": {
+        "sin_elim": 61552758.0,
+        "solo_elim": 0.0,
+        "con_elim": 61552758.0
+      },
+      "budget": {
+        "sin_elim": 35256074.80654282,
+        "solo_elim": 0.0,
+        "con_elim": 35256074.80654282
+      }
+    },
+    {
+      "mes": "2026-04",
+      "pais": "Mexico",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "08. Invoiced Sales · 01. Invoiced Sales (HC100)",
+      "actuals": {
+        "sin_elim": 75178842.0,
+        "solo_elim": 0.0,
+        "con_elim": 75178842.0
+      },
+      "budget": {
+        "sin_elim": 83168176.4667164,
+        "solo_elim": 0.0,
+        "con_elim": 83168176.4667164
+      }
+    },
+    {
+      "mes": "2026-04",
+      "pais": "Mexico",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "08. Invoiced Sales · 02. Invoiced Sales (No-HC100)",
+      "actuals": {
+        "sin_elim": 61552758.0,
+        "solo_elim": 0.0,
+        "con_elim": 61552758.0
+      },
+      "budget": {
+        "sin_elim": 35256074.80654282,
+        "solo_elim": 0.0,
+        "con_elim": 35256074.80654282
+      }
+    },
+    {
+      "mes": "2026-04",
+      "pais": "Mexico",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "10. Renovations · 01. Renovations (Cierres + Pre Cierres)",
+      "actuals": {
+        "sin_elim": 85464097.0,
+        "solo_elim": 0.0,
+        "con_elim": 85464097.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      }
+    },
+    {
+      "mes": "2026-05",
+      "pais": "Colombia",
+      "subsidiaria": null,
+      "linea": "HabiCredit",
+      "cuenta": null,
+      "cuenta_desc": "03. Loans Disbursed · 01. Market Maker Mortgages",
+      "actuals": {
+        "sin_elim": 6003387306.0,
+        "solo_elim": 0.0,
+        "con_elim": 6003387306.0
+      },
+      "budget": {
+        "sin_elim": 131070000612.0,
+        "solo_elim": 0.0,
+        "con_elim": 131070000612.0
+      }
+    },
+    {
+      "mes": "2026-05",
+      "pais": "Colombia",
+      "subsidiaria": null,
+      "linea": "HabiCredit",
+      "cuenta": null,
+      "cuenta_desc": "03. Loans Disbursed · 02. Non-Market Maker Mortgages",
+      "actuals": {
+        "sin_elim": 106627848825.0,
+        "solo_elim": 0.0,
+        "con_elim": 106627848825.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      }
+    },
+    {
+      "mes": "2026-05",
+      "pais": "Colombia",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "05. Sale PSAs · 01. Sale PSAs (Tradicional)",
+      "actuals": {
+        "sin_elim": 28362351845.070004,
+        "solo_elim": 0.0,
+        "con_elim": 28362351845.070004
+      },
+      "budget": {
+        "sin_elim": 24850022399.999996,
+        "solo_elim": 0.0,
+        "con_elim": 24850022399.999996
+      }
+    },
+    {
+      "mes": "2026-05",
+      "pais": "Colombia",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "05. Sale PSAs · 02. Sale PSAs (Alianzas)",
+      "actuals": {
+        "sin_elim": 6779472068.240001,
+        "solo_elim": 0.0,
+        "con_elim": 6779472068.240001
+      },
+      "budget": {
+        "sin_elim": 10058342400.0,
+        "solo_elim": 0.0,
+        "con_elim": 10058342400.0
+      }
+    },
+    {
+      "mes": "2026-05",
+      "pais": "Colombia",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "07. Sale Deeds · 01. Sale Deeds (Tradicional)",
+      "actuals": {
+        "sin_elim": 22834657767.0,
+        "solo_elim": 0.0,
+        "con_elim": 22834657767.0
+      },
+      "budget": {
+        "sin_elim": 22779187200.0,
+        "solo_elim": 0.0,
+        "con_elim": 22779187200.0
+      }
+    },
+    {
+      "mes": "2026-05",
+      "pais": "Colombia",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "07. Sale Deeds · 02. Sale Deeds (Alianzas)",
+      "actuals": {
+        "sin_elim": 9202733053.0,
+        "solo_elim": 0.0,
+        "con_elim": 9202733053.0
+      },
+      "budget": {
+        "sin_elim": 6656255999.999999,
+        "solo_elim": 0.0,
+        "con_elim": 6656255999.999999
+      }
+    },
+    {
+      "mes": "2026-05",
+      "pais": "Colombia",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "08. Invoiced Sales · 01. Invoiced Sales (Tradicional)",
+      "actuals": {
+        "sin_elim": 24646059008.0,
+        "solo_elim": 0.0,
+        "con_elim": 24646059008.0
+      },
+      "budget": {
+        "sin_elim": 22779187200.0,
+        "solo_elim": 0.0,
+        "con_elim": 22779187200.0
+      }
+    },
+    {
+      "mes": "2026-05",
+      "pais": "Colombia",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "08. Invoiced Sales · 02. Invoiced Sales (Alianzas)",
+      "actuals": {
+        "sin_elim": 8553514629.0,
+        "solo_elim": 0.0,
+        "con_elim": 8553514629.0
+      },
+      "budget": {
+        "sin_elim": 6656255999.999999,
+        "solo_elim": 0.0,
+        "con_elim": 6656255999.999999
+      }
+    },
+    {
+      "mes": "2026-05",
+      "pais": "Colombia",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "10. Renovations · 01. Renovations (Tradicional)",
+      "actuals": {
+        "sin_elim": 23016043185.620003,
+        "solo_elim": 0.0,
+        "con_elim": 23016043185.620003
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      }
+    },
+    {
+      "mes": "2026-05",
+      "pais": "Colombia",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "10. Renovations · 02. Renovations (Alianzas)",
+      "actuals": {
+        "sin_elim": 7132844912.56,
+        "solo_elim": 0.0,
+        "con_elim": 7132844912.56
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      }
+    },
+    {
+      "mes": "2026-05",
+      "pais": "Mexico",
+      "subsidiaria": null,
+      "linea": "HabiCredit",
+      "cuenta": null,
+      "cuenta_desc": "03. Loans Disbursed · 01. Market Maker Mortgages",
+      "actuals": {
+        "sin_elim": 69.0,
+        "solo_elim": 0.0,
+        "con_elim": 69.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      }
+    },
+    {
+      "mes": "2026-05",
+      "pais": "Mexico",
+      "subsidiaria": null,
+      "linea": "HabiCredit",
+      "cuenta": null,
+      "cuenta_desc": "03. Loans Disbursed · 02. Non-Market Maker Mortgages",
+      "actuals": {
+        "sin_elim": 13.0,
+        "solo_elim": 0.0,
+        "con_elim": 13.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      }
+    },
+    {
+      "mes": "2026-05",
+      "pais": "Mexico",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "05. Sale PSAs · 01. Sale PSAs (Cierres + Pre Cierres)",
+      "actuals": {
+        "sin_elim": 124478016.52,
+        "solo_elim": 0.0,
+        "con_elim": 124478016.52
+      },
+      "budget": {
+        "sin_elim": 119808252.768941,
+        "solo_elim": 0.0,
+        "con_elim": 119808252.768941
+      }
+    },
+    {
+      "mes": "2026-05",
+      "pais": "Mexico",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "07. Sale Deeds · 01. Sale Deeds (HC100)",
+      "actuals": {
+        "sin_elim": 58202797.0,
+        "solo_elim": 0.0,
+        "con_elim": 58202797.0
+      },
+      "budget": {
+        "sin_elim": 80779806.79117993,
+        "solo_elim": 0.0,
+        "con_elim": 80779806.79117993
+      }
+    },
+    {
+      "mes": "2026-05",
+      "pais": "Mexico",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "07. Sale Deeds · 02. Sale Deeds (No-HC100)",
+      "actuals": {
+        "sin_elim": 59064410.0,
+        "solo_elim": 0.0,
+        "con_elim": 59064410.0
+      },
+      "budget": {
+        "sin_elim": 35397892.86355075,
+        "solo_elim": 0.0,
+        "con_elim": 35397892.86355075
+      }
+    },
+    {
+      "mes": "2026-05",
+      "pais": "Mexico",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "08. Invoiced Sales · 01. Invoiced Sales (HC100)",
+      "actuals": {
+        "sin_elim": 61314890.0,
+        "solo_elim": 0.0,
+        "con_elim": 61314890.0
+      },
+      "budget": {
+        "sin_elim": 80779806.79117993,
+        "solo_elim": 0.0,
+        "con_elim": 80779806.79117993
+      }
+    },
+    {
+      "mes": "2026-05",
+      "pais": "Mexico",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "08. Invoiced Sales · 02. Invoiced Sales (No-HC100)",
+      "actuals": {
+        "sin_elim": 59064410.0,
+        "solo_elim": 0.0,
+        "con_elim": 59064410.0
+      },
+      "budget": {
+        "sin_elim": 35397892.86355075,
+        "solo_elim": 0.0,
+        "con_elim": 35397892.86355075
+      }
+    },
+    {
+      "mes": "2026-05",
+      "pais": "Mexico",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "cuenta": null,
+      "cuenta_desc": "10. Renovations · 01. Renovations (Cierres + Pre Cierres)",
+      "actuals": {
+        "sin_elim": 104620834.0,
+        "solo_elim": 0.0,
+        "con_elim": 104620834.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      }
+    }
+  ]
+}
