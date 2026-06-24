@@ -1,0 +1,25 @@
+[project]
+name = "habi-dashboard"
+version = "0.1.0"
+description = "Dashboard ejecutivo de KPIs Habi — sitio estatico + refresh manual contra BigQuery"
+requires-python = ">=3.12"
+dependencies = [
+    "google-cloud-bigquery>=3.25",
+    "pandas>=2.2",
+    "db-dtypes>=1.3",
+    "python-dotenv>=1.0",
+]
+
+[dependency-groups]
+dev = [
+    "ruff>=0.6",
+    "pytest>=8.0",
+]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "W", "UP", "B"]
+ignore = ["E501"]

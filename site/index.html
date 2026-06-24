@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Habi · Dashboard Ejecutivo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<!-- ============================================================ HEADER ==== -->
+<header class="topbar">
+  <div class="topbar-inner">
+    <div class="brand">
+      <div class="logo">habi</div>
+      <div>
+        <div class="eyebrow">DASHBOARD EJECUTIVO</div>
+        <h1>Resultado y Capital</h1>
+        <div class="sub" id="contextLabel">Cargando…</div>
+      </div>
+    </div>
+    <div class="asof">
+      <div class="ttl">DATA AL</div>
+      <div class="row"><span class="k">Corte</span><b id="mesCorte">—</b></div>
+      <div class="row"><span class="k">Refresh</span><b id="refreshAt">—</b></div>
+    </div>
+  </div>
+</header>
+
+<!-- ============================================================= LAYOUT === -->
+<div class="layout">
+
+  <!-- ============= SIDEBAR de filtros =================== -->
+  <aside class="sidebar">
+    <div class="card-filter">
+      <div class="filter-grp">
+        <div class="filter-lbl">Mes de corte</div>
+        <select id="fMes"></select>
+      </div>
+      <div class="filter-grp">
+        <div class="filter-lbl">País</div>
+        <select id="fPais"></select>
+      </div>
+      <div class="filter-grp">
+        <div class="filter-lbl">Subsidiaria</div>
+        <select id="fSubsidiaria"></select>
+      </div>
+      <div class="filter-grp">
+        <div class="filter-lbl">Línea de negocio</div>
+        <select id="fLinea"></select>
+      </div>
+    </div>
+
+    <div class="card-filter">
+      <div class="filter-lbl">Moneda</div>
+      <div class="seg" id="segMoneda">
+        <button data-val="LOCAL" class="on">Local</button>
+        <button data-val="USD">USD</button>
+      </div>
+      <div class="filter-lbl mt12">Tipo de cambio</div>
+      <div class="fx-row">
+        <label>COP → USD</label>
+        <input type="number" id="fxCOP" step="50" min="1">
+      </div>
+      <div class="fx-row">
+        <label>MXN → USD</label>
+        <input type="number" id="fxMXN" step="0.1" min="0.1">
+      </div>
+    </div>
+
+    <div class="card-filter">
+      <div class="filter-lbl">Eliminaciones intercompañía</div>
+      <div class="seg vstack" id="segElim">
+        <button data-val="sin_elim" class="on">Excluir (default)</button>
+        <button data-val="con_elim">Incluir</button>
+        <button data-val="solo_elim">Ver solo eliminaciones</button>
+      </div>
+    </div>
+
+    <div class="footer-note">
+      <b>Estados:</b><br>
+      <span class="legend"><span class="ldot real"></span>real</span>
+      <span class="legend"><span class="ldot parcial"></span>parcial</span>
+      <span class="legend"><span class="ldot ejemplo"></span>ejemplo</span>
+      <span class="legend"><span class="ldot pendiente"></span>pendiente</span>
+    </div>
+  </aside>
+
+  <!-- ============= MAIN ================================== -->
+  <main class="main">
+
+    <!-- HEALTH SNAPSHOT -->
+    <section class="snapshot">
+      <div class="snap-title">
+        <span class="stag">SNAPSHOT</span>
+        <span class="stitle">¿Dónde poner el ojo este mes?</span>
+      </div>
+      <div class="snap-grid" id="snapshot"></div>
+    </section>
+
+    <!-- 4.1 -->
+    <section>
+      <div class="sec-band">
+        <span class="stag">4.1</span>
+        <span class="stitle">Resultado y rentabilidad</span>
+        <span class="ssub" id="ctx41">—</span>
+      </div>
+      <div class="kpi-grid" id="grid41"></div>
+    </section>
+
+    <!-- 4.2 -->
+    <section>
+      <div class="sec-band">
+        <span class="stag">4.2</span>
+        <span class="stitle">Capital, balance y liquidez</span>
+        <span class="ssub">en construcción</span>
+      </div>
+      <div class="kpi-grid" id="grid42"></div>
+    </section>
+
+    <footer class="page-foot" id="pageFoot"></footer>
+  </main>
+</div>
+
+<!-- ===================================================== DRILL MODAL ===== -->
+<div class="modal" id="drillModal" hidden>
+  <div class="modal-inner">
+    <header class="modal-head">
+      <div>
+        <div class="modal-eyebrow" id="drillEyebrow">DRILL-DOWN</div>
+        <h2 id="drillTitle">—</h2>
+        <div class="modal-sub" id="drillSub">—</div>
+      </div>
+      <button class="modal-close" id="drillClose" aria-label="Cerrar">×</button>
+    </header>
+    <div class="modal-body" id="drillBody"></div>
+  </div>
+</div>
+
+<script src="js/app.js"></script>
+</body>
+</html>

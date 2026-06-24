@@ -1,0 +1,28 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.pytest_cache/
+
+# uv
+.python-version.lock
+
+# Editor / OS
+.DS_Store
+.vscode/
+.idea/
+
+# Datos sensibles — los JSONs SI se versionan (no contienen datos crudos, solo agregados),
+# pero excluimos respaldos y exportaciones puntuales
+site/data/*.backup.json
+site/data/*.raw.json
+*.csv
+
+# Credenciales — NUNCA committear
+.env
+.env.local
+*-credentials.json
+*-service-account.json
+.streamlit/secrets.toml

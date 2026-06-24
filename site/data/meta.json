@@ -1,0 +1,10 @@
+{
+  "generado_en": "2026-06-24T11:04:02",
+  "mes_corte": "2026-05-01",
+  "mes_corte_label": "May 2026",
+  "fx_default": {
+    "COP": 3700.0,
+    "MXN": 18.5,
+    "USD": 1.0
+  }
+}
