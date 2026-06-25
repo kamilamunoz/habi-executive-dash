@@ -161,7 +161,8 @@ def build(mes_corte: dt.date) -> dict[str, Any]:
         "nombre": "EBITDA",
         "seccion": "4.1",
         "unidad": "MONEDA_CON_RATIO",
-        "ratio_label": "EBITDA Margin",
+        "ratio_label": "EBITDA / Adj. Rev.",
+        "ratio_against": "ingresos_ajustados",
         "estado": "real",
         "fuente": "bet_data_p2 · Gross Profit + Other Costs + Operating Expenses",
         "receta": {

@@ -18,7 +18,7 @@ import logging
 import time
 
 from scripts._common import DATA_DIR, FX_DEFAULT, mes_corte_default, mes_label
-from scripts.kpis import burn, contribution, ebitda, gmv, ingresos, margen, opex
+from scripts.kpis import adj_ingresos, burn, contribution, ebitda, gmv, ingresos, margen, opex
 
 logging.basicConfig(
     level=logging.INFO,
@@ -30,6 +30,7 @@ log = logging.getLogger("refresh")
 
 KPIS = [
     ("kpi_ingresos.json", ingresos),
+    ("kpi_ingresos_ajustados.json", adj_ingresos),
     ("kpi_gmv.json", gmv),
     ("kpi_margen_bruto.json", margen),
     ("kpi_contribution.json", contribution),

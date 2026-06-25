@@ -48,12 +48,13 @@ const LINEAS_POR_PAIS = {
 };
 const KPIS_41 = [
   { id: "ingresos_totales",    nombre: "Total Revenue",          file: "kpi_ingresos.json" },
+  { id: "ingresos_ajustados",  nombre: "Adjusted Revenue",       file: "kpi_ingresos_ajustados.json" },
   { id: "gmv",                 nombre: "GMV / Transacted Value", file: "kpi_gmv.json" },
   { id: "margen_bruto",        nombre: "Gross Margin",           file: "kpi_margen_bruto.json" },
   { id: "contribution_margin", nombre: "Contribution Margin",    file: "kpi_contribution.json" },
   { id: "ebitda",              nombre: "EBITDA",                 file: "kpi_ebitda.json" },
   { id: "opex_ingreso",        nombre: "OpEx",                   file: "kpi_opex.json" },
-  { id: "burn_runway",         nombre: "Net Burn",               file: "kpi_burn.json" },
+  { id: "burn_runway",         nombre: "Net Burn",               file: null, pendingMsg: "Confirming data source" },
 ];
 const KPIS_42 = [
   { id: "inventario_libros",   nombre: "Inventory on books",         file: null },
@@ -530,10 +531,12 @@ function perfColor(diff, invertir){
 function renderCard(kpiDef){
   const data = STATE.kpis[kpiDef.id];
   if(!data){
+    const msg = kpiDef.pendingMsg || "No source yet";
+    const sub = kpiDef.pendingMsg ? "Tile temporarily disabled" : "To be built";
     return `<div class="card pendiente">
       <div class="kpi-name"><span class="nm">${kpiDef.nombre}</span><span class="tag pendiente">Pending</span></div>
-      <div class="val">No source yet</div>
-      <div class="src">To be built</div>
+      <div class="val">${msg}</div>
+      <div class="src">${sub}</div>
     </div>`;
   }
   const {actuals, budget, paisLocal, ratio, ratio_budget} = montoMesActual(data);
@@ -782,14 +785,26 @@ function abrirDrill(kpiId){
   // Si el KPI tiene ratio (Margen, Contribution, EBITDA), agregamos toggle $/%
   const hasRatioChart = conRatio;
   if(hasRatioChart){
-    // Para el chart en %, computamos GP/Rev por mes (no sumar facts directamente —
-    // las facts traen revenue_actuals por fila, sumamos por mes y dividimos).
+    // Para el chart en %, computamos GP/Rev por mes. Si data.ratio_against esta
+    // definido y el KPI referenciado esta cargado, usamos su revenue (caso EBITDA
+    // contra Adjusted Revenue). Sino, usamos los revenue_actuals embedded en el
+    // propio fact (caso Margen, Contribution).
     const revPorMes = new Map();
-    for(const r of filtered){
-      const ex = revPorMes.get(r.mes) || {revenue_a: 0, revenue_b: 0};
-      ex.revenue_a += convertir((r.revenue_actuals && r.revenue_actuals[elim]) || 0, r.pais) || 0;
-      ex.revenue_b += convertir((r.revenue_budget && r.revenue_budget[elim]) || 0, r.pais) || 0;
-      revPorMes.set(r.mes, ex);
+    if(data.ratio_against && STATE.kpis[data.ratio_against]){
+      const refFacts = filtrarFacts(STATE.kpis[data.ratio_against].facts, f);
+      for(const r of refFacts){
+        const ex = revPorMes.get(r.mes) || {revenue_a: 0, revenue_b: 0};
+        ex.revenue_a += convertir((r.actuals && r.actuals[elim]) || 0, r.pais) || 0;
+        ex.revenue_b += convertir((r.budget && r.budget[elim]) || 0, r.pais) || 0;
+        revPorMes.set(r.mes, ex);
+      }
+    } else {
+      for(const r of filtered){
+        const ex = revPorMes.get(r.mes) || {revenue_a: 0, revenue_b: 0};
+        ex.revenue_a += convertir((r.revenue_actuals && r.revenue_actuals[elim]) || 0, r.pais) || 0;
+        ex.revenue_b += convertir((r.revenue_budget && r.revenue_budget[elim]) || 0, r.pais) || 0;
+        revPorMes.set(r.mes, ex);
+      }
     }
     const seriePct = serieMensual.map(s => {
       const rev = revPorMes.get(s.mes) || {revenue_a:0, revenue_b:0};
@@ -812,7 +827,7 @@ function abrirDrill(kpiId){
         ${lineChartSVG(serieMensual, monedaSerie, "MONEY")}
       </div>
       <div class="chart-pane" data-pane="pct">
-        <div class="chart-unit-label">% of Revenue</div>
+        <div class="chart-unit-label">% of ${data.ratio_against === "ingresos_ajustados" ? "Adj. Revenue" : "Revenue"}</div>
         ${lineChartSVG(seriePct, "PCT", "PCT")}
       </div>
     </div>`;
@@ -868,6 +883,11 @@ function abrirDrill(kpiId){
   if(kpiId === "ingresos_totales"){
     html += `<div class="drill-note">
       <b>Note</b>: If values don't match your reference, the first suspect is the filter <code>m_metrica != '01. Total Revenue'</code>, which excludes the aggregate marker row.
+    </div>`;
+  }
+  if(kpiId === "ingresos_ajustados"){
+    html += `<div class="drill-note">
+      <b>How the adjustment works</b>: Revenue BET <i>minus</i> MM Sales BET <i>plus</i> Σ <code>c_precio</code> from <code>finance_tapes_global</code> for the NIDs invoiced in BET MM. Pivot month = <code>c_fecha_factura</code>. Intercompany counterparties (MCN, Merbos, MCNEmexico) excluded. The delta is booked to the MM pivot subsidiary by country: <b>Habi</b> for CO, <b>Corporativo</b> for MX. Other subsidiaries keep flat revenue. Budget is <b>not</b> adjusted — comparison vs budget uses plain revenue.
     </div>`;
   }
 

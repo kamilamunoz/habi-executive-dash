@@ -138,8 +138,8 @@ def build(mes_corte: dt.date) -> dict[str, Any]:
         "unidad": "MONEDA",
         "estado": "real",
         "fuente": "bet_data_p2 · c_total_reporte='3 Operating Expenses' · Financials",
-        "ratio_against": "ingresos_totales",
-        "ratio_label": "OpEx/Revenue",
+        "ratio_against": "ingresos_ajustados",
+        "ratio_label": "OpEx/Adj. Rev.",
         "invertir_delta": True,  # mas OpEx = peor (rojo)
         "receta": {
             "tabla": TABLE_BET,
