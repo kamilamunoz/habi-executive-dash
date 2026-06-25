@@ -57,7 +57,7 @@ const KPIS_41 = [
   { id: "burn_runway",         nombre: "Net Burn",               file: null, pendingMsg: "Confirming data source" },
 ];
 const KPIS_42 = [
-  { id: "inventario_libros",   nombre: "Inventory on books",         file: null },
+  { id: "inventario",          nombre: "Inventory on books",         file: "kpi_inventario.json" },
   { id: "antiguedad_inv",      nombre: "Inventory aging",            file: null },
   { id: "capital_roic",        nombre: "Capital deployed / ROIC",    file: null },
   { id: "ciclo_caja",          nombre: "Cash conversion cycle",      file: null },
@@ -838,6 +838,53 @@ function abrirDrill(kpiId){
     </div>`;
   }
 
+  // Bloque de reconciliacion Books vs Operativo (solo KPI inventario)
+  if(kpiId === "inventario" && data.reconciliation){
+    const paisesAMostrar = f.pais === "Global"
+      ? ["Colombia", "Mexico"]
+      : [f.pais];
+    let recoRows = "";
+    for(const p of paisesAMostrar){
+      const rec = data.reconciliation.find(r => r.mes === f.mes && r.pais === p);
+      const booksFacts = filtered.filter(r => r.mes === f.mes && r.pais === p);
+      const books = booksFacts.reduce((acc, r) => acc + ((r.actuals && r.actuals[elim]) || 0), 0);
+      if(!rec && books === 0) continue;
+      const op = rec ? rec.valor_compra : 0;
+      const delta = books - op;
+      const mon = f.moneda === "USD" ? "USD" : monedaDePais(p);
+      const booksDisp = f.moneda === "USD" ? convertir(books, p) : books;
+      const opDisp    = f.moneda === "USD" ? convertir(op, p)    : op;
+      const deltaDisp = f.moneda === "USD" ? convertir(delta, p) : delta;
+      const ctargetDisp = f.moneda === "USD" ? convertir(rec ? rec.valor_venta_target : 0, p) : (rec ? rec.valor_venta_target : 0);
+      const deltaPct = op !== 0 ? (delta/op) : null;
+      const flagCls = Math.abs(deltaPct || 0) > 0.02 ? "perf-amber" : "perf-green";
+      recoRows += `<tr class="${flagCls}">
+        <td><b>${p}</b></td>
+        <td class="num">${fmtMoneda(booksDisp, mon)}</td>
+        <td class="num">${fmtMoneda(opDisp, mon)}</td>
+        <td class="num">${rec ? rec.nids_vivos.toLocaleString() : "—"}</td>
+        <td class="num">${rec ? fmtMoneda(ctargetDisp, mon) : "—"}</td>
+        <td class="num">${fmtMoneda(deltaDisp, mon)}</td>
+        <td class="num">${deltaPct != null ? (deltaPct*100).toFixed(2) + "%" : "—"}</td>
+      </tr>`;
+    }
+    html += `<div class="drill-block">
+      <h3>Books vs Operativo · ${mesYYYYMM_a_label(f.mes)}</h3>
+      <table class="drill-table">
+        <thead><tr>
+          <th>Country</th>
+          <th style="text-align:right">Books (BET drivers)</th>
+          <th style="text-align:right">Operativo (Σ v_precio)</th>
+          <th style="text-align:right"># NIDs alive</th>
+          <th style="text-align:right">Σ c_precio target</th>
+          <th style="text-align:right">Delta</th>
+          <th style="text-align:right">Delta %</th>
+        </tr></thead>
+        <tbody>${recoRows || `<tr><td colspan="7" class="drill-empty">No data.</td></tr>`}</tbody>
+      </table>
+    </div>`;
+  }
+
   // Top 20 detalle — respeta TODOS los filtros activos.
   // Si el KPI tiene cuenta contable, se muestra como tabla cuenta+descripcion.
   // Si no (ej. GMV), se muestra como "Detalle" con la submetrica completa.
@@ -890,6 +937,11 @@ function abrirDrill(kpiId){
       <b>How the adjustment works</b>: Revenue BET <i>minus</i> MM Sales BET <i>plus</i> Σ <code>c_precio</code> from <code>finance_tapes_global</code> for the NIDs invoiced in BET MM. Pivot month = <code>c_fecha_factura</code>. Intercompany counterparties (MCN, Merbos, MCNEmexico) excluded. The delta is booked to the MM pivot subsidiary by country: <b>Habi</b> for CO, <b>Corporativo</b> for MX. Other subsidiaries keep flat revenue. Budget is <b>not</b> adjusted — comparison vs budget uses plain revenue.
     </div>`;
   }
+  if(kpiId === "inventario"){
+    html += `<div class="drill-note">
+      <b>Books vs Operativo</b>: "Books" comes from <code>bet_data_p2</code> drivers (<code>m_metrica='03. Inventory'</code>). "Operativo" reconstructs live inventory at month close from <code>finance_tapes_global</code>: NIDs with <code>v_fecha_escritura</code> (purchase) and no <code>c_fecha_escritura</code> (sale) at the cut, filtered to <code>desistimientos = 'No desistidos'</code>, valued at <code>v_precio</code> (purchase cost). Significant delta = timing or registry inconsistency to investigate.
+    </div>`;
+  }
 
   document.getElementById("drillBody").innerHTML = html;
   document.getElementById("drillModal").hidden = false;
@@ -936,7 +988,7 @@ function render(){
 
   document.getElementById("pageFoot").innerHTML =
     `<b>Manual refresh</b> · run <code>make refresh</code> to regenerate the JSONs from BigQuery.<br>` +
-    `KPIs marked as <b>pending</b> are awaiting their data source. Section 4.1 is complete; 4.2 is next.`;
+    `KPIs marked as <b>pending</b> are awaiting their data source. Section 4.1 complete; 4.2 in progress (Inventory on books live).`;
 }
 
 /* ============================================================ INIT ===== */

@@ -1,0 +1,970 @@
+{
+  "id": "inventario",
+  "nombre": "Inventory on books",
+  "seccion": "4.2",
+  "unidad": "MONEDA",
+  "estado": "real",
+  "fuente": "bet_data_p2 drivers Inventory; reconciled vs finance_tapes_global (NIDs con v_fecha_escritura sin c_fecha_escritura, no desistidos).",
+  "receta": {
+    "tabla_books": "papyrus-delivery-data.corp_gov_global.bet_data_p2",
+    "tabla_operativo": "clients-domain-data-master.finance_wh_bi.finance_tapes_global",
+    "filtros_books": [
+      "m_tipo = '3. Drivers'",
+      "m_categoria = '03. Balance General'",
+      "m_metrica = '03. Inventory'"
+    ],
+    "filtros_operativo": [
+      "v_fecha_escritura IS NOT NULL AND v_fecha_escritura <= cierre_mes",
+      "c_fecha_escritura IS NULL OR c_fecha_escritura > cierre_mes",
+      "desistimientos = 'No desistidos'"
+    ],
+    "valuacion_operativo": "v_precio (precio compra Habi)",
+    "monedas": {
+      "1. Colombia": "COP",
+      "2. Mexico": "MXN",
+      "3. Offshore": "USD"
+    }
+  },
+  "meses_disponibles": [
+    "2025-05",
+    "2025-06",
+    "2025-07",
+    "2025-08",
+    "2025-09",
+    "2025-10",
+    "2025-11",
+    "2025-12",
+    "2026-01",
+    "2026-02",
+    "2026-03",
+    "2026-04",
+    "2026-05"
+  ],
+  "facts": [
+    {
+      "mes": "2025-05",
+      "pais": "Colombia",
+      "subsidiaria": null,
+      "linea": null,
+      "cuenta": null,
+      "cuenta_desc": null,
+      "es_ajuste": false,
+      "actuals": {
+        "sin_elim": 249999463238.88004,
+        "solo_elim": 0.0,
+        "con_elim": 249999463238.88004
+      },
+      "budget": {
+        "sin_elim": 286698455247.11,
+        "solo_elim": 0.0,
+        "con_elim": 286698455247.11
+      }
+    },
+    {
+      "mes": "2025-05",
+      "pais": "Mexico",
+      "subsidiaria": null,
+      "linea": null,
+      "cuenta": null,
+      "cuenta_desc": null,
+      "es_ajuste": false,
+      "actuals": {
+        "sin_elim": 956820921.42,
+        "solo_elim": 0.0,
+        "con_elim": 956820921.42
+      },
+      "budget": {
+        "sin_elim": 1070774932.07,
+        "solo_elim": 0.0,
+        "con_elim": 1070774932.07
+      }
+    },
+    {
+      "mes": "2025-05",
+      "pais": "Offshore",
+      "subsidiaria": null,
+      "linea": null,
+      "cuenta": null,
+      "cuenta_desc": null,
+      "es_ajuste": false,
+      "actuals": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      }
+    },
+    {
+      "mes": "2025-06",
+      "pais": "Colombia",
+      "subsidiaria": null,
+      "linea": null,
+      "cuenta": null,
+      "cuenta_desc": null,
+      "es_ajuste": false,
+      "actuals": {
+        "sin_elim": 240428842275.43002,
+        "solo_elim": 0.0,
+        "con_elim": 240428842275.43002
+      },
+      "budget": {
+        "sin_elim": 291705102981.48,
+        "solo_elim": 0.0,
+        "con_elim": 291705102981.48
+      }
+    },
+    {
+      "mes": "2025-06",
+      "pais": "Mexico",
+      "subsidiaria": null,
+      "linea": null,
+      "cuenta": null,
+      "cuenta_desc": null,
+      "es_ajuste": false,
+      "actuals": {
+        "sin_elim": 887042741.1199999,
+        "solo_elim": 0.0,
+        "con_elim": 887042741.1199999
+      },
+      "budget": {
+        "sin_elim": 1051233083.53,
+        "solo_elim": 0.0,
+        "con_elim": 1051233083.53
+      }
+    },
+    {
+      "mes": "2025-06",
+      "pais": "Offshore",
+      "subsidiaria": null,
+      "linea": null,
+      "cuenta": null,
+      "cuenta_desc": null,
+      "es_ajuste": false,
+      "actuals": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      }
+    },
+    {
+      "mes": "2025-07",
+      "pais": "Colombia",
+      "subsidiaria": null,
+      "linea": null,
+      "cuenta": null,
+      "cuenta_desc": null,
+      "es_ajuste": false,
+      "actuals": {
+        "sin_elim": 236747870316.19003,
+        "solo_elim": 0.0,
+        "con_elim": 236747870316.19003
+      },
+      "budget": {
+        "sin_elim": 293709416514.3,
+        "solo_elim": 0.0,
+        "con_elim": 293709416514.3
+      }
+    },
+    {
+      "mes": "2025-07",
+      "pais": "Mexico",
+      "subsidiaria": null,
+      "linea": null,
+      "cuenta": null,
+      "cuenta_desc": null,
+      "es_ajuste": false,
+      "actuals": {
+        "sin_elim": 859664928.3399999,
+        "solo_elim": 0.0,
+        "con_elim": 859664928.3399999
+      },
+      "budget": {
+        "sin_elim": 1032546770.88,
+        "solo_elim": 0.0,
+        "con_elim": 1032546770.88
+      }
+    },
+    {
+      "mes": "2025-07",
+      "pais": "Offshore",
+      "subsidiaria": null,
+      "linea": null,
+      "cuenta": null,
+      "cuenta_desc": null,
+      "es_ajuste": false,
+      "actuals": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      }
+    },
+    {
+      "mes": "2025-08",
+      "pais": "Colombia",
+      "subsidiaria": null,
+      "linea": null,
+      "cuenta": null,
+      "cuenta_desc": null,
+      "es_ajuste": false,
+      "actuals": {
+        "sin_elim": 232591692745.97003,
+        "solo_elim": 0.0,
+        "con_elim": 232591692745.97003
+      },
+      "budget": {
+        "sin_elim": 302909088114.3,
+        "solo_elim": 0.0,
+        "con_elim": 302909088114.3
+      }
+    },
+    {
+      "mes": "2025-08",
+      "pais": "Mexico",
+      "subsidiaria": null,
+      "linea": null,
+      "cuenta": null,
+      "cuenta_desc": null,
+      "es_ajuste": false,
+      "actuals": {
+        "sin_elim": 852429374.16,
+        "solo_elim": 0.0,
+        "con_elim": 852429374.16
+      },
+      "budget": {
+        "sin_elim": 1013827604.15,
+        "solo_elim": 0.0,
+        "con_elim": 1013827604.15
+      }
+    },
+    {
+      "mes": "2025-08",
+      "pais": "Offshore",
+      "subsidiaria": null,
+      "linea": null,
+      "cuenta": null,
+      "cuenta_desc": null,
+      "es_ajuste": false,
+      "actuals": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      }
+    },
+    {
+      "mes": "2025-09",
+      "pais": "Colombia",
+      "subsidiaria": null,
+      "linea": null,
+      "cuenta": null,
+      "cuenta_desc": null,
+      "es_ajuste": false,
+      "actuals": {
+        "sin_elim": 238573353319.25,
+        "solo_elim": 0.0,
+        "con_elim": 238573353319.25
+      },
+      "budget": {
+        "sin_elim": 303775035025.23,
+        "solo_elim": 0.0,
+        "con_elim": 303775035025.23
+      }
+    },
+    {
+      "mes": "2025-09",
+      "pais": "Mexico",
+      "subsidiaria": null,
+      "linea": null,
+      "cuenta": null,
+      "cuenta_desc": null,
+      "es_ajuste": false,
+      "actuals": {
+        "sin_elim": 827639716.96,
+        "solo_elim": 0.0,
+        "con_elim": 827639716.96
+      },
+      "budget": {
+        "sin_elim": 997734071.46,
+        "solo_elim": 0.0,
+        "con_elim": 997734071.46
+      }
+    },
+    {
+      "mes": "2025-09",
+      "pais": "Offshore",
+      "subsidiaria": null,
+      "linea": null,
+      "cuenta": null,
+      "cuenta_desc": null,
+      "es_ajuste": false,
+      "actuals": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      }
+    },
+    {
+      "mes": "2025-10",
+      "pais": "Colombia",
+      "subsidiaria": null,
+      "linea": null,
+      "cuenta": null,
+      "cuenta_desc": null,
+      "es_ajuste": false,
+      "actuals": {
+        "sin_elim": 238857495102.93,
+        "solo_elim": 0.0,
+        "con_elim": 238857495102.93
+      },
+      "budget": {
+        "sin_elim": 302186248306.48,
+        "solo_elim": 0.0,
+        "con_elim": 302186248306.48
+      }
+    },
+    {
+      "mes": "2025-10",
+      "pais": "Mexico",
+      "subsidiaria": null,
+      "linea": null,
+      "cuenta": null,
+      "cuenta_desc": null,
+      "es_ajuste": false,
+      "actuals": {
+        "sin_elim": 800056387.94,
+        "solo_elim": 0.0,
+        "con_elim": 800056387.94
+      },
+      "budget": {
+        "sin_elim": 980758363.66,
+        "solo_elim": 0.0,
+        "con_elim": 980758363.66
+      }
+    },
+    {
+      "mes": "2025-10",
+      "pais": "Offshore",
+      "subsidiaria": null,
+      "linea": null,
+      "cuenta": null,
+      "cuenta_desc": null,
+      "es_ajuste": false,
+      "actuals": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      }
+    },
+    {
+      "mes": "2025-11",
+      "pais": "Colombia",
+      "subsidiaria": null,
+      "linea": null,
+      "cuenta": null,
+      "cuenta_desc": null,
+      "es_ajuste": false,
+      "actuals": {
+        "sin_elim": 228607275550.11,
+        "solo_elim": 0.0,
+        "con_elim": 228607275550.11
+      },
+      "budget": {
+        "sin_elim": 293195448700.23,
+        "solo_elim": 0.0,
+        "con_elim": 293195448700.23
+      }
+    },
+    {
+      "mes": "2025-11",
+      "pais": "Mexico",
+      "subsidiaria": null,
+      "linea": null,
+      "cuenta": null,
+      "cuenta_desc": null,
+      "es_ajuste": false,
+      "actuals": {
+        "sin_elim": 803905634.8900001,
+        "solo_elim": 0.0,
+        "con_elim": 803905634.8900001
+      },
+      "budget": {
+        "sin_elim": 968259041.19,
+        "solo_elim": 0.0,
+        "con_elim": 968259041.19
+      }
+    },
+    {
+      "mes": "2025-11",
+      "pais": "Offshore",
+      "subsidiaria": null,
+      "linea": null,
+      "cuenta": null,
+      "cuenta_desc": null,
+      "es_ajuste": false,
+      "actuals": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      }
+    },
+    {
+      "mes": "2025-12",
+      "pais": "Colombia",
+      "subsidiaria": null,
+      "linea": null,
+      "cuenta": null,
+      "cuenta_desc": null,
+      "es_ajuste": false,
+      "actuals": {
+        "sin_elim": 223947303303.40997,
+        "solo_elim": 0.0,
+        "con_elim": 223947303303.40997
+      },
+      "budget": {
+        "sin_elim": 293049858062.73,
+        "solo_elim": 0.0,
+        "con_elim": 293049858062.73
+      }
+    },
+    {
+      "mes": "2025-12",
+      "pais": "Mexico",
+      "subsidiaria": null,
+      "linea": null,
+      "cuenta": null,
+      "cuenta_desc": null,
+      "es_ajuste": false,
+      "actuals": {
+        "sin_elim": 822936228.6200001,
+        "solo_elim": 0.0,
+        "con_elim": 822936228.6200001
+      },
+      "budget": {
+        "sin_elim": 914518270.23,
+        "solo_elim": 0.0,
+        "con_elim": 914518270.23
+      }
+    },
+    {
+      "mes": "2025-12",
+      "pais": "Offshore",
+      "subsidiaria": null,
+      "linea": null,
+      "cuenta": null,
+      "cuenta_desc": null,
+      "es_ajuste": false,
+      "actuals": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      }
+    },
+    {
+      "mes": "2026-01",
+      "pais": "Colombia",
+      "subsidiaria": null,
+      "linea": null,
+      "cuenta": null,
+      "cuenta_desc": null,
+      "es_ajuste": false,
+      "actuals": {
+        "sin_elim": 225064488890.09,
+        "solo_elim": 0.0,
+        "con_elim": 225064488890.09
+      },
+      "budget": {
+        "sin_elim": 225064488890.09,
+        "solo_elim": 0.0,
+        "con_elim": 225064488890.09
+      }
+    },
+    {
+      "mes": "2026-01",
+      "pais": "Mexico",
+      "subsidiaria": null,
+      "linea": null,
+      "cuenta": null,
+      "cuenta_desc": null,
+      "es_ajuste": false,
+      "actuals": {
+        "sin_elim": 872611533.6200001,
+        "solo_elim": 0.0,
+        "con_elim": 872611533.6200001
+      },
+      "budget": {
+        "sin_elim": 872611533.6200001,
+        "solo_elim": 0.0,
+        "con_elim": 872611533.6200001
+      }
+    },
+    {
+      "mes": "2026-01",
+      "pais": "Offshore",
+      "subsidiaria": null,
+      "linea": null,
+      "cuenta": null,
+      "cuenta_desc": null,
+      "es_ajuste": false,
+      "actuals": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      }
+    },
+    {
+      "mes": "2026-02",
+      "pais": "Colombia",
+      "subsidiaria": null,
+      "linea": null,
+      "cuenta": null,
+      "cuenta_desc": null,
+      "es_ajuste": false,
+      "actuals": {
+        "sin_elim": 230420260561.36996,
+        "solo_elim": 0.0,
+        "con_elim": 230420260561.36996
+      },
+      "budget": {
+        "sin_elim": 230420260561.36996,
+        "solo_elim": 0.0,
+        "con_elim": 230420260561.36996
+      }
+    },
+    {
+      "mes": "2026-02",
+      "pais": "Mexico",
+      "subsidiaria": null,
+      "linea": null,
+      "cuenta": null,
+      "cuenta_desc": null,
+      "es_ajuste": false,
+      "actuals": {
+        "sin_elim": 874006294.96,
+        "solo_elim": 0.0,
+        "con_elim": 874006294.96
+      },
+      "budget": {
+        "sin_elim": 874006294.96,
+        "solo_elim": 0.0,
+        "con_elim": 874006294.96
+      }
+    },
+    {
+      "mes": "2026-02",
+      "pais": "Offshore",
+      "subsidiaria": null,
+      "linea": null,
+      "cuenta": null,
+      "cuenta_desc": null,
+      "es_ajuste": false,
+      "actuals": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      }
+    },
+    {
+      "mes": "2026-03",
+      "pais": "Colombia",
+      "subsidiaria": null,
+      "linea": null,
+      "cuenta": null,
+      "cuenta_desc": null,
+      "es_ajuste": false,
+      "actuals": {
+        "sin_elim": 223703033559.17993,
+        "solo_elim": 0.0,
+        "con_elim": 223703033559.17993
+      },
+      "budget": {
+        "sin_elim": 223590065019.38998,
+        "solo_elim": 0.0,
+        "con_elim": 223590065019.38998
+      }
+    },
+    {
+      "mes": "2026-03",
+      "pais": "Mexico",
+      "subsidiaria": null,
+      "linea": null,
+      "cuenta": null,
+      "cuenta_desc": null,
+      "es_ajuste": false,
+      "actuals": {
+        "sin_elim": 868190946.98,
+        "solo_elim": 0.0,
+        "con_elim": 868190946.98
+      },
+      "budget": {
+        "sin_elim": 861754311.0400002,
+        "solo_elim": 0.0,
+        "con_elim": 861754311.0400002
+      }
+    },
+    {
+      "mes": "2026-03",
+      "pais": "Offshore",
+      "subsidiaria": null,
+      "linea": null,
+      "cuenta": null,
+      "cuenta_desc": null,
+      "es_ajuste": false,
+      "actuals": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      }
+    },
+    {
+      "mes": "2026-04",
+      "pais": "Colombia",
+      "subsidiaria": null,
+      "linea": null,
+      "cuenta": null,
+      "cuenta_desc": null,
+      "es_ajuste": false,
+      "actuals": {
+        "sin_elim": 221255430005.66998,
+        "solo_elim": 0.0,
+        "con_elim": 221255430005.66998
+      },
+      "budget": {
+        "sin_elim": 228063107619.38998,
+        "solo_elim": 0.0,
+        "con_elim": 228063107619.38998
+      }
+    },
+    {
+      "mes": "2026-04",
+      "pais": "Mexico",
+      "subsidiaria": null,
+      "linea": null,
+      "cuenta": null,
+      "cuenta_desc": null,
+      "es_ajuste": false,
+      "actuals": {
+        "sin_elim": 829401028.98,
+        "solo_elim": 0.0,
+        "con_elim": 829401028.98
+      },
+      "budget": {
+        "sin_elim": 850002286.104486,
+        "solo_elim": 0.0,
+        "con_elim": 850002286.104486
+      }
+    },
+    {
+      "mes": "2026-04",
+      "pais": "Offshore",
+      "subsidiaria": null,
+      "linea": null,
+      "cuenta": null,
+      "cuenta_desc": null,
+      "es_ajuste": false,
+      "actuals": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      }
+    },
+    {
+      "mes": "2026-05",
+      "pais": "Colombia",
+      "subsidiaria": null,
+      "linea": null,
+      "cuenta": null,
+      "cuenta_desc": null,
+      "es_ajuste": false,
+      "actuals": {
+        "sin_elim": 218057295059.00006,
+        "solo_elim": 0.0,
+        "con_elim": 218057295059.00006
+      },
+      "budget": {
+        "sin_elim": 229385114019.39,
+        "solo_elim": 0.0,
+        "con_elim": 229385114019.39
+      }
+    },
+    {
+      "mes": "2026-05",
+      "pais": "Mexico",
+      "subsidiaria": null,
+      "linea": null,
+      "cuenta": null,
+      "cuenta_desc": null,
+      "es_ajuste": false,
+      "actuals": {
+        "sin_elim": 817007655.98,
+        "solo_elim": 0.0,
+        "con_elim": 817007655.98
+      },
+      "budget": {
+        "sin_elim": 841833541.5975128,
+        "solo_elim": 0.0,
+        "con_elim": 841833541.5975128
+      }
+    },
+    {
+      "mes": "2026-05",
+      "pais": "Offshore",
+      "subsidiaria": null,
+      "linea": null,
+      "cuenta": null,
+      "cuenta_desc": null,
+      "es_ajuste": false,
+      "actuals": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      }
+    }
+  ],
+  "reconciliation": [
+    {
+      "mes": "2025-05",
+      "pais": "Colombia",
+      "nids_vivos": 1721,
+      "valor_compra": 249999463238.88,
+      "valor_venta_target": 319625929296.0
+    },
+    {
+      "mes": "2025-05",
+      "pais": "Mexico",
+      "nids_vivos": 997,
+      "valor_compra": 956820921.4200001,
+      "valor_venta_target": 1121995805.42
+    },
+    {
+      "mes": "2025-06",
+      "pais": "Colombia",
+      "nids_vivos": 1656,
+      "valor_compra": 240428842275.43,
+      "valor_venta_target": 307526626019.0
+    },
+    {
+      "mes": "2025-06",
+      "pais": "Mexico",
+      "nids_vivos": 933,
+      "valor_compra": 887042741.12,
+      "valor_venta_target": 1037209435.45
+    },
+    {
+      "mes": "2025-07",
+      "pais": "Colombia",
+      "nids_vivos": 1616,
+      "valor_compra": 236747870316.19,
+      "valor_venta_target": 301325582970.0
+    },
+    {
+      "mes": "2025-07",
+      "pais": "Mexico",
+      "nids_vivos": 912,
+      "valor_compra": 859664928.34,
+      "valor_venta_target": 999495904.96
+    },
+    {
+      "mes": "2025-08",
+      "pais": "Colombia",
+      "nids_vivos": 1591,
+      "valor_compra": 232591692745.97,
+      "valor_venta_target": 294543748954.0
+    },
+    {
+      "mes": "2025-08",
+      "pais": "Mexico",
+      "nids_vivos": 907,
+      "valor_compra": 852429374.16,
+      "valor_venta_target": 990788538.96
+    },
+    {
+      "mes": "2025-09",
+      "pais": "Colombia",
+      "nids_vivos": 1597,
+      "valor_compra": 238573353319.24997,
+      "valor_venta_target": 296807805021.0
+    },
+    {
+      "mes": "2025-09",
+      "pais": "Mexico",
+      "nids_vivos": 881,
+      "valor_compra": 827639716.9599999,
+      "valor_venta_target": 955598326.47
+    },
+    {
+      "mes": "2025-10",
+      "pais": "Colombia",
+      "nids_vivos": 1593,
+      "valor_compra": 238857495102.92996,
+      "valor_venta_target": 289445115485.0
+    },
+    {
+      "mes": "2025-10",
+      "pais": "Mexico",
+      "nids_vivos": 870,
+      "valor_compra": 800056387.9399999,
+      "valor_venta_target": 905465391.46
+    },
+    {
+      "mes": "2025-11",
+      "pais": "Colombia",
+      "nids_vivos": 1531,
+      "valor_compra": 228607275550.10995,
+      "valor_venta_target": 265800647117.0
+    },
+    {
+      "mes": "2025-11",
+      "pais": "Mexico",
+      "nids_vivos": 872,
+      "valor_compra": 803905634.89,
+      "valor_venta_target": 884032181.5
+    },
+    {
+      "mes": "2025-12",
+      "pais": "Colombia",
+      "nids_vivos": 1503,
+      "valor_compra": 223947303303.40997,
+      "valor_venta_target": 250092039604.0
+    },
+    {
+      "mes": "2025-12",
+      "pais": "Mexico",
+      "nids_vivos": 888,
+      "valor_compra": 822936228.62,
+      "valor_venta_target": 863007403.52
+    },
+    {
+      "mes": "2026-01",
+      "pais": "Colombia",
+      "nids_vivos": 1507,
+      "valor_compra": 225064488890.09,
+      "valor_venta_target": 246926146955.0
+    },
+    {
+      "mes": "2026-01",
+      "pais": "Mexico",
+      "nids_vivos": 930,
+      "valor_compra": 872611533.62,
+      "valor_venta_target": 881162392.01
+    },
+    {
+      "mes": "2026-02",
+      "pais": "Colombia",
+      "nids_vivos": 1513,
+      "valor_compra": 230302260561.36996,
+      "valor_venta_target": 234317088538.0
+    },
+    {
+      "mes": "2026-02",
+      "pais": "Mexico",
+      "nids_vivos": 917,
+      "valor_compra": 874006294.96,
+      "valor_venta_target": 831614754.51
+    },
+    {
+      "mes": "2026-03",
+      "pais": "Colombia",
+      "nids_vivos": 1466,
+      "valor_compra": 223585033559.18,
+      "valor_venta_target": 201431956261.0
+    },
+    {
+      "mes": "2026-03",
+      "pais": "Mexico",
+      "nids_vivos": 916,
+      "valor_compra": 868190946.98,
+      "valor_venta_target": 791265034.5
+    },
+    {
+      "mes": "2026-04",
+      "pais": "Colombia",
+      "nids_vivos": 1446,
+      "valor_compra": 221265430005.67,
+      "valor_venta_target": 171546226261.0
+    },
+    {
+      "mes": "2026-04",
+      "pais": "Mexico",
+      "nids_vivos": 884,
+      "valor_compra": 829401028.98,
+      "valor_venta_target": 686059897.0
+    },
+    {
+      "mes": "2026-05",
+      "pais": "Colombia",
+      "nids_vivos": 1405,
+      "valor_compra": 218067295059.00006,
+      "valor_venta_target": 134728957181.0
+    },
+    {
+      "mes": "2026-05",
+      "pais": "Mexico",
+      "nids_vivos": 864,
+      "valor_compra": 817007655.98,
+      "valor_venta_target": 586004567.51
+    }
+  ]
+}
