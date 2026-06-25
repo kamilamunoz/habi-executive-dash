@@ -59,6 +59,7 @@ SELECT
   c_cuenta,
   c_cuenta_descripcion,
   dummie_eliminaciones,
+  dummie_ajustes,
   -- Negamos para que burn positivo = consume cash
   -SUM(actuals_accounting) AS actuals,
   -SUM(budget_1)           AS budget
@@ -66,7 +67,7 @@ FROM `{TABLE_BET}`
 WHERE m_tipo = '7. Cash Flow'
   AND m_categoria IN ({cats})
   AND mes BETWEEN DATE('{mes_inicio.isoformat()}') AND DATE('{mes_corte.isoformat()}')
-GROUP BY 1, 2, 3, 4, 5, 6, 7, 8
+GROUP BY 1, 2, 3, 4, 5, 6, 7, 8, 9
 """.strip()
 
 
@@ -89,7 +90,8 @@ GROUP BY 1, 2, 3
 
 def _twin_sum(df: pd.DataFrame, value_col: str = "actuals") -> dict[str, float]:
     s = df[value_col].fillna(0)
-    elim_mask = df["dummie_eliminaciones"].fillna(0).eq(1)
+    # Trata 1 y -1 como eliminacion (ambos son intercompania).
+    elim_mask = df["dummie_eliminaciones"].fillna(0).isin([1, -1])
     return {
         "sin_elim": float(s[~elim_mask].sum()),
         "solo_elim": float(s[elim_mask].sum()),
@@ -125,17 +127,22 @@ def _series_indexada(df: pd.DataFrame, group_col: str) -> dict[str, list[dict[st
 
 def _facts(df: pd.DataFrame) -> list[dict[str, Any]]:
     rows = []
-    keys = ["mes", "m_pais", "c_subsidiaria", "m_categoria", "m_metrica", "c_cuenta", "c_cuenta_descripcion"]
+    keys = ["mes", "m_pais", "c_subsidiaria", "m_categoria", "m_metrica", "c_cuenta", "c_cuenta_descripcion", "dummie_ajustes"]
     for vals, g in df.groupby(keys, dropna=False):
-        mes, pais, sub, categoria, metrica, cuenta, desc = vals
+        mes, pais, sub, categoria, metrica, cuenta, desc, ajuste = vals
+        # En Cash Flow no siempre hay c_cuenta. Usamos m_metrica como descripcion
+        # del detalle (ej. "01. Net Income", "02. Inventory") para que el Top 20
+        # muestre las lineas reales del flujo.
+        detalle = desc if pd.notna(desc) else (str(metrica) if pd.notna(metrica) else None)
         rows.append({
             "mes": mes.strftime("%Y-%m"),
             "pais": pais if pd.notna(pais) else None,
             "subsidiaria": sub if pd.notna(sub) else None,
             "linea": None,
             "cuenta": int(cuenta) if pd.notna(cuenta) else None,
-            "cuenta_desc": desc if pd.notna(desc) else None,
+            "cuenta_desc": detalle,
             "categoria_cf": str(categoria) if pd.notna(categoria) else None,
+            "es_ajuste": bool(pd.notna(ajuste) and ajuste == 1),
             "actuals": _twin_sum(g),
             "budget": _twin_sum(g, "budget"),
         })
@@ -193,12 +200,12 @@ def build(mes_corte: dt.date) -> dict[str, Any]:
 
     payload: dict[str, Any] = {
         "id": "burn_runway",
-        "nombre": "Burn neto",
+        "nombre": "Net Burn",
         "seccion": "4.1",
         "unidad": "MONEDA_CON_RUNWAY",  # UI especial: calcular runway con cash_balances
         "ratio_label": "Runway",
         "estado": "real",
-        "fuente": "bet_data_p2 · Cash Flow (sin Financing) + Balance Sheet Cash",
+        "fuente": "bet_data_p2 · Cash Flow (excl. Financing) + Balance Sheet Cash",
         "invertir_delta": True,  # mas burn = peor
         "burn_avg_meses": 3,    # promedio de N meses para runway
         "receta": {

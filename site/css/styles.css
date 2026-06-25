@@ -77,11 +77,13 @@ html,body{background:var(--bg);color:var(--txt);font-family:'IBM Plex Sans',sans
 
 /* ========================================================= KPI GRID ===== */
 .kpi-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:14px;margin-bottom:24px}
-.card{background:var(--panel);border:1px solid var(--line);border-left-width:4px;border-radius:0 12px 12px 0;padding:16px 18px 15px;box-shadow:0 1px 2px rgba(20,20,50,.03);cursor:pointer;transition:box-shadow .15s, border-color .15s}
-.card:hover{box-shadow:0 4px 16px rgba(107,47,212,.08);border-color:var(--purple-line)}
-.card.real{border-left-color:var(--green)}
-.card.parcial{border-left-color:var(--amber)}
-.card.ejemplo{border-left-color:var(--purple2)}
+.card{background:var(--panel);border:1px solid var(--line);border-left-width:5px;border-radius:0 12px 12px 0;padding:16px 18px 15px;box-shadow:0 1px 2px rgba(20,20,50,.03);cursor:pointer;transition:box-shadow .15s, border-color .15s}
+.card:hover{box-shadow:0 4px 16px rgba(107,47,212,.08)}
+/* Color por performance vs budget (no por estado del dato) */
+.card.perf-green{border-left-color:var(--green);background:linear-gradient(to right,var(--green-bg) 0%,var(--panel) 35%)}
+.card.perf-amber{border-left-color:var(--amber);background:linear-gradient(to right,var(--amber-bg) 0%,var(--panel) 35%)}
+.card.perf-red{border-left-color:var(--red);background:linear-gradient(to right,var(--red-bg) 0%,var(--panel) 35%)}
+.card.perf-gray{border-left-color:var(--line)}
 .card.pendiente{border-left-color:var(--line);background:var(--panel2);cursor:default}
 .card.pendiente:hover{box-shadow:0 1px 2px rgba(20,20,50,.03);border-color:var(--line)}
 .kpi-name{font-size:12px;color:var(--txt2);font-weight:600;margin-bottom:5px;display:flex;align-items:center;justify-content:space-between;gap:8px}
@@ -122,18 +124,36 @@ html,body{background:var(--bg);color:var(--txt);font-family:'IBM Plex Sans',sans
 .drill-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-bottom:22px}
 @media (max-width:760px){.drill-grid{grid-template-columns:1fr}}
 .drill-block h3{font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--txt2);margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--line)}
-.drill-row{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:7px 0;border-bottom:1px solid var(--line2);font-size:13px}
+.drill-list{display:flex;flex-direction:column}
+.drill-row{display:grid;grid-template-columns:1fr 130px 130px 90px;align-items:center;column-gap:14px;padding:9px 4px;border-bottom:1px solid var(--line2);font-size:13px}
+.drill-list.with-ratio .drill-row{grid-template-columns:1fr 130px 80px 130px 90px}
 .drill-row:last-child{border-bottom:none}
-.drill-row .k{color:var(--txt);display:flex;align-items:center}
-.drill-row .v-pair{display:flex;align-items:center;gap:10px;font-family:'IBM Plex Mono',monospace;font-variant-numeric:tabular-nums}
-.drill-row .v{font-weight:600;color:var(--txt)}
-.drill-row .v-bud{color:var(--txt3);font-size:12px}
-.drill-row .v-ratio{font-weight:700;color:var(--purple);background:var(--purple-soft);padding:2px 7px;border-radius:5px;font-size:11.5px}
-.drill-row .bar{display:inline-block;height:6px;background:var(--purple);border-radius:3px;vertical-align:middle;margin-right:7px;opacity:.65}
-.drill-empty{font-size:12px;color:var(--txt3);font-style:italic;padding:8px 0}
+.dr-k{color:var(--txt);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.dr-v,.dr-bud,.dr-delta{font-family:'IBM Plex Mono',monospace;font-variant-numeric:tabular-nums;text-align:right}
+.dr-v{font-weight:600;color:var(--txt)}
+.dr-bud{color:var(--txt3);font-size:12px}
+.dr-ratio{text-align:center}
+.dr-delta{text-align:right}
+.v-ratio{display:inline-block;font-weight:700;color:var(--purple);background:var(--purple-soft);padding:3px 8px;border-radius:5px;font-size:11.5px}
+.v-ratio.empty{background:transparent;padding:0}
+
+/* Delta con pill de fondo (drill rows). Las cards siguen usando texto plano. */
+.delta-pill{display:inline-block;padding:3px 9px;border-radius:5px;font-size:11.5px;font-weight:600;font-family:'IBM Plex Mono',monospace;min-width:62px;text-align:center}
+.delta-pill.up{color:var(--green-tx);background:var(--green-bg)}
+.delta-pill.down{color:var(--red-tx);background:var(--red-bg)}
+.delta-pill.flat{color:var(--txt2);background:var(--line2)}
+
+.drill-empty{font-size:12px;color:var(--txt3);font-style:italic;padding:8px 4px}
 
 /* Grafico mensual en drill */
 .chart-block{margin:24px 0 18px}
+.chart-tab-bar{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;margin-bottom:6px}
+.chart-tabs{display:flex;gap:3px;background:var(--panel2);border:1px solid var(--line);border-radius:8px;padding:3px}
+.chart-tab{font-family:inherit;font-size:12px;font-weight:600;border:none;background:none;color:var(--txt2);padding:6px 14px;border-radius:6px;cursor:pointer;transition:all .15s}
+.chart-tab.on{background:var(--purple);color:#fff}
+.chart-pane{display:none}
+.chart-pane.on{display:block}
+.chart-unit-label{font-size:11px;font-family:'IBM Plex Mono',monospace;color:var(--txt3);text-align:right;margin-bottom:-6px}
 .chart-wrap{background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:18px 14px 12px;margin-top:8px}
 .chart{width:100%;height:auto;display:block}
 .chart-legend{display:flex;gap:24px;justify-content:flex-end;font-size:12.5px;color:var(--txt);font-family:'IBM Plex Mono',monospace;padding-top:10px;font-weight:500}

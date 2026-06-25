@@ -1,22 +1,28 @@
-"""KPI 4.1.3 — Margen bruto $ y %.
+"""KPI 4.1.3 — Gross Margin $ and %.
 
 Fuente: bet_data_p2
-  - c_total_reporte = '1 Gross Profit'  (incluye Revenue + Cost of Revenue)
-  - m_tipo          = '1. Financials'   (P&L contable)
+  - m_tipo      = '4. Managerial'    (anchored a fecha de factura, vista operativa)
+  - m_categoria IN ('01. Total Revenue', '02. Total Costs')
+
+Por que Managerial y no Financials:
+  - Financials usa c_total_reporte/c_subtotal_reporte (jerarquia contable),
+    anchored a fecha de booking en NetSuite (devengado).
+  - Managerial usa m_categoria, anchored a FECHA DE FACTURA (vista operativa).
+  - Cambio decidido con Kamila el 2026-06-24 para alinear con la lectura
+    operativa del management team.
+
+Estructura de Managerial:
+  - c_total_reporte / c_subtotal_reporte vienen NULL (no aplica la jerarquia contable)
+  - m_categoria reemplaza: '01. Total Revenue' = revenue, '02. Total Costs' = COGS
+  - Medida: actuals_managerial (no actuals_accounting)
 
 Logica:
-  - Gross Profit = sum(actuals_accounting) sobre todas las filas del scope
-    (porque Revenue es positivo y Cost of Revenue es negativo, la suma da GP)
-  - Revenue separado = sum(actuals_accounting) solo sobre c_subtotal_reporte='1 Revenue'
-  - Margen % = GP / Revenue   (calculado en cada nivel de agregacion)
+  - Gross Profit = sum(actuals_managerial) sobre Revenue + Total Costs
+    (Revenue positivo, Total Costs negativo, suma da GP)
+  - Revenue separado = sum solo sobre m_categoria='01. Total Revenue'
+  - Margen % = GP / Revenue (recomputado en cada nivel)
 
-Por eso emitimos DOS medidas paralelas en cada fact:
-  - actuals         -> Gross Profit ($)
-  - revenue_actuals -> Revenue ($)
-La UI suma ambas independientemente y divide al final para obtener el % correcto
-a cualquier nivel de agregacion (no se puede promediar %, hay que recomputar).
-
-Linea de negocio: igual que Ingresos, se infiere de m_metrica.
+Linea de negocio: se infiere de m_metrica (igual que en Ingresos).
 """
 
 from __future__ import annotations
@@ -33,6 +39,12 @@ from scripts._common import MONEDA_POR_PAIS, PAIS_LABEL, normalize_subsidiaria
 log = logging.getLogger(__name__)
 
 HISTORY_MONTHS = 13
+
+# Labels amigables para el bloque del P&L en el drill (mismo patron que contribution)
+BLOQUE_LABELS = {
+    "01. Total Revenue": "1. Revenue",
+    "02. Total Costs":   "2. Cost of Revenue",
+}
 
 METRICA_A_LINEA = {
     # Revenue side
@@ -55,23 +67,25 @@ SELECT
   m_pais,
   c_subsidiaria,
   m_metrica,
-  c_subtotal_reporte,
+  m_categoria,
   c_cuenta,
   c_cuenta_descripcion,
   dummie_eliminaciones,
-  SUM(actuals_accounting) AS actuals,
+  dummie_ajustes,
+  SUM(actuals_managerial) AS actuals,
   SUM(budget_1)           AS budget
 FROM `{TABLE_BET}`
-WHERE c_total_reporte = '1 Gross Profit'
-  AND m_tipo          = '1. Financials'
+WHERE m_tipo      = '4. Managerial'
+  AND m_categoria IN ('01. Total Revenue', '02. Total Costs')
   AND mes BETWEEN DATE('{mes_inicio.isoformat()}') AND DATE('{mes_corte.isoformat()}')
-GROUP BY 1, 2, 3, 4, 5, 6, 7, 8
+GROUP BY 1, 2, 3, 4, 5, 6, 7, 8, 9
 """.strip()
 
 
 def _twin_sum(df: pd.DataFrame, value_col: str = "actuals") -> dict[str, float]:
     s = df[value_col].fillna(0)
-    elim_mask = df["dummie_eliminaciones"].fillna(0).eq(1)
+    # Trata 1 y -1 como eliminacion (ambos son intercompania).
+    elim_mask = df["dummie_eliminaciones"].fillna(0).isin([1, -1])
     return {
         "sin_elim": float(s[~elim_mask].sum()),
         "solo_elim": float(s[elim_mask].sum()),
@@ -80,8 +94,8 @@ def _twin_sum(df: pd.DataFrame, value_col: str = "actuals") -> dict[str, float]:
 
 
 def _twin_sum_revenue(df: pd.DataFrame, value_col: str = "actuals") -> dict[str, float]:
-    """Suma solo las filas con c_subtotal_reporte = '1 Revenue' (denominador del %)."""
-    rev = df[df["c_subtotal_reporte"] == "1 Revenue"]
+    """Suma solo las filas con m_categoria = '01. Total Revenue' (denominador del %)."""
+    rev = df[df["m_categoria"] == "01. Total Revenue"]
     return _twin_sum(rev, value_col)
 
 
@@ -118,9 +132,9 @@ def _series_indexada(df: pd.DataFrame, group_col: str) -> dict[str, list[dict[st
 def _facts(df: pd.DataFrame) -> list[dict[str, Any]]:
     """Cada fila lleva actuals (GP), revenue_actuals (denominador), budget y revenue_budget."""
     rows = []
-    keys = ["mes", "m_pais", "c_subsidiaria", "linea", "c_cuenta", "c_cuenta_descripcion"]
+    keys = ["mes", "m_pais", "c_subsidiaria", "linea", "m_categoria", "c_cuenta", "c_cuenta_descripcion", "dummie_ajustes"]
     for vals, g in df.groupby(keys, dropna=False):
-        mes, pais, sub, linea, cuenta, desc = vals
+        mes, pais, sub, linea, categoria, cuenta, desc, ajuste = vals
         rows.append({
             "mes": mes.strftime("%Y-%m"),
             "pais": pais if pd.notna(pais) else None,
@@ -128,6 +142,8 @@ def _facts(df: pd.DataFrame) -> list[dict[str, Any]]:
             "linea": linea if pd.notna(linea) else None,
             "cuenta": int(cuenta) if pd.notna(cuenta) else None,
             "cuenta_desc": desc if pd.notna(desc) else None,
+            "es_ajuste": bool(pd.notna(ajuste) and ajuste == 1),
+            "bloque_pyl": BLOQUE_LABELS.get(str(categoria), str(categoria)) if pd.notna(categoria) else None,
             "actuals": _twin_sum(g),
             "budget": _twin_sum(g, "budget"),
             "revenue_actuals": _twin_sum_revenue(g),
@@ -156,19 +172,20 @@ def build(mes_corte: dt.date) -> dict[str, Any]:
 
     payload: dict[str, Any] = {
         "id": "margen_bruto",
-        "nombre": "Margen bruto",
+        "nombre": "Gross Margin",
         "seccion": "4.1",
         "unidad": "MONEDA_CON_RATIO",  # UI muestra $ + ratio %
-        "ratio_label": "Margen",
+        "ratio_label": "Margin",
         "estado": "real",
-        "fuente": "bet_data_p2 · c_total_reporte='1 Gross Profit' · m_tipo='1. Financials'",
+        "fuente": "bet_data_p2 · Managerial · Total Revenue + Total Costs (anchored a fecha factura)",
         "receta": {
             "tabla": TABLE_BET,
             "filtros": [
-                "c_total_reporte = '1 Gross Profit'",
-                "m_tipo = '1. Financials'",
+                "m_tipo = '4. Managerial'",
+                "m_categoria IN ('01. Total Revenue', '02. Total Costs')",
             ],
-            "calculo": "GP = sum(actuals_accounting); Revenue = sum solo donde c_subtotal_reporte='1 Revenue'; Margen% = GP/Revenue",
+            "calculo": "GP = sum(actuals_managerial); Revenue = sum solo donde m_categoria='01. Total Revenue'; Margen% = GP/Revenue",
+            "anchored": "fecha de factura (NO fecha de booking contable)",
             "linea_negocio": "se infiere de m_metrica (no de m_negocio)",
             "monedas": MONEDA_POR_PAIS,
         },

@@ -44,6 +44,7 @@ SELECT
   c_cuenta,
   c_cuenta_descripcion,
   dummie_eliminaciones,
+  dummie_ajustes,
   -- Convertir gasto a positivo para lectura natural
   -SUM(actuals_accounting) AS actuals,
   -SUM(budget_1)           AS budget
@@ -51,13 +52,14 @@ FROM `{TABLE_BET}`
 WHERE c_total_reporte = '3 Operating Expenses'
   AND m_tipo          = '1. Financials'
   AND mes BETWEEN DATE('{mes_inicio.isoformat()}') AND DATE('{mes_corte.isoformat()}')
-GROUP BY 1, 2, 3, 4, 5, 6, 7
+GROUP BY 1, 2, 3, 4, 5, 6, 7, 8
 """.strip()
 
 
 def _twin_sum(df: pd.DataFrame, value_col: str = "actuals") -> dict[str, float]:
     s = df[value_col].fillna(0)
-    elim_mask = df["dummie_eliminaciones"].fillna(0).eq(1)
+    # Trata 1 y -1 como eliminacion (ambos son intercompania).
+    elim_mask = df["dummie_eliminaciones"].fillna(0).isin([1, -1])
     return {
         "sin_elim": float(s[~elim_mask].sum()),
         "solo_elim": float(s[elim_mask].sum()),
@@ -94,9 +96,9 @@ def _series_indexada(df: pd.DataFrame, group_col: str) -> dict[str, list[dict[st
 def _facts(df: pd.DataFrame) -> list[dict[str, Any]]:
     rows = []
     # No incluimos 'linea' como key porque para OpEx no aplica (overhead transversal)
-    keys = ["mes", "m_pais", "c_subsidiaria", "m_metrica", "c_cuenta", "c_cuenta_descripcion"]
+    keys = ["mes", "m_pais", "c_subsidiaria", "m_metrica", "c_cuenta", "c_cuenta_descripcion", "dummie_ajustes"]
     for vals, g in df.groupby(keys, dropna=False):
-        mes, pais, sub, metrica, cuenta, desc = vals
+        mes, pais, sub, metrica, cuenta, desc, ajuste = vals
         rows.append({
             "mes": mes.strftime("%Y-%m"),
             "pais": pais if pd.notna(pais) else None,
@@ -105,6 +107,7 @@ def _facts(df: pd.DataFrame) -> list[dict[str, Any]]:
             "cuenta": int(cuenta) if pd.notna(cuenta) else None,
             "cuenta_desc": desc if pd.notna(desc) else None,
             "categoria_gasto": str(metrica) if pd.notna(metrica) else None,
+            "es_ajuste": bool(pd.notna(ajuste) and ajuste == 1),
             "actuals": _twin_sum(g),
             "budget": _twin_sum(g, "budget"),
         })
@@ -136,7 +139,7 @@ def build(mes_corte: dt.date) -> dict[str, Any]:
         "estado": "real",
         "fuente": "bet_data_p2 · c_total_reporte='3 Operating Expenses' · Financials",
         "ratio_against": "ingresos_totales",
-        "ratio_label": "OpEx/Ingresos",
+        "ratio_label": "OpEx/Revenue",
         "invertir_delta": True,  # mas OpEx = peor (rojo)
         "receta": {
             "tabla": TABLE_BET,

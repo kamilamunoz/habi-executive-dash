@@ -38,6 +38,16 @@ log = logging.getLogger(__name__)
 
 HISTORY_MONTHS = 13
 
+# Labels amigables para el bloque del P&L en el drill
+# Prefijo numerico para orden canonico en la UI (la UI ordena por ese prefijo).
+BLOQUE_LABELS = {
+    ("1 Gross Profit", "1 Revenue"):            "1. Revenue",
+    ("1 Gross Profit", "2 Cost of Revenue"):    "2. Cost of Revenue (purchase price)",
+    ("2 Other Costs",  "3 Transaction Costs"):  "3. Transaction Costs",
+    ("2 Other Costs",  "4 Inventory Costs"):    "4. Holding Costs",
+    ("2 Other Costs",  "5 Commercial Costs"):   "5. Commercial Costs",
+}
+
 
 def _sql(mes_inicio: dt.date, mes_corte: dt.date) -> str:
     return f"""
@@ -51,19 +61,21 @@ SELECT
   c_cuenta,
   c_cuenta_descripcion,
   dummie_eliminaciones,
+  dummie_ajustes,
   SUM(actuals_accounting) AS actuals,
   SUM(budget_1)           AS budget
 FROM `{TABLE_BET}`
 WHERE m_tipo = '1. Financials'
   AND c_total_reporte IN ('1 Gross Profit', '2 Other Costs')
   AND mes BETWEEN DATE('{mes_inicio.isoformat()}') AND DATE('{mes_corte.isoformat()}')
-GROUP BY 1, 2, 3, 4, 5, 6, 7, 8, 9
+GROUP BY 1, 2, 3, 4, 5, 6, 7, 8, 9, 10
 """.strip()
 
 
 def _twin_sum(df: pd.DataFrame, value_col: str = "actuals") -> dict[str, float]:
     s = df[value_col].fillna(0)
-    elim_mask = df["dummie_eliminaciones"].fillna(0).eq(1)
+    # Trata 1 y -1 como eliminacion (ambos son intercompania).
+    elim_mask = df["dummie_eliminaciones"].fillna(0).isin([1, -1])
     return {
         "sin_elim": float(s[~elim_mask].sum()),
         "solo_elim": float(s[elim_mask].sum()),
@@ -112,9 +124,9 @@ def _series_indexada(df: pd.DataFrame, group_col: str) -> dict[str, list[dict[st
 
 def _facts(df: pd.DataFrame) -> list[dict[str, Any]]:
     rows = []
-    keys = ["mes", "m_pais", "c_subsidiaria", "c_total_reporte", "c_subtotal_reporte", "c_cuenta", "c_cuenta_descripcion"]
+    keys = ["mes", "m_pais", "c_subsidiaria", "c_total_reporte", "c_subtotal_reporte", "c_cuenta", "c_cuenta_descripcion", "dummie_ajustes"]
     for vals, g in df.groupby(keys, dropna=False):
-        mes, pais, sub, tot_rep, sub_rep, cuenta, desc = vals
+        mes, pais, sub, tot_rep, sub_rep, cuenta, desc, ajuste = vals
         rows.append({
             "mes": mes.strftime("%Y-%m"),
             "pais": pais if pd.notna(pais) else None,
@@ -122,7 +134,8 @@ def _facts(df: pd.DataFrame) -> list[dict[str, Any]]:
             "linea": None,  # Contribution no se segmenta por linea en v1
             "cuenta": int(cuenta) if pd.notna(cuenta) else None,
             "cuenta_desc": desc if pd.notna(desc) else None,
-            "bloque_pyl": f"{tot_rep} · {sub_rep}" if pd.notna(tot_rep) else None,
+            "es_ajuste": bool(pd.notna(ajuste) and ajuste == 1),
+            "bloque_pyl": BLOQUE_LABELS.get((str(tot_rep), str(sub_rep)), f"{tot_rep} · {sub_rep}") if pd.notna(tot_rep) else None,
             "actuals": _twin_sum(g),
             "budget": _twin_sum(g, "budget"),
             "revenue_actuals": _twin_sum_revenue(g),
@@ -150,10 +163,10 @@ def build(mes_corte: dt.date) -> dict[str, Any]:
 
     payload: dict[str, Any] = {
         "id": "contribution_margin",
-        "nombre": "Contribution margin",
+        "nombre": "Contribution Margin",
         "seccion": "4.1",
         "unidad": "MONEDA_CON_RATIO",
-        "ratio_label": "Margen Contribution",
+        "ratio_label": "Contribution Margin",
         "estado": "real",
         "fuente": "bet_data_p2 · Gross Profit + Other Costs · Financials",
         "receta": {

@@ -1,18 +1,27 @@
-"""KPI 4.1.2 — GMV / Valor transado.
+"""KPI 4.1.2 — GMV / Transacted Value.
 
 Fuente: bet_data_p2 · m_tipo='2. Transactions'.
 
-Receta (Opcion A + HC Loans Disbursed, segun acuerdo con Kamila 2026-06-24):
-  - dummie_gmv = 1                          (ventas MM a Purchase price)
-  - OR m_categoria='04. Habicredit'
-       AND m_metrica='03. Loans Disbursed' (creditos desembolsados)
+Receta (acordada con Kamila 2026-06-24, version 2 — solo Deeds):
+  - Market Maker: m_categoria='01. Market Maker' AND m_metrica IN (
+        '03. Purchase Deeds',                   (escrituras compra, single price)
+        '07. Sale Deeds' (con dummie_gmv = 1)   (escrituras venta a purchase price)
+    )
+  - Brokerage:    Used Homes: m_categoria='02. Brokerage (Used Homes)' AND m_metrica='05. Deeds'
+                  New  Homes: m_categoria='03. Brokerage (New Homes)'  AND m_metrica='02. Deeds'
+  - HabiCredit:   m_categoria='04. Habicredit' AND m_metrica='03. Loans Disbursed'
 
 Linea de negocio se infiere de m_categoria:
-  '01. Market Maker' -> Market Maker
-  '04. Habicredit'   -> HabiCredit
+  '01. Market Maker'             -> Market Maker
+  '02. Brokerage (Used Homes)'   -> Brokerage
+  '03. Brokerage (New Homes)'    -> Brokerage
+  '04. Habicredit'               -> HabiCredit
 
-Medida: actuals_managerial (lo que reporta operacion, alineado con el caracter
-operativo del GMV vs el contable de Ingresos).
+Medida: actuals_managerial (operativo, no contable).
+
+Doble cuenta: cuando Habi compra Y vende la misma casa, aparece en ambos
+'Purchase Deeds' y 'Sale Deeds'. Es la definicion del marco
+("compradas + vendidas + intermediadas") aceptando ese double-counting.
 
 OJO con la estructura de bet_data_p2 para Transactions:
   - c_subsidiaria es NULL en estas filas (no hay info contable de subsidiaria)
@@ -39,8 +48,22 @@ log = logging.getLogger(__name__)
 HISTORY_MONTHS = 13
 
 CATEGORIA_A_LINEA = {
-    "01. Market Maker": "Market Maker",
-    "04. Habicredit": "HabiCredit",
+    "01. Market Maker":            "Market Maker",
+    "02. Brokerage (Used Homes)":  "Brokerage",
+    "03. Brokerage (New Homes)":   "Brokerage",
+    "04. Habicredit":              "HabiCredit",
+}
+
+# Mapeo de m_metrica a tipo de transaccion (etiqueta amigable para el drill).
+# Conservamos el prefijo numerico para mantener el orden canonico de la compania.
+# Cada metrica se etiqueta con su linea entre parentesis porque "Deeds" aparece
+# con distintos prefijos segun la categoria (MM vs Brokerage Used vs Brokerage New).
+METRICA_A_TIPO_TX = {
+    "03. Purchase Deeds":  "03. Purchase Deeds (MM)",
+    "07. Sale Deeds":      "07. Sale Deeds (MM)",
+    "05. Deeds":           "05. Deeds (Brokerage Used)",
+    "02. Deeds":           "02. Deeds (Brokerage New)",
+    "03. Loans Disbursed": "03. Loans Disbursed (HC)",
 }
 
 
@@ -56,16 +79,23 @@ SELECT
   c_cuenta,
   c_cuenta_descripcion,
   dummie_eliminaciones,
+  dummie_ajustes,
   SUM(actuals_managerial) AS actuals,
   SUM(budget_1)           AS budget
 FROM `{TABLE_BET}`
 WHERE m_tipo = '2. Transactions'
   AND (
-    dummie_gmv = 1
+    -- Market Maker: solo Deeds (compras y ventas escrituradas)
+    (m_categoria = '01. Market Maker' AND m_metrica = '03. Purchase Deeds')
+    OR (m_categoria = '01. Market Maker' AND m_metrica = '07. Sale Deeds' AND dummie_gmv = 1)
+    -- Brokerage: Deeds tanto de Used Homes como de New Homes
+    OR (m_categoria = '02. Brokerage (Used Homes)' AND m_metrica = '05. Deeds')
+    OR (m_categoria = '03. Brokerage (New Homes)'  AND m_metrica = '02. Deeds')
+    -- HabiCredit: Loans Disbursed
     OR (m_categoria = '04. Habicredit' AND m_metrica = '03. Loans Disbursed')
   )
   AND mes BETWEEN DATE('{mes_inicio.isoformat()}') AND DATE('{mes_corte.isoformat()}')
-GROUP BY 1, 2, 3, 4, 5, 6, 7, 8, 9
+GROUP BY 1, 2, 3, 4, 5, 6, 7, 8, 9, 10
 """.strip()
 
 
@@ -77,7 +107,8 @@ def _twin_sum(df: pd.DataFrame, value_col: str = "actuals") -> dict[str, float]:
     consistencia con la UI.
     """
     s = df[value_col].fillna(0)
-    elim_mask = df["dummie_eliminaciones"].fillna(0).eq(1)
+    # Trata 1 y -1 como eliminacion (ambos son intercompania, distintos tipos).
+    elim_mask = df["dummie_eliminaciones"].fillna(0).isin([1, -1])
     return {
         "sin_elim": float(s[~elim_mask].sum()),
         "solo_elim": float(s[elim_mask].sum()),
@@ -117,12 +148,13 @@ def _facts(df: pd.DataFrame) -> list[dict[str, Any]]:
     Transactions.
     """
     rows = []
-    keys = ["mes", "m_pais", "c_subsidiaria", "linea", "m_categoria", "m_metrica", "m_submetrica"]
+    keys = ["mes", "m_pais", "c_subsidiaria", "linea", "m_categoria", "m_metrica", "m_submetrica", "dummie_ajustes"]
     for vals, g in df.groupby(keys, dropna=False):
-        mes, pais, sub, linea, categoria, metrica, submetrica = vals
+        mes, pais, sub, linea, categoria, metrica, submetrica, ajuste = vals
         # Combinamos categoria + metrica + submetrica como la descripcion del detalle
         detalle_partes = [str(metrica), str(submetrica)] if pd.notna(submetrica) else [str(metrica)]
         detalle = " · ".join(p for p in detalle_partes if p and p != "nan")
+        tipo_tx = METRICA_A_TIPO_TX.get(str(metrica), str(metrica)) if pd.notna(metrica) else None
         rows.append({
             "mes": mes.strftime("%Y-%m"),
             "pais": pais if pd.notna(pais) else None,
@@ -130,6 +162,8 @@ def _facts(df: pd.DataFrame) -> list[dict[str, Any]]:
             "linea": linea if pd.notna(linea) else None,
             "cuenta": None,
             "cuenta_desc": detalle,
+            "tipo_transaccion": tipo_tx,
+            "es_ajuste": bool(pd.notna(ajuste) and ajuste == 1),
             "actuals": _twin_sum(g),
             "budget": _twin_sum(g, "budget"),
         })
@@ -156,24 +190,27 @@ def build(mes_corte: dt.date) -> dict[str, Any]:
 
     payload: dict[str, Any] = {
         "id": "gmv",
-        "nombre": "GMV / Valor transado",
+        "nombre": "GMV / Transacted Value",
         "seccion": "4.1",
         "unidad": "MONEDA",
         "estado": "real",
-        "fuente": "bet_data_p2 · Transactions · dummie_gmv=1 + HC Loans Disbursed",
+        "fuente": "bet_data_p2 · Transactions · MM Deeds + Brokerage Used Deeds + HC Loans",
         "receta": {
             "tabla": TABLE_BET,
-            "opcion": "A (solo dummie_gmv=1) + HC Loans Disbursed",
+            "version": "v2 — solo Deeds (acordada 2026-06-24)",
             "filtros": [
                 "m_tipo = '2. Transactions'",
-                "dummie_gmv = 1  -- ventas MM valuadas a Purchase price",
-                "OR m_categoria='04. Habicredit' AND m_metrica='03. Loans Disbursed'",
+                "MM:        m_categoria='01. Market Maker' AND m_metrica IN ('03. Purchase Deeds', '07. Sale Deeds' WHERE dummie_gmv=1)",
+                "Brokerage Used: m_categoria='02. Brokerage (Used Homes)' AND m_metrica='05. Deeds'",
+                "Brokerage New:  m_categoria='03. Brokerage (New Homes)' AND m_metrica='02. Deeds'",
+                "HabiCredit: m_categoria='04. Habicredit' AND m_metrica='03. Loans Disbursed'",
             ],
             "medida": "actuals_managerial (operativo, no accounting)",
             "notas": [
                 "GMV es operativo: no tiene c_subsidiaria ni c_cuenta en bet_data_p2.",
-                "Drill-down granular usa la submetrica (Tradicional / Alianzas / HC100 / etc.)",
-                "Opcion A excluye compras MM y Brokerage por convencion de Habi.",
+                "MM Sale Deeds se valuan a Purchase Price (dummie_gmv=1) para no inflar con markup.",
+                "Brokerage incluye tanto Used Homes ('05. Deeds') como New Homes ('02. Deeds').",
+                "Doble cuenta esperada: una vivienda comprada y luego vendida aparece dos veces.",
             ],
             "monedas": MONEDA_POR_PAIS,
         },

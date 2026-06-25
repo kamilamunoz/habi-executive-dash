@@ -64,6 +64,7 @@ SELECT
   c_cuenta,
   c_cuenta_descripcion,
   dummie_eliminaciones,
+  dummie_ajustes,
   SUM(actuals_accounting) AS actuals,
   SUM(budget_1)           AS budget
 FROM `{TABLE_BET}`
@@ -71,7 +72,7 @@ WHERE m_categoria = '01. Total Revenue'
   AND m_tipo      = '1. Financials'
   AND m_metrica  != '01. Total Revenue'
   AND mes BETWEEN DATE('{mes_inicio.isoformat()}') AND DATE('{mes_corte.isoformat()}')
-GROUP BY 1, 2, 3, 4, 5, 6, 7
+GROUP BY 1, 2, 3, 4, 5, 6, 7, 8
 """.strip()
 
 
@@ -79,7 +80,10 @@ def _twin_sum(df: pd.DataFrame, value_col: str = "actuals") -> dict[str, float]:
     """Suma de un campo en 3 sabores. NULL en dummie_eliminaciones se trata
     como no-eliminacion (con fillna)."""
     s = df[value_col].fillna(0)
-    elim_mask = df["dummie_eliminaciones"].fillna(0).eq(1)
+    # dummie_eliminaciones puede ser 1 (ajustes agregados, cuenta NULL) o -1
+    # (contrapartidas reales con cuenta, ej. "96. Eliminacion INTERCOMPANIAS").
+    # Ambos son eliminaciones intercompania y deben excluirse del sin_elim.
+    elim_mask = df["dummie_eliminaciones"].fillna(0).isin([1, -1])
     return {
         "sin_elim": float(s[~elim_mask].sum()),
         "solo_elim": float(s[elim_mask].sum()),
@@ -118,9 +122,9 @@ def _facts(df: pd.DataFrame) -> list[dict[str, Any]]:
     y emite cada fila con actuals/budget en sus 3 sabores de eliminacion.
     """
     rows = []
-    keys = ["mes", "m_pais", "c_subsidiaria", "linea", "c_cuenta", "c_cuenta_descripcion"]
+    keys = ["mes", "m_pais", "c_subsidiaria", "linea", "c_cuenta", "c_cuenta_descripcion", "dummie_ajustes"]
     for vals, g in df.groupby(keys, dropna=False):
-        mes, pais, sub, linea, cuenta, desc = vals
+        mes, pais, sub, linea, cuenta, desc, ajuste = vals
         rows.append({
             "mes": mes.strftime("%Y-%m"),
             "pais": pais if pd.notna(pais) else None,
@@ -128,6 +132,7 @@ def _facts(df: pd.DataFrame) -> list[dict[str, Any]]:
             "linea": linea if pd.notna(linea) else None,
             "cuenta": int(cuenta) if pd.notna(cuenta) else None,
             "cuenta_desc": desc if pd.notna(desc) else None,
+            "es_ajuste": bool(pd.notna(ajuste) and ajuste == 1),
             "actuals": _twin_sum(g),
             "budget": _twin_sum(g, "budget"),
         })
@@ -155,7 +160,7 @@ def build(mes_corte: dt.date) -> dict[str, Any]:
 
     payload: dict[str, Any] = {
         "id": "ingresos_totales",
-        "nombre": "Ingresos totales",
+        "nombre": "Total Revenue",
         "seccion": "4.1",
         "unidad": "MONEDA",
         "estado": "real",

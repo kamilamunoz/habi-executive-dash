@@ -50,19 +50,21 @@ SELECT
   c_cuenta,
   c_cuenta_descripcion,
   dummie_eliminaciones,
+  dummie_ajustes,
   SUM(actuals_accounting) AS actuals,
   SUM(budget_1)           AS budget
 FROM `{TABLE_BET}`
 WHERE m_tipo = '1. Financials'
   AND c_total_reporte IN ('1 Gross Profit', '2 Other Costs', '3 Operating Expenses')
   AND mes BETWEEN DATE('{mes_inicio.isoformat()}') AND DATE('{mes_corte.isoformat()}')
-GROUP BY 1, 2, 3, 4, 5, 6, 7, 8
+GROUP BY 1, 2, 3, 4, 5, 6, 7, 8, 9
 """.strip()
 
 
 def _twin_sum(df: pd.DataFrame, value_col: str = "actuals") -> dict[str, float]:
     s = df[value_col].fillna(0)
-    elim_mask = df["dummie_eliminaciones"].fillna(0).eq(1)
+    # Trata 1 y -1 como eliminacion (ambos son intercompania).
+    elim_mask = df["dummie_eliminaciones"].fillna(0).isin([1, -1])
     return {
         "sin_elim": float(s[~elim_mask].sum()),
         "solo_elim": float(s[elim_mask].sum()),
@@ -117,9 +119,9 @@ def _facts(df: pd.DataFrame) -> list[dict[str, Any]]:
     de EBITDA puede mostrar el desglose entre Gross Profit / Other Costs / OpEx.
     """
     rows = []
-    keys = ["mes", "m_pais", "c_subsidiaria", "c_total_reporte", "c_cuenta", "c_cuenta_descripcion"]
+    keys = ["mes", "m_pais", "c_subsidiaria", "c_total_reporte", "c_cuenta", "c_cuenta_descripcion", "dummie_ajustes"]
     for vals, g in df.groupby(keys, dropna=False):
-        mes, pais, sub, tot_rep, cuenta, desc = vals
+        mes, pais, sub, tot_rep, cuenta, desc, ajuste = vals
         rows.append({
             "mes": mes.strftime("%Y-%m"),
             "pais": pais if pd.notna(pais) else None,
@@ -127,6 +129,7 @@ def _facts(df: pd.DataFrame) -> list[dict[str, Any]]:
             "linea": None,  # EBITDA no se segmenta por business line
             "cuenta": int(cuenta) if pd.notna(cuenta) else None,
             "cuenta_desc": desc if pd.notna(desc) else None,
+            "es_ajuste": bool(pd.notna(ajuste) and ajuste == 1),
             "bloque_pyl": str(tot_rep) if pd.notna(tot_rep) else None,  # GP / OC / OpEx
             "actuals": _twin_sum(g),
             "budget": _twin_sum(g, "budget"),
@@ -158,7 +161,7 @@ def build(mes_corte: dt.date) -> dict[str, Any]:
         "nombre": "EBITDA",
         "seccion": "4.1",
         "unidad": "MONEDA_CON_RATIO",
-        "ratio_label": "Margen EBITDA",
+        "ratio_label": "EBITDA Margin",
         "estado": "real",
         "fuente": "bet_data_p2 · Gross Profit + Other Costs + Operating Expenses",
         "receta": {

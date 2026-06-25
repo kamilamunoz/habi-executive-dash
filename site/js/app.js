@@ -21,10 +21,11 @@ const STATE = {
   filters: {
     mes: null,
     pais: "Global",
-    subsidiaria: "Todas",
-    linea: "Todas",
+    subsidiaria: "All",
+    linea: "All",
     moneda: "LOCAL",
     elim: "sin_elim",
+    ajustes: "sin_ajustes",  // sin_ajustes (default) | con_ajustes | solo_ajustes
     fxCOP: 3700,
     fxMXN: 18.5,
   },
@@ -34,38 +35,38 @@ const STATE = {
 
 const PAIS_LIST = ["Global", "Colombia", "Mexico", "Offshore"];
 const SUBSIDIARIAS_POR_PAIS = {
-  Global:   ["Todas", "Habi", "HabiCapital", "Habicredit", "Corporativo", "Merbos", "Tu HabiPres", "LTD", "Corp", "LLC Colombia", "LLC Mexico"],
-  Colombia: ["Todas", "Habi", "HabiCapital", "Habicredit"],
-  Mexico:   ["Todas", "Corporativo", "Merbos", "Tu HabiPres"],
-  Offshore: ["Todas", "LTD", "Corp", "LLC Colombia", "LLC Mexico"],
+  Global:   ["All", "Habi", "HabiCapital", "Habicredit", "Corporativo", "Merbos", "Tu HabiPres", "LTD", "Corp", "LLC Colombia", "LLC Mexico"],
+  Colombia: ["All", "Habi", "HabiCapital", "Habicredit"],
+  Mexico:   ["All", "Corporativo", "Merbos", "Tu HabiPres"],
+  Offshore: ["All", "LTD", "Corp", "LLC Colombia", "LLC Mexico"],
 };
 const LINEAS_POR_PAIS = {
-  Global:   ["Todas", "Market Maker", "Brokerage", "HabiCredit", "Other"],
-  Colombia: ["Todas", "Market Maker", "Brokerage", "HabiCredit", "Other"],
-  Mexico:   ["Todas", "Market Maker", "Brokerage", "HabiCredit", "Other"],
-  Offshore: ["Todas"],
+  Global:   ["All", "Market Maker", "Brokerage", "HabiCredit", "Other"],
+  Colombia: ["All", "Market Maker", "Brokerage", "HabiCredit", "Other"],
+  Mexico:   ["All", "Market Maker", "Brokerage", "HabiCredit", "Other"],
+  Offshore: ["All"],
 };
 const KPIS_41 = [
-  { id: "ingresos_totales",    nombre: "Ingresos totales",     file: "kpi_ingresos.json" },
-  { id: "gmv",                 nombre: "GMV / Valor transado", file: "kpi_gmv.json" },
-  { id: "margen_bruto",        nombre: "Margen bruto",         file: "kpi_margen_bruto.json" },
-  { id: "contribution_margin", nombre: "Contribution margin",  file: "kpi_contribution.json" },
-  { id: "ebitda",              nombre: "EBITDA",               file: "kpi_ebitda.json" },
-  { id: "opex_ingreso",        nombre: "OpEx",                 file: "kpi_opex.json" },
-  { id: "burn_runway",         nombre: "Burn neto",            file: "kpi_burn.json" },
+  { id: "ingresos_totales",    nombre: "Total Revenue",          file: "kpi_ingresos.json" },
+  { id: "gmv",                 nombre: "GMV / Transacted Value", file: "kpi_gmv.json" },
+  { id: "margen_bruto",        nombre: "Gross Margin",           file: "kpi_margen_bruto.json" },
+  { id: "contribution_margin", nombre: "Contribution Margin",    file: "kpi_contribution.json" },
+  { id: "ebitda",              nombre: "EBITDA",                 file: "kpi_ebitda.json" },
+  { id: "opex_ingreso",        nombre: "OpEx",                   file: "kpi_opex.json" },
+  { id: "burn_runway",         nombre: "Net Burn",               file: "kpi_burn.json" },
 ];
 const KPIS_42 = [
-  { id: "inventario_libros",   nombre: "Inventario en libros", file: null },
-  { id: "antiguedad_inv",      nombre: "Antigüedad inventario",file: null },
-  { id: "capital_roic",        nombre: "Capital desplegado / ROIC", file: null },
-  { id: "ciclo_caja",          nombre: "Ciclo de conversión de caja", file: null },
-  { id: "rotacion",            nombre: "Rotación / sell-through", file: null },
-  { id: "deuda_apalanc",       nombre: "Deuda neta y apalancamiento", file: null },
+  { id: "inventario_libros",   nombre: "Inventory on books",         file: null },
+  { id: "antiguedad_inv",      nombre: "Inventory aging",            file: null },
+  { id: "capital_roic",        nombre: "Capital deployed / ROIC",    file: null },
+  { id: "ciclo_caja",          nombre: "Cash conversion cycle",      file: null },
+  { id: "rotacion",            nombre: "Rotation / sell-through",    file: null },
+  { id: "deuda_apalanc",       nombre: "Net debt & leverage",        file: null },
 ];
 
 const FMT_MES = {
-  "01":"Ene","02":"Feb","03":"Mar","04":"Abr","05":"May","06":"Jun",
-  "07":"Jul","08":"Ago","09":"Sep","10":"Oct","11":"Nov","12":"Dic",
+  "01":"Jan","02":"Feb","03":"Mar","04":"Apr","05":"May","06":"Jun",
+  "07":"Jul","08":"Aug","09":"Sep","10":"Oct","11":"Nov","12":"Dec",
 };
 function mesYYYYMM_a_label(yyyymm){
   const [y,m] = yyyymm.split("-"); return `${FMT_MES[m]} ${y}`;
@@ -92,18 +93,19 @@ function fmtMoneda(n, moneda, opts){
   return `${sign}$${v.toFixed(decimals)}${unit ? (opts.compact ? unit : " "+unit) : ""}`;
 }
 
-function fmtDelta(diff, invertir){
+function fmtDelta(diff, invertir, asPill){
   if(diff == null || isNaN(diff)) return "";
-  // Por default: ▲ verde, ▼ rojo. Si invertir=true (ej. OpEx donde gastar mas
-  // es malo): ▲ rojo, ▼ verde — el arrow refleja la direccion del numero,
-  // el color refleja si es bueno o malo.
+  // Por default: ▲ verde, ▼ rojo. Si invertir=true (ej. OpEx, Burn): ▲ rojo,
+  // ▼ verde — el arrow refleja la direccion del numero, el color si es bueno o malo.
+  // asPill=true wraps with background color (drill rows). Default = text only (cards).
   const arrow = diff > 0 ? "▲" : (diff < 0 ? "▼" : "—");
   let cls = diff > 0 ? "up" : (diff < 0 ? "down" : "flat");
   if(invertir){
     if(cls === "up") cls = "down";
     else if(cls === "down") cls = "up";
   }
-  return `<span class="${cls}">${arrow} ${Math.abs(diff*100).toFixed(1)}%</span>`;
+  const wrapper = asPill ? "delta-pill " + cls : cls;
+  return `<span class="${wrapper}">${arrow} ${Math.abs(diff*100).toFixed(1)}%</span>`;
 }
 
 /* ============================================================== PAIS/FX = */
@@ -148,19 +150,24 @@ function filtrarFacts(facts, filters){
     // Filtro de pais
     let paisActivo = filters.pais;
     // Si filtro de subsidiaria activo y el KPI no la tiene, fall back a pais inferido
-    if(filters.subsidiaria !== "Todas" && !tieneSubKPI && paisActivo === "Global"){
+    if(filters.subsidiaria !== "All" && !tieneSubKPI && paisActivo === "Global"){
       paisActivo = paisDeSubsidiaria(filters.subsidiaria);
     }
     if(paisActivo && paisActivo !== "Global" && r.pais !== paisActivo) return false;
 
     // Filtro de subsidiaria SOLO si el KPI la tiene
-    if(filters.subsidiaria !== "Todas" && tieneSubKPI){
+    if(filters.subsidiaria !== "All" && tieneSubKPI){
       if(r.subsidiaria !== filters.subsidiaria) return false;
     }
     // Filtro de linea SOLO si el KPI la tiene
-    if(filters.linea !== "Todas" && tieneLineaKPI){
+    if(filters.linea !== "All" && tieneLineaKPI){
       if(r.linea !== filters.linea) return false;
     }
+    // Filtro de ajustes contables (dummie_ajustes en bet_data_p2)
+    // Si la fact no expone es_ajuste, asumimos no es ajuste (compatibilidad).
+    const esAj = !!r.es_ajuste;
+    if(filters.ajustes === "sin_ajustes" && esAj) return false;
+    if(filters.ajustes === "solo_ajustes" && !esAj) return false;
     return true;
   });
 }
@@ -205,7 +212,7 @@ function calcularRunway(kpiData){
   if(!bucket) return null;
   let cash = 0;
   let paisLocalCash = null;
-  if(f.subsidiaria !== "Todas"){
+  if(f.subsidiaria !== "All"){
     cash = bucket.por_subsidiaria[f.subsidiaria];
     if(cash == null){
       // fallback al pais de esa subsidiaria
@@ -232,17 +239,53 @@ function calcularRunway(kpiData){
  * tiene esa dimension. La UI muestra un aviso en la card cuando esto ocurre. */
 function filtrosDegradados(kpiData, filters){
   const avisos = [];
-  if(filters.subsidiaria !== "Todas"){
+  if(filters.subsidiaria !== "All"){
     if(!kpiData.facts.some(r => r.subsidiaria != null)){
-      avisos.push(`Sin granularidad de subsidiaria — mostrando ${paisDeSubsidiaria(filters.subsidiaria) || "país"}`);
+      avisos.push(`No subsidiary granularity — showing ${paisDeSubsidiaria(filters.subsidiaria) || "country"}`);
     }
   }
-  if(filters.linea !== "Todas"){
+  if(filters.linea !== "All"){
     if(!kpiData.facts.some(r => r.linea != null)){
-      avisos.push(`Sin granularidad de línea — mostrando todas`);
+      avisos.push(`No business line granularity — showing all`);
     }
   }
   return avisos;
+}
+
+/* Orden canonico para keys SIN prefijo numerico. Las que tienen prefijo
+ * (ej. "01. Market Maker Sales") se ordenan por ese prefijo numerico. */
+const LINEA_ORDER = ["Market Maker", "Brokerage", "HabiCredit", "Other"];
+const PAIS_ORDER  = ["Global", "Colombia", "Mexico", "Offshore"];
+
+/* Comparator para drill rows. Prioridad:
+ *   1. Si AMBOS keys tienen prefijo "NN.", ordenar por ese numero
+ *   2. Si AMBOS son business lines (LINEA_ORDER), seguir ese orden
+ *   3. Si AMBOS son paises (PAIS_ORDER), seguir ese orden
+ *   4. Sino, ordenar por |actuals| descendente
+ */
+function compararDrillRows(a, b){
+  const ka = String(a.key || "");
+  const kb = String(b.key || "");
+  // Acepta tanto "01." como "1 " como prefijo numerico
+  const ma = /^(\d+)[\.\s]/.exec(ka);
+  const mb = /^(\d+)[\.\s]/.exec(kb);
+  if(ma && mb) return parseInt(ma[1]) - parseInt(mb[1]);
+  if(ma) return -1;
+  if(mb) return 1;
+  const ila = LINEA_ORDER.indexOf(ka);
+  const ilb = LINEA_ORDER.indexOf(kb);
+  if(ila >= 0 && ilb >= 0) return ila - ilb;
+  if(ila >= 0) return -1;
+  if(ilb >= 0) return 1;
+  const ipa = PAIS_ORDER.indexOf(ka);
+  const ipb = PAIS_ORDER.indexOf(kb);
+  if(ipa >= 0 && ipb >= 0) return ipa - ipb;
+  if(ipa >= 0) return -1;
+  if(ipb >= 0) return 1;
+  // (sin asignar) y similares al final
+  if(ka.startsWith("(") && !kb.startsWith("(")) return 1;
+  if(kb.startsWith("(") && !ka.startsWith("(")) return -1;
+  return Math.abs(b.actuals) - Math.abs(a.actuals);
 }
 
 /* Agrupa filas por una clave y suma actuals/budget en el elim seleccionado.
@@ -268,7 +311,7 @@ function agrupar(facts, keyFn, elim){
     revenue_actuals: e.revenue_actuals,
     revenue_budget: e.revenue_budget,
     paisLocal: e.paises.size === 1 ? [...e.paises][0] : null,
-  })).sort((a,b) => Math.abs(b.actuals) - Math.abs(a.actuals));
+  })).sort(compararDrillRows);
 }
 
 /* Suma un fact con FX a la moneda mostrada. Tambien suma revenue_actuals y
@@ -300,14 +343,17 @@ function serieMensualFiltrada(facts, elim){
 /* =========================================================== CARGAR === */
 
 async function cargarTodo(){
-  STATE.meta = await fetch("data/meta.json").then(r => r.json());
+  // Cache buster: aniadimos un timestamp para forzar fetch fresco cada vez
+  // que se recarga el dashboard (evita problemas cuando refrescas datos).
+  const cb = "?t=" + Date.now();
+  STATE.meta = await fetch("data/meta.json" + cb).then(r => r.json());
   STATE.filters.fxCOP = STATE.meta.fx_default.COP;
   STATE.filters.fxMXN = STATE.meta.fx_default.MXN;
 
   for(const kpi of [...KPIS_41, ...KPIS_42]){
     if(!kpi.file) continue;
     try{
-      STATE.kpis[kpi.id] = await fetch("data/" + kpi.file).then(r => r.json());
+      STATE.kpis[kpi.id] = await fetch("data/" + kpi.file + cb).then(r => r.json());
     } catch(e){
       console.warn("No se pudo cargar", kpi.file, e);
     }
@@ -361,15 +407,21 @@ function sparkSVG(serie, color){
 }
 
 /* Line chart con etiquetas de datos. 2 series: actuals y budget.
- * Posicionamiento inteligente de etiquetas: actuals arriba si no choca con
- * el techo, abajo si no. Budget al contrario para no traslapar con actuals. */
-function lineChartSVG(serie, moneda){
-  if(!serie || serie.length === 0) return "<div class='chart-empty'>Sin datos</div>";
+ * unit: "MONEY" (default) o "PCT". En PCT los valores se muestran como %. */
+function fmtChartValue(v, unit, moneda){
+  if(v == null || isNaN(v)) return "—";
+  if(unit === "PCT") return (v*100).toFixed(1) + "%";
+  return fmtMoneda(v, moneda, {compact: true});
+}
+
+function lineChartSVG(serie, moneda, unit){
+  unit = unit || "MONEY";
+  if(!serie || serie.length === 0) return "<div class='chart-empty'>No data</div>";
   const W = 1200, H = 460, pad = {l: 78, r: 28, t: 30, b: 58};
   const cw = W - pad.l - pad.r, ch = H - pad.t - pad.b;
 
   const vals = serie.flatMap(r => [r.actuals, r.budget]).filter(v => v != null && !isNaN(v));
-  if(vals.length === 0) return "<div class='chart-empty'>Sin datos</div>";
+  if(vals.length === 0) return "<div class='chart-empty'>No data</div>";
   const max = Math.max(...vals), min = Math.min(...vals);
   const yMin = Math.min(0, min);
   const range = (max - yMin) || 1;
@@ -388,7 +440,7 @@ function lineChartSVG(serie, moneda){
     const v = yMin + (yRng * i / ticks);
     const y = pad.t + ch - (ch * i / ticks);
     yAxis += `<line x1="${pad.l}" x2="${pad.l + cw}" y1="${y}" y2="${y}" stroke="#EFEFF4" stroke-width="1"/>
-              <text x="${pad.l - 10}" y="${y + 4}" text-anchor="end" font-size="12" fill="#5C5C70" font-family="IBM Plex Mono, monospace">${fmtMoneda(v, moneda, {compact:true})}</text>`;
+              <text x="${pad.l - 10}" y="${y + 4}" text-anchor="end" font-size="12" fill="#5C5C70" font-family="IBM Plex Mono, monospace">${fmtChartValue(v, unit, moneda)}</text>`;
   }
   if(yMin < 0){
     const yZero = yAt(0);
@@ -417,16 +469,16 @@ function lineChartSVG(serie, moneda){
     const aArriba = !pB || p.v >= pB.v;
     const yLabel = aArriba ? p.y - labelOffset : p.y + labelOffset + 4;
     dotsA += `<circle cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="5" fill="#6B2FD4">
-      <title>${serie[p.i].mes} · Actuals: ${fmtMoneda(p.v, moneda)}</title></circle>`;
-    labelsA += `<text x="${p.x.toFixed(1)}" y="${yLabel.toFixed(1)}" text-anchor="middle" font-size="12.5" font-weight="700" fill="#3A1980" font-family="IBM Plex Mono, monospace" paint-order="stroke" stroke="#FFFFFF" stroke-width="4">${fmtMoneda(p.v, moneda, {compact:true})}</text>`;
+      <title>${serie[p.i].mes} · Actuals: ${fmtChartValue(p.v, unit, moneda)}</title></circle>`;
+    labelsA += `<text x="${p.x.toFixed(1)}" y="${yLabel.toFixed(1)}" text-anchor="middle" font-size="12.5" font-weight="700" fill="#3A1980" font-family="IBM Plex Mono, monospace" paint-order="stroke" stroke="#FFFFFF" stroke-width="4">${fmtChartValue(p.v, unit, moneda)}</text>`;
   });
   pointsB.forEach(p => {
     const pA = pointsA.find(pa => pa.i === p.i);
     const bArriba = !pA || p.v > pA.v;
     const yLabel = bArriba ? p.y - labelOffset : p.y + labelOffset + 4;
     dotsB += `<circle cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="4.5" fill="#FFFFFF" stroke="#8B4FE8" stroke-width="2">
-      <title>${serie[p.i].mes} · Budget: ${fmtMoneda(p.v, moneda)}</title></circle>`;
-    labelsB += `<text x="${p.x.toFixed(1)}" y="${yLabel.toFixed(1)}" text-anchor="middle" font-size="11.5" font-weight="500" fill="#7A3FE0" font-family="IBM Plex Mono, monospace" paint-order="stroke" stroke="#FFFFFF" stroke-width="3">${fmtMoneda(p.v, moneda, {compact:true})}</text>`;
+      <title>${serie[p.i].mes} · Budget: ${fmtChartValue(p.v, unit, moneda)}</title></circle>`;
+    labelsB += `<text x="${p.x.toFixed(1)}" y="${yLabel.toFixed(1)}" text-anchor="middle" font-size="11.5" font-weight="500" fill="#7A3FE0" font-family="IBM Plex Mono, monospace" paint-order="stroke" stroke="#FFFFFF" stroke-width="3">${fmtChartValue(p.v, unit, moneda)}</text>`;
   });
 
   // Eje X
@@ -459,15 +511,29 @@ function lineChartSVG(serie, moneda){
 /* ====================================================== RENDER · CARD == */
 
 const SPARK_COLOR = { real:"#1F9D6B", parcial:"#B5790E", ejemplo:"#8B4FE8", pendiente:"#9A9AAE" };
-const TAG_LABEL = { real:"Real", parcial:"Parcial", ejemplo:"Ejemplo", pendiente:"Pendiente" };
+const TAG_LABEL = { real:"Real", parcial:"Partial", ejemplo:"Example", pendiente:"Pending" };
+
+/* Color de performance para la card. Mismo umbral que el Health Snapshot:
+ *   >= -5%  -> verde
+ *   -5% a -15% -> ambar
+ *   < -15% -> rojo
+ * Si invertir=true (mas es peor: OpEx, Burn), invierte el signo del diff.
+ */
+function perfColor(diff, invertir){
+  if(diff == null || isNaN(diff)) return "perf-gray";
+  const d = invertir ? -diff : diff;
+  if(d >= -0.05) return "perf-green";
+  if(d >= -0.15) return "perf-amber";
+  return "perf-red";
+}
 
 function renderCard(kpiDef){
   const data = STATE.kpis[kpiDef.id];
   if(!data){
     return `<div class="card pendiente">
-      <div class="kpi-name"><span class="nm">${kpiDef.nombre}</span><span class="tag pendiente">Pendiente</span></div>
-      <div class="val">Sin fuente aún</div>
-      <div class="src">Por construir</div>
+      <div class="kpi-name"><span class="nm">${kpiDef.nombre}</span><span class="tag pendiente">Pending</span></div>
+      <div class="val">No source yet</div>
+      <div class="src">To be built</div>
     </div>`;
   }
   const {actuals, budget, paisLocal, ratio, ratio_budget} = montoMesActual(data);
@@ -510,7 +576,7 @@ function renderCard(kpiDef){
   const color = SPARK_COLOR[data.estado] || SPARK_COLOR.ejemplo;
 
   const ratioFmt = ratioComoMeses
-    ? (ratioVal === Infinity ? "∞ (genera cash)" : `${ratioVal.toFixed(1)} meses`)
+    ? (ratioVal === Infinity ? "∞ (generates cash)" : `${ratioVal.toFixed(1)} months`)
     : (ratioVal != null ? `${(ratioVal*100).toFixed(1)}%` : "");
   const ratioBudFmt = (!ratioComoMeses && ratioBud != null)
     ? ` <span class="vs">vs bud ${(ratioBud*100).toFixed(1)}%</span>`
@@ -524,19 +590,20 @@ function renderCard(kpiDef){
     ? `<div class="card-aviso" title="${avisos.join(' · ')}">ⓘ ${avisos[0]}</div>`
     : "";
 
-  return `<div class="card ${data.estado}" onclick="abrirDrill('${kpiDef.id}')">
+  const perfCls = perfColor(diff, invertir);
+  return `<div class="card ${perfCls}" onclick="abrirDrill('${kpiDef.id}')">
     <div class="kpi-name"><span class="nm">${kpiDef.nombre}</span><span class="tag ${data.estado}">${TAG_LABEL[data.estado]}</span></div>
     <div class="val">${valor}</div>
     ${ratioHTML}
     <div class="budget-line">Budget: <b>${budgetTxt}</b></div>
     <div class="delta">
       ${diff != null ? fmtDelta(diff, invertir) + ' <span class="vs">vs budget</span>' : ''}
-      ${diffMoM != null ? fmtDelta(diffMoM, invertir) + ' <span class="vs">vs mes ant.</span>' : ''}
+      ${diffMoM != null ? fmtDelta(diffMoM, invertir) + ' <span class="vs">vs prev. month</span>' : ''}
     </div>
     ${sparkSVG(serie, color)}
     ${avisosHTML}
     <div class="src">◷ ${data.fuente || ""}</div>
-    <div class="card-cta">Click para drill-down →</div>
+    <div class="card-cta">Click for drill-down →</div>
   </div>`;
 }
 
@@ -551,18 +618,18 @@ function renderSnapshot(){
   }
   function emoji(s){ return s==="green"?"🟢":s==="amber"?"🟡":s==="red"?"🔴":"⚪"; }
 
-  let resSem = "gray", resTxt = "Sin KPIs reales aún";
+  let resSem = "gray", resTxt = "No real KPIs yet";
   if(STATE.kpis.ingresos_totales){
     const {actuals, budget} = montoMesActual(STATE.kpis.ingresos_totales);
     const diff = (actuals && budget) ? (actuals-budget)/Math.abs(budget) : null;
     resSem = semaforoDelta(diff);
-    resTxt = diff != null ? `Ingresos ${(diff*100).toFixed(1)}% vs budget` : "Ingresos sin budget en mes corte";
+    resTxt = diff != null ? `Revenue ${(diff*100).toFixed(1)}% vs budget` : "Revenue has no budget for this period";
   }
   const areas = [
-    { area: "Resultado",   sem: resSem, txt: resTxt },
-    { area: "Capital",     sem: "gray", txt: "Inventario en libros pendiente" },
-    { area: "Crecimiento", sem: "gray", txt: "GMV y cobertura pipeline pendientes" },
-    { area: "Riesgo",      sem: "gray", txt: "Antigüedad inventario y NPS pendientes" },
+    { area: "Performance", sem: resSem, txt: resTxt },
+    { area: "Capital",     sem: "gray", txt: "Inventory on books pending" },
+    { area: "Growth",      sem: "gray", txt: "GMV and pipeline coverage pending" },
+    { area: "Risk",        sem: "gray", txt: "Inventory aging and NPS pending" },
   ];
   document.getElementById("snapshot").innerHTML = areas.map(a => `
     <div class="snap ${a.sem}">
@@ -586,50 +653,52 @@ function abrirDrill(kpiId){
 
   document.getElementById("drillEyebrow").textContent = "DRILL-DOWN · " + data.seccion;
   document.getElementById("drillTitle").textContent = data.nombre;
-  const monedaTxt = f.moneda === "USD" ? "USD" : "moneda local";
+  const monedaTxt = f.moneda === "USD" ? "USD" : "local currency";
   const filtrosTxt = [
     f.pais !== "Global" ? f.pais : null,
-    f.subsidiaria !== "Todas" ? f.subsidiaria : null,
-    f.linea !== "Todas" ? f.linea : null,
-  ].filter(Boolean).join(" · ") || "Global · todas";
+    f.subsidiaria !== "All" ? f.subsidiaria : null,
+    f.linea !== "All" ? f.linea : null,
+  ].filter(Boolean).join(" · ") || "Global · all";
+  const elimLabel = {sin_elim:"excluded", con_elim:"included", solo_elim:"only eliminations"}[f.elim] || f.elim;
+  const ajLabel = {sin_ajustes:"excluded", con_ajustes:"included", solo_ajustes:"only adjustments"}[f.ajustes] || f.ajustes;
   document.getElementById("drillSub").innerHTML =
-    `Mes: <b>${mesYYYYMM_a_label(f.mes)}</b> · Vista: <b>${filtrosTxt}</b> · Moneda: <b>${monedaTxt}</b> · Eliminaciones: <b>${f.elim}</b>`;
+    `Period: <b>${mesYYYYMM_a_label(f.mes)}</b> · View: <b>${filtrosTxt}</b> · Currency: <b>${monedaTxt}</b> · Eliminations: <b>${elimLabel}</b> · Adjustments: <b>${ajLabel}</b>`;
 
   // Helper para pintar lista agrupada
   const conRatio = data.unidad === "MONEDA_CON_RATIO";
   const invertirKPI = !!data.invertir_delta;
-  function pintarLista(rows, totalAbs){
-    if(!rows.length) return `<div class="drill-empty">Sin datos para esta vista.</div>`;
-    let html = "";
+  function pintarLista(rows){
+    if(!rows.length) return `<div class="drill-empty">No data for this view.</div>`;
+    // Si el set tiene al menos una fila con ratio, todas las rows del bloque
+    // muestran una columna extra (incluso vacia) para que las filas se alineen.
+    const blockTieneRatio = conRatio && rows.some(r => r.revenue_actuals && r.revenue_actuals !== 0);
+    let html = `<div class="drill-list ${blockTieneRatio ? "with-ratio" : ""}">`;
     for(const r of rows){
       const a = f.moneda === "USD" ? convertir(r.actuals, r.paisLocal) : r.actuals;
       const b = f.moneda === "USD" ? convertir(r.budget, r.paisLocal) : r.budget;
       if((a == null || a === 0) && (b == null || b === 0)) continue;
-      const pct = totalAbs ? Math.abs(a / totalAbs) : 0;
       const mon = f.moneda === "USD" ? "USD" : monedaDePais(r.paisLocal || "Colombia");
       const diff = (a != null && b != null && b !== 0) ? (a - b) / Math.abs(b) : null;
-      // Ratio si el KPI tiene revenue_actuals (Margen)
       let ratioHTML = "";
-      if(conRatio && r.revenue_actuals && r.revenue_actuals !== 0){
-        const ratio = a / (f.moneda === "USD" ? convertir(r.revenue_actuals, r.paisLocal) : r.revenue_actuals);
-        ratioHTML = `<span class="v-ratio">${(ratio*100).toFixed(1)}%</span>`;
+      if(blockTieneRatio){
+        if(r.revenue_actuals && r.revenue_actuals !== 0){
+          const ratio = a / (f.moneda === "USD" ? convertir(r.revenue_actuals, r.paisLocal) : r.revenue_actuals);
+          ratioHTML = `<span class="v-ratio">${(ratio*100).toFixed(1)}%</span>`;
+        } else {
+          ratioHTML = `<span class="v-ratio empty"></span>`;
+        }
       }
       html += `<div class="drill-row">
-        <span class="k"><span class="bar" style="width:${(pct*70).toFixed(0)}px"></span>${r.key}</span>
-        <span class="v-pair">
-          <span class="v">${fmtMoneda(a, mon)}</span>
-          ${ratioHTML}
-          <span class="v-bud">/ ${b != null ? fmtMoneda(b, mon) : "—"}</span>
-          ${diff != null ? fmtDelta(diff, invertirKPI) : ""}
-        </span>
+        <span class="dr-k">${r.key}</span>
+        <span class="dr-v">${fmtMoneda(a, mon)}</span>
+        ${blockTieneRatio ? `<span class="dr-ratio">${ratioHTML}</span>` : ""}
+        <span class="dr-bud">${b != null ? fmtMoneda(b, mon) : "—"}</span>
+        <span class="dr-delta">${diff != null ? fmtDelta(diff, invertirKPI, true) : ""}</span>
       </div>`;
     }
-    return html || `<div class="drill-empty">Sin datos.</div>`;
+    html += `</div>`;
+    return html || `<div class="drill-empty">No data.</div>`;
   }
-
-  // Agrupar por pais/subsidiaria/linea sobre los facts del mes
-  const totales = sumarConFX(delMes, elim);
-  const totalAbs = Math.abs(totales.actuals);
 
   // Detectar si el KPI tiene info de subsidiaria / linea / cuenta (no todos
   // la tienen — ej. GMV no trae subsidiaria; OpEx no tiene business line).
@@ -642,42 +711,63 @@ function abrirDrill(kpiId){
   if(f.pais === "Global"){
     const porPais = agrupar(delMes, r => r.pais, elim);
     html += `<div class="drill-block">
-      <h3>Por país</h3>
-      ${pintarLista(porPais, totalAbs)}
+      <h3>By country</h3>
+      ${pintarLista(porPais)}
     </div>`;
   }
   // Por subsidiaria SOLO si el KPI la tiene Y el filtro esta en Todas
-  if(tieneSubsidiaria && f.subsidiaria === "Todas"){
-    const porSub = agrupar(delMes, r => r.subsidiaria || "(sin asignar)", elim);
+  if(tieneSubsidiaria && f.subsidiaria === "All"){
+    const porSub = agrupar(delMes, r => r.subsidiaria || "(unassigned)", elim);
     html += `<div class="drill-block">
-      <h3>Por subsidiaria${f.pais !== "Global" ? " · " + f.pais : ""}</h3>
-      ${pintarLista(porSub, totalAbs)}
+      <h3>By subsidiary${f.pais !== "Global" ? " · " + f.pais : ""}</h3>
+      ${pintarLista(porSub)}
     </div>`;
   }
   // Por linea SOLO si el KPI la tiene Y linea=Todas
-  if(tieneLinea && f.linea === "Todas"){
-    const porLinea = agrupar(delMes, r => r.linea || "(sin asignar)", elim);
+  if(tieneLinea && f.linea === "All"){
+    const porLinea = agrupar(delMes, r => r.linea || "(unassigned)", elim);
     html += `<div class="drill-block">
-      <h3>Por línea de negocio${f.subsidiaria !== "Todas" ? " · " + f.subsidiaria : ""}</h3>
-      ${pintarLista(porLinea, totalAbs)}
+      <h3>By business line${f.subsidiaria !== "All" ? " · " + f.subsidiaria : ""}</h3>
+      ${pintarLista(porLinea)}
     </div>`;
   }
   // Si el KPI trae categoria_gasto (OpEx), mostrar un bloque dedicado
   const tieneCategoriaGasto = delMes.some(r => r.categoria_gasto != null);
   if(tieneCategoriaGasto){
-    const porCategoria = agrupar(delMes, r => r.categoria_gasto || "(sin asignar)", elim);
+    const porCategoria = agrupar(delMes, r => r.categoria_gasto || "(unassigned)", elim);
     html += `<div class="drill-block">
-      <h3>Por categoría de gasto</h3>
-      ${pintarLista(porCategoria, totalAbs)}
+      <h3>By expense category</h3>
+      ${pintarLista(porCategoria)}
     </div>`;
   }
-  // Si el KPI trae bloque_pyl (EBITDA), mostrar el desglose Gross Profit / Other Costs / OpEx
+  // Si el KPI trae categoria_cf (Burn), mostrar el desglose del cash flow
+  const tieneCategoriaCF = delMes.some(r => r.categoria_cf != null);
+  if(tieneCategoriaCF){
+    const porCF = agrupar(delMes, r => r.categoria_cf || "(unassigned)", elim);
+    html += `<div class="drill-block">
+      <h3>By cash flow category</h3>
+      ${pintarLista(porCF)}
+    </div>`;
+  }
+  // Si el KPI trae bloque_pyl (EBITDA, Contribution), mostrar el desglose
   const tieneBloquePyL = delMes.some(r => r.bloque_pyl != null);
   if(tieneBloquePyL){
-    const porBloque = agrupar(delMes, r => r.bloque_pyl || "(sin asignar)", elim);
+    const porBloque = agrupar(delMes, r => r.bloque_pyl || "(unassigned)", elim);
+    const tituloBloque = kpiId === "contribution_margin"
+      ? "Contribution components"
+      : "By P&amp;L block";
     html += `<div class="drill-block">
-      <h3>Por bloque del P&amp;L</h3>
-      ${pintarLista(porBloque, totalAbs)}
+      <h3>${tituloBloque}</h3>
+      ${pintarLista(porBloque)}
+    </div>`;
+  }
+  // Si el KPI trae tipo_transaccion (GMV), mostrar el desglose por tipo
+  const tieneTipoTx = delMes.some(r => r.tipo_transaccion != null);
+  if(tieneTipoTx){
+    const porTipo = agrupar(delMes, r => r.tipo_transaccion || "(unassigned)", elim);
+    html += `<div class="drill-block">
+      <h3>By transaction type</h3>
+      ${pintarLista(porTipo)}
     </div>`;
   }
   html += `</div>`;
@@ -685,14 +775,53 @@ function abrirDrill(kpiId){
   // Grafico mensual: serie de los facts filtrados (sin filtro de mes)
   const serieMensual = serieMensualFiltrada(filtered, elim);
   const monedaSerie = f.moneda === "USD" ? "USD" : (
-    f.subsidiaria !== "Todas" ? monedaDePais(paisDeSubsidiaria(f.subsidiaria)) :
+    f.subsidiaria !== "All" ? monedaDePais(paisDeSubsidiaria(f.subsidiaria)) :
     f.pais !== "Global" ? monedaDePais(f.pais) :
     "COP" // global LOCAL: dominante CO
   );
-  html += `<div class="drill-block chart-block">
-    <h3>Ejecución mensual · Actuals vs Budget (${monedaSerie})</h3>
-    ${lineChartSVG(serieMensual, monedaSerie)}
-  </div>`;
+  // Si el KPI tiene ratio (Margen, Contribution, EBITDA), agregamos toggle $/%
+  const hasRatioChart = conRatio;
+  if(hasRatioChart){
+    // Para el chart en %, computamos GP/Rev por mes (no sumar facts directamente —
+    // las facts traen revenue_actuals por fila, sumamos por mes y dividimos).
+    const revPorMes = new Map();
+    for(const r of filtered){
+      const ex = revPorMes.get(r.mes) || {revenue_a: 0, revenue_b: 0};
+      ex.revenue_a += convertir((r.revenue_actuals && r.revenue_actuals[elim]) || 0, r.pais) || 0;
+      ex.revenue_b += convertir((r.revenue_budget && r.revenue_budget[elim]) || 0, r.pais) || 0;
+      revPorMes.set(r.mes, ex);
+    }
+    const seriePct = serieMensual.map(s => {
+      const rev = revPorMes.get(s.mes) || {revenue_a:0, revenue_b:0};
+      return {
+        mes: s.mes,
+        actuals: rev.revenue_a !== 0 ? s.actuals / rev.revenue_a : null,
+        budget:  rev.revenue_b !== 0 ? s.budget  / rev.revenue_b : null,
+      };
+    });
+    html += `<div class="drill-block chart-block">
+      <div class="chart-tab-bar">
+        <h3>Monthly execution · Actuals vs Budget</h3>
+        <div class="chart-tabs">
+          <button class="chart-tab on" onclick="switchChartTab(this,'amount')">$ Amount</button>
+          <button class="chart-tab" onclick="switchChartTab(this,'pct')">% ${data.ratio_label || "Ratio"}</button>
+        </div>
+      </div>
+      <div class="chart-pane on" data-pane="amount">
+        <div class="chart-unit-label">${monedaSerie}</div>
+        ${lineChartSVG(serieMensual, monedaSerie, "MONEY")}
+      </div>
+      <div class="chart-pane" data-pane="pct">
+        <div class="chart-unit-label">% of Revenue</div>
+        ${lineChartSVG(seriePct, "PCT", "PCT")}
+      </div>
+    </div>`;
+  } else {
+    html += `<div class="drill-block chart-block">
+      <h3>Monthly execution · Actuals vs Budget (${monedaSerie})</h3>
+      ${lineChartSVG(serieMensual, monedaSerie, "MONEY")}
+    </div>`;
+  }
 
   // Top 20 detalle — respeta TODOS los filtros activos.
   // Si el KPI tiene cuenta contable, se muestra como tabla cuenta+descripcion.
@@ -708,13 +837,13 @@ function abrirDrill(kpiId){
     }
     return [...map.values()].sort((a,b) => Math.abs(b.actuals) - Math.abs(a.actuals)).slice(0, 20);
   })();
-  const tituloDetalle = tieneCuenta ? "Top 20 cuentas contables" : "Top 20 detalle";
+  const tituloDetalle = tieneCuenta ? "Top 20 accounts" : "Top 20 detail";
   html += `<div class="drill-block">
     <h3>${tituloDetalle}${filtrosTxt && filtrosTxt !== "Global · todas" ? " · " + filtrosTxt : ""}</h3>
     <table class="drill-table">
       <thead><tr>
-        ${tieneCuenta ? "<th>Cuenta</th>" : ""}
-        <th>${tieneCuenta ? "Descripción" : "Detalle"}</th>
+        ${tieneCuenta ? "<th>Account</th>" : ""}
+        <th>${tieneCuenta ? "Description" : "Detail"}</th>
         <th style="text-align:right">Actuals</th>
         <th style="text-align:right">Budget</th>
         <th style="text-align:right">vs Bud</th>
@@ -738,7 +867,7 @@ function abrirDrill(kpiId){
   // Solo mostrar la nota especifica de Ingresos cuando el KPI sea ingresos
   if(kpiId === "ingresos_totales"){
     html += `<div class="drill-note">
-      <b>Nota</b>: Si los valores no cuadran con tu referencia, el primer sospechoso es el filtro <code>m_metrica != '01. Total Revenue'</code> que excluye el marcador agregado.
+      <b>Note</b>: If values don't match your reference, the first suspect is the filter <code>m_metrica != '01. Total Revenue'</code>, which excludes the aggregate marker row.
     </div>`;
   }
 
@@ -754,14 +883,14 @@ function rebuildSubsidiariaOptions(){
   const sel = document.getElementById("fSubsidiaria");
   const opts = SUBSIDIARIAS_POR_PAIS[STATE.filters.pais];
   sel.innerHTML = opts.map(s => `<option value="${s}">${s}</option>`).join("");
-  if(!opts.includes(STATE.filters.subsidiaria)) STATE.filters.subsidiaria = "Todas";
+  if(!opts.includes(STATE.filters.subsidiaria)) STATE.filters.subsidiaria = "All";
   sel.value = STATE.filters.subsidiaria;
 }
 function rebuildLineaOptions(){
   const sel = document.getElementById("fLinea");
   const opts = LINEAS_POR_PAIS[STATE.filters.pais];
   sel.innerHTML = opts.map(s => `<option value="${s}">${s}</option>`).join("");
-  if(!opts.includes(STATE.filters.linea)) STATE.filters.linea = "Todas";
+  if(!opts.includes(STATE.filters.linea)) STATE.filters.linea = "All";
   sel.value = STATE.filters.linea;
 }
 function rebuildMesOptions(){
@@ -777,7 +906,7 @@ function rebuildMesOptions(){
 function render(){
   document.getElementById("mesCorte").textContent = mesYYYYMM_a_label(STATE.filters.mes);
   document.getElementById("refreshAt").textContent = STATE.meta.generado_en.replace("T", " ").slice(0,16);
-  const ctx = `${STATE.filters.pais}${STATE.filters.subsidiaria !== "Todas" ? " · " + STATE.filters.subsidiaria : ""}${STATE.filters.linea !== "Todas" ? " · " + STATE.filters.linea : ""} · ${STATE.filters.moneda === "USD" ? "USD" : "Moneda local"}`;
+  const ctx = `${STATE.filters.pais}${STATE.filters.subsidiaria !== "All" ? " · " + STATE.filters.subsidiaria : ""}${STATE.filters.linea !== "All" ? " · " + STATE.filters.linea : ""} · ${STATE.filters.moneda === "USD" ? "USD" : "Local currency"}`;
   document.getElementById("contextLabel").innerHTML = ctx;
   document.getElementById("ctx41").textContent = ctx;
 
@@ -786,8 +915,8 @@ function render(){
   document.getElementById("grid42").innerHTML = KPIS_42.map(renderCard).join("");
 
   document.getElementById("pageFoot").innerHTML =
-    `<b>Refresh manual</b> · corre <code>make refresh</code> para regenerar los JSON desde BigQuery.<br>` +
-    `Los KPIs en estado <b>pendiente</b> esperan su receta. Solo Ingresos (4.1.1) tiene datos reales en v1.`;
+    `<b>Manual refresh</b> · run <code>make refresh</code> to regenerate the JSONs from BigQuery.<br>` +
+    `KPIs marked as <b>pending</b> are awaiting their data source. Section 4.1 is complete; 4.2 is next.`;
 }
 
 /* ============================================================ INIT ===== */
@@ -812,6 +941,12 @@ function bindFiltros(){
       b.classList.add("on"); STATE.filters.elim = b.dataset.val; render();
     });
   });
+  document.getElementById("segAjustes").querySelectorAll("button").forEach(b => {
+    b.addEventListener("click", () => {
+      document.querySelectorAll("#segAjustes button").forEach(x => x.classList.remove("on"));
+      b.classList.add("on"); STATE.filters.ajustes = b.dataset.val; render();
+    });
+  });
   document.getElementById("fxCOP").addEventListener("input", e => { STATE.filters.fxCOP = parseFloat(e.target.value) || STATE.filters.fxCOP; render(); });
   document.getElementById("fxMXN").addEventListener("input", e => { STATE.filters.fxMXN = parseFloat(e.target.value) || STATE.filters.fxMXN; render(); });
   document.getElementById("drillClose").addEventListener("click", cerrarDrill);
@@ -832,8 +967,8 @@ async function init(){
   catch(e){
     document.querySelector(".main").innerHTML =
       `<div style="padding:20px;color:var(--txt2)">
-        <b>No pude cargar los datos.</b><br>
-        Verifica que <code>site/data/meta.json</code> existe (corre <code>make refresh</code>).<br>
+        <b>Could not load data.</b><br>
+        Check that <code>site/data/meta.json</code> exists (run <code>make refresh</code>).<br>
         Error: ${e.message}
       </div>`;
     return;
@@ -843,5 +978,14 @@ async function init(){
   render();
 }
 
+function switchChartTab(btn, pane){
+  // Toggle tabs within the same chart-block (no global side effects)
+  const block = btn.closest(".chart-block");
+  if(!block) return;
+  block.querySelectorAll(".chart-tab").forEach(t => t.classList.toggle("on", t === btn));
+  block.querySelectorAll(".chart-pane").forEach(p => p.classList.toggle("on", p.dataset.pane === pane));
+}
+
 window.abrirDrill = abrirDrill;
+window.switchChartTab = switchChartTab;
 init();
