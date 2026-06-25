@@ -18,6 +18,7 @@
 const STATE = {
   meta: null,
   kpis: {},
+  currentDrillKpi: null,
   filters: {
     mes: null,
     pais: "Global",
@@ -920,6 +921,7 @@ function renderSnapshot(){
 function abrirDrill(kpiId){
   const data = STATE.kpis[kpiId];
   if(!data) return;
+  STATE.currentDrillKpi = kpiId;
   const f = STATE.filters;
   const elim = f.elim;
 
@@ -990,8 +992,8 @@ function abrirDrill(kpiId){
     </div>`;
 
     // Detalle NIDs vendidos en mes corte
-    if(data.detalle_nids && data.detalle_nids.mes === f.mes && data.detalle_nids.nids){
-      let nids = data.detalle_nids.nids.slice();
+    if(data.detalle_nids && data.detalle_nids.por_mes && (data.detalle_nids.por_mes[f.mes] || []).length){
+      let nids = data.detalle_nids.por_mes[f.mes].slice();
       if(f.pais !== "Global") nids = nids.filter(n => n.pais === f.pais);
       nids.sort((a,b) => b.dias_en_inv - a.dias_en_inv);
       let detRows = "";
@@ -1101,8 +1103,8 @@ function abrirDrill(kpiId){
     </div>`;
 
     // Detalle por NID
-    if(data.detalle_nids && data.detalle_nids.mes === f.mes && data.detalle_nids.nids){
-      let nids = data.detalle_nids.nids.slice();
+    if(data.detalle_nids && data.detalle_nids.por_mes && (data.detalle_nids.por_mes[f.mes] || []).length){
+      let nids = data.detalle_nids.por_mes[f.mes].slice();
       if(f.pais !== "Global") nids = nids.filter(n => n.pais === f.pais);
       nids.sort((a,b) => b.dias_ciclo - a.dias_ciclo);
       let detRows = "";
@@ -1449,8 +1451,8 @@ function abrirDrill(kpiId){
     </div>`;
 
     // Tabla detalle por NID (mismo set que aging, sin dias/bucket)
-    if(data.detalle_nids && data.detalle_nids.mes === f.mes && data.detalle_nids.nids){
-      let nids = data.detalle_nids.nids.slice();
+    if(data.detalle_nids && data.detalle_nids.por_mes && (data.detalle_nids.por_mes[f.mes] || []).length){
+      let nids = data.detalle_nids.por_mes[f.mes].slice();
       if(f.pais !== "Global") nids = nids.filter(n => n.pais === f.pais);
       // Sort por v_precio desc (mas grande primero)
       nids.sort((a,b) => (b.v_precio || 0) - (a.v_precio || 0));
@@ -1496,10 +1498,10 @@ function abrirDrill(kpiId){
   if(data.unidad === "PORCENTAJE_AGING"){
     // Tabla de detalle por NID al cierre del mes_corte. Solo si el mes filtrado
     // coincide con el mes del snapshot (el detalle es solo del ultimo cierre).
-    if(data.detalle_nids && data.detalle_nids.mes === f.mes && data.detalle_nids.nids){
+    if(data.detalle_nids && data.detalle_nids.por_mes && (data.detalle_nids.por_mes[f.mes] || []).length){
       const colorBucket = {"0-90":"#22C55E","90-180":"#FACC15","180-365":"#FB923C","365+":"#EF4444"};
       const ordenBuckets = (data.buckets_meta || []).map(b => b.name);
-      let nids = data.detalle_nids.nids.slice();
+      let nids = data.detalle_nids.por_mes[f.mes].slice();
       // Filtros activos: pais
       if(f.pais !== "Global") nids = nids.filter(n => n.pais === f.pais);
       // Sort por dias desc
@@ -1556,10 +1558,6 @@ function abrirDrill(kpiId){
             <tbody>${detRows || '<tr><td colspan="10" class="drill-empty">No NIDs for this filter.</td></tr>'}</tbody>
           </table>
         </div>
-      </div>`;
-    } else if(data.detalle_nids){
-      html += `<div class="drill-note">
-        NID detail only available for the snapshot month <b>${mesYYYYMM_a_label(data.detalle_nids.mes)}</b>. Switch period in the sidebar to see it.
       </div>`;
     }
 
@@ -1633,7 +1631,10 @@ function abrirDrill(kpiId){
   document.getElementById("drillModal").hidden = false;
 }
 
-function cerrarDrill(){ document.getElementById("drillModal").hidden = true; }
+function cerrarDrill(){
+  document.getElementById("drillModal").hidden = true;
+  STATE.currentDrillKpi = null;
+}
 
 /* ============================================================ RENDER === */
 
@@ -1671,6 +1672,11 @@ function render(){
   renderSnapshot();
   document.getElementById("grid41").innerHTML = KPIS_41.map(renderCard).join("");
   document.getElementById("grid42").innerHTML = KPIS_42.map(renderCard).join("");
+
+  // Si el drill esta abierto, re-renderizar con los filtros nuevos
+  if(STATE.currentDrillKpi && !document.getElementById("drillModal").hidden){
+    abrirDrill(STATE.currentDrillKpi);
+  }
 
   document.getElementById("pageFoot").innerHTML =
     `<b>Manual refresh</b> · run <code>make refresh</code> to regenerate the JSONs from BigQuery.<br>` +

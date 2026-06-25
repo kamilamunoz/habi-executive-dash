@@ -84,10 +84,11 @@ WHERE COALESCE(i.m_pais, v.m_pais) IS NOT NULL
 """.strip()
 
 
-def _sql_detalle(mes_corte: dt.date) -> str:
-    """NIDs vendidos en el mes corte (c_fecha_escritura en el mes)."""
+def _sql_detalle(mes_inicio: dt.date, mes_corte: dt.date) -> str:
+    """NIDs vendidos en cada mes del rango (c_fecha_escritura en el mes)."""
     return f"""
 SELECT
+  DATE_TRUNC(t.c_fecha_escritura, MONTH) AS mes_venta,
   CAST(t.nid AS STRING) AS nid,
   t.nombre,
   CASE t.pais
@@ -101,7 +102,7 @@ SELECT
   t.v_precio,
   t.c_precio
 FROM `{TAPE_TABLE}` t
-WHERE DATE_TRUNC(t.c_fecha_escritura, MONTH) = DATE('{mes_corte.isoformat()}')
+WHERE t.c_fecha_escritura BETWEEN DATE('{mes_inicio.isoformat()}') AND LAST_DAY(DATE('{mes_corte.isoformat()}'))
   AND t.v_fecha_escritura IS NOT NULL
   AND t.desistimientos = 'No desistidos'
   AND t.pais IN ('Colombia', 'México')
@@ -137,18 +138,20 @@ def build(mes_corte: dt.date) -> dict[str, Any]:
 
     log.info("Sell-through: query rango %s -> %s", mes_inicio, mes_corte)
     df = run_query(_sql_serie(mes_inicio, mes_corte), label="rotacion")
-    df_det = run_query(_sql_detalle(mes_corte), label="rotacion_detalle")
+    df_det = run_query(_sql_detalle(mes_inicio, mes_corte), label="rotacion_detalle")
 
     df["mes"] = pd.to_datetime(df["mes"])
     df["pais_label"] = df["m_pais"].map(PAIS_LABEL).fillna("(sin pais)")
+    df_det["mes_venta"] = pd.to_datetime(df_det["mes_venta"])
     df_det["pais_label"] = df_det["m_pais"].map(PAIS_LABEL).fillna("(sin pais)")
 
     meses_disponibles = sorted(df["mes"].dt.strftime("%Y-%m").unique().tolist())
     facts = _facts(df)
 
-    detalle_nids = []
+    detalle_por_mes: dict[str, list[dict[str, Any]]] = {}
     for _, r in df_det.iterrows():
-        detalle_nids.append({
+        mes_key = r["mes_venta"].strftime("%Y-%m")
+        detalle_por_mes.setdefault(mes_key, []).append({
             "nid": str(r["nid"]),
             "nombre": str(r["nombre"]) if pd.notna(r["nombre"]) else None,
             "pais": r["pais_label"],
@@ -158,8 +161,9 @@ def build(mes_corte: dt.date) -> dict[str, Any]:
             "v_precio": float(r["v_precio"]) if pd.notna(r["v_precio"]) else None,
             "c_precio": float(r["c_precio"]) if pd.notna(r["c_precio"]) else None,
         })
-
-    log.info("Sell-through: %d facts + %d NIDs detalle mes corte", len(facts), len(detalle_nids))
+    total_det = sum(len(v) for v in detalle_por_mes.values())
+    log.info("Sell-through: %d facts + %d NIDs detalle en %d meses",
+             len(facts), total_det, len(detalle_por_mes))
 
     payload: dict[str, Any] = {
         "id": "rotacion",
@@ -180,8 +184,7 @@ def build(mes_corte: dt.date) -> dict[str, Any]:
         "meses_disponibles": meses_disponibles,
         "facts": facts,
         "detalle_nids": {
-            "mes": mes_corte.strftime("%Y-%m"),
-            "nids": detalle_nids,
+            "por_mes": detalle_por_mes,
         },
     }
     return payload

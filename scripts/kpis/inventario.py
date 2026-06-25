@@ -60,10 +60,16 @@ GROUP BY 1, 2, 3, 4
 """.strip()
 
 
-def _sql_detalle_mes(mes_corte: dt.date) -> str:
-    """Detalle por NID al cierre del mes corte (mismo universo que el operativo)."""
+def _sql_detalle_mes(mes_inicio: dt.date, mes_corte: dt.date) -> str:
+    """Detalle por NID al cierre de cada mes en el rango."""
     return f"""
+WITH meses AS (
+  SELECT mes FROM UNNEST(
+    GENERATE_DATE_ARRAY(DATE('{mes_inicio.isoformat()}'), DATE('{mes_corte.isoformat()}'), INTERVAL 1 MONTH)
+  ) AS mes
+)
 SELECT
+  m.mes AS mes_cierre,
   CAST(t.nid AS STRING) AS nid,
   t.nombre,
   CASE t.pais
@@ -75,10 +81,11 @@ SELECT
   t.v_precio,
   t.c_precio,
   t.estatus
-FROM `{TAPE_TABLE}` t
+FROM meses m
+CROSS JOIN `{TAPE_TABLE}` t
 WHERE t.v_fecha_escritura IS NOT NULL
-  AND t.v_fecha_escritura <= LAST_DAY(DATE('{mes_corte.isoformat()}'))
-  AND (t.c_fecha_escritura IS NULL OR t.c_fecha_escritura > LAST_DAY(DATE('{mes_corte.isoformat()}')))
+  AND t.v_fecha_escritura <= LAST_DAY(m.mes)
+  AND (t.c_fecha_escritura IS NULL OR t.c_fecha_escritura > LAST_DAY(m.mes))
   AND t.desistimientos = 'No desistidos'
   AND t.pais IN ('Colombia', 'México')
 """.strip()
@@ -173,7 +180,7 @@ def build(mes_corte: dt.date) -> dict[str, Any]:
     log.info("Inventory: query rango %s -> %s", mes_inicio, mes_corte)
     df_books = run_query(_sql_books(mes_inicio, mes_corte), label="inventario_books")
     df_op    = run_query(_sql_operativo(mes_inicio, mes_corte), label="inventario_op")
-    df_det   = run_query(_sql_detalle_mes(mes_corte), label="inventario_detalle")
+    df_det   = run_query(_sql_detalle_mes(mes_inicio, mes_corte), label="inventario_detalle")
 
     df_books["mes"] = pd.to_datetime(df_books["mes"])
     df_books["pais_label"] = df_books["m_pais"].map(PAIS_LABEL).fillna("(sin pais)")
@@ -182,6 +189,7 @@ def build(mes_corte: dt.date) -> dict[str, Any]:
     df_op["mes"] = pd.to_datetime(df_op["mes"])
     df_op["pais_label"] = df_op["m_pais"].map(PAIS_LABEL).fillna("(sin pais)")
 
+    df_det["mes_cierre"] = pd.to_datetime(df_det["mes_cierre"])
     df_det["pais_label"] = df_det["m_pais"].map(PAIS_LABEL).fillna("(sin pais)")
 
     meses_disponibles = sorted(df_books["mes"].dt.strftime("%Y-%m").unique().tolist())
@@ -189,9 +197,10 @@ def build(mes_corte: dt.date) -> dict[str, Any]:
     facts = _facts_books(df_books)
     reconciliation = _reconciliation(df_op)
 
-    detalle_nids = []
+    detalle_por_mes: dict[str, list[dict[str, Any]]] = {}
     for _, r in df_det.iterrows():
-        detalle_nids.append({
+        mes_key = r["mes_cierre"].strftime("%Y-%m")
+        detalle_por_mes.setdefault(mes_key, []).append({
             "nid": str(r["nid"]),
             "nombre": str(r["nombre"]) if pd.notna(r["nombre"]) else None,
             "pais": r["pais_label"],
@@ -201,9 +210,10 @@ def build(mes_corte: dt.date) -> dict[str, Any]:
             "estatus": str(r["estatus"]) if pd.notna(r["estatus"]) else None,
         })
 
+    total_det = sum(len(v) for v in detalle_por_mes.values())
     log.info(
-        "Inventory: %d facts books, %d puntos reconciliation, %d NIDs detalle",
-        len(facts), len(reconciliation), len(detalle_nids),
+        "Inventory: %d facts books, %d puntos reconciliation, %d NIDs detalle en %d meses",
+        len(facts), len(reconciliation), total_det, len(detalle_por_mes),
     )
 
     payload: dict[str, Any] = {
@@ -236,8 +246,7 @@ def build(mes_corte: dt.date) -> dict[str, Any]:
         "facts": facts,
         "reconciliation": reconciliation,
         "detalle_nids": {
-            "mes": mes_corte.strftime("%Y-%m"),
-            "nids": detalle_nids,
+            "por_mes": detalle_por_mes,
         },
     }
     return payload

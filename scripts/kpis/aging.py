@@ -36,10 +36,16 @@ BUCKETS_META = [
 ]
 
 
-def _sql_detalle_mes(mes_corte: dt.date) -> str:
-    """Detalle por NID al cierre del mes_corte para alimentar el drill."""
+def _sql_detalle_mes(mes_inicio: dt.date, mes_corte: dt.date) -> str:
+    """Detalle por NID al cierre de cada mes en el rango (con dias_en_inv recalculado por mes)."""
     return f"""
+WITH meses AS (
+  SELECT mes FROM UNNEST(
+    GENERATE_DATE_ARRAY(DATE('{mes_inicio.isoformat()}'), DATE('{mes_corte.isoformat()}'), INTERVAL 1 MONTH)
+  ) AS mes
+)
 SELECT
+  m.mes AS mes_cierre,
   CAST(t.nid AS STRING) AS nid,
   t.nombre,
   CASE t.pais
@@ -51,11 +57,12 @@ SELECT
   t.v_precio,
   t.c_precio,
   t.estatus,
-  DATE_DIFF(LAST_DAY(DATE('{mes_corte.isoformat()}')), t.v_fecha_escritura, DAY) AS dias_en_inv
-FROM `{TAPE_TABLE}` t
+  DATE_DIFF(LAST_DAY(m.mes), t.v_fecha_escritura, DAY) AS dias_en_inv
+FROM meses m
+CROSS JOIN `{TAPE_TABLE}` t
 WHERE t.v_fecha_escritura IS NOT NULL
-  AND t.v_fecha_escritura <= LAST_DAY(DATE('{mes_corte.isoformat()}'))
-  AND (t.c_fecha_escritura IS NULL OR t.c_fecha_escritura > LAST_DAY(DATE('{mes_corte.isoformat()}')))
+  AND t.v_fecha_escritura <= LAST_DAY(m.mes)
+  AND (t.c_fecha_escritura IS NULL OR t.c_fecha_escritura > LAST_DAY(m.mes))
   AND t.desistimientos = 'No desistidos'
   AND t.pais IN ('Colombia', 'México')
 """.strip()
@@ -144,21 +151,23 @@ def build(mes_corte: dt.date) -> dict[str, Any]:
 
     log.info("Aging: query rango %s -> %s", mes_inicio, mes_corte)
     df = run_query(_sql(mes_inicio, mes_corte), label="aging")
-    df_det = run_query(_sql_detalle_mes(mes_corte), label="aging_detalle")
+    df_det = run_query(_sql_detalle_mes(mes_inicio, mes_corte), label="aging_detalle")
 
     df["mes"] = pd.to_datetime(df["mes"])
     df["pais_label"] = df["m_pais"].map(PAIS_LABEL).fillna("(sin pais)")
+    df_det["mes_cierre"] = pd.to_datetime(df_det["mes_cierre"])
     df_det["pais_label"] = df_det["m_pais"].map(PAIS_LABEL).fillna("(sin pais)")
 
     meses_disponibles = sorted(df["mes"].dt.strftime("%Y-%m").unique().tolist())
 
     facts = _facts(df)
 
-    # Detalle por NID al cierre del mes corte
-    detalle_nids = []
+    # Detalle por NID por cada mes en el rango
+    detalle_por_mes: dict[str, list[dict[str, Any]]] = {}
     for _, r in df_det.iterrows():
+        mes_key = r["mes_cierre"].strftime("%Y-%m")
         dias = int(r["dias_en_inv"]) if pd.notna(r["dias_en_inv"]) else 0
-        detalle_nids.append({
+        detalle_por_mes.setdefault(mes_key, []).append({
             "nid": str(r["nid"]),
             "nombre": str(r["nombre"]) if pd.notna(r["nombre"]) else None,
             "pais": r["pais_label"],
@@ -169,7 +178,9 @@ def build(mes_corte: dt.date) -> dict[str, Any]:
             "c_precio": float(r["c_precio"]) if pd.notna(r["c_precio"]) else None,
             "estatus": str(r["estatus"]) if pd.notna(r["estatus"]) else None,
         })
-    log.info("Aging: %d facts (mes, pais, bucket) + %d NIDs detalle mes corte", len(facts), len(detalle_nids))
+    total_det = sum(len(v) for v in detalle_por_mes.values())
+    log.info("Aging: %d facts (mes, pais, bucket) + %d NIDs detalle en %d meses",
+             len(facts), total_det, len(detalle_por_mes))
 
     payload: dict[str, Any] = {
         "id": "inventory_aging",
@@ -197,8 +208,7 @@ def build(mes_corte: dt.date) -> dict[str, Any]:
         "meses_disponibles": meses_disponibles,
         "facts": facts,
         "detalle_nids": {
-            "mes": mes_corte.strftime("%Y-%m"),
-            "nids": detalle_nids,
+            "por_mes": detalle_por_mes,
         },
     }
     return payload
