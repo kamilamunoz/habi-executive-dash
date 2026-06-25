@@ -11,6 +11,22 @@
 </head>
 <body>
 
+<!-- ============================================================ LOGIN GATE -->
+<div id="loginGate" class="login-gate">
+  <div class="login-card">
+    <div class="login-logo">habi</div>
+    <div class="login-eyebrow">EXECUTIVE DASHBOARD</div>
+    <h2>Restricted access</h2>
+    <p class="login-sub">Enter the access password to continue.</p>
+    <form id="loginForm" autocomplete="off">
+      <input type="password" id="loginPwd" placeholder="Password" autocomplete="off" autofocus required>
+      <button type="submit">Enter</button>
+    </form>
+    <div id="loginError" class="login-error" hidden>Incorrect password.</div>
+    <div class="login-foot">Internal use · Habi Finance team</div>
+  </div>
+</div>
+
 <!-- ============================================================ HEADER ==== -->
 <header class="topbar">
   <div class="topbar-inner">
@@ -144,6 +160,56 @@
   </div>
 </div>
 
-<script src="js/app.js"></script>
+<script>
+/* ------------------------------------------------------------- LOGIN GATE
+ * Visual password gate (NOT real security — anyone with skills can bypass
+ * by inspecting source or fetching the JSON files directly). Sirve como
+ * disuasivo basico para acceso casual mientras se define hosting real.
+ */
+(function(){
+  const PWD_HASH = "1dddfc98a22a99050137a3c09931dae8d0bed85f02c93e8f780cdfbf0fde7d4a";
+  const STORAGE_KEY = "habi_dash_auth";
+  const gate = document.getElementById("loginGate");
+  const form = document.getElementById("loginForm");
+  const input = document.getElementById("loginPwd");
+  const err = document.getElementById("loginError");
+
+  async function sha256hex(str){
+    const buf = new TextEncoder().encode(str);
+    const hash = await crypto.subtle.digest("SHA-256", buf);
+    return Array.from(new Uint8Array(hash))
+      .map(b => b.toString(16).padStart(2, "0"))
+      .join("");
+  }
+
+  function unlock(){
+    gate.classList.add("hidden");
+    // Cargar app solo despues de unlock
+    const s = document.createElement("script");
+    s.src = "js/app.js";
+    document.body.appendChild(s);
+  }
+
+  // Si ya autenticado en esta sesion, saltar gate
+  if(sessionStorage.getItem(STORAGE_KEY) === PWD_HASH){
+    unlock();
+    return;
+  }
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    err.hidden = true;
+    const h = await sha256hex(input.value);
+    if(h === PWD_HASH){
+      sessionStorage.setItem(STORAGE_KEY, PWD_HASH);
+      unlock();
+    } else {
+      err.hidden = false;
+      input.value = "";
+      input.focus();
+    }
+  });
+})();
+</script>
 </body>
 </html>

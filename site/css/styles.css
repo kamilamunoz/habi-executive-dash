@@ -12,6 +12,22 @@
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{background:var(--bg);color:var(--txt);font-family:'IBM Plex Sans',sans-serif;line-height:1.45;-webkit-font-smoothing:antialiased}
 
+/* ========================================================= LOGIN GATE === */
+.login-gate{position:fixed;inset:0;background:var(--bg);z-index:9999;display:flex;align-items:center;justify-content:center;padding:24px}
+.login-gate.hidden{display:none}
+.login-card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:38px 42px;max-width:380px;width:100%;box-shadow:0 8px 32px rgba(0,0,0,.08)}
+.login-logo{font-weight:700;font-size:28px;color:var(--purple);letter-spacing:-.02em;margin-bottom:8px}
+.login-eyebrow{font-size:10.5px;font-weight:600;letter-spacing:.14em;color:var(--txt3);text-transform:uppercase;margin-bottom:14px;font-family:'IBM Plex Mono',monospace}
+.login-card h2{font-size:22px;font-weight:700;color:var(--txt);margin-bottom:6px}
+.login-sub{font-size:13px;color:var(--txt2);margin-bottom:22px}
+.login-card form{display:flex;flex-direction:column;gap:10px}
+.login-card input{padding:11px 13px;border:1.5px solid var(--line);border-radius:8px;font-size:14px;font-family:inherit;color:var(--txt);outline:none;transition:border-color .15s}
+.login-card input:focus{border-color:var(--purple)}
+.login-card button{padding:11px 13px;background:var(--purple);color:#fff;border:none;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;font-family:inherit;transition:background .15s}
+.login-card button:hover{background:var(--purple2)}
+.login-error{margin-top:10px;padding:8px 11px;background:var(--red-bg);color:var(--red-tx);border-radius:6px;font-size:12.5px;border-left:3px solid var(--red)}
+.login-foot{margin-top:22px;font-size:11px;color:var(--txt3);font-family:'IBM Plex Mono',monospace;text-align:center}
+
 /* ========================================================== HEADER ===== */
 .topbar{background:linear-gradient(105deg,#3A1980 0%,#5B2BC0 55%,#7A3FE0 100%);color:#fff;padding:20px 0 22px;margin-bottom:0}
 .topbar-inner{max-width:1480px;margin:0 auto;padding:0 26px;display:flex;align-items:flex-start;justify-content:space-between;gap:20px;flex-wrap:wrap}
