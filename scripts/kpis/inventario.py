@@ -60,6 +60,30 @@ GROUP BY 1, 2, 3, 4
 """.strip()
 
 
+def _sql_detalle_mes(mes_corte: dt.date) -> str:
+    """Detalle por NID al cierre del mes corte (mismo universo que el operativo)."""
+    return f"""
+SELECT
+  CAST(t.nid AS STRING) AS nid,
+  t.nombre,
+  CASE t.pais
+    WHEN 'Colombia' THEN '1. Colombia'
+    WHEN 'México'   THEN '2. Mexico'
+    ELSE NULL
+  END AS m_pais,
+  t.v_fecha_escritura,
+  t.v_precio,
+  t.c_precio,
+  t.estatus
+FROM `{TAPE_TABLE}` t
+WHERE t.v_fecha_escritura IS NOT NULL
+  AND t.v_fecha_escritura <= LAST_DAY(DATE('{mes_corte.isoformat()}'))
+  AND (t.c_fecha_escritura IS NULL OR t.c_fecha_escritura > LAST_DAY(DATE('{mes_corte.isoformat()}')))
+  AND t.desistimientos = 'No desistidos'
+  AND t.pais IN ('Colombia', 'México')
+""".strip()
+
+
 def _sql_operativo(mes_inicio: dt.date, mes_corte: dt.date) -> str:
     """Snapshot operativo por mes: NIDs vivos al cierre de cada mes.
 
@@ -149,6 +173,7 @@ def build(mes_corte: dt.date) -> dict[str, Any]:
     log.info("Inventory: query rango %s -> %s", mes_inicio, mes_corte)
     df_books = run_query(_sql_books(mes_inicio, mes_corte), label="inventario_books")
     df_op    = run_query(_sql_operativo(mes_inicio, mes_corte), label="inventario_op")
+    df_det   = run_query(_sql_detalle_mes(mes_corte), label="inventario_detalle")
 
     df_books["mes"] = pd.to_datetime(df_books["mes"])
     df_books["pais_label"] = df_books["m_pais"].map(PAIS_LABEL).fillna("(sin pais)")
@@ -157,14 +182,28 @@ def build(mes_corte: dt.date) -> dict[str, Any]:
     df_op["mes"] = pd.to_datetime(df_op["mes"])
     df_op["pais_label"] = df_op["m_pais"].map(PAIS_LABEL).fillna("(sin pais)")
 
+    df_det["pais_label"] = df_det["m_pais"].map(PAIS_LABEL).fillna("(sin pais)")
+
     meses_disponibles = sorted(df_books["mes"].dt.strftime("%Y-%m").unique().tolist())
 
     facts = _facts_books(df_books)
     reconciliation = _reconciliation(df_op)
 
+    detalle_nids = []
+    for _, r in df_det.iterrows():
+        detalle_nids.append({
+            "nid": str(r["nid"]),
+            "nombre": str(r["nombre"]) if pd.notna(r["nombre"]) else None,
+            "pais": r["pais_label"],
+            "v_fecha_escritura": r["v_fecha_escritura"].isoformat() if pd.notna(r["v_fecha_escritura"]) else None,
+            "v_precio": float(r["v_precio"]) if pd.notna(r["v_precio"]) else None,
+            "c_precio": float(r["c_precio"]) if pd.notna(r["c_precio"]) else None,
+            "estatus": str(r["estatus"]) if pd.notna(r["estatus"]) else None,
+        })
+
     log.info(
-        "Inventory: %d facts books, %d puntos reconciliation",
-        len(facts), len(reconciliation),
+        "Inventory: %d facts books, %d puntos reconciliation, %d NIDs detalle",
+        len(facts), len(reconciliation), len(detalle_nids),
     )
 
     payload: dict[str, Any] = {
@@ -196,5 +235,9 @@ def build(mes_corte: dt.date) -> dict[str, Any]:
         "meses_disponibles": meses_disponibles,
         "facts": facts,
         "reconciliation": reconciliation,
+        "detalle_nids": {
+            "mes": mes_corte.strftime("%Y-%m"),
+            "nids": detalle_nids,
+        },
     }
     return payload

@@ -58,10 +58,10 @@ const KPIS_41 = [
 ];
 const KPIS_42 = [
   { id: "inventario",          nombre: "Inventory on books",         file: "kpi_inventario.json" },
-  { id: "antiguedad_inv",      nombre: "Inventory aging",            file: null },
+  { id: "inventory_aging",     nombre: "Inventory aging",            file: "kpi_aging.json" },
   { id: "capital_roic",        nombre: "Capital deployed / ROIC",    file: null },
-  { id: "ciclo_caja",          nombre: "Cash conversion cycle",      file: null },
-  { id: "rotacion",            nombre: "Rotation / sell-through",    file: null },
+  { id: "ciclo_caja",          nombre: "Cash conversion cycle",      file: "kpi_ciclo.json" },
+  { id: "rotacion",            nombre: "Sell-through",               file: "kpi_rotacion.json" },
   { id: "deuda_apalanc",       nombre: "Net debt & leverage",        file: null },
 ];
 
@@ -412,11 +412,13 @@ function sparkSVG(serie, color){
 function fmtChartValue(v, unit, moneda){
   if(v == null || isNaN(v)) return "—";
   if(unit === "PCT") return (v*100).toFixed(1) + "%";
+  if(unit === "DAYS") return Math.round(v) + "d";
   return fmtMoneda(v, moneda, {compact: true});
 }
 
-function lineChartSVG(serie, moneda, unit){
+function lineChartSVG(serie, moneda, unit, labels){
   unit = unit || "MONEY";
+  labels = labels || {actuals: "Actuals", budget: "Budget"};
   if(!serie || serie.length === 0) return "<div class='chart-empty'>No data</div>";
   const W = 1200, H = 460, pad = {l: 78, r: 28, t: 30, b: 58};
   const cw = W - pad.l - pad.r, ch = H - pad.t - pad.b;
@@ -470,7 +472,7 @@ function lineChartSVG(serie, moneda, unit){
     const aArriba = !pB || p.v >= pB.v;
     const yLabel = aArriba ? p.y - labelOffset : p.y + labelOffset + 4;
     dotsA += `<circle cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="5" fill="#6B2FD4">
-      <title>${serie[p.i].mes} · Actuals: ${fmtChartValue(p.v, unit, moneda)}</title></circle>`;
+      <title>${serie[p.i].mes} · ${labels.actuals}: ${fmtChartValue(p.v, unit, moneda)}</title></circle>`;
     labelsA += `<text x="${p.x.toFixed(1)}" y="${yLabel.toFixed(1)}" text-anchor="middle" font-size="12.5" font-weight="700" fill="#3A1980" font-family="IBM Plex Mono, monospace" paint-order="stroke" stroke="#FFFFFF" stroke-width="4">${fmtChartValue(p.v, unit, moneda)}</text>`;
   });
   pointsB.forEach(p => {
@@ -478,7 +480,7 @@ function lineChartSVG(serie, moneda, unit){
     const bArriba = !pA || p.v > pA.v;
     const yLabel = bArriba ? p.y - labelOffset : p.y + labelOffset + 4;
     dotsB += `<circle cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="4.5" fill="#FFFFFF" stroke="#8B4FE8" stroke-width="2">
-      <title>${serie[p.i].mes} · Budget: ${fmtChartValue(p.v, unit, moneda)}</title></circle>`;
+      <title>${serie[p.i].mes} · ${labels.budget}: ${fmtChartValue(p.v, unit, moneda)}</title></circle>`;
     labelsB += `<text x="${p.x.toFixed(1)}" y="${yLabel.toFixed(1)}" text-anchor="middle" font-size="11.5" font-weight="500" fill="#7A3FE0" font-family="IBM Plex Mono, monospace" paint-order="stroke" stroke="#FFFFFF" stroke-width="3">${fmtChartValue(p.v, unit, moneda)}</text>`;
   });
 
@@ -504,9 +506,83 @@ function lineChartSVG(serie, moneda, unit){
     </svg>
   </div>
   <div class="chart-legend">
-    <span><span class="lg-line lg-actuals"></span>Actuals</span>
-    <span><span class="lg-line lg-budget"></span>Budget</span>
+    <span><span class="lg-line lg-actuals"></span>${labels.actuals}</span>
+    <span><span class="lg-line lg-budget"></span>${labels.budget}</span>
   </div>`;
+}
+
+/* Stacked bar chart SVG. seriePorMes = [{mes, segmentos: [{key, value, color}, ...]}].
+ * Renderiza barras apiladas con leyenda inferior. value = entero (count). */
+function stackedBarChartSVG(seriePorMes, legendOrder, colorMap){
+  if(!seriePorMes || !seriePorMes.length) return "<div class='chart-empty'>No data</div>";
+  const W = 1200, H = 460, pad = {l: 78, r: 28, t: 30, b: 58};
+  const cw = W - pad.l - pad.r, ch = H - pad.t - pad.b;
+
+  const totales = seriePorMes.map(r => r.segmentos.reduce((acc, s) => acc + (s.value || 0), 0));
+  const max = Math.max(...totales, 1);
+  const yMax = max * 1.12;
+
+  const n = seriePorMes.length;
+  const barW = Math.min(60, (cw / n) * 0.6);
+  const xAt = i => pad.l + (n === 1 ? cw/2 : i * cw / (n-1));
+  const yAt = v => pad.t + ch - (v / yMax) * ch;
+
+  // Y axis
+  const ticks = 5;
+  let yAxis = "";
+  for(let i=0; i<=ticks; i++){
+    const v = yMax * i / ticks;
+    const y = pad.t + ch - (ch * i / ticks);
+    yAxis += `<line x1="${pad.l}" x2="${pad.l + cw}" y1="${y}" y2="${y}" stroke="#EFEFF4" stroke-width="1"/>
+              <text x="${pad.l - 10}" y="${y + 4}" text-anchor="end" font-size="12" fill="#5C5C70" font-family="IBM Plex Mono, monospace">${Math.round(v).toLocaleString()}</text>`;
+  }
+
+  // Bars
+  let bars = "", topLabels = "";
+  seriePorMes.forEach((r, i) => {
+    let acumulado = 0;
+    const x = xAt(i) - barW/2;
+    for(const seg of r.segmentos){
+      const v = seg.value || 0;
+      if(v <= 0) continue;
+      const yTop = yAt(acumulado + v);
+      const yBot = yAt(acumulado);
+      const h = Math.max(0.5, yBot - yTop);
+      const color = colorMap[seg.key] || "#999";
+      bars += `<rect x="${x.toFixed(1)}" y="${yTop.toFixed(1)}" width="${barW.toFixed(1)}" height="${h.toFixed(1)}" fill="${color}">
+        <title>${r.mes} · ${seg.key}: ${v.toLocaleString()}</title>
+      </rect>`;
+      acumulado += v;
+    }
+    const total = totales[i];
+    if(total > 0){
+      const yTotal = yAt(total) - 6;
+      topLabels += `<text x="${xAt(i).toFixed(1)}" y="${yTotal.toFixed(1)}" text-anchor="middle" font-size="11.5" font-weight="700" fill="#1A1A2E" font-family="IBM Plex Mono, monospace">${total.toLocaleString()}</text>`;
+    }
+  });
+
+  // X labels
+  let xLabels = "";
+  seriePorMes.forEach((r, i) => {
+    const x = xAt(i);
+    const [y, m] = r.mes.split("-");
+    xLabels += `<text x="${x.toFixed(1)}" y="${H - 30}" text-anchor="middle" font-size="13" font-weight="600" fill="#1A1A2E" font-family="IBM Plex Mono, monospace">${FMT_MES[m]}</text>
+                <text x="${x.toFixed(1)}" y="${H - 14}" text-anchor="middle" font-size="11" fill="#5C5C70" font-family="IBM Plex Mono, monospace">${y}</text>`;
+  });
+
+  const legend = legendOrder.map(k =>
+    `<span><span class="lg-swatch" style="background:${colorMap[k]}"></span>${k}d</span>`
+  ).join("");
+
+  return `<div class="chart-wrap">
+    <svg viewBox="0 0 ${W} ${H}" class="chart" preserveAspectRatio="xMidYMid meet">
+      ${yAxis}
+      ${bars}
+      ${topLabels}
+      ${xLabels}
+    </svg>
+  </div>
+  <div class="chart-legend">${legend}</div>`;
 }
 
 /* ====================================================== RENDER · CARD == */
@@ -538,6 +614,18 @@ function renderCard(kpiDef){
       <div class="val">${msg}</div>
       <div class="src">${sub}</div>
     </div>`;
+  }
+  // Caso especial: KPI aging muestra % NIDs sobre umbral (no moneda)
+  if(data.unidad === "PORCENTAJE_AGING"){
+    return renderCardAging(kpiDef, data);
+  }
+  // Caso especial: KPI ciclo muestra dias (mediana y promedio)
+  if(data.unidad === "DIAS_CICLO"){
+    return renderCardCiclo(kpiDef, data);
+  }
+  // Caso especial: KPI sell-through muestra % NIDs vendidos / inventario inicio
+  if(data.unidad === "PORCENTAJE_SELLTHROUGH"){
+    return renderCardSellThrough(kpiDef, data);
   }
   const {actuals, budget, paisLocal, ratio, ratio_budget} = montoMesActual(data);
   const mon = monedaMostrada(paisLocal);
@@ -610,6 +698,191 @@ function renderCard(kpiDef){
   </div>`;
 }
 
+/* Card render para KPIs tipo aging: muestra % NIDs sobre umbral.
+ * No usa moneda; el budget no aplica (snapshot derivado del tape).
+ * Sparkline es serie del % mes a mes. */
+function renderCardAging(kpiDef, data){
+  const f = STATE.filters;
+  const bucketsOver = (data.buckets_meta || []).filter(b => b.over).map(b => b.name);
+  const filtered = filtrarFacts(data.facts, f);
+
+  // Serie mensual del % over para sparkline
+  const porMes = new Map();
+  for(const r of filtered){
+    const ex = porMes.get(r.mes) || {mes: r.mes, total: 0, over: 0};
+    const n = (r.actuals && r.actuals[f.elim]) || 0;
+    ex.total += n;
+    if(bucketsOver.includes(r.bucket)) ex.over += n;
+    porMes.set(r.mes, ex);
+  }
+  const serie = [...porMes.values()]
+    .sort((a,b) => a.mes.localeCompare(b.mes))
+    .map(r => ({mes: r.mes, actuals: r.total > 0 ? r.over/r.total : null}));
+
+  const idxCorte = serie.findIndex(r => r.mes === f.mes);
+  const last = idxCorte >= 0 ? serie[idxCorte] : null;
+  const prev = idxCorte > 0  ? serie[idxCorte-1] : null;
+  const pct = last ? last.actuals : null;
+  const delta = (last && prev && prev.actuals != null) ? (last.actuals - prev.actuals) : null;
+
+  // Detalle del mes para mostrar absolutos
+  const delMes = filtered.filter(r => r.mes === f.mes);
+  const totalNids = delMes.reduce((acc, r) => acc + ((r.actuals && r.actuals[f.elim]) || 0), 0);
+  const overNids  = delMes.filter(r => bucketsOver.includes(r.bucket))
+                          .reduce((acc, r) => acc + ((r.actuals && r.actuals[f.elim]) || 0), 0);
+
+  const color = SPARK_COLOR[data.estado] || SPARK_COLOR.ejemplo;
+  const valorTxt = pct != null
+    ? `${(pct*100).toFixed(1)}%`
+    : "—";
+  const subTxt = pct != null
+    ? `<span class="vs">${Math.round(overNids).toLocaleString()} of ${Math.round(totalNids).toLocaleString()} NIDs over ${data.umbral_dias}d</span>`
+    : "";
+
+  // Color de card: ▲ % over = peor (rojo)
+  // Umbral arbitrario: <2pp = verde, 2-5pp = ámbar, >5pp = rojo (en cambio MoM)
+  let perfCls = "perf-gray";
+  if(delta != null){
+    if(delta <= 0.02) perfCls = "perf-green";
+    else if(delta <= 0.05) perfCls = "perf-amber";
+    else perfCls = "perf-red";
+  }
+
+  // Delta MoM en puntos porcentuales
+  const deltaTxt = delta != null
+    ? `<span class="${delta > 0 ? 'down' : 'up'}">${delta > 0 ? '▲' : '▼'} ${Math.abs(delta*100).toFixed(1)}pp</span> <span class="vs">vs prev. month</span>`
+    : "";
+
+  return `<div class="card ${perfCls}" onclick="abrirDrill('${kpiDef.id}')">
+    <div class="kpi-name"><span class="nm">${kpiDef.nombre}</span><span class="tag ${data.estado}">${TAG_LABEL[data.estado]}</span></div>
+    <div class="val">${valorTxt}</div>
+    <div class="ratio-line">${subTxt}</div>
+    <div class="delta">${deltaTxt}</div>
+    ${sparkSVG(serie, color)}
+    <div class="src">◷ ${data.fuente || ""}</div>
+    <div class="card-cta">Click for drill-down →</div>
+  </div>`;
+}
+
+/* Card render para KPI ciclo de caja: muestra mediana (valor principal) y promedio (ratio-line).
+ * Sparkline = p50 mes a mes. */
+function renderCardCiclo(kpiDef, data){
+  const f = STATE.filters;
+  const filtered = filtrarFacts(data.facts, f);
+  // Cuando filter pais especifico, los facts del pais; cuando Global, ponderamos por NIDs
+  function agregarMes(facts){
+    // Devuelve {avg, p50, nids} promediados ponderados por nids
+    if(!facts.length) return {avg: null, p50: null, nids: 0};
+    let wAvg = 0, wP50 = 0, w = 0;
+    for(const r of facts){
+      const n = r.nids || 0;
+      if(r.avg_dias != null) wAvg += r.avg_dias * n;
+      if(r.p50_dias != null) wP50 += r.p50_dias * n;
+      w += n;
+    }
+    return {avg: w > 0 ? wAvg/w : null, p50: w > 0 ? wP50/w : null, nids: w};
+  }
+  const delMes = filtered.filter(r => r.mes === f.mes);
+  const cur = agregarMes(delMes);
+
+  // Serie mensual de p50 para sparkline
+  const porMes = {};
+  for(const r of filtered){
+    porMes[r.mes] = porMes[r.mes] || [];
+    porMes[r.mes].push(r);
+  }
+  const serie = Object.keys(porMes).sort().map(m => ({mes: m, actuals: agregarMes(porMes[m]).p50}));
+
+  const idxCorte = serie.findIndex(r => r.mes === f.mes);
+  const prev = idxCorte > 0 ? serie[idxCorte-1] : null;
+  const last = idxCorte >= 0 ? serie[idxCorte] : null;
+  const delta = (last && prev && prev.actuals != null && last.actuals != null) ? (last.actuals - prev.actuals) : null;
+
+  const color = SPARK_COLOR[data.estado] || SPARK_COLOR.ejemplo;
+  const valorTxt = cur.p50 != null ? `${Math.round(cur.p50)} days` : "—";
+  const avgTxt = cur.avg != null ? `Avg <b>${Math.round(cur.avg)}d</b>` : "";
+  const nidsTxt = cur.nids ? `<span class="vs">${cur.nids.toLocaleString()} cycles closed in month</span>` : "";
+
+  // Color de card: ▲ días = peor (rojo)
+  let perfCls = "perf-gray";
+  if(delta != null){
+    if(delta <= 7) perfCls = "perf-green";       // <= +7 días
+    else if(delta <= 30) perfCls = "perf-amber"; // +7 a +30
+    else perfCls = "perf-red";                   // > +30
+  }
+  const deltaTxt = delta != null
+    ? `<span class="${delta > 0 ? 'down' : 'up'}">${delta > 0 ? '▲' : '▼'} ${Math.abs(delta).toFixed(0)}d</span> <span class="vs">vs prev. month (median)</span>`
+    : "";
+
+  return `<div class="card ${perfCls}" onclick="abrirDrill('${kpiDef.id}')">
+    <div class="kpi-name"><span class="nm">${kpiDef.nombre}</span><span class="tag ${data.estado}">${TAG_LABEL[data.estado]}</span></div>
+    <div class="val">${valorTxt}</div>
+    <div class="ratio-line">${avgTxt} ${nidsTxt}</div>
+    <div class="delta">${deltaTxt}</div>
+    ${sparkSVG(serie, color)}
+    <div class="src">◷ ${data.fuente || ""}</div>
+    <div class="card-cta">Click for drill-down →</div>
+  </div>`;
+}
+
+/* Card render para sell-through: muestra % y "X sold / Y in inventory". */
+function renderCardSellThrough(kpiDef, data){
+  const f = STATE.filters;
+  const filtered = filtrarFacts(data.facts, f);
+
+  // Ponderacion: cuando filter=Global, sumamos vendidos / sumamos inventario
+  function ratioMes(facts){
+    let sold = 0, inv = 0;
+    for(const r of facts){
+      sold += r.nids_vendidos || 0;
+      inv  += r.nids_inv_inicio || 0;
+    }
+    return {sold, inv, st: inv > 0 ? sold/inv : null};
+  }
+  const delMes = filtered.filter(r => r.mes === f.mes);
+  const cur = ratioMes(delMes);
+
+  // Serie mensual del sell-through ponderado
+  const porMes = {};
+  for(const r of filtered){
+    porMes[r.mes] = porMes[r.mes] || [];
+    porMes[r.mes].push(r);
+  }
+  const serie = Object.keys(porMes).sort().map(m => ({mes: m, actuals: ratioMes(porMes[m]).st}));
+
+  const idxCorte = serie.findIndex(r => r.mes === f.mes);
+  const last = idxCorte >= 0 ? serie[idxCorte] : null;
+  const prev = idxCorte > 0 ? serie[idxCorte-1] : null;
+  const delta = (last && prev && prev.actuals != null && last.actuals != null) ? (last.actuals - prev.actuals) : null;
+
+  const color = SPARK_COLOR[data.estado] || SPARK_COLOR.ejemplo;
+  const valorTxt = cur.st != null ? `${(cur.st*100).toFixed(1)}%` : "—";
+  const subTxt = cur.inv > 0
+    ? `<span class="vs">${cur.sold.toLocaleString()} sold / ${cur.inv.toLocaleString()} in inventory at start of month</span>`
+    : "";
+
+  // Color: ▲ sell-through = bueno (verde). Umbral en pp.
+  let perfCls = "perf-gray";
+  if(delta != null){
+    if(delta >= -0.01) perfCls = "perf-green";
+    else if(delta >= -0.03) perfCls = "perf-amber";
+    else perfCls = "perf-red";
+  }
+  const deltaTxt = delta != null
+    ? `<span class="${delta >= 0 ? 'up' : 'down'}">${delta >= 0 ? '▲' : '▼'} ${Math.abs(delta*100).toFixed(1)}pp</span> <span class="vs">vs prev. month</span>`
+    : "";
+
+  return `<div class="card ${perfCls}" onclick="abrirDrill('${kpiDef.id}')">
+    <div class="kpi-name"><span class="nm">${kpiDef.nombre}</span><span class="tag ${data.estado}">${TAG_LABEL[data.estado]}</span></div>
+    <div class="val">${valorTxt}</div>
+    <div class="ratio-line">${subTxt}</div>
+    <div class="delta">${deltaTxt}</div>
+    ${sparkSVG(serie, color)}
+    <div class="src">◷ ${data.fuente || ""}</div>
+    <div class="card-cta">Click for drill-down →</div>
+  </div>`;
+}
+
 /* ================================================== HEALTH SNAPSHOT === */
 
 function renderSnapshot(){
@@ -666,6 +939,218 @@ function abrirDrill(kpiId){
   const ajLabel = {sin_ajustes:"excluded", con_ajustes:"included", solo_ajustes:"only adjustments"}[f.ajustes] || f.ajustes;
   document.getElementById("drillSub").innerHTML =
     `Period: <b>${mesYYYYMM_a_label(f.mes)}</b> · View: <b>${filtrosTxt}</b> · Currency: <b>${monedaTxt}</b> · Eliminations: <b>${elimLabel}</b> · Adjustments: <b>${ajLabel}</b>`;
+
+  // Drill especial para sell-through (PORCENTAJE_SELLTHROUGH)
+  if(data.unidad === "PORCENTAJE_SELLTHROUGH"){
+    let html = "";
+    // Tabla por pais del mes corte
+    let recoRows = "";
+    const paises = f.pais === "Global" ? ["Colombia", "Mexico"] : [f.pais];
+    for(const p of paises){
+      const row = delMes.find(r => r.pais === p);
+      if(!row) continue;
+      const st = row.sell_through;
+      recoRows += `<tr>
+        <td><b>${p}</b></td>
+        <td class="num">${row.nids_inv_inicio.toLocaleString()}</td>
+        <td class="num">${row.nids_vendidos.toLocaleString()}</td>
+        <td class="num">${st != null ? (st*100).toFixed(1)+"%" : "—"}</td>
+      </tr>`;
+    }
+    html += `<div class="drill-block">
+      <h3>Sell-through stats · ${mesYYYYMM_a_label(f.mes)}</h3>
+      <table class="drill-table">
+        <thead><tr>
+          <th>Country</th>
+          <th style="text-align:right">Inventory at start of month</th>
+          <th style="text-align:right">Sold during month</th>
+          <th style="text-align:right">Sell-through</th>
+        </tr></thead>
+        <tbody>${recoRows || `<tr><td colspan="4" class="drill-empty">No data.</td></tr>`}</tbody>
+      </table>
+    </div>`;
+
+    // Chart historico mensual del sell-through ponderado
+    function ratioMesSerie(facts){
+      let sold = 0, inv = 0;
+      for(const r of facts){ sold += r.nids_vendidos || 0; inv += r.nids_inv_inicio || 0; }
+      return inv > 0 ? sold/inv : null;
+    }
+    const porMesSerie = {};
+    for(const r of filtered){
+      porMesSerie[r.mes] = porMesSerie[r.mes] || [];
+      porMesSerie[r.mes].push(r);
+    }
+    const serieSt = Object.keys(porMesSerie).sort().map(m => ({
+      mes: m, actuals: ratioMesSerie(porMesSerie[m]), budget: null,
+    }));
+    html += `<div class="drill-block chart-block">
+      <h3>Monthly sell-through</h3>
+      ${lineChartSVG(serieSt, "PCT", "PCT", {actuals: "Sell-through", budget: ""})}
+    </div>`;
+
+    // Detalle NIDs vendidos en mes corte
+    if(data.detalle_nids && data.detalle_nids.mes === f.mes && data.detalle_nids.nids){
+      let nids = data.detalle_nids.nids.slice();
+      if(f.pais !== "Global") nids = nids.filter(n => n.pais === f.pais);
+      nids.sort((a,b) => b.dias_en_inv - a.dias_en_inv);
+      let detRows = "";
+      for(const n of nids){
+        const mon = f.moneda === "USD" ? "USD" : monedaDePais(n.pais);
+        const vp = f.moneda === "USD" ? convertir(n.v_precio, n.pais) : n.v_precio;
+        const cp = n.c_precio != null ? (f.moneda === "USD" ? convertir(n.c_precio, n.pais) : n.c_precio) : null;
+        const margen = (n.v_precio && n.c_precio) ? ((n.c_precio - n.v_precio) / n.c_precio) : null;
+        detRows += `<tr>
+          <td><code>${n.nid}</code></td>
+          <td>${(n.nombre || "(sin nombre)").substring(0, 50)}</td>
+          <td>${n.pais}</td>
+          <td class="num">${n.v_fecha_escritura || "—"}</td>
+          <td class="num">${n.c_fecha_escritura || "—"}</td>
+          <td class="num">${n.dias_en_inv}d</td>
+          <td class="num">${fmtMoneda(vp, mon)}</td>
+          <td class="num">${cp != null ? fmtMoneda(cp, mon) : "—"}</td>
+          <td class="num">${margen != null ? (margen*100).toFixed(1)+"%" : "—"}</td>
+        </tr>`;
+      }
+      html += `<div class="drill-block">
+        <h3>NIDs sold in ${mesYYYYMM_a_label(f.mes)}${f.pais !== "Global" ? " · " + f.pais : ""} <span class="vs">(${nids.length.toLocaleString()} NIDs, sorted by days in inventory desc)</span></h3>
+        <div class="drill-table-scroll">
+          <table class="drill-table drill-table-compact">
+            <thead><tr>
+              <th>NID</th>
+              <th>Property</th>
+              <th>Country</th>
+              <th>v_fecha_escritura</th>
+              <th>c_fecha_escritura</th>
+              <th style="text-align:right">Days in inv.</th>
+              <th style="text-align:right">v_precio (buy)</th>
+              <th style="text-align:right">c_precio (sell)</th>
+              <th style="text-align:right">Margin</th>
+            </tr></thead>
+            <tbody>${detRows || '<tr><td colspan="9" class="drill-empty">No NIDs for this filter.</td></tr>'}</tbody>
+          </table>
+        </div>
+      </div>`;
+    }
+
+    html += `<div class="drill-note">
+      <b>How sell-through is built</b>: For each month M, sell-through = NIDs with <code>c_fecha_escritura</code> in M ÷ NIDs alive at close of (M−1). Alive means <code>v_fecha_escritura</code> populated, no <code>c_fecha_escritura</code> yet, not desisted. NIDs in the detail table are those sold during the month, sorted by days they spent in inventory before selling.
+    </div>`;
+    document.getElementById("drillBody").innerHTML = html;
+    document.getElementById("drillModal").hidden = false;
+    return;
+  }
+
+  // Drill especial para ciclo de caja (DIAS_CICLO): salimos temprano para
+  // evitar bloques genericos (By country en moneda, chart Actuals/Budget en MONEY)
+  // que no aplican cuando la metrica son dias.
+  if(data.unidad === "DIAS_CICLO"){
+    let html = "";
+    // Tabla por pais del mes corte (avg, p50, p90)
+    let recoRows = "";
+    const paises = f.pais === "Global" ? ["Colombia", "Mexico"] : [f.pais];
+    for(const p of paises){
+      const row = delMes.find(r => r.pais === p);
+      if(!row) continue;
+      recoRows += `<tr>
+        <td><b>${p}</b></td>
+        <td class="num">${row.nids.toLocaleString()}</td>
+        <td class="num">${row.avg_dias != null ? Math.round(row.avg_dias) + "d" : "—"}</td>
+        <td class="num">${row.p50_dias != null ? Math.round(row.p50_dias) + "d" : "—"}</td>
+        <td class="num">${row.p90_dias != null ? Math.round(row.p90_dias) + "d" : "—"}</td>
+      </tr>`;
+    }
+    html += `<div class="drill-block">
+      <h3>Cycle stats · ${mesYYYYMM_a_label(f.mes)}</h3>
+      <table class="drill-table">
+        <thead><tr>
+          <th>Country</th>
+          <th style="text-align:right"># Cycles closed</th>
+          <th style="text-align:right">Avg days</th>
+          <th style="text-align:right">Median (p50)</th>
+          <th style="text-align:right">p90 (tail)</th>
+        </tr></thead>
+        <tbody>${recoRows || `<tr><td colspan="5" class="drill-empty">No data.</td></tr>`}</tbody>
+      </table>
+    </div>`;
+
+    // Chart historico mensual: dos lineas (avg y p50), ponderadas por nids cuando Global
+    function agregarMesParaSerie(facts){
+      let wAvg = 0, wP50 = 0, w = 0;
+      for(const r of facts){
+        const n = r.nids || 0;
+        if(r.avg_dias != null) wAvg += r.avg_dias * n;
+        if(r.p50_dias != null) wP50 += r.p50_dias * n;
+        w += n;
+      }
+      return {avg: w > 0 ? wAvg/w : null, p50: w > 0 ? wP50/w : null};
+    }
+    const porMesSerie = {};
+    for(const r of filtered){
+      porMesSerie[r.mes] = porMesSerie[r.mes] || [];
+      porMesSerie[r.mes].push(r);
+    }
+    const serieDias = Object.keys(porMesSerie).sort().map(m => {
+      const a = agregarMesParaSerie(porMesSerie[m]);
+      return {mes: m, actuals: a.p50, budget: a.avg};
+    });
+    html += `<div class="drill-block chart-block">
+      <h3>Monthly cycle · Median vs Average</h3>
+      <div class="chart-unit-label">days</div>
+      ${lineChartSVG(serieDias, "DAYS", "DAYS", {actuals: "Median", budget: "Average"})}
+    </div>`;
+
+    // Detalle por NID
+    if(data.detalle_nids && data.detalle_nids.mes === f.mes && data.detalle_nids.nids){
+      let nids = data.detalle_nids.nids.slice();
+      if(f.pais !== "Global") nids = nids.filter(n => n.pais === f.pais);
+      nids.sort((a,b) => b.dias_ciclo - a.dias_ciclo);
+      let detRows = "";
+      for(const n of nids){
+        const mon = f.moneda === "USD" ? "USD" : monedaDePais(n.pais);
+        const vp = f.moneda === "USD" ? convertir(n.v_precio, n.pais) : n.v_precio;
+        const cp = n.c_precio != null ? (f.moneda === "USD" ? convertir(n.c_precio, n.pais) : n.c_precio) : null;
+        const margen = (n.v_precio && n.c_precio) ? ((n.c_precio - n.v_precio) / n.c_precio) : null;
+        detRows += `<tr>
+          <td><code>${n.nid}</code></td>
+          <td>${(n.nombre || "(sin nombre)").substring(0, 50)}</td>
+          <td>${n.pais}</td>
+          <td class="num">${n.v_fecha_escritura || "—"}</td>
+          <td class="num">${n.c_fecha_desembolso || "—"}</td>
+          <td class="num">${n.dias_ciclo}d</td>
+          <td class="num">${fmtMoneda(vp, mon)}</td>
+          <td class="num">${cp != null ? fmtMoneda(cp, mon) : "—"}</td>
+          <td class="num">${margen != null ? (margen*100).toFixed(1)+"%" : "—"}</td>
+        </tr>`;
+      }
+      html += `<div class="drill-block">
+        <h3>NID detail · ${mesYYYYMM_a_label(f.mes)}${f.pais !== "Global" ? " · " + f.pais : ""} <span class="vs">(${nids.length.toLocaleString()} cycles closed, sorted by days desc)</span></h3>
+        <div class="drill-table-scroll">
+          <table class="drill-table drill-table-compact">
+            <thead><tr>
+              <th>NID</th>
+              <th>Property</th>
+              <th>Country</th>
+              <th>v_fecha_escritura</th>
+              <th>c_fecha_desembolso</th>
+              <th style="text-align:right">Days</th>
+              <th style="text-align:right">v_precio (buy)</th>
+              <th style="text-align:right">c_precio (sell)</th>
+              <th style="text-align:right">Margin</th>
+            </tr></thead>
+            <tbody>${detRows || '<tr><td colspan="9" class="drill-empty">No NIDs for this filter.</td></tr>'}</tbody>
+          </table>
+        </div>
+      </div>`;
+    }
+
+    html += `<div class="drill-note">
+      <b>How cycle is built</b>: For each NID with a complete cycle (both <code>v_fecha_escritura</code> and <code>c_fecha_desembolso</code> populated, not desisted), days = <code>c_fecha_desembolso</code> − <code>v_fecha_escritura</code>. Each NID is bucketed in the month of <code>c_fecha_desembolso</code> (cycle close). The card shows the median for the period and avg below; sparkline tracks median over time.
+    </div>`;
+    document.getElementById("drillBody").innerHTML = html;
+    document.getElementById("drillModal").hidden = false;
+    return;
+  }
 
   // Helper para pintar lista agrupada
   const conRatio = data.unidad === "MONEDA_CON_RATIO";
@@ -773,6 +1258,59 @@ function abrirDrill(kpiId){
       ${pintarLista(porTipo)}
     </div>`;
   }
+  // Si el KPI trae bucket (aging), tabla por bucket con # NIDs, %, valor compra y avg dias
+  const tieneBucket = delMes.some(r => r.bucket != null);
+  if(tieneBucket){
+    const bucketsMeta = data.buckets_meta || [];
+    const ordenBuckets = bucketsMeta.map(b => b.name);
+    const totalNids = delMes.reduce((acc, r) => acc + ((r.actuals && r.actuals[elim]) || 0), 0);
+    // Agrupa por bucket sumando NIDs y valor_compra y promediando avg_dias
+    const porBucket = {};
+    for(const r of delMes){
+      const k = r.bucket;
+      if(!porBucket[k]) porBucket[k] = {bucket: k, nids: 0, valor: 0, avg_dias_acc: 0, avg_dias_w: 0, pais: r.pais};
+      const n = (r.actuals && r.actuals[elim]) || 0;
+      porBucket[k].nids += n;
+      porBucket[k].valor += r.valor_compra || 0;
+      if(r.avg_dias != null){
+        porBucket[k].avg_dias_acc += r.avg_dias * n;
+        porBucket[k].avg_dias_w   += n;
+      }
+    }
+    const rowsBucket = ordenBuckets
+      .map(b => porBucket[b])
+      .filter(Boolean);
+    let bRows = "";
+    for(const r of rowsBucket){
+      const pct = totalNids > 0 ? r.nids/totalNids : 0;
+      const avg = r.avg_dias_w > 0 ? r.avg_dias_acc/r.avg_dias_w : null;
+      const meta = bucketsMeta.find(m => m.name === r.bucket);
+      const over = meta && meta.over;
+      const cls = over ? "perf-amber" : "";
+      const mon = f.moneda === "USD" ? "USD" : monedaDePais(r.pais || (f.pais !== "Global" ? f.pais : "Colombia"));
+      const valorDisp = f.moneda === "USD" ? convertir(r.valor, r.pais) : r.valor;
+      bRows += `<tr class="${cls}">
+        <td><b>${r.bucket}d</b>${over ? ' <span class="vs">over threshold</span>' : ''}</td>
+        <td class="num">${Math.round(r.nids).toLocaleString()}</td>
+        <td class="num">${(pct*100).toFixed(1)}%</td>
+        <td class="num">${fmtMoneda(valorDisp, mon)}</td>
+        <td class="num">${avg != null ? Math.round(avg) + "d" : "—"}</td>
+      </tr>`;
+    }
+    html += `<div class="drill-block">
+      <h3>By aging bucket${f.pais !== "Global" ? " · " + f.pais : ""}</h3>
+      <table class="drill-table">
+        <thead><tr>
+          <th>Bucket</th>
+          <th style="text-align:right"># NIDs</th>
+          <th style="text-align:right">% of total</th>
+          <th style="text-align:right">Σ v_precio</th>
+          <th style="text-align:right">Avg days</th>
+        </tr></thead>
+        <tbody>${bRows || `<tr><td colspan="5" class="drill-empty">No data.</td></tr>`}</tbody>
+      </table>
+    </div>`;
+  }
   html += `</div>`;
 
   // Grafico mensual: serie de los facts filtrados (sin filtro de mes)
@@ -831,6 +1369,32 @@ function abrirDrill(kpiId){
         ${lineChartSVG(seriePct, "PCT", "PCT")}
       </div>
     </div>`;
+  } else if(data.unidad === "PORCENTAJE_AGING"){
+    // Chart mensual: barras apiladas por bucket. NIDs por bucket.
+    const ordenBuckets = (data.buckets_meta || []).map(b => b.name);
+    const colorBucket = {
+      "0-90":    "#22C55E",
+      "90-180":  "#FACC15",
+      "180-365": "#FB923C",
+      "365+":    "#EF4444",
+    };
+    const porMes = new Map();
+    for(const r of filtered){
+      const ex = porMes.get(r.mes) || {mes: r.mes, segs: {}};
+      const n = (r.actuals && r.actuals[elim]) || 0;
+      ex.segs[r.bucket] = (ex.segs[r.bucket] || 0) + n;
+      porMes.set(r.mes, ex);
+    }
+    const seriePorMes = [...porMes.values()]
+      .sort((a,b) => a.mes.localeCompare(b.mes))
+      .map(r => ({
+        mes: r.mes,
+        segmentos: ordenBuckets.map(b => ({key: b, value: r.segs[b] || 0, color: colorBucket[b]})),
+      }));
+    html += `<div class="drill-block chart-block">
+      <h3>Monthly NIDs by aging bucket${f.pais !== "Global" ? " · " + f.pais : ""}</h3>
+      ${stackedBarChartSVG(seriePorMes, ordenBuckets, colorBucket)}
+    </div>`;
   } else {
     html += `<div class="drill-block chart-block">
       <h3>Monthly execution · Actuals vs Budget (${monedaSerie})</h3>
@@ -883,6 +1447,128 @@ function abrirDrill(kpiId){
         <tbody>${recoRows || `<tr><td colspan="7" class="drill-empty">No data.</td></tr>`}</tbody>
       </table>
     </div>`;
+
+    // Tabla detalle por NID (mismo set que aging, sin dias/bucket)
+    if(data.detalle_nids && data.detalle_nids.mes === f.mes && data.detalle_nids.nids){
+      let nids = data.detalle_nids.nids.slice();
+      if(f.pais !== "Global") nids = nids.filter(n => n.pais === f.pais);
+      // Sort por v_precio desc (mas grande primero)
+      nids.sort((a,b) => (b.v_precio || 0) - (a.v_precio || 0));
+      let detRows = "";
+      for(const n of nids){
+        const mon = f.moneda === "USD" ? "USD" : monedaDePais(n.pais);
+        const vp = f.moneda === "USD" ? convertir(n.v_precio, n.pais) : n.v_precio;
+        const cp = n.c_precio != null ? (f.moneda === "USD" ? convertir(n.c_precio, n.pais) : n.c_precio) : null;
+        const margen = (n.v_precio && n.c_precio) ? ((n.c_precio - n.v_precio) / n.c_precio) : null;
+        detRows += `<tr>
+          <td><code>${n.nid}</code></td>
+          <td>${(n.nombre || "(sin nombre)").substring(0, 50)}</td>
+          <td>${n.pais}</td>
+          <td class="num">${n.v_fecha_escritura || "—"}</td>
+          <td class="num">${fmtMoneda(vp, mon)}</td>
+          <td class="num">${cp != null ? fmtMoneda(cp, mon) : "—"}</td>
+          <td class="num">${margen != null ? (margen*100).toFixed(1)+"%" : "—"}</td>
+          <td>${n.estatus || "—"}</td>
+        </tr>`;
+      }
+      html += `<div class="drill-block">
+        <h3>NID detail · ${mesYYYYMM_a_label(f.mes)}${f.pais !== "Global" ? " · " + f.pais : ""} <span class="vs">(${nids.length.toLocaleString()} NIDs, sorted by v_precio desc)</span></h3>
+        <div class="drill-table-scroll">
+          <table class="drill-table drill-table-compact">
+            <thead><tr>
+              <th>NID</th>
+              <th>Property</th>
+              <th>Country</th>
+              <th>v_fecha_escritura</th>
+              <th style="text-align:right">v_precio (buy)</th>
+              <th style="text-align:right">c_precio (sell target)</th>
+              <th style="text-align:right">Est. margin</th>
+              <th>Status</th>
+            </tr></thead>
+            <tbody>${detRows || '<tr><td colspan="8" class="drill-empty">No NIDs for this filter.</td></tr>'}</tbody>
+          </table>
+        </div>
+      </div>`;
+    }
+  }
+
+  // Top 20 detalle no aplica para aging (sin cuenta contable)
+  if(data.unidad === "PORCENTAJE_AGING"){
+    // Tabla de detalle por NID al cierre del mes_corte. Solo si el mes filtrado
+    // coincide con el mes del snapshot (el detalle es solo del ultimo cierre).
+    if(data.detalle_nids && data.detalle_nids.mes === f.mes && data.detalle_nids.nids){
+      const colorBucket = {"0-90":"#22C55E","90-180":"#FACC15","180-365":"#FB923C","365+":"#EF4444"};
+      const ordenBuckets = (data.buckets_meta || []).map(b => b.name);
+      let nids = data.detalle_nids.nids.slice();
+      // Filtros activos: pais
+      if(f.pais !== "Global") nids = nids.filter(n => n.pais === f.pais);
+      // Sort por dias desc
+      nids.sort((a,b) => b.dias_en_inv - a.dias_en_inv);
+
+      let detRows = "";
+      for(const n of nids){
+        const mon = f.moneda === "USD" ? "USD" : monedaDePais(n.pais);
+        const vp = f.moneda === "USD" ? convertir(n.v_precio, n.pais) : n.v_precio;
+        const cp = n.c_precio != null ? (f.moneda === "USD" ? convertir(n.c_precio, n.pais) : n.c_precio) : null;
+        const margen = (n.v_precio && n.c_precio) ? ((n.c_precio - n.v_precio) / n.c_precio) : null;
+        detRows += `<tr data-bucket="${n.bucket}">
+          <td><code>${n.nid}</code></td>
+          <td>${(n.nombre || "(sin nombre)").substring(0, 50)}</td>
+          <td>${n.pais}</td>
+          <td class="num">${n.v_fecha_escritura || "—"}</td>
+          <td class="num">${n.dias_en_inv}d</td>
+          <td><span class="bucket-chip" style="background:${colorBucket[n.bucket]}">${n.bucket}d</span></td>
+          <td class="num">${fmtMoneda(vp, mon)}</td>
+          <td class="num">${cp != null ? fmtMoneda(cp, mon) : "—"}</td>
+          <td class="num">${margen != null ? (margen*100).toFixed(1)+"%" : "—"}</td>
+          <td>${n.estatus || "—"}</td>
+        </tr>`;
+      }
+      // Conteo por bucket para los chips del filtro
+      const conteoPorBucket = {};
+      for(const n of nids){ conteoPorBucket[n.bucket] = (conteoPorBucket[n.bucket] || 0) + 1; }
+      const filterBtns = ordenBuckets.map(b => {
+        const cnt = conteoPorBucket[b] || 0;
+        return `<button class="bucket-filter-btn" data-bucket="${b}" onclick="filterAgingBucket(this,'${b}')" style="border-color:${colorBucket[b]}">${b}d <span class="vs">(${cnt})</span></button>`;
+      }).join("");
+      html += `<div class="drill-block">
+        <h3>NID detail · ${mesYYYYMM_a_label(f.mes)}${f.pais !== "Global" ? " · " + f.pais : ""} <span class="vs">(${nids.length.toLocaleString()} NIDs, sorted oldest first)</span></h3>
+        <div class="bucket-filter">
+          <span class="bucket-filter-label">Show only:</span>
+          <button class="bucket-filter-btn on" data-bucket="all" onclick="filterAgingBucket(this,'all')">All</button>
+          ${filterBtns}
+          <span class="bucket-filter-count" id="agingDetailCount">${nids.length.toLocaleString()} of ${nids.length.toLocaleString()}</span>
+        </div>
+        <div class="drill-table-scroll" id="agingDetailScroll">
+          <table class="drill-table drill-table-compact" id="agingDetailTable">
+            <thead><tr>
+              <th>NID</th>
+              <th>Property</th>
+              <th>Country</th>
+              <th>v_fecha_escritura</th>
+              <th style="text-align:right">Days</th>
+              <th>Bucket</th>
+              <th style="text-align:right">v_precio (buy)</th>
+              <th style="text-align:right">c_precio (sell target)</th>
+              <th style="text-align:right">Est. margin</th>
+              <th>Status</th>
+            </tr></thead>
+            <tbody>${detRows || '<tr><td colspan="10" class="drill-empty">No NIDs for this filter.</td></tr>'}</tbody>
+          </table>
+        </div>
+      </div>`;
+    } else if(data.detalle_nids){
+      html += `<div class="drill-note">
+        NID detail only available for the snapshot month <b>${mesYYYYMM_a_label(data.detalle_nids.mes)}</b>. Switch period in the sidebar to see it.
+      </div>`;
+    }
+
+    html += `<div class="drill-note">
+      <b>How aging is built</b>: For each month M, NIDs alive at close of M (same filter as Inventory on books) and days = LAST_DAY(M) − <code>v_fecha_escritura</code>. The card shows the percentage of NIDs above the <b>${data.umbral_dias}-day</b> threshold. Stacked bars show count per bucket month over month.
+    </div>`;
+    document.getElementById("drillBody").innerHTML = html;
+    document.getElementById("drillModal").hidden = false;
+    return;
   }
 
   // Top 20 detalle — respeta TODOS los filtros activos.
@@ -1058,6 +1744,31 @@ function switchChartTab(btn, pane){
   block.querySelectorAll(".chart-pane").forEach(p => p.classList.toggle("on", p.dataset.pane === pane));
 }
 
+/* Filtro local de la tabla de detalle de aging. Solo afecta la tabla — no toca
+ * chart ni card. Single-select: "all" muestra todo, un bucket filtra a ese. */
+function filterAgingBucket(btn, bucket){
+  const bar = btn.closest(".bucket-filter");
+  if(!bar) return;
+  bar.querySelectorAll(".bucket-filter-btn").forEach(b => b.classList.toggle("on", b === btn));
+  const table = document.getElementById("agingDetailTable");
+  if(!table) return;
+  let visible = 0, total = 0;
+  table.querySelectorAll("tbody tr").forEach(tr => {
+    const b = tr.getAttribute("data-bucket");
+    if(!b) return;
+    total++;
+    const show = (bucket === "all" || b === bucket);
+    tr.style.display = show ? "" : "none";
+    if(show) visible++;
+  });
+  const cnt = document.getElementById("agingDetailCount");
+  if(cnt) cnt.textContent = `${visible.toLocaleString()} of ${total.toLocaleString()}`;
+  // Reset scroll al top cuando filtra
+  const scroll = document.getElementById("agingDetailScroll");
+  if(scroll) scroll.scrollTop = 0;
+}
+
 window.abrirDrill = abrirDrill;
 window.switchChartTab = switchChartTab;
+window.filterAgingBucket = filterAgingBucket;
 init();

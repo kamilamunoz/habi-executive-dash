@@ -1,0 +1,3414 @@
+{
+  "id": "ciclo_caja",
+  "nombre": "Cash conversion cycle",
+  "seccion": "4.2",
+  "unidad": "DIAS_CICLO",
+  "estado": "real",
+  "fuente": "finance_tapes_global · dias = c_fecha_desembolso − v_fecha_escritura · anclaje por mes de c_fecha_desembolso · solo NIDs con ciclo completo, no desistidos",
+  "receta": {
+    "tabla": "clients-domain-data-master.finance_wh_bi.finance_tapes_global",
+    "fecha_inicio_ciclo": "v_fecha_escritura (escritura de compra de Habi)",
+    "fecha_fin_ciclo": "c_fecha_desembolso (desembolso del cliente final a Habi)",
+    "filtros": [
+      "v_fecha_escritura IS NOT NULL",
+      "c_fecha_desembolso IS NOT NULL",
+      "desistimientos = 'No desistidos'"
+    ],
+    "anclaje_serie": "mes de c_fecha_desembolso (cierre del ciclo)",
+    "monedas": {
+      "1. Colombia": "COP",
+      "2. Mexico": "MXN",
+      "3. Offshore": "USD"
+    }
+  },
+  "meses_disponibles": [
+    "2025-05",
+    "2025-06",
+    "2025-07",
+    "2025-08",
+    "2025-09",
+    "2025-10",
+    "2025-11",
+    "2025-12",
+    "2026-01",
+    "2026-02",
+    "2026-03",
+    "2026-04",
+    "2026-05"
+  ],
+  "facts": [
+    {
+      "mes": "2026-03",
+      "pais": "Colombia",
+      "subsidiaria": null,
+      "linea": null,
+      "cuenta": null,
+      "cuenta_desc": null,
+      "es_ajuste": false,
+      "actuals": {
+        "sin_elim": 286.0,
+        "con_elim": 286.0,
+        "solo_elim": 0.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "con_elim": 0.0,
+        "solo_elim": 0.0
+      },
+      "nids": 248,
+      "avg_dias": 301.0604838709678,
+      "p50_dias": 286.0,
+      "p90_dias": 469.0
+    },
+    {
+      "mes": "2026-02",
+      "pais": "Colombia",
+      "subsidiaria": null,
+      "linea": null,
+      "cuenta": null,
+      "cuenta_desc": null,
+      "es_ajuste": false,
+      "actuals": {
+        "sin_elim": 286.0,
+        "con_elim": 286.0,
+        "solo_elim": 0.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "con_elim": 0.0,
+        "solo_elim": 0.0
+      },
+      "nids": 261,
+      "avg_dias": 303.54022988505767,
+      "p50_dias": 286.0,
+      "p90_dias": 463.0
+    },
+    {
+      "mes": "2025-11",
+      "pais": "Colombia",
+      "subsidiaria": null,
+      "linea": null,
+      "cuenta": null,
+      "cuenta_desc": null,
+      "es_ajuste": false,
+      "actuals": {
+        "sin_elim": 273.0,
+        "con_elim": 273.0,
+        "solo_elim": 0.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "con_elim": 0.0,
+        "solo_elim": 0.0
+      },
+      "nids": 219,
+      "avg_dias": 288.40182648401804,
+      "p50_dias": 273.0,
+      "p90_dias": 457.0
+    },
+    {
+      "mes": "2025-08",
+      "pais": "Colombia",
+      "subsidiaria": null,
+      "linea": null,
+      "cuenta": null,
+      "cuenta_desc": null,
+      "es_ajuste": false,
+      "actuals": {
+        "sin_elim": 293.0,
+        "con_elim": 293.0,
+        "solo_elim": 0.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "con_elim": 0.0,
+        "solo_elim": 0.0
+      },
+      "nids": 205,
+      "avg_dias": 288.02439024390253,
+      "p50_dias": 293.0,
+      "p90_dias": 448.0
+    },
+    {
+      "mes": "2025-06",
+      "pais": "Colombia",
+      "subsidiaria": null,
+      "linea": null,
+      "cuenta": null,
+      "cuenta_desc": null,
+      "es_ajuste": false,
+      "actuals": {
+        "sin_elim": 270.0,
+        "con_elim": 270.0,
+        "solo_elim": 0.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "con_elim": 0.0,
+        "solo_elim": 0.0
+      },
+      "nids": 263,
+      "avg_dias": 276.6958174904947,
+      "p50_dias": 270.0,
+      "p90_dias": 412.0
+    },
+    {
+      "mes": "2025-09",
+      "pais": "Colombia",
+      "subsidiaria": null,
+      "linea": null,
+      "cuenta": null,
+      "cuenta_desc": null,
+      "es_ajuste": false,
+      "actuals": {
+        "sin_elim": 322.0,
+        "con_elim": 322.0,
+        "solo_elim": 0.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "con_elim": 0.0,
+        "solo_elim": 0.0
+      },
+      "nids": 217,
+      "avg_dias": 324.06451612903214,
+      "p50_dias": 322.0,
+      "p90_dias": 489.0
+    },
+    {
+      "mes": "2025-12",
+      "pais": "Colombia",
+      "subsidiaria": null,
+      "linea": null,
+      "cuenta": null,
+      "cuenta_desc": null,
+      "es_ajuste": false,
+      "actuals": {
+        "sin_elim": 281.0,
+        "con_elim": 281.0,
+        "solo_elim": 0.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "con_elim": 0.0,
+        "solo_elim": 0.0
+      },
+      "nids": 206,
+      "avg_dias": 292.4999999999998,
+      "p50_dias": 281.0,
+      "p90_dias": 445.0
+    },
+    {
+      "mes": "2025-05",
+      "pais": "Colombia",
+      "subsidiaria": null,
+      "linea": null,
+      "cuenta": null,
+      "cuenta_desc": null,
+      "es_ajuste": false,
+      "actuals": {
+        "sin_elim": 262.0,
+        "con_elim": 262.0,
+        "solo_elim": 0.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "con_elim": 0.0,
+        "solo_elim": 0.0
+      },
+      "nids": 271,
+      "avg_dias": 286.590405904059,
+      "p50_dias": 262.0,
+      "p90_dias": 435.0
+    },
+    {
+      "mes": "2025-10",
+      "pais": "Colombia",
+      "subsidiaria": null,
+      "linea": null,
+      "cuenta": null,
+      "cuenta_desc": null,
+      "es_ajuste": false,
+      "actuals": {
+        "sin_elim": 298.0,
+        "con_elim": 298.0,
+        "solo_elim": 0.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "con_elim": 0.0,
+        "solo_elim": 0.0
+      },
+      "nids": 195,
+      "avg_dias": 298.9179487179485,
+      "p50_dias": 298.0,
+      "p90_dias": 447.0
+    },
+    {
+      "mes": "2026-04",
+      "pais": "Colombia",
+      "subsidiaria": null,
+      "linea": null,
+      "cuenta": null,
+      "cuenta_desc": null,
+      "es_ajuste": false,
+      "actuals": {
+        "sin_elim": 289.0,
+        "con_elim": 289.0,
+        "solo_elim": 0.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "con_elim": 0.0,
+        "solo_elim": 0.0
+      },
+      "nids": 186,
+      "avg_dias": 316.99462365591387,
+      "p50_dias": 289.0,
+      "p90_dias": 497.0
+    },
+    {
+      "mes": "2026-01",
+      "pais": "Colombia",
+      "subsidiaria": null,
+      "linea": null,
+      "cuenta": null,
+      "cuenta_desc": null,
+      "es_ajuste": false,
+      "actuals": {
+        "sin_elim": 263.0,
+        "con_elim": 263.0,
+        "solo_elim": 0.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "con_elim": 0.0,
+        "solo_elim": 0.0
+      },
+      "nids": 129,
+      "avg_dias": 290.5658914728682,
+      "p50_dias": 263.0,
+      "p90_dias": 466.0
+    },
+    {
+      "mes": "2026-05",
+      "pais": "Colombia",
+      "subsidiaria": null,
+      "linea": null,
+      "cuenta": null,
+      "cuenta_desc": null,
+      "es_ajuste": false,
+      "actuals": {
+        "sin_elim": 278.0,
+        "con_elim": 278.0,
+        "solo_elim": 0.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "con_elim": 0.0,
+        "solo_elim": 0.0
+      },
+      "nids": 213,
+      "avg_dias": 299.7089201877933,
+      "p50_dias": 278.0,
+      "p90_dias": 492.0
+    },
+    {
+      "mes": "2025-07",
+      "pais": "Colombia",
+      "subsidiaria": null,
+      "linea": null,
+      "cuenta": null,
+      "cuenta_desc": null,
+      "es_ajuste": false,
+      "actuals": {
+        "sin_elim": 273.0,
+        "con_elim": 273.0,
+        "solo_elim": 0.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "con_elim": 0.0,
+        "solo_elim": 0.0
+      },
+      "nids": 271,
+      "avg_dias": 279.4317343173433,
+      "p50_dias": 273.0,
+      "p90_dias": 446.0
+    },
+    {
+      "mes": "2025-09",
+      "pais": "Mexico",
+      "subsidiaria": null,
+      "linea": null,
+      "cuenta": null,
+      "cuenta_desc": null,
+      "es_ajuste": false,
+      "actuals": {
+        "sin_elim": 246.0,
+        "con_elim": 246.0,
+        "solo_elim": 0.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "con_elim": 0.0,
+        "solo_elim": 0.0
+      },
+      "nids": 119,
+      "avg_dias": 272.218487394958,
+      "p50_dias": 246.0,
+      "p90_dias": 448.0
+    },
+    {
+      "mes": "2026-02",
+      "pais": "Mexico",
+      "subsidiaria": null,
+      "linea": null,
+      "cuenta": null,
+      "cuenta_desc": null,
+      "es_ajuste": false,
+      "actuals": {
+        "sin_elim": 207.0,
+        "con_elim": 207.0,
+        "solo_elim": 0.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "con_elim": 0.0,
+        "solo_elim": 0.0
+      },
+      "nids": 87,
+      "avg_dias": 251.2413793103447,
+      "p50_dias": 207.0,
+      "p90_dias": 487.0
+    },
+    {
+      "mes": "2025-05",
+      "pais": "Mexico",
+      "subsidiaria": null,
+      "linea": null,
+      "cuenta": null,
+      "cuenta_desc": null,
+      "es_ajuste": false,
+      "actuals": {
+        "sin_elim": 225.0,
+        "con_elim": 225.0,
+        "solo_elim": 0.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "con_elim": 0.0,
+        "solo_elim": 0.0
+      },
+      "nids": 127,
+      "avg_dias": 274.24409448818875,
+      "p50_dias": 225.0,
+      "p90_dias": 475.0
+    },
+    {
+      "mes": "2025-06",
+      "pais": "Mexico",
+      "subsidiaria": null,
+      "linea": null,
+      "cuenta": null,
+      "cuenta_desc": null,
+      "es_ajuste": false,
+      "actuals": {
+        "sin_elim": 241.0,
+        "con_elim": 241.0,
+        "solo_elim": 0.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "con_elim": 0.0,
+        "solo_elim": 0.0
+      },
+      "nids": 135,
+      "avg_dias": 261.4296296296297,
+      "p50_dias": 241.0,
+      "p90_dias": 452.0
+    },
+    {
+      "mes": "2025-07",
+      "pais": "Mexico",
+      "subsidiaria": null,
+      "linea": null,
+      "cuenta": null,
+      "cuenta_desc": null,
+      "es_ajuste": false,
+      "actuals": {
+        "sin_elim": 246.0,
+        "con_elim": 246.0,
+        "solo_elim": 0.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "con_elim": 0.0,
+        "solo_elim": 0.0
+      },
+      "nids": 141,
+      "avg_dias": 286.13475177304963,
+      "p50_dias": 246.0,
+      "p90_dias": 493.0
+    },
+    {
+      "mes": "2025-08",
+      "pais": "Mexico",
+      "subsidiaria": null,
+      "linea": null,
+      "cuenta": null,
+      "cuenta_desc": null,
+      "es_ajuste": false,
+      "actuals": {
+        "sin_elim": 218.0,
+        "con_elim": 218.0,
+        "solo_elim": 0.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "con_elim": 0.0,
+        "solo_elim": 0.0
+      },
+      "nids": 137,
+      "avg_dias": 235.7080291970803,
+      "p50_dias": 218.0,
+      "p90_dias": 385.0
+    },
+    {
+      "mes": "2026-05",
+      "pais": "Mexico",
+      "subsidiaria": null,
+      "linea": null,
+      "cuenta": null,
+      "cuenta_desc": null,
+      "es_ajuste": false,
+      "actuals": {
+        "sin_elim": 227.0,
+        "con_elim": 227.0,
+        "solo_elim": 0.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "con_elim": 0.0,
+        "solo_elim": 0.0
+      },
+      "nids": 64,
+      "avg_dias": 243.51562500000006,
+      "p50_dias": 227.0,
+      "p90_dias": 362.0
+    },
+    {
+      "mes": "2026-03",
+      "pais": "Mexico",
+      "subsidiaria": null,
+      "linea": null,
+      "cuenta": null,
+      "cuenta_desc": null,
+      "es_ajuste": false,
+      "actuals": {
+        "sin_elim": 211.0,
+        "con_elim": 211.0,
+        "solo_elim": 0.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "con_elim": 0.0,
+        "solo_elim": 0.0
+      },
+      "nids": 101,
+      "avg_dias": 259.3960396039605,
+      "p50_dias": 211.0,
+      "p90_dias": 437.0
+    },
+    {
+      "mes": "2025-10",
+      "pais": "Mexico",
+      "subsidiaria": null,
+      "linea": null,
+      "cuenta": null,
+      "cuenta_desc": null,
+      "es_ajuste": false,
+      "actuals": {
+        "sin_elim": 194.0,
+        "con_elim": 194.0,
+        "solo_elim": 0.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "con_elim": 0.0,
+        "solo_elim": 0.0
+      },
+      "nids": 102,
+      "avg_dias": 207.3725490196079,
+      "p50_dias": 194.0,
+      "p90_dias": 348.0
+    },
+    {
+      "mes": "2026-01",
+      "pais": "Mexico",
+      "subsidiaria": null,
+      "linea": null,
+      "cuenta": null,
+      "cuenta_desc": null,
+      "es_ajuste": false,
+      "actuals": {
+        "sin_elim": 243.0,
+        "con_elim": 243.0,
+        "solo_elim": 0.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "con_elim": 0.0,
+        "solo_elim": 0.0
+      },
+      "nids": 54,
+      "avg_dias": 253.925925925926,
+      "p50_dias": 243.0,
+      "p90_dias": 357.0
+    },
+    {
+      "mes": "2025-11",
+      "pais": "Mexico",
+      "subsidiaria": null,
+      "linea": null,
+      "cuenta": null,
+      "cuenta_desc": null,
+      "es_ajuste": false,
+      "actuals": {
+        "sin_elim": 239.0,
+        "con_elim": 239.0,
+        "solo_elim": 0.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "con_elim": 0.0,
+        "solo_elim": 0.0
+      },
+      "nids": 90,
+      "avg_dias": 286.27777777777766,
+      "p50_dias": 239.0,
+      "p90_dias": 485.0
+    },
+    {
+      "mes": "2025-12",
+      "pais": "Mexico",
+      "subsidiaria": null,
+      "linea": null,
+      "cuenta": null,
+      "cuenta_desc": null,
+      "es_ajuste": false,
+      "actuals": {
+        "sin_elim": 162.0,
+        "con_elim": 162.0,
+        "solo_elim": 0.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "con_elim": 0.0,
+        "solo_elim": 0.0
+      },
+      "nids": 88,
+      "avg_dias": 232.0795454545455,
+      "p50_dias": 162.0,
+      "p90_dias": 456.0
+    },
+    {
+      "mes": "2026-04",
+      "pais": "Mexico",
+      "subsidiaria": null,
+      "linea": null,
+      "cuenta": null,
+      "cuenta_desc": null,
+      "es_ajuste": false,
+      "actuals": {
+        "sin_elim": 250.0,
+        "con_elim": 250.0,
+        "solo_elim": 0.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "con_elim": 0.0,
+        "solo_elim": 0.0
+      },
+      "nids": 63,
+      "avg_dias": 301.46031746031747,
+      "p50_dias": 250.0,
+      "p90_dias": 425.0
+    }
+  ],
+  "detalle_nids": {
+    "mes": "2026-05",
+    "nids": [
+      {
+        "nid": "34082109060",
+        "nombre": "CONJUNTO RESIDENCIAL LA FINCA SMZ 8",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2025-04-07",
+        "c_fecha_desembolso": "2026-05-27",
+        "dias_ciclo": 415,
+        "v_precio": 135500000.0,
+        "c_precio": 156000000.0
+      },
+      {
+        "nid": "34750795352",
+        "nombre": "ALBORADA REAL 2",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2025-04-28",
+        "c_fecha_desembolso": "2026-05-05",
+        "dias_ciclo": 372,
+        "v_precio": 136600000.0,
+        "c_precio": 156000000.0
+      },
+      {
+        "nid": "36344111631",
+        "nombre": "CONJUNTO RESIDENCIAL POBLADO CASTELLON",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2025-07-31",
+        "c_fecha_desembolso": "2026-05-11",
+        "dias_ciclo": 284,
+        "v_precio": 343604560.0,
+        "c_precio": 430000000.0
+      },
+      {
+        "nid": "40595188584",
+        "nombre": "PARQUE CAMPESTRE ESTAPA 15",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2025-09-30",
+        "c_fecha_desembolso": "2026-05-29",
+        "dias_ciclo": 241,
+        "v_precio": 100000000.0,
+        "c_precio": 132000000.0
+      },
+      {
+        "nid": "32033961036",
+        "nombre": "HEROES TIZAYUCA",
+        "pais": "Mexico",
+        "v_fecha_escritura": "2025-06-30",
+        "c_fecha_desembolso": "2026-05-28",
+        "dias_ciclo": 332,
+        "v_precio": 540395.0,
+        "c_precio": 633090.0
+      },
+      {
+        "nid": "33183111713",
+        "nombre": "4TA CERRADA DE RIO AZUL 4",
+        "pais": "Mexico",
+        "v_fecha_escritura": "2025-07-23",
+        "c_fecha_desembolso": "2026-05-15",
+        "dias_ciclo": 296,
+        "v_precio": 368510.0,
+        "c_precio": 561650.0
+      },
+      {
+        "nid": "38957704877",
+        "nombre": "EMILIANO ZAPATA",
+        "pais": "Mexico",
+        "v_fecha_escritura": "2025-07-30",
+        "c_fecha_desembolso": "2026-05-08",
+        "dias_ciclo": 282,
+        "v_precio": 772756.0,
+        "c_precio": 893402.5
+      },
+      {
+        "nid": "39591118504",
+        "nombre": "FRANCISCO GOITIA",
+        "pais": "Mexico",
+        "v_fecha_escritura": "2025-08-27",
+        "c_fecha_desembolso": "2026-05-27",
+        "dias_ciclo": 273,
+        "v_precio": 1700000.0,
+        "c_precio": 2067529.99
+      },
+      {
+        "nid": "20888393331",
+        "nombre": "JAZMIN",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2025-06-12",
+        "c_fecha_desembolso": "2026-05-29",
+        "dias_ciclo": 351,
+        "v_precio": 105000000.0,
+        "c_precio": 151000000.0
+      },
+      {
+        "nid": "33873264764",
+        "nombre": "ANTURIO 2",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2025-05-22",
+        "c_fecha_desembolso": "2026-05-29",
+        "dias_ciclo": 372,
+        "v_precio": 100109421.0,
+        "c_precio": 145000000.0
+      },
+      {
+        "nid": "33996097386",
+        "nombre": "CIUDAD SABANA MOSQUERA AZULEJO",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2025-04-24",
+        "c_fecha_desembolso": "2026-05-28",
+        "dias_ciclo": 399,
+        "v_precio": 175000000.0,
+        "c_precio": 217000000.0
+      },
+      {
+        "nid": "38471195505",
+        "nombre": "GARDENIA 1",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2025-08-28",
+        "c_fecha_desembolso": "2026-05-28",
+        "dias_ciclo": 273,
+        "v_precio": 109494201.0,
+        "c_precio": 133000000.0
+      },
+      {
+        "nid": "42268934993",
+        "nombre": "PARQUES DE ALMAZAN",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2025-09-15",
+        "c_fecha_desembolso": "2026-05-29",
+        "dias_ciclo": 256,
+        "v_precio": 143442359.0,
+        "c_precio": 192000000.0
+      },
+      {
+        "nid": "42823823664",
+        "nombre": "GARDENIA 1",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2025-11-20",
+        "c_fecha_desembolso": "2026-05-29",
+        "dias_ciclo": 190,
+        "v_precio": 106560829.0,
+        "c_precio": 144900000.0
+      },
+      {
+        "nid": "39241762576",
+        "nombre": "PRIVADA DE ALCALÁ",
+        "pais": "Mexico",
+        "v_fecha_escritura": "2025-09-30",
+        "c_fecha_desembolso": "2026-05-28",
+        "dias_ciclo": 240,
+        "v_precio": 594000.0,
+        "c_precio": 780500.0
+      },
+      {
+        "nid": "12988256180",
+        "nombre": "LA CASTELLANA HACIENDA MADRID",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2025-08-23",
+        "c_fecha_desembolso": "2026-05-25",
+        "dias_ciclo": 275,
+        "v_precio": 125411013.0,
+        "c_precio": 158000000.0
+      },
+      {
+        "nid": "38427961482",
+        "nombre": "TORRES DE SANTA ANA",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2025-07-18",
+        "c_fecha_desembolso": "2026-05-27",
+        "dias_ciclo": 313,
+        "v_precio": 96000000.0,
+        "c_precio": 134300000.0
+      },
+      {
+        "nid": "23350863474",
+        "nombre": "EL PROGRESO 1",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2025-04-09",
+        "c_fecha_desembolso": "2026-05-08",
+        "dias_ciclo": 394,
+        "v_precio": 88532831.00000001,
+        "c_precio": 137200000.0
+      },
+      {
+        "nid": "29462039625",
+        "nombre": "PUERTO AZUL PARQUE RESIDENCIAL",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2025-02-04",
+        "c_fecha_desembolso": "2026-05-29",
+        "dias_ciclo": 479,
+        "v_precio": 143700000.0,
+        "c_precio": 180000000.0
+      },
+      {
+        "nid": "31795405972",
+        "nombre": "CONJUNTO RESIDENCIAL MACADAMIA",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2025-07-24",
+        "c_fecha_desembolso": "2026-05-15",
+        "dias_ciclo": 295,
+        "v_precio": 116000000.0,
+        "c_precio": 162000000.0
+      },
+      {
+        "nid": "39746052104",
+        "nombre": "BONAVISTA",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2025-08-20",
+        "c_fecha_desembolso": "2026-05-28",
+        "dias_ciclo": 281,
+        "v_precio": 154104242.0,
+        "c_precio": 217000000.0
+      },
+      {
+        "nid": "39871962441",
+        "nombre": "CIUDAD CENTRAL",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2025-08-14",
+        "c_fecha_desembolso": "2026-05-29",
+        "dias_ciclo": 288,
+        "v_precio": 161000000.0,
+        "c_precio": 205000000.0
+      },
+      {
+        "nid": "41796604461",
+        "nombre": "LAS FLORES LOTE 3",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2025-09-24",
+        "c_fecha_desembolso": "2026-05-22",
+        "dias_ciclo": 240,
+        "v_precio": 159479530.0,
+        "c_precio": 212500000.0
+      },
+      {
+        "nid": "15687273273",
+        "nombre": "PRIVADA MONTANA",
+        "pais": "Mexico",
+        "v_fecha_escritura": "2024-06-21",
+        "c_fecha_desembolso": "2026-05-06",
+        "dias_ciclo": 684,
+        "v_precio": 431093.0,
+        "c_precio": 746360.0
+      },
+      {
+        "nid": "23119852116",
+        "nombre": "TAMARINDO",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2024-12-20",
+        "c_fecha_desembolso": "2026-05-12",
+        "dias_ciclo": 508,
+        "v_precio": 118400000.0,
+        "c_precio": 148000000.0
+      },
+      {
+        "nid": "28517373754",
+        "nombre": "URBANIZACIÓN TORRE CAMPO",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2025-09-30",
+        "c_fecha_desembolso": "2026-05-22",
+        "dias_ciclo": 234,
+        "v_precio": 254900000.0,
+        "c_precio": 345000000.0
+      },
+      {
+        "nid": "34335475585",
+        "nombre": "TORRES DE SAN RAFAEL",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2025-06-06",
+        "c_fecha_desembolso": "2026-05-06",
+        "dias_ciclo": 334,
+        "v_precio": 145000000.0,
+        "c_precio": 188000000.0
+      },
+      {
+        "nid": "37433153945",
+        "nombre": "ZARAGOZA APARTAMENTOS MANZANA 2",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2025-08-29",
+        "c_fecha_desembolso": "2026-05-13",
+        "dias_ciclo": 257,
+        "v_precio": 119154374.0,
+        "c_precio": 166000000.0
+      },
+      {
+        "nid": "43117453851",
+        "nombre": "TRES VALLES",
+        "pais": "Mexico",
+        "v_fecha_escritura": "2025-10-31",
+        "c_fecha_desembolso": "2026-05-25",
+        "dias_ciclo": 206,
+        "v_precio": 991102.0,
+        "c_precio": 1314500.0
+      },
+      {
+        "nid": "23098764311",
+        "nombre": "OCAÑA1",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2025-02-28",
+        "c_fecha_desembolso": "2026-05-27",
+        "dias_ciclo": 453,
+        "v_precio": 86180000.00000001,
+        "c_precio": 145000000.0
+      },
+      {
+        "nid": "33151842968",
+        "nombre": "PORTAL DE LA SÁBANA",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2025-06-10",
+        "c_fecha_desembolso": "2026-05-08",
+        "dias_ciclo": 332,
+        "v_precio": 105000000.0,
+        "c_precio": 147500000.0
+      },
+      {
+        "nid": "36919882653",
+        "nombre": "FRESIA",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2025-09-30",
+        "c_fecha_desembolso": "2026-05-22",
+        "dias_ciclo": 234,
+        "v_precio": 95700000.0,
+        "c_precio": 126000000.0
+      },
+      {
+        "nid": "39739762690",
+        "nombre": "ALAMO",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2025-11-06",
+        "c_fecha_desembolso": "2026-05-14",
+        "dias_ciclo": 189,
+        "v_precio": 112000000.0,
+        "c_precio": 153000000.0
+      },
+      {
+        "nid": "46414936154",
+        "nombre": "TANGARA II",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2026-03-10",
+        "c_fecha_desembolso": "2026-05-20",
+        "dias_ciclo": 71,
+        "v_precio": 116400000.0,
+        "c_precio": 153000000.0
+      },
+      {
+        "nid": "23226060415",
+        "nombre": "RESIDENCIAL TRES CANTOS QUERÉTARO",
+        "pais": "Mexico",
+        "v_fecha_escritura": "2025-07-21",
+        "c_fecha_desembolso": "2026-05-26",
+        "dias_ciclo": 309,
+        "v_precio": 1420000.0,
+        "c_precio": 1643500.0
+      },
+      {
+        "nid": "36649255967",
+        "nombre": "BUGANVILLA",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2025-06-27",
+        "c_fecha_desembolso": "2026-05-05",
+        "dias_ciclo": 312,
+        "v_precio": 95715599.0,
+        "c_precio": 132000000.0
+      },
+      {
+        "nid": "39103886677",
+        "nombre": "TABAKU DE LAS AMERICAS",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2025-09-15",
+        "c_fecha_desembolso": "2026-05-26",
+        "dias_ciclo": 253,
+        "v_precio": 218000000.0,
+        "c_precio": 280000000.0
+      },
+      {
+        "nid": "49044769925",
+        "nombre": "PORTAL DEL BOSQUE",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2025-12-31",
+        "c_fecha_desembolso": "2026-05-30",
+        "dias_ciclo": 150,
+        "v_precio": 174269000.0,
+        "c_precio": 226000000.0
+      },
+      {
+        "nid": "54019366279",
+        "nombre": "AZUCENA",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2026-03-26",
+        "c_fecha_desembolso": "2026-05-30",
+        "dias_ciclo": 65,
+        "v_precio": 100474000.0,
+        "c_precio": 140000000.0
+      },
+      {
+        "nid": "56420963102",
+        "nombre": "LANTANA",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2026-03-24",
+        "c_fecha_desembolso": "2026-05-30",
+        "dias_ciclo": 67,
+        "v_precio": 189940000.0,
+        "c_precio": 228000000.0
+      },
+      {
+        "nid": "39722157140",
+        "nombre": "JARDINES DE MAGNOLIAS 3",
+        "pais": "Mexico",
+        "v_fecha_escritura": "2025-08-29",
+        "c_fecha_desembolso": "2026-05-19",
+        "dias_ciclo": 263,
+        "v_precio": 500000.0,
+        "c_precio": 639200.0
+      },
+      {
+        "nid": "41125959942",
+        "nombre": "SAN RICARDO PAMPURI",
+        "pais": "Mexico",
+        "v_fecha_escritura": "2025-09-26",
+        "c_fecha_desembolso": "2026-05-12",
+        "dias_ciclo": 228,
+        "v_precio": 496165.0,
+        "c_precio": 650010.0
+      },
+      {
+        "nid": "42834275932",
+        "nombre": "PRIVADA BIO ART",
+        "pais": "Mexico",
+        "v_fecha_escritura": "2025-11-25",
+        "c_fecha_desembolso": "2026-05-28",
+        "dias_ciclo": 184,
+        "v_precio": 433939.0,
+        "c_precio": 688080.0
+      },
+      {
+        "nid": "21759061248",
+        "nombre": "NATIVO",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2025-05-31",
+        "c_fecha_desembolso": "2026-05-29",
+        "dias_ciclo": 363,
+        "v_precio": 148600000.0,
+        "c_precio": 209900000.0
+      },
+      {
+        "nid": "33786850146",
+        "nombre": "CONJUNTO RESIDENCIAL SAUCE I",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2025-12-10",
+        "c_fecha_desembolso": "2026-05-26",
+        "dias_ciclo": 167,
+        "v_precio": 107719000.0,
+        "c_precio": 135000000.0
+      },
+      {
+        "nid": "40902897841",
+        "nombre": "CUMBRES DE SAN MATEO",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2025-10-08",
+        "c_fecha_desembolso": "2026-05-20",
+        "dias_ciclo": 224,
+        "v_precio": 122563170.0,
+        "c_precio": 164000000.0
+      },
+      {
+        "nid": "41443886614",
+        "nombre": "SORRENTO",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2025-11-20",
+        "c_fecha_desembolso": "2026-05-29",
+        "dias_ciclo": 190,
+        "v_precio": 270000000.0,
+        "c_precio": 350000000.0
+      },
+      {
+        "nid": "40541150058",
+        "nombre": "FRACCIONAMIENTO JARDINES DE BUGAMBILIAS JAVER",
+        "pais": "Mexico",
+        "v_fecha_escritura": "2025-10-27",
+        "c_fecha_desembolso": "2026-05-14",
+        "dias_ciclo": 199,
+        "v_precio": 462671.0,
+        "c_precio": 648130.0
+      },
+      {
+        "nid": "30472050188",
+        "nombre": "CONJUNTO RESIDENCIAL PARQUES DE BOLÍVAR MANZANA 2",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2025-02-25",
+        "c_fecha_desembolso": "2026-05-06",
+        "dias_ciclo": 435,
+        "v_precio": 77000000.00000001,
+        "c_precio": 97000000.0
+      },
+      {
+        "nid": "34328964514",
+        "nombre": "LINARIA",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2025-05-14",
+        "c_fecha_desembolso": "2026-05-22",
+        "dias_ciclo": 373,
+        "v_precio": 93500000.0,
+        "c_precio": 125000000.0
+      },
+      {
+        "nid": "35988873645",
+        "nombre": "TERRA GRANDE 4 ETAPA 3",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2025-07-22",
+        "c_fecha_desembolso": "2026-05-08",
+        "dias_ciclo": 290,
+        "v_precio": 115753000.0,
+        "c_precio": 156000000.0
+      },
+      {
+        "nid": "41596726085",
+        "nombre": "TRIGALES",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2025-08-30",
+        "c_fecha_desembolso": "2026-05-29",
+        "dias_ciclo": 272,
+        "v_precio": 141876000.0,
+        "c_precio": 186000000.0
+      },
+      {
+        "nid": "40246298915",
+        "nombre": "BÚHO",
+        "pais": "Mexico",
+        "v_fecha_escritura": "2025-09-09",
+        "c_fecha_desembolso": "2026-05-26",
+        "dias_ciclo": 259,
+        "v_precio": 309376.0,
+        "c_precio": 455900.0
+      },
+      {
+        "nid": "44791393802",
+        "nombre": "PERLA ",
+        "pais": "Mexico",
+        "v_fecha_escritura": "2026-01-22",
+        "c_fecha_desembolso": "2026-05-14",
+        "dias_ciclo": 112,
+        "v_precio": 569810.0,
+        "c_precio": 727090.0
+      },
+      {
+        "nid": "18095204190",
+        "nombre": "SENDERO DEL CANEY",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2024-07-02",
+        "c_fecha_desembolso": "2026-05-05",
+        "dias_ciclo": 672,
+        "v_precio": 144000000.0,
+        "c_precio": 191000000.0
+      },
+      {
+        "nid": "21208165495",
+        "nombre": "PARQUE CENTRAL TINTAL ETAPA 2",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2025-07-24",
+        "c_fecha_desembolso": "2026-05-15",
+        "dias_ciclo": 295,
+        "v_precio": 139000000.0,
+        "c_precio": 181000000.0
+      },
+      {
+        "nid": "21895965253",
+        "nombre": "NAVARRA",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2024-11-20",
+        "c_fecha_desembolso": "2026-05-19",
+        "dias_ciclo": 545,
+        "v_precio": 163000000.0,
+        "c_precio": 168000000.0
+      },
+      {
+        "nid": "23386936402",
+        "nombre": "BOSQUE DE ARRAYAN",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2025-05-29",
+        "c_fecha_desembolso": "2026-05-30",
+        "dias_ciclo": 366,
+        "v_precio": 139000000.0,
+        "c_precio": 159000000.0
+      },
+      {
+        "nid": "37080996772",
+        "nombre": "PARQUE CAMPESTRE ESTAPA 15",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2025-08-29",
+        "c_fecha_desembolso": "2026-05-13",
+        "dias_ciclo": 257,
+        "v_precio": 101500000.0,
+        "c_precio": 145000000.0
+      },
+      {
+        "nid": "39054750489",
+        "nombre": "CONJUNTO RESIDENCIAL AMAPOLA",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2025-08-23",
+        "c_fecha_desembolso": "2026-05-26",
+        "dias_ciclo": 276,
+        "v_precio": 90190000.0,
+        "c_precio": 122000000.0
+      },
+      {
+        "nid": "40422342543",
+        "nombre": "OASIS DE RIOGRANDE",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2025-12-26",
+        "c_fecha_desembolso": "2026-05-30",
+        "dias_ciclo": 155,
+        "v_precio": 440000000.0,
+        "c_precio": 552000000.0
+      },
+      {
+        "nid": "43058773818",
+        "nombre": "BOSQUE DE MODELIA SEGUNDA ETAPA LOTE 3",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2025-10-17",
+        "c_fecha_desembolso": "2026-05-27",
+        "dias_ciclo": 222,
+        "v_precio": 277513106.0,
+        "c_precio": 362000000.0
+      },
+      {
+        "nid": "43176572016",
+        "nombre": "GUARANÁ",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2025-12-22",
+        "c_fecha_desembolso": "2026-05-11",
+        "dias_ciclo": 140,
+        "v_precio": 97497911.0,
+        "c_precio": 125000000.0
+      },
+      {
+        "nid": "21048779034",
+        "nombre": "CIRCUITO ALUMINIO ",
+        "pais": "Mexico",
+        "v_fecha_escritura": "2026-01-16",
+        "c_fecha_desembolso": "2026-05-04",
+        "dias_ciclo": 108,
+        "v_precio": 485756.0,
+        "c_precio": 736500.0
+      },
+      {
+        "nid": "22903202861",
+        "nombre": "MAJAGUAGRAVA",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2024-12-13",
+        "c_fecha_desembolso": "2026-05-22",
+        "dias_ciclo": 525,
+        "v_precio": 187000000.0,
+        "c_precio": 211000000.0
+      },
+      {
+        "nid": "34534096522",
+        "nombre": "TORRES DE BELLAVISTA",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2025-04-30",
+        "c_fecha_desembolso": "2026-05-27",
+        "dias_ciclo": 392,
+        "v_precio": 157094268.0,
+        "c_precio": 206000000.0
+      },
+      {
+        "nid": "37872715805",
+        "nombre": "GERANIO",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2025-12-09",
+        "c_fecha_desembolso": "2026-05-22",
+        "dias_ciclo": 164,
+        "v_precio": 118000000.0,
+        "c_precio": 159000000.0
+      },
+      {
+        "nid": "21706950779",
+        "nombre": "CTO SAN MARCOS MZ 4 LTE  CS 1",
+        "pais": "Mexico",
+        "v_fecha_escritura": "2025-05-31",
+        "c_fecha_desembolso": "2026-05-28",
+        "dias_ciclo": 362,
+        "v_precio": 333185.0,
+        "c_precio": 534860.0
+      },
+      {
+        "nid": "37451198119",
+        "nombre": "HEROES DEL BAJIO",
+        "pais": "Mexico",
+        "v_fecha_escritura": "2025-06-27",
+        "c_fecha_desembolso": "2026-05-26",
+        "dias_ciclo": 333,
+        "v_precio": 992376.0,
+        "c_precio": 1175000.0
+      },
+      {
+        "nid": "38391995177",
+        "nombre": "LAGO WINNIPEG ",
+        "pais": "Mexico",
+        "v_fecha_escritura": "2025-08-08",
+        "c_fecha_desembolso": "2026-05-29",
+        "dias_ciclo": 294,
+        "v_precio": 1678168.0,
+        "c_precio": 1883500.0
+      },
+      {
+        "nid": "43239601298",
+        "nombre": "CIRCUITO HACIENDA DE VIRGINIA",
+        "pais": "Mexico",
+        "v_fecha_escritura": "2025-10-24",
+        "c_fecha_desembolso": "2026-05-11",
+        "dias_ciclo": 199,
+        "v_precio": 1230000.0,
+        "c_precio": 1553500.0
+      },
+      {
+        "nid": "45881032967",
+        "nombre": "MAPIMI",
+        "pais": "Mexico",
+        "v_fecha_escritura": "2025-12-09",
+        "c_fecha_desembolso": "2026-05-07",
+        "dias_ciclo": 149,
+        "v_precio": 498870.0,
+        "c_precio": 713930.0
+      },
+      {
+        "nid": "23397743372",
+        "nombre": "AZUCENA",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2025-07-15",
+        "c_fecha_desembolso": "2026-05-28",
+        "dias_ciclo": 317,
+        "v_precio": 117393517.0,
+        "c_precio": 161000000.0
+      },
+      {
+        "nid": "32750082311",
+        "nombre": "EL TRIUNFO I",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2025-12-15",
+        "c_fecha_desembolso": "2026-05-12",
+        "dias_ciclo": 148,
+        "v_precio": 97482025.0,
+        "c_precio": 139000000.0
+      },
+      {
+        "nid": "43865458808",
+        "nombre": "PRIVADA OLIVAR DEL CONDE",
+        "pais": "Mexico",
+        "v_fecha_escritura": "2026-02-27",
+        "c_fecha_desembolso": "2026-05-12",
+        "dias_ciclo": 74,
+        "v_precio": 450000.0,
+        "c_precio": 671160.0
+      },
+      {
+        "nid": "15911435272",
+        "nombre": "POMARROSA",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2024-12-06",
+        "c_fecha_desembolso": "2026-05-27",
+        "dias_ciclo": 537,
+        "v_precio": 141000000.0,
+        "c_precio": 181000000.0
+      },
+      {
+        "nid": "16830860206",
+        "nombre": "SENDEROS DE VILLA MARIA 1",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2024-09-30",
+        "c_fecha_desembolso": "2026-05-14",
+        "dias_ciclo": 591,
+        "v_precio": 123100000.0,
+        "c_precio": 143900000.0
+      },
+      {
+        "nid": "21359450409",
+        "nombre": "IRIS",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2025-08-01",
+        "c_fecha_desembolso": "2026-05-15",
+        "dias_ciclo": 287,
+        "v_precio": 100000000.0,
+        "c_precio": 120000000.0
+      },
+      {
+        "nid": "22566719248",
+        "nombre": "BOSQUES DE BOGOTA 2",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2024-11-20",
+        "c_fecha_desembolso": "2026-05-21",
+        "dias_ciclo": 547,
+        "v_precio": 82244600.00000001,
+        "c_precio": 122400000.0
+      },
+      {
+        "nid": "33908895355",
+        "nombre": "PUERTA DEL SOL II",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2025-06-24",
+        "c_fecha_desembolso": "2026-05-19",
+        "dias_ciclo": 329,
+        "v_precio": 136700000.0,
+        "c_precio": 169000000.0
+      },
+      {
+        "nid": "34785342516",
+        "nombre": "TORRES DE VICINO",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2025-04-30",
+        "c_fecha_desembolso": "2026-05-30",
+        "dias_ciclo": 395,
+        "v_precio": 177000000.0,
+        "c_precio": 180000000.0
+      },
+      {
+        "nid": "39432622940",
+        "nombre": "SANTA RITA DE ALSACIA",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2025-11-29",
+        "c_fecha_desembolso": "2026-05-22",
+        "dias_ciclo": 174,
+        "v_precio": 321000000.0,
+        "c_precio": 423000000.0
+      },
+      {
+        "nid": "42882769316",
+        "nombre": "LA ALEGRÍA 3",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2025-10-28",
+        "c_fecha_desembolso": "2026-05-07",
+        "dias_ciclo": 191,
+        "v_precio": 109398556.0,
+        "c_precio": 143000000.0
+      },
+      {
+        "nid": "41448863412",
+        "nombre": "AV. VISTA SUR ",
+        "pais": "Mexico",
+        "v_fecha_escritura": "2025-09-29",
+        "c_fecha_desembolso": "2026-05-14",
+        "dias_ciclo": 227,
+        "v_precio": 1400000.0,
+        "c_precio": 1702287.5
+      },
+      {
+        "nid": "43604031314",
+        "nombre": "LOS PUERTOS",
+        "pais": "Mexico",
+        "v_fecha_escritura": "2025-12-08",
+        "c_fecha_desembolso": "2026-05-07",
+        "dias_ciclo": 150,
+        "v_precio": 595444.0,
+        "c_precio": 858500.0
+      },
+      {
+        "nid": "23378834222",
+        "nombre": "ALTAVISTA \"MIRADOR\"",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2024-12-27",
+        "c_fecha_desembolso": "2026-05-29",
+        "dias_ciclo": 518,
+        "v_precio": 141666768.0,
+        "c_precio": 170000000.0
+      },
+      {
+        "nid": "38511470207",
+        "nombre": "PRIMAVERA",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2025-09-16",
+        "c_fecha_desembolso": "2026-05-25",
+        "dias_ciclo": 251,
+        "v_precio": 102000000.0,
+        "c_precio": 139500000.0
+      },
+      {
+        "nid": "42577295515",
+        "nombre": "TORRES DE SAN ANTONIO",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2025-09-11",
+        "c_fecha_desembolso": "2026-05-19",
+        "dias_ciclo": 250,
+        "v_precio": 258424668.0,
+        "c_precio": 326000000.0
+      },
+      {
+        "nid": "43301329063",
+        "nombre": "CONJUNTO RESIDENCIAL CERATO",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2025-12-17",
+        "c_fecha_desembolso": "2026-05-27",
+        "dias_ciclo": 161,
+        "v_precio": 452782492.0,
+        "c_precio": 580000000.0
+      },
+      {
+        "nid": "37127745862",
+        "nombre": "CIRCUITO HOJA DE NOGAL",
+        "pais": "Mexico",
+        "v_fecha_escritura": "2025-07-11",
+        "c_fecha_desembolso": "2026-05-26",
+        "dias_ciclo": 319,
+        "v_precio": 740000.0,
+        "c_precio": 958500.0
+      },
+      {
+        "nid": "38458597019",
+        "nombre": "MAZZARO",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2025-09-23",
+        "c_fecha_desembolso": "2026-05-14",
+        "dias_ciclo": 233,
+        "v_precio": 185900000.0,
+        "c_precio": 240000000.0
+      },
+      {
+        "nid": "38615195829",
+        "nombre": "OPORTUNIDAD 1",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2025-07-29",
+        "c_fecha_desembolso": "2026-05-20",
+        "dias_ciclo": 295,
+        "v_precio": 81800000.00000001,
+        "c_precio": 110000000.0
+      },
+      {
+        "nid": "39259974162",
+        "nombre": "LA OPORTUNIDAD III",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2025-08-22",
+        "c_fecha_desembolso": "2026-05-19",
+        "dias_ciclo": 270,
+        "v_precio": 84000000.00000001,
+        "c_precio": 116000000.0
+      },
+      {
+        "nid": "42260348300",
+        "nombre": "SENDEROS EL PORVENIR 4",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2025-10-20",
+        "c_fecha_desembolso": "2026-05-25",
+        "dias_ciclo": 217,
+        "v_precio": 100890000.0,
+        "c_precio": 141000000.0
+      },
+      {
+        "nid": "17217730439",
+        "nombre": "ANTURIO 1 - DO",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2024-12-17",
+        "c_fecha_desembolso": "2026-05-28",
+        "dias_ciclo": 527,
+        "v_precio": 92000000.0,
+        "c_precio": 130000000.0
+      },
+      {
+        "nid": "20978203781",
+        "nombre": "PARQUE CAMPESTRE 11",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2024-09-30",
+        "c_fecha_desembolso": "2026-05-22",
+        "dias_ciclo": 599,
+        "v_precio": 87619999.00000001,
+        "c_precio": 112000000.0
+      },
+      {
+        "nid": "22876633362",
+        "nombre": "CONJUNTO RESIDENCIAL STEEL 22",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2025-04-29",
+        "c_fecha_desembolso": "2026-05-11",
+        "dias_ciclo": 377,
+        "v_precio": 360000000.0,
+        "c_precio": 420000000.0
+      },
+      {
+        "nid": "35564574390",
+        "nombre": "HACIENDA DEL PINAR",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2025-09-26",
+        "c_fecha_desembolso": "2026-05-28",
+        "dias_ciclo": 244,
+        "v_precio": 130000000.0,
+        "c_precio": 169000000.0
+      },
+      {
+        "nid": "36472607607",
+        "nombre": "PARQUES DE CASTILLA 8",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2025-08-28",
+        "c_fecha_desembolso": "2026-05-22",
+        "dias_ciclo": 267,
+        "v_precio": 208422604.0,
+        "c_precio": 265000000.0
+      },
+      {
+        "nid": "41565540624",
+        "nombre": "PEDRO MIRANDA ",
+        "pais": "Mexico",
+        "v_fecha_escritura": "2026-02-20",
+        "c_fecha_desembolso": "2026-05-11",
+        "dias_ciclo": 80,
+        "v_precio": 1851701.0,
+        "c_precio": 2350000.0
+      },
+      {
+        "nid": "22657447169",
+        "nombre": "CASTAÑO",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2025-02-14",
+        "c_fecha_desembolso": "2026-05-19",
+        "dias_ciclo": 459,
+        "v_precio": 99780509.0,
+        "c_precio": 138000000.0
+      },
+      {
+        "nid": "39983065387",
+        "nombre": "MISIÓN SAN COSME",
+        "pais": "Mexico",
+        "v_fecha_escritura": "2025-08-30",
+        "c_fecha_desembolso": "2026-05-19",
+        "dias_ciclo": 262,
+        "v_precio": 520000.0,
+        "c_precio": 700300.0
+      },
+      {
+        "nid": "30462122035",
+        "nombre": "OASIS DE LOS BERNAL",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2024-12-28",
+        "c_fecha_desembolso": "2026-05-12",
+        "dias_ciclo": 500,
+        "v_precio": 340238000.0,
+        "c_precio": 427000000.0
+      },
+      {
+        "nid": "42671051416",
+        "nombre": "VIANTT APARTAMENTOS",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2025-11-18",
+        "c_fecha_desembolso": "2026-05-29",
+        "dias_ciclo": 192,
+        "v_precio": 234073263.0,
+        "c_precio": 308000000.0
+      },
+      {
+        "nid": "48358791069",
+        "nombre": "LA SENDA",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2026-01-29",
+        "c_fecha_desembolso": "2026-05-20",
+        "dias_ciclo": 111,
+        "v_precio": 230302568.0,
+        "c_precio": 295000000.0
+      },
+      {
+        "nid": "37892846667",
+        "nombre": "CALLE JOSEFA ORTIZ DE DOMÍNGUEZ ",
+        "pais": "Mexico",
+        "v_fecha_escritura": "2025-07-31",
+        "c_fecha_desembolso": "2026-05-15",
+        "dias_ciclo": 288,
+        "v_precio": 1865548.0,
+        "c_precio": 2037492.5
+      },
+      {
+        "nid": "15244261451",
+        "nombre": "CEREZO",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2024-10-31",
+        "c_fecha_desembolso": "2026-05-27",
+        "dias_ciclo": 573,
+        "v_precio": 233180000.0,
+        "c_precio": 296000000.0
+      },
+      {
+        "nid": "20783684648",
+        "nombre": "RIO VIVO",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2024-11-22",
+        "c_fecha_desembolso": "2026-05-28",
+        "dias_ciclo": 552,
+        "v_precio": 280000008.0,
+        "c_precio": 282000000.0
+      },
+      {
+        "nid": "32214977119",
+        "nombre": "PORTAL DE CASTILLA III",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2025-02-27",
+        "c_fecha_desembolso": "2026-05-28",
+        "dias_ciclo": 455,
+        "v_precio": 143000000.0,
+        "c_precio": 177173929.0
+      },
+      {
+        "nid": "32729501028",
+        "nombre": "AZUCENA",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2025-03-27",
+        "c_fecha_desembolso": "2026-05-28",
+        "dias_ciclo": 427,
+        "v_precio": 114407179.0,
+        "c_precio": 158500000.0
+      },
+      {
+        "nid": "42492276022",
+        "nombre": "AZABACHE ",
+        "pais": "Mexico",
+        "v_fecha_escritura": "2025-11-11",
+        "c_fecha_desembolso": "2026-05-18",
+        "dias_ciclo": 188,
+        "v_precio": 1030000.0,
+        "c_precio": 1278800.0
+      },
+      {
+        "nid": "20907988313",
+        "nombre": "SAN ANDRES AFIDRO MANZANA 2",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2025-04-23",
+        "c_fecha_desembolso": "2026-05-29",
+        "dias_ciclo": 401,
+        "v_precio": 122000000.0,
+        "c_precio": 162000000.0
+      },
+      {
+        "nid": "21249107854",
+        "nombre": "CAMELIA 2",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2025-08-05",
+        "c_fecha_desembolso": "2026-05-27",
+        "dias_ciclo": 295,
+        "v_precio": 104665058.0,
+        "c_precio": 125500000.0
+      },
+      {
+        "nid": "21808948295",
+        "nombre": "ROMERO",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2024-12-09",
+        "c_fecha_desembolso": "2026-05-13",
+        "dias_ciclo": 520,
+        "v_precio": 132000522.0,
+        "c_precio": 180000000.0
+      },
+      {
+        "nid": "42060018281",
+        "nombre": "TRIGALES",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2025-10-31",
+        "c_fecha_desembolso": "2026-05-22",
+        "dias_ciclo": 203,
+        "v_precio": 121254000.0,
+        "c_precio": 155000000.0
+      },
+      {
+        "nid": "50074679189",
+        "nombre": "NOGAL",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2026-03-03",
+        "c_fecha_desembolso": "2026-05-22",
+        "dias_ciclo": 80,
+        "v_precio": 108000000.0,
+        "c_precio": 155000000.0
+      },
+      {
+        "nid": "55647671875",
+        "nombre": "SABANAGRANDE RESERVADO 4 MANZANA 2A",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2026-03-09",
+        "c_fecha_desembolso": "2026-05-19",
+        "dias_ciclo": 71,
+        "v_precio": 161000000.0,
+        "c_precio": 220000000.0
+      },
+      {
+        "nid": "36775078809",
+        "nombre": "SAN JOSE MARIA TOMASI ",
+        "pais": "Mexico",
+        "v_fecha_escritura": "2025-06-27",
+        "c_fecha_desembolso": "2026-05-08",
+        "dias_ciclo": 315,
+        "v_precio": 486000.0,
+        "c_precio": 628860.0
+      },
+      {
+        "nid": "31531989161",
+        "nombre": "PRADO PARK",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2025-08-12",
+        "c_fecha_desembolso": "2026-05-06",
+        "dias_ciclo": 267,
+        "v_precio": 205142095.0,
+        "c_precio": 256000000.0
+      },
+      {
+        "nid": "33020403300",
+        "nombre": "CONJUNTO RESIDENCIAL MORELLI",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2025-05-09",
+        "c_fecha_desembolso": "2026-05-15",
+        "dias_ciclo": 371,
+        "v_precio": 143000000.0,
+        "c_precio": 179000000.0
+      },
+      {
+        "nid": "36647360617",
+        "nombre": "TANGARA II",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2025-06-27",
+        "c_fecha_desembolso": "2026-05-29",
+        "dias_ciclo": 336,
+        "v_precio": 124442973.0,
+        "c_precio": 165500000.0
+      },
+      {
+        "nid": "16456267901",
+        "nombre": "CONJUNTO RESIDENCIAL OLIVO 1",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2025-01-31",
+        "c_fecha_desembolso": "2026-05-29",
+        "dias_ciclo": 483,
+        "v_precio": 80178560.00000001,
+        "c_precio": 121500000.0
+      },
+      {
+        "nid": "35861245774",
+        "nombre": "HACIENDA SAN RAFAEL",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2025-05-14",
+        "c_fecha_desembolso": "2026-05-13",
+        "dias_ciclo": 364,
+        "v_precio": 130409883.0,
+        "c_precio": 167900000.0
+      },
+      {
+        "nid": "37640567211",
+        "nombre": "PERAL",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2025-10-07",
+        "c_fecha_desembolso": "2026-05-28",
+        "dias_ciclo": 233,
+        "v_precio": 93798000.0,
+        "c_precio": 121000000.0
+      },
+      {
+        "nid": "39287475990",
+        "nombre": "MIGUEL HIDALGO",
+        "pais": "Mexico",
+        "v_fecha_escritura": "2025-08-25",
+        "c_fecha_desembolso": "2026-05-12",
+        "dias_ciclo": 260,
+        "v_precio": 724752.0,
+        "c_precio": 973370.0
+      },
+      {
+        "nid": "42179349609",
+        "nombre": "",
+        "pais": "Mexico",
+        "v_fecha_escritura": "2025-10-17",
+        "c_fecha_desembolso": "2026-05-14",
+        "dias_ciclo": 209,
+        "v_precio": 680000.0,
+        "c_precio": 900050.0
+      },
+      {
+        "nid": "19242773686",
+        "nombre": "BORA DE SERRAVENTO-DO",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2024-11-20",
+        "c_fecha_desembolso": "2026-05-12",
+        "dias_ciclo": 538,
+        "v_precio": 213000000.0,
+        "c_precio": 286000000.0
+      },
+      {
+        "nid": "33364025879",
+        "nombre": "ANTURIO 1",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2025-07-30",
+        "c_fecha_desembolso": "2026-05-28",
+        "dias_ciclo": 302,
+        "v_precio": 99495067.0,
+        "c_precio": 131000000.0
+      },
+      {
+        "nid": "36116750466",
+        "nombre": "BORA DE SERRAVENTO YEC",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2025-07-07",
+        "c_fecha_desembolso": "2026-05-11",
+        "dias_ciclo": 308,
+        "v_precio": 268746000.0,
+        "c_precio": 349000000.0
+      },
+      {
+        "nid": "49478741894",
+        "nombre": "CIUDADELA CAFAM 2",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2026-01-20",
+        "c_fecha_desembolso": "2026-05-28",
+        "dias_ciclo": 128,
+        "v_precio": 135200000.0,
+        "c_precio": 178000000.0
+      },
+      {
+        "nid": "19837189007",
+        "nombre": "VALLE DE SAN MOISES  INT 26",
+        "pais": "Mexico",
+        "v_fecha_escritura": "2025-08-29",
+        "c_fecha_desembolso": "2026-05-29",
+        "dias_ciclo": 273,
+        "v_precio": 1255168.0,
+        "c_precio": 1518927.5
+      },
+      {
+        "nid": "42791960732",
+        "nombre": "AVENIDA DE LAS GRANJAS ",
+        "pais": "Mexico",
+        "v_fecha_escritura": "2026-02-13",
+        "c_fecha_desembolso": "2026-05-29",
+        "dias_ciclo": 105,
+        "v_precio": 2150000.0,
+        "c_precio": 2633500.0
+      },
+      {
+        "nid": "46672187453",
+        "nombre": "CONDOMINIO HIJUELO ",
+        "pais": "Mexico",
+        "v_fecha_escritura": "2025-12-29",
+        "c_fecha_desembolso": "2026-05-05",
+        "dias_ciclo": 127,
+        "v_precio": 603000.0,
+        "c_precio": 792650.0
+      },
+      {
+        "nid": "51618352239",
+        "nombre": "CALLE MANIZALES ",
+        "pais": "Mexico",
+        "v_fecha_escritura": "2026-01-28",
+        "c_fecha_desembolso": "2026-05-15",
+        "dias_ciclo": 107,
+        "v_precio": 721320.0,
+        "c_precio": 991230.0
+      },
+      {
+        "nid": "34331690416",
+        "nombre": "FRAILEJON 2",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2025-09-08",
+        "c_fecha_desembolso": "2026-05-14",
+        "dias_ciclo": 248,
+        "v_precio": 106000000.0,
+        "c_precio": 135000000.0
+      },
+      {
+        "nid": "36363885612",
+        "nombre": "CONJUNTO PARQUE CENTRAL TINTAL II",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2025-07-24",
+        "c_fecha_desembolso": "2026-05-28",
+        "dias_ciclo": 308,
+        "v_precio": 125000000.0,
+        "c_precio": 171000000.0
+      },
+      {
+        "nid": "38843348890",
+        "nombre": "VERSALLES RESERVADO",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2025-09-30",
+        "c_fecha_desembolso": "2026-05-28",
+        "dias_ciclo": 240,
+        "v_precio": 438063913.0,
+        "c_precio": 550000000.0
+      },
+      {
+        "nid": "41294903480",
+        "nombre": "ALBORADA REAL 2",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2025-11-26",
+        "c_fecha_desembolso": "2026-05-30",
+        "dias_ciclo": 185,
+        "v_precio": 133128476.0,
+        "c_precio": 175000000.0
+      },
+      {
+        "nid": "28438320007",
+        "nombre": "SAN BERNARDINO ETAPA 2",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2024-11-25",
+        "c_fecha_desembolso": "2026-05-27",
+        "dias_ciclo": 548,
+        "v_precio": 85718045.00000001,
+        "c_precio": 132000000.0
+      },
+      {
+        "nid": "32487264387",
+        "nombre": "ARMONÍA V",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2025-09-30",
+        "c_fecha_desembolso": "2026-05-14",
+        "dias_ciclo": 226,
+        "v_precio": 120004338.0,
+        "c_precio": 165000000.0
+      },
+      {
+        "nid": "36320742529",
+        "nombre": "MONTECLARO",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2025-08-11",
+        "c_fecha_desembolso": "2026-05-12",
+        "dias_ciclo": 274,
+        "v_precio": 147000000.0,
+        "c_precio": 192000000.0
+      },
+      {
+        "nid": "38856782745",
+        "nombre": "SALINAS 1",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2025-08-22",
+        "c_fecha_desembolso": "2026-05-14",
+        "dias_ciclo": 265,
+        "v_precio": 164333543.0,
+        "c_precio": 189000000.0
+      },
+      {
+        "nid": "45752289106",
+        "nombre": "HEROES DE CAPELLANIA",
+        "pais": "Mexico",
+        "v_fecha_escritura": "2025-11-24",
+        "c_fecha_desembolso": "2026-05-06",
+        "dias_ciclo": 163,
+        "v_precio": 671860.0,
+        "c_precio": 877960.0
+      },
+      {
+        "nid": "48860678754",
+        "nombre": "LOMA DE CARACAS ",
+        "pais": "Mexico",
+        "v_fecha_escritura": "2026-01-30",
+        "c_fecha_desembolso": "2026-05-04",
+        "dias_ciclo": 94,
+        "v_precio": 550000.0,
+        "c_precio": 795992.5
+      },
+      {
+        "nid": "19360028193",
+        "nombre": "MORELLI",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2025-08-22",
+        "c_fecha_desembolso": "2026-05-14",
+        "dias_ciclo": 265,
+        "v_precio": 154000000.0,
+        "c_precio": 180000000.0
+      },
+      {
+        "nid": "30914840833",
+        "nombre": "LAS MERCEDES DE SUBA",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2025-10-24",
+        "c_fecha_desembolso": "2026-05-20",
+        "dias_ciclo": 208,
+        "v_precio": 121468493.0,
+        "c_precio": 163500000.0
+      },
+      {
+        "nid": "33664126478",
+        "nombre": "BOSQUE TAYRONA",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2025-07-10",
+        "c_fecha_desembolso": "2026-05-29",
+        "dias_ciclo": 323,
+        "v_precio": 118000000.0,
+        "c_precio": 172000000.0
+      },
+      {
+        "nid": "34891945074",
+        "nombre": "ALAMEDA DEL RECREO",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2025-07-25",
+        "c_fecha_desembolso": "2026-05-29",
+        "dias_ciclo": 308,
+        "v_precio": 108500000.0,
+        "c_precio": 142000000.0
+      },
+      {
+        "nid": "42975518607",
+        "nombre": "PALMETO",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2025-10-10",
+        "c_fecha_desembolso": "2026-05-19",
+        "dias_ciclo": 221,
+        "v_precio": 151671000.0,
+        "c_precio": 200000000.0
+      },
+      {
+        "nid": "43300889896",
+        "nombre": "PARQUE CAMPESTRE ETAPA 4",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2025-11-21",
+        "c_fecha_desembolso": "2026-05-29",
+        "dias_ciclo": 189,
+        "v_precio": 85000000.00000001,
+        "c_precio": 98000000.0
+      },
+      {
+        "nid": "53568997713",
+        "nombre": "AV STA ANA ",
+        "pais": "Mexico",
+        "v_fecha_escritura": "2026-02-26",
+        "c_fecha_desembolso": "2026-05-27",
+        "dias_ciclo": 90,
+        "v_precio": 422084.0,
+        "c_precio": 710000.0
+      },
+      {
+        "nid": "31960932641",
+        "nombre": "VERONA",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2025-06-16",
+        "c_fecha_desembolso": "2026-05-28",
+        "dias_ciclo": 346,
+        "v_precio": 140000000.0,
+        "c_precio": 171500000.0
+      },
+      {
+        "nid": "33889357455",
+        "nombre": "PORTO ALEGRE 2",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2025-07-30",
+        "c_fecha_desembolso": "2026-05-26",
+        "dias_ciclo": 300,
+        "v_precio": 162300000.0,
+        "c_precio": 203662400.0
+      },
+      {
+        "nid": "35487271842",
+        "nombre": "LA PALESTINA",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2025-11-28",
+        "c_fecha_desembolso": "2026-05-13",
+        "dias_ciclo": 166,
+        "v_precio": 400000000.0,
+        "c_precio": 533000000.0
+      },
+      {
+        "nid": "48828447770",
+        "nombre": "LA RESERVA DEL PALMAR II",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2026-03-12",
+        "c_fecha_desembolso": "2026-05-25",
+        "dias_ciclo": 74,
+        "v_precio": 198797605.0,
+        "c_precio": 261000000.0
+      },
+      {
+        "nid": "54705793312",
+        "nombre": "CONJUNTO ALAMEDA DEL RIO PERDIZ RUI",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2026-03-11",
+        "c_fecha_desembolso": "2026-05-22",
+        "dias_ciclo": 72,
+        "v_precio": 164000000.0,
+        "c_precio": 206000000.0
+      },
+      {
+        "nid": "35044408925",
+        "nombre": "JARDIN SAN IDELFONSO",
+        "pais": "Mexico",
+        "v_fecha_escritura": "2025-06-30",
+        "c_fecha_desembolso": "2026-05-19",
+        "dias_ciclo": 323,
+        "v_precio": 626000.0,
+        "c_precio": 723800.0
+      },
+      {
+        "nid": "32082123522",
+        "nombre": "CAPRI",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2025-09-22",
+        "c_fecha_desembolso": "2026-05-13",
+        "dias_ciclo": 233,
+        "v_precio": 130396672.0,
+        "c_precio": 164000000.0
+      },
+      {
+        "nid": "35106059834",
+        "nombre": "HORIZONTES DE LA CATOLICA",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2025-04-28",
+        "c_fecha_desembolso": "2026-05-26",
+        "dias_ciclo": 393,
+        "v_precio": 204000000.0,
+        "c_precio": 276000000.0
+      },
+      {
+        "nid": "35770945462",
+        "nombre": "CONJUNTO RESIDENCIAL MONTECARLO VI",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2025-10-30",
+        "c_fecha_desembolso": "2026-05-12",
+        "dias_ciclo": 194,
+        "v_precio": 170000000.0,
+        "c_precio": 228000000.0
+      },
+      {
+        "nid": "51518334903",
+        "nombre": "CIUDAD TINTAL II ETAPA 2",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2026-02-21",
+        "c_fecha_desembolso": "2026-05-14",
+        "dias_ciclo": 82,
+        "v_precio": 111968000.0,
+        "c_precio": 154000000.0
+      },
+      {
+        "nid": "34239809037",
+        "nombre": "PUERTA DEL SOL",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2025-09-30",
+        "c_fecha_desembolso": "2026-05-12",
+        "dias_ciclo": 224,
+        "v_precio": 137000000.0,
+        "c_precio": 169000000.0
+      },
+      {
+        "nid": "34608994408",
+        "nombre": "FONTIBON RESERVADO",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2025-04-30",
+        "c_fecha_desembolso": "2026-05-15",
+        "dias_ciclo": 380,
+        "v_precio": 110100000.0,
+        "c_precio": 149535099.0
+      },
+      {
+        "nid": "35686533507",
+        "nombre": "PALMERAS DEL CARIBE 1",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2025-05-26",
+        "c_fecha_desembolso": "2026-05-15",
+        "dias_ciclo": 354,
+        "v_precio": 72297409.00000001,
+        "c_precio": 95000000.0
+      },
+      {
+        "nid": "36418047300",
+        "nombre": "TERRITORIO AURORA",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2025-10-11",
+        "c_fecha_desembolso": "2026-05-14",
+        "dias_ciclo": 215,
+        "v_precio": 107000000.0,
+        "c_precio": 175000000.0
+      },
+      {
+        "nid": "40708329531",
+        "nombre": "CONDOMINIO TEJARES II",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2025-10-20",
+        "c_fecha_desembolso": "2026-05-20",
+        "dias_ciclo": 212,
+        "v_precio": 80500000.00000001,
+        "c_precio": 112000000.0
+      },
+      {
+        "nid": "43874065992",
+        "nombre": "TORRES DE HAYUELOS",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2025-12-09",
+        "c_fecha_desembolso": "2026-05-06",
+        "dias_ciclo": 148,
+        "v_precio": 307743125.0,
+        "c_precio": 372000000.0
+      },
+      {
+        "nid": "43834413441",
+        "nombre": "CAVERNET",
+        "pais": "Mexico",
+        "v_fecha_escritura": "2025-10-31",
+        "c_fecha_desembolso": "2026-05-19",
+        "dias_ciclo": 200,
+        "v_precio": 1600000.0,
+        "c_precio": 2067999.99
+      },
+      {
+        "nid": "21512261935",
+        "nombre": "ANTURIO 1",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2025-05-31",
+        "c_fecha_desembolso": "2026-05-13",
+        "dias_ciclo": 347,
+        "v_precio": 100000000.0,
+        "c_precio": 128000000.0
+      },
+      {
+        "nid": "33725593926",
+        "nombre": "ACANTO 1",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2025-05-22",
+        "c_fecha_desembolso": "2026-05-30",
+        "dias_ciclo": 373,
+        "v_precio": 94386707.0,
+        "c_precio": 96000000.0
+      },
+      {
+        "nid": "36345040178",
+        "nombre": "AIKARA",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2025-07-08",
+        "c_fecha_desembolso": "2026-05-27",
+        "dias_ciclo": 323,
+        "v_precio": 236664313.0,
+        "c_precio": 285000000.0
+      },
+      {
+        "nid": "37888928564",
+        "nombre": "HACIENDA MADRID ALCALA",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2025-07-11",
+        "c_fecha_desembolso": "2026-05-15",
+        "dias_ciclo": 308,
+        "v_precio": 100000000.0,
+        "c_precio": 135000000.0
+      },
+      {
+        "nid": "43203898939",
+        "nombre": "MAZZARO",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2025-09-24",
+        "c_fecha_desembolso": "2026-05-29",
+        "dias_ciclo": 247,
+        "v_precio": 175121088.0,
+        "c_precio": 222000000.0
+      },
+      {
+        "nid": "45690924169",
+        "nombre": "SENDEROS DE IPANEMA",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2025-11-07",
+        "c_fecha_desembolso": "2026-05-20",
+        "dias_ciclo": 194,
+        "v_precio": 146354000.0,
+        "c_precio": 197000000.0
+      },
+      {
+        "nid": "33405291268",
+        "nombre": "POMARROSA",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2025-04-30",
+        "c_fecha_desembolso": "2026-05-06",
+        "dias_ciclo": 371,
+        "v_precio": 139300000.0,
+        "c_precio": 195597000.0
+      },
+      {
+        "nid": "34795995311",
+        "nombre": "RESERVA DE ZUAME",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2025-09-26",
+        "c_fecha_desembolso": "2026-05-26",
+        "dias_ciclo": 242,
+        "v_precio": 136250000.0,
+        "c_precio": 178000000.0
+      },
+      {
+        "nid": "39657639510",
+        "nombre": "CARACOLI",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2025-08-28",
+        "c_fecha_desembolso": "2026-05-20",
+        "dias_ciclo": 265,
+        "v_precio": 180000000.0,
+        "c_precio": 215000000.0
+      },
+      {
+        "nid": "40716154182",
+        "nombre": "\"LOS NOGALES\"",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2025-12-15",
+        "c_fecha_desembolso": "2026-05-06",
+        "dias_ciclo": 142,
+        "v_precio": 155000000.0,
+        "c_precio": 185000000.0
+      },
+      {
+        "nid": "40977954956",
+        "nombre": "FUENTE CRISOLA",
+        "pais": "Mexico",
+        "v_fecha_escritura": "2025-09-29",
+        "c_fecha_desembolso": "2026-05-13",
+        "dias_ciclo": 226,
+        "v_precio": 580000.0,
+        "c_precio": 665157.5
+      },
+      {
+        "nid": "43678971304",
+        "nombre": "ANTARES ",
+        "pais": "Mexico",
+        "v_fecha_escritura": "2025-10-27",
+        "c_fecha_desembolso": "2026-05-19",
+        "dias_ciclo": 204,
+        "v_precio": 817981.0,
+        "c_precio": 1094500.0
+      },
+      {
+        "nid": "43418186502",
+        "nombre": "VERDE ALTO",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2025-11-28",
+        "c_fecha_desembolso": "2026-05-13",
+        "dias_ciclo": 166,
+        "v_precio": 190000000.0,
+        "c_precio": 250000000.0
+      },
+      {
+        "nid": "43717495166",
+        "nombre": "SAN EULOGIO ",
+        "pais": "Mexico",
+        "v_fecha_escritura": "2025-10-27",
+        "c_fecha_desembolso": "2026-05-26",
+        "dias_ciclo": 211,
+        "v_precio": 1229849.0,
+        "c_precio": 1413400.0
+      },
+      {
+        "nid": "5723821116",
+        "nombre": "BOSQUES DE BOGOTA 4",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2024-09-30",
+        "c_fecha_desembolso": "2026-05-15",
+        "dias_ciclo": 592,
+        "v_precio": 63111274.00000001,
+        "c_precio": 113000000.0
+      },
+      {
+        "nid": "17520670357",
+        "nombre": "EL RODEO HACIENDA CASABLANCA",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2025-09-30",
+        "c_fecha_desembolso": "2026-05-19",
+        "dias_ciclo": 231,
+        "v_precio": 148100000.0,
+        "c_precio": 204000000.0
+      },
+      {
+        "nid": "35654231573",
+        "nombre": "CALIFORNIA",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2025-05-14",
+        "c_fecha_desembolso": "2026-05-08",
+        "dias_ciclo": 359,
+        "v_precio": 138100000.0,
+        "c_precio": 187438299.0
+      },
+      {
+        "nid": "37536140961",
+        "nombre": "CONJUNTO RECIDENCIAL NARANJO",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2025-07-11",
+        "c_fecha_desembolso": "2026-05-22",
+        "dias_ciclo": 315,
+        "v_precio": 115100000.0,
+        "c_precio": 162000000.0
+      },
+      {
+        "nid": "41451183211",
+        "nombre": "CONJUNTO RESIDENCIAL LA OPORTUNIDAD III",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2025-10-29",
+        "c_fecha_desembolso": "2026-05-28",
+        "dias_ciclo": 211,
+        "v_precio": 86014809.00000001,
+        "c_precio": 110000000.0
+      },
+      {
+        "nid": "52843225423",
+        "nombre": "LA CASTELLANA HACIENDA MADRID",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2026-03-20",
+        "c_fecha_desembolso": "2026-05-22",
+        "dias_ciclo": 63,
+        "v_precio": 110465500.0,
+        "c_precio": 143000000.0
+      },
+      {
+        "nid": "23182128190",
+        "nombre": "PASEO DEL CARNERO 14-2",
+        "pais": "Mexico",
+        "v_fecha_escritura": "2025-10-17",
+        "c_fecha_desembolso": "2026-05-28",
+        "dias_ciclo": 223,
+        "v_precio": 400000.0,
+        "c_precio": 559300.0
+      },
+      {
+        "nid": "52527700648",
+        "nombre": "PRIVADAS DE SANTA ROSA",
+        "pais": "Mexico",
+        "v_fecha_escritura": "2026-01-29",
+        "c_fecha_desembolso": "2026-05-22",
+        "dias_ciclo": 113,
+        "v_precio": 1340656.0,
+        "c_precio": 1588600.0
+      },
+      {
+        "nid": "14959898181",
+        "nombre": "CONJUNTO RESIDENCIAL MIRADOR II",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2025-12-05",
+        "c_fecha_desembolso": "2026-05-22",
+        "dias_ciclo": 168,
+        "v_precio": 125815000.0,
+        "c_precio": 163000000.0
+      },
+      {
+        "nid": "18765173656",
+        "nombre": "MADELENA URBANO I",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2025-03-19",
+        "c_fecha_desembolso": "2026-05-04",
+        "dias_ciclo": 411,
+        "v_precio": 170000000.0,
+        "c_precio": 223000000.0
+      },
+      {
+        "nid": "28864653432",
+        "nombre": "PARQUES DE TINTALÁ FASE VII",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2024-12-30",
+        "c_fecha_desembolso": "2026-05-06",
+        "dias_ciclo": 492,
+        "v_precio": 184500000.0,
+        "c_precio": 240000000.0
+      },
+      {
+        "nid": "33303732532",
+        "nombre": "TERRANOVA",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2025-03-31",
+        "c_fecha_desembolso": "2026-05-29",
+        "dias_ciclo": 424,
+        "v_precio": 140034000.0,
+        "c_precio": 154000000.0
+      },
+      {
+        "nid": "33872099343",
+        "nombre": "ACANTO 1",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2025-05-26",
+        "c_fecha_desembolso": "2026-05-20",
+        "dias_ciclo": 359,
+        "v_precio": 90000000.00000001,
+        "c_precio": 130000000.0
+      },
+      {
+        "nid": "37541647622",
+        "nombre": "CANTO",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2025-07-14",
+        "c_fecha_desembolso": "2026-05-22",
+        "dias_ciclo": 312,
+        "v_precio": 371000000.0,
+        "c_precio": 440000000.0
+      },
+      {
+        "nid": "38212929619",
+        "nombre": "TERRA GRANDE 4 ETAPA 3",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2025-07-29",
+        "c_fecha_desembolso": "2026-05-14",
+        "dias_ciclo": 289,
+        "v_precio": 123612000.0,
+        "c_precio": 162500000.0
+      },
+      {
+        "nid": "38780225064",
+        "nombre": "PARUQE CAMPESTRE ETAPA 12",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2025-08-20",
+        "c_fecha_desembolso": "2026-05-25",
+        "dias_ciclo": 278,
+        "v_precio": 79400000.00000001,
+        "c_precio": 110500000.0
+      },
+      {
+        "nid": "51181405250",
+        "nombre": "MARFIL",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2026-01-28",
+        "c_fecha_desembolso": "2026-05-26",
+        "dias_ciclo": 118,
+        "v_precio": 179447000.0,
+        "c_precio": 233000000.0
+      },
+      {
+        "nid": "52862161037",
+        "nombre": "ARBOLEDA DEL PINAR II",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2026-03-14",
+        "c_fecha_desembolso": "2026-05-27",
+        "dias_ciclo": 74,
+        "v_precio": 170000000.0,
+        "c_precio": 220000000.0
+      },
+      {
+        "nid": "33523111858",
+        "nombre": "PROLONGACIÓN ZARAGOZA 1078",
+        "pais": "Mexico",
+        "v_fecha_escritura": "2025-06-27",
+        "c_fecha_desembolso": "2026-05-15",
+        "dias_ciclo": 322,
+        "v_precio": 1665731.0,
+        "c_precio": 1903500.0
+      },
+      {
+        "nid": "33795755683",
+        "nombre": "AV SAN MIGUEL , INTERIOR 48",
+        "pais": "Mexico",
+        "v_fecha_escritura": "2025-07-17",
+        "c_fecha_desembolso": "2026-05-12",
+        "dias_ciclo": 299,
+        "v_precio": 1092000.0,
+        "c_precio": 1313000.0
+      },
+      {
+        "nid": "35490766437",
+        "nombre": "CONJUNTO RESIDENCIAL LABRANTI RESERVADO ETAPA 1",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2025-08-19",
+        "c_fecha_desembolso": "2026-05-29",
+        "dias_ciclo": 283,
+        "v_precio": 103000000.0,
+        "c_precio": 142000000.0
+      },
+      {
+        "nid": "36113666858",
+        "nombre": "PORTAL DE LAS FLORES",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2025-05-23",
+        "c_fecha_desembolso": "2026-05-15",
+        "dias_ciclo": 357,
+        "v_precio": 117493772.0,
+        "c_precio": 149000000.0
+      },
+      {
+        "nid": "21170968487",
+        "nombre": "PORTO HAYUELOS 2",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2025-02-20",
+        "c_fecha_desembolso": "2026-05-11",
+        "dias_ciclo": 445,
+        "v_precio": 211447487.0,
+        "c_precio": 274000000.0
+      },
+      {
+        "nid": "47772651101",
+        "nombre": "QUINTAS DE ZARAGOZA",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2026-02-27",
+        "c_fecha_desembolso": "2026-05-11",
+        "dias_ciclo": 73,
+        "v_precio": 141633926.0,
+        "c_precio": 198000000.0
+      },
+      {
+        "nid": "29720035974",
+        "nombre": "C. HEROES DE QUERETARO 102A",
+        "pais": "Mexico",
+        "v_fecha_escritura": "2025-02-21",
+        "c_fecha_desembolso": "2026-05-29",
+        "dias_ciclo": 462,
+        "v_precio": 827681.0,
+        "c_precio": 1065960.0
+      },
+      {
+        "nid": "38560040275",
+        "nombre": "AVENIDA DE LOS ANGELES",
+        "pais": "Mexico",
+        "v_fecha_escritura": "2025-08-27",
+        "c_fecha_desembolso": "2026-05-06",
+        "dias_ciclo": 252,
+        "v_precio": 352000.0,
+        "c_precio": 584210.0
+      },
+      {
+        "nid": "14922072757",
+        "nombre": "CONJUNTO RESIDENCIAL PUERTO ALEGRE",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2025-11-06",
+        "c_fecha_desembolso": "2026-05-28",
+        "dias_ciclo": 203,
+        "v_precio": 181809950.0,
+        "c_precio": 233000000.0
+      },
+      {
+        "nid": "22826272129",
+        "nombre": "BOSQUE DE ALISOS",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2025-02-28",
+        "c_fecha_desembolso": "2026-05-26",
+        "dias_ciclo": 452,
+        "v_precio": 155000000.0,
+        "c_precio": 167000000.0
+      },
+      {
+        "nid": "33607778598",
+        "nombre": "TORRES DE BELLAVISTA",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2025-04-11",
+        "c_fecha_desembolso": "2026-05-07",
+        "dias_ciclo": 391,
+        "v_precio": 162000000.0,
+        "c_precio": 206500000.0
+      },
+      {
+        "nid": "35679613734",
+        "nombre": "CONJUNTO RESIDENCIAL MONTECARLO V",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2025-09-22",
+        "c_fecha_desembolso": "2026-05-26",
+        "dias_ciclo": 246,
+        "v_precio": 180090000.0,
+        "c_precio": 236000000.0
+      },
+      {
+        "nid": "40612468251",
+        "nombre": "PARQUE DE LAS FLORES",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2025-08-25",
+        "c_fecha_desembolso": "2026-05-26",
+        "dias_ciclo": 274,
+        "v_precio": 175000000.0,
+        "c_precio": 220000000.0
+      },
+      {
+        "nid": "45470116866",
+        "nombre": "ALCALA HACIENDA MADRID",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2025-10-31",
+        "c_fecha_desembolso": "2026-05-15",
+        "dias_ciclo": 196,
+        "v_precio": 104261446.0,
+        "c_precio": 139900000.0
+      },
+      {
+        "nid": "39538920028",
+        "nombre": "COTO 8 NEVADA",
+        "pais": "Mexico",
+        "v_fecha_escritura": "2025-08-18",
+        "c_fecha_desembolso": "2026-05-05",
+        "dias_ciclo": 260,
+        "v_precio": 1500431.0,
+        "c_precio": 1652150.0
+      },
+      {
+        "nid": "20570028961",
+        "nombre": "ROMA RESERVADO I",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2024-10-30",
+        "c_fecha_desembolso": "2026-05-04",
+        "dias_ciclo": 551,
+        "v_precio": 101336842.0,
+        "c_precio": 122000000.0
+      },
+      {
+        "nid": "20864617257",
+        "nombre": "MORELLA",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2024-10-15",
+        "c_fecha_desembolso": "2026-05-29",
+        "dias_ciclo": 591,
+        "v_precio": 133817000.0,
+        "c_precio": 165000000.0
+      },
+      {
+        "nid": "22475476915",
+        "nombre": "ALAMO",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2025-02-11",
+        "c_fecha_desembolso": "2026-05-26",
+        "dias_ciclo": 469,
+        "v_precio": 115577527.0,
+        "c_precio": 157000000.0
+      },
+      {
+        "nid": "28930122798",
+        "nombre": "HACIENDA LOS SAUCES- OLIVA",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2025-03-27",
+        "c_fecha_desembolso": "2026-05-04",
+        "dias_ciclo": 403,
+        "v_precio": 149926169.19,
+        "c_precio": 186000000.0
+      },
+      {
+        "nid": "35669899600",
+        "nombre": "EL RETIRO HACIENDA MADRID",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2025-07-29",
+        "c_fecha_desembolso": "2026-05-14",
+        "dias_ciclo": 289,
+        "v_precio": 123717062.0,
+        "c_precio": 159900000.0
+      },
+      {
+        "nid": "40326609300",
+        "nombre": "CSMZNA MZ 1 LOTE48- EXHACIENDA SANTA INES",
+        "pais": "Mexico",
+        "v_fecha_escritura": "2025-10-03",
+        "c_fecha_desembolso": "2026-05-06",
+        "dias_ciclo": 215,
+        "v_precio": 467037.0,
+        "c_precio": 684320.0
+      },
+      {
+        "nid": "37865282630",
+        "nombre": "CAMINOS DE SIE AGRUPACION III",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2025-12-24",
+        "c_fecha_desembolso": "2026-05-12",
+        "dias_ciclo": 139,
+        "v_precio": 112000000.0,
+        "c_precio": 149000000.0
+      },
+      {
+        "nid": "46277376374",
+        "nombre": "PRIMAVERA",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2025-12-13",
+        "c_fecha_desembolso": "2026-05-27",
+        "dias_ciclo": 165,
+        "v_precio": 98479623.0,
+        "c_precio": 130000000.0
+      },
+      {
+        "nid": "55926496284",
+        "nombre": "ARANJUEZ HACIENDA MADRID",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2026-03-06",
+        "c_fecha_desembolso": "2026-05-27",
+        "dias_ciclo": 82,
+        "v_precio": 154324217.0,
+        "c_precio": 190000000.0
+      },
+      {
+        "nid": "28478927465",
+        "nombre": "TARENTO APARTAMENTOS SUS",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2025-03-13",
+        "c_fecha_desembolso": "2026-05-14",
+        "dias_ciclo": 427,
+        "v_precio": 121408914.0,
+        "c_precio": 157000000.0
+      },
+      {
+        "nid": "19765800614",
+        "nombre": "CIUDAD TINTAL II ETAPA 6 MZ 3 LOTE A",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2025-10-30",
+        "c_fecha_desembolso": "2026-05-13",
+        "dias_ciclo": 195,
+        "v_precio": 147400000.0,
+        "c_precio": 208000000.0
+      },
+      {
+        "nid": "20930480563",
+        "nombre": "LORICA",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2025-02-21",
+        "c_fecha_desembolso": "2026-05-04",
+        "dias_ciclo": 437,
+        "v_precio": 143000000.0,
+        "c_precio": 200000000.0
+      },
+      {
+        "nid": "32361733149",
+        "nombre": "ALTAVISTA 2000",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2025-05-30",
+        "c_fecha_desembolso": "2026-05-30",
+        "dias_ciclo": 365,
+        "v_precio": 137000000.0,
+        "c_precio": 188000000.0
+      },
+      {
+        "nid": "32846541470",
+        "nombre": "RESERVA DE FONTIBÓN",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2025-03-07",
+        "c_fecha_desembolso": "2026-05-15",
+        "dias_ciclo": 434,
+        "v_precio": 124760000.0,
+        "c_precio": 194000000.0
+      },
+      {
+        "nid": "32390199116",
+        "nombre": "BLVD ECUADRO 88, EDIFICO 16, INTERIOR D",
+        "pais": "Mexico",
+        "v_fecha_escritura": "2025-03-31",
+        "c_fecha_desembolso": "2026-05-14",
+        "dias_ciclo": 409,
+        "v_precio": 470000.0,
+        "c_precio": 501852.5
+      },
+      {
+        "nid": "34685219754",
+        "nombre": "RANCHO LA AURORA",
+        "pais": "Mexico",
+        "v_fecha_escritura": "2025-12-19",
+        "c_fecha_desembolso": "2026-05-14",
+        "dias_ciclo": 146,
+        "v_precio": 581893.0,
+        "c_precio": 883600.0
+      },
+      {
+        "nid": "38140758075",
+        "nombre": "VALLE DE CHALCO ",
+        "pais": "Mexico",
+        "v_fecha_escritura": "2025-07-23",
+        "c_fecha_desembolso": "2026-05-15",
+        "dias_ciclo": 296,
+        "v_precio": 752651.0,
+        "c_precio": 1124240.0
+      },
+      {
+        "nid": "50379723397",
+        "nombre": "SAN LEONEL 106",
+        "pais": "Mexico",
+        "v_fecha_escritura": "2026-01-30",
+        "c_fecha_desembolso": "2026-05-06",
+        "dias_ciclo": 96,
+        "v_precio": 681365.0,
+        "c_precio": 924917.5
+      },
+      {
+        "nid": "31045487970",
+        "nombre": "LA ILUSIÓN 1",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2025-02-11",
+        "c_fecha_desembolso": "2026-05-28",
+        "dias_ciclo": 471,
+        "v_precio": 77561748.00000001,
+        "c_precio": 107000000.0
+      },
+      {
+        "nid": "32661628487",
+        "nombre": "TULIPAN",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2025-08-29",
+        "c_fecha_desembolso": "2026-05-26",
+        "dias_ciclo": 270,
+        "v_precio": 120556102.0,
+        "c_precio": 168000000.0
+      },
+      {
+        "nid": "40626507380",
+        "nombre": "CONJUNTO RESIDENCIAL MANZANILLA",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2025-09-10",
+        "c_fecha_desembolso": "2026-05-29",
+        "dias_ciclo": 261,
+        "v_precio": 112600000.0,
+        "c_precio": 147000000.0
+      },
+      {
+        "nid": "41141814310",
+        "nombre": "S1* ARRAYAN",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2025-09-04",
+        "c_fecha_desembolso": "2026-05-08",
+        "dias_ciclo": 246,
+        "v_precio": 107000000.0,
+        "c_precio": 133000000.0
+      },
+      {
+        "nid": "41313789440",
+        "nombre": "LA GRANDEZA",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2025-10-21",
+        "c_fecha_desembolso": "2026-05-25",
+        "dias_ciclo": 216,
+        "v_precio": 100000000.0,
+        "c_precio": 134000000.0
+      },
+      {
+        "nid": "45170482759",
+        "nombre": "BARILOCHE I",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2025-11-07",
+        "c_fecha_desembolso": "2026-05-11",
+        "dias_ciclo": 185,
+        "v_precio": 282962385.0,
+        "c_precio": 358000000.0
+      },
+      {
+        "nid": "46106188065",
+        "nombre": "PIAMONTE",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2025-12-12",
+        "c_fecha_desembolso": "2026-05-15",
+        "dias_ciclo": 154,
+        "v_precio": 160438604.0,
+        "c_precio": 205000000.0
+      },
+      {
+        "nid": "15668342359",
+        "nombre": "ABEDUL",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2025-02-17",
+        "c_fecha_desembolso": "2026-05-15",
+        "dias_ciclo": 452,
+        "v_precio": 97200000.0,
+        "c_precio": 122000000.0
+      },
+      {
+        "nid": "33864250649",
+        "nombre": "LA ESTANCIA 4",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2025-05-30",
+        "c_fecha_desembolso": "2026-05-25",
+        "dias_ciclo": 360,
+        "v_precio": 149300000.0,
+        "c_precio": 196831500.0
+      },
+      {
+        "nid": "35763136850",
+        "nombre": "LOS CONDOMINIOS III DEL PORVENIR",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2025-09-27",
+        "c_fecha_desembolso": "2026-05-30",
+        "dias_ciclo": 245,
+        "v_precio": 94500000.0,
+        "c_precio": 124000000.0
+      },
+      {
+        "nid": "44633309964",
+        "nombre": "CASTAÑO",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2026-02-28",
+        "c_fecha_desembolso": "2026-05-27",
+        "dias_ciclo": 88,
+        "v_precio": 145139634.0,
+        "c_precio": 185000000.0
+      },
+      {
+        "nid": "42829116586",
+        "nombre": "CALLE HACIENDA LOS OLIVOS",
+        "pais": "Mexico",
+        "v_fecha_escritura": "2025-11-18",
+        "c_fecha_desembolso": "2026-05-26",
+        "dias_ciclo": 189,
+        "v_precio": 1026574.0,
+        "c_precio": 1400600.0
+      },
+      {
+        "nid": "38904112672",
+        "nombre": "SANTA RITA 2",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2025-09-10",
+        "c_fecha_desembolso": "2026-05-06",
+        "dias_ciclo": 238,
+        "v_precio": 113610000.0,
+        "c_precio": 157000000.0
+      },
+      {
+        "nid": "31248956991",
+        "nombre": "SIMÓN BOLÍVAR ",
+        "pais": "Mexico",
+        "v_fecha_escritura": "2025-02-18",
+        "c_fecha_desembolso": "2026-05-14",
+        "dias_ciclo": 450,
+        "v_precio": 2500000.0,
+        "c_precio": 2885800.0
+      },
+      {
+        "nid": "38140168246",
+        "nombre": "CONDOMINIO VIGO",
+        "pais": "Mexico",
+        "v_fecha_escritura": "2025-07-31",
+        "c_fecha_desembolso": "2026-05-13",
+        "dias_ciclo": 286,
+        "v_precio": 493273.0,
+        "c_precio": 634500.0
+      },
+      {
+        "nid": "45659492872",
+        "nombre": "CASCADAS ",
+        "pais": "Mexico",
+        "v_fecha_escritura": "2025-12-15",
+        "c_fecha_desembolso": "2026-05-08",
+        "dias_ciclo": 144,
+        "v_precio": 1966000.0,
+        "c_precio": 2354552.5
+      },
+      {
+        "nid": "29139433082",
+        "nombre": "MACARENA 1",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2025-02-13",
+        "c_fecha_desembolso": "2026-05-27",
+        "dias_ciclo": 468,
+        "v_precio": 115152386.0,
+        "c_precio": 162000000.0
+      },
+      {
+        "nid": "30684090288",
+        "nombre": "CONJUNTO NAPOLI",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2025-02-05",
+        "c_fecha_desembolso": "2026-05-29",
+        "dias_ciclo": 478,
+        "v_precio": 230000000.0,
+        "c_precio": 242000000.0
+      },
+      {
+        "nid": "34714786432",
+        "nombre": "HUERTAS DE SOACHA",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2026-03-13",
+        "c_fecha_desembolso": "2026-05-26",
+        "dias_ciclo": 74,
+        "v_precio": 88290377.00000001,
+        "c_precio": 122000000.0
+      },
+      {
+        "nid": "35259610893",
+        "nombre": "TORRES DE SAN AGUSTÍN II",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2025-06-12",
+        "c_fecha_desembolso": "2026-05-30",
+        "dias_ciclo": 352,
+        "v_precio": 242500000.0,
+        "c_precio": 306000000.0
+      },
+      {
+        "nid": "38708567872",
+        "nombre": "TUNAL CENTRAL SUPER LOTE 6",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2025-08-22",
+        "c_fecha_desembolso": "2026-05-25",
+        "dias_ciclo": 276,
+        "v_precio": 100600000.0,
+        "c_precio": 165000000.0
+      },
+      {
+        "nid": "39965077340",
+        "nombre": "BOSQUES DE ZAPÁN 5",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2025-09-09",
+        "c_fecha_desembolso": "2026-05-07",
+        "dias_ciclo": 240,
+        "v_precio": 93163739.0,
+        "c_precio": 120000000.0
+      },
+      {
+        "nid": "42861731421",
+        "nombre": "ESTANCIA LL",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2025-12-11",
+        "c_fecha_desembolso": "2026-05-26",
+        "dias_ciclo": 166,
+        "v_precio": 108729112.0,
+        "c_precio": 144000000.0
+      },
+      {
+        "nid": "21942100005",
+        "nombre": "PRIV SORIA MZ 1 LTE  CS 17",
+        "pais": "Mexico",
+        "v_fecha_escritura": "2024-11-28",
+        "c_fecha_desembolso": "2026-05-13",
+        "dias_ciclo": 531,
+        "v_precio": 646268.0,
+        "c_precio": 700300.0
+      },
+      {
+        "nid": "39351498276",
+        "nombre": "LORETTO",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2025-07-25",
+        "c_fecha_desembolso": "2026-05-15",
+        "dias_ciclo": 294,
+        "v_precio": 183000000.0,
+        "c_precio": 181333949.0
+      },
+      {
+        "nid": "41086338231",
+        "nombre": "AGRUPACIÓN DE VIVIENDA TINGUA CIUDAD SABANA",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2025-10-31",
+        "c_fecha_desembolso": "2026-05-27",
+        "dias_ciclo": 208,
+        "v_precio": 126000000.0,
+        "c_precio": 161000000.0
+      },
+      {
+        "nid": "35698254406",
+        "nombre": "PRIV CORLEONE",
+        "pais": "Mexico",
+        "v_fecha_escritura": "2025-05-31",
+        "c_fecha_desembolso": "2026-05-28",
+        "dias_ciclo": 362,
+        "v_precio": 1477000.0,
+        "c_precio": 1772500.0
+      },
+      {
+        "nid": "52509548347",
+        "nombre": "TERRALTA COTO SAN URIEL",
+        "pais": "Mexico",
+        "v_fecha_escritura": "2026-02-27",
+        "c_fecha_desembolso": "2026-05-27",
+        "dias_ciclo": 89,
+        "v_precio": 2129547.0,
+        "c_precio": 2556000.0
+      },
+      {
+        "nid": "14235006757",
+        "nombre": "CONJUNTO RESIDENCIAL YERBABUENA",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2024-12-13",
+        "c_fecha_desembolso": "2026-05-27",
+        "dias_ciclo": 530,
+        "v_precio": 97000000.0,
+        "c_precio": 135800000.0
+      },
+      {
+        "nid": "38559726861",
+        "nombre": "PERAL",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2025-09-30",
+        "c_fecha_desembolso": "2026-05-05",
+        "dias_ciclo": 217,
+        "v_precio": 95137189.0,
+        "c_precio": 126000000.0
+      },
+      {
+        "nid": "38886610185",
+        "nombre": "ZAPAN 4",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2025-09-08",
+        "c_fecha_desembolso": "2026-05-19",
+        "dias_ciclo": 253,
+        "v_precio": 108026398.0,
+        "c_precio": 148000000.0
+      },
+      {
+        "nid": "40353469796",
+        "nombre": "GUAYACÁN DE NOVATERRA ETAPA 2",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2025-09-30",
+        "c_fecha_desembolso": "2026-05-13",
+        "dias_ciclo": 225,
+        "v_precio": 240000000.0,
+        "c_precio": 282731377.0
+      },
+      {
+        "nid": "40978798641",
+        "nombre": "ALTOS DE GINEBRA",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2025-09-30",
+        "c_fecha_desembolso": "2026-05-27",
+        "dias_ciclo": 239,
+        "v_precio": 341000000.0,
+        "c_precio": 451000000.0
+      },
+      {
+        "nid": "45972722028",
+        "nombre": "LAS MERCEDES DE SUBA",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2026-01-29",
+        "c_fecha_desembolso": "2026-05-27",
+        "dias_ciclo": 118,
+        "v_precio": 163000000.0,
+        "c_precio": 215000000.0
+      },
+      {
+        "nid": "31903795030",
+        "nombre": "PRIVADA TIACA DPTO 101 MZ  LT 3 EDIFICIO 1",
+        "pais": "Mexico",
+        "v_fecha_escritura": "2025-02-28",
+        "c_fecha_desembolso": "2026-05-21",
+        "dias_ciclo": 447,
+        "v_precio": 774981.0,
+        "c_precio": 775030.0
+      },
+      {
+        "nid": "31298339330",
+        "nombre": "NOVATERRA ARRAYAN",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2025-04-25",
+        "c_fecha_desembolso": "2026-05-06",
+        "dias_ciclo": 376,
+        "v_precio": 260425862.0,
+        "c_precio": 334500000.0
+      },
+      {
+        "nid": "34231015853",
+        "nombre": "LA GRANDEZA 4",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2025-05-14",
+        "c_fecha_desembolso": "2026-05-27",
+        "dias_ciclo": 378,
+        "v_precio": 82870000.00000001,
+        "c_precio": 127000000.0
+      },
+      {
+        "nid": "36113696898",
+        "nombre": "SAN LORENZO DE CASTILLA",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2025-06-20",
+        "c_fecha_desembolso": "2026-05-19",
+        "dias_ciclo": 333,
+        "v_precio": 145000000.0,
+        "c_precio": 202000000.0
+      },
+      {
+        "nid": "38075590307",
+        "nombre": "BELLAVISTA ",
+        "pais": "Mexico",
+        "v_fecha_escritura": "2025-11-19",
+        "c_fecha_desembolso": "2026-05-25",
+        "dias_ciclo": 187,
+        "v_precio": 1075131.0,
+        "c_precio": 1302500.0
+      },
+      {
+        "nid": "17440074104",
+        "nombre": "CLAVEL 2",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2024-12-10",
+        "c_fecha_desembolso": "2026-05-19",
+        "dias_ciclo": 525,
+        "v_precio": 100000000.0,
+        "c_precio": 152500000.0
+      },
+      {
+        "nid": "32826416152",
+        "nombre": "URBANA PARK",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2025-06-03",
+        "c_fecha_desembolso": "2026-05-21",
+        "dias_ciclo": 352,
+        "v_precio": 204600000.0,
+        "c_precio": 230000000.0
+      },
+      {
+        "nid": "35196598397",
+        "nombre": "TEJARES 2",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2025-06-27",
+        "c_fecha_desembolso": "2026-05-25",
+        "dias_ciclo": 332,
+        "v_precio": 86506852.00000001,
+        "c_precio": 114000000.0
+      },
+      {
+        "nid": "41245871889",
+        "nombre": "CONJUNTO RESIDENCIAL LUCA",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2025-09-22",
+        "c_fecha_desembolso": "2026-05-22",
+        "dias_ciclo": 242,
+        "v_precio": 187000000.0,
+        "c_precio": 229000000.0
+      },
+      {
+        "nid": "42897827187",
+        "nombre": "FRESIA",
+        "pais": "Colombia",
+        "v_fecha_escritura": "2025-09-30",
+        "c_fecha_desembolso": "2026-05-28",
+        "dias_ciclo": 240,
+        "v_precio": 101010000.0,
+        "c_precio": 128000000.0
+      }
+    ]
+  }
+}
