@@ -18,7 +18,7 @@ import logging
 import time
 
 from scripts._common import DATA_DIR, FX_DEFAULT, mes_corte_default, mes_label
-from scripts.kpis import adj_ingresos, aging, burn, ciclo, contribution, ebitda, gmv, ingresos, inventario, margen, opex, rotacion
+from scripts.kpis import adj_ingresos, aging, burn, ciclo, contribution, ebitda, gmv, ingresos, inventario, margen, net_debt, opex, rotacion
 
 logging.basicConfig(
     level=logging.INFO,
@@ -41,6 +41,7 @@ KPIS = [
     ("kpi_aging.json", aging),
     ("kpi_ciclo.json", ciclo),
     ("kpi_rotacion.json", rotacion),
+    # ("kpi_net_debt.json", net_debt),  # Pausado hasta confirmar metodología (delta tape en denominador)
 ]
 
 

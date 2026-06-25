@@ -63,7 +63,7 @@ const KPIS_42 = [
   { id: "capital_roic",        nombre: "Capital deployed / ROIC",    file: null },
   { id: "ciclo_caja",          nombre: "Cash conversion cycle",      file: "kpi_ciclo.json" },
   { id: "rotacion",            nombre: "Sell-through",               file: "kpi_rotacion.json" },
-  { id: "deuda_apalanc",       nombre: "Net debt & leverage",        file: null },
+  { id: "net_debt",            nombre: "Net debt & leverage",        file: null, pendingMsg: "Confirming methodology" },
 ];
 
 const FMT_MES = {
@@ -628,6 +628,10 @@ function renderCard(kpiDef){
   if(data.unidad === "PORCENTAJE_SELLTHROUGH"){
     return renderCardSellThrough(kpiDef, data);
   }
+  // Caso especial: Debt in Homes con leverage sobre Adj EBITDA LTM
+  if(data.unidad === "MONEDA_DEBT_HOMES"){
+    return renderCardDebtHomes(kpiDef, data);
+  }
   const {actuals, budget, paisLocal, ratio, ratio_budget} = montoMesActual(data);
   const mon = monedaMostrada(paisLocal);
   const valor = fmtMoneda(actuals, mon);
@@ -884,6 +888,70 @@ function renderCardSellThrough(kpiDef, data){
   </div>`;
 }
 
+/* Card render para Debt in Homes con leverage sobre Adjusted EBITDA LTM. */
+function renderCardDebtHomes(kpiDef, data){
+  const f = STATE.filters;
+  const filtered = filtrarFacts(data.facts, f);
+
+  function agregarMes(facts){
+    let debt = 0, adjLtm = 0, ebLtm = 0, deltaLtm = 0, paisLocal = null;
+    const paises = new Set();
+    for(const r of facts){
+      const p = r.pais;
+      debt   += convertir((r.actuals && r.actuals[f.elim]) || 0, p) || 0;
+      adjLtm += convertir(r.adj_ebitda_ltm || 0, p) || 0;
+      ebLtm  += convertir(r.ebitda_ltm || 0, p) || 0;
+      deltaLtm += convertir(r.delta_tape_ltm || 0, p) || 0;
+      paises.add(p);
+    }
+    if(paises.size === 1) paisLocal = [...paises][0];
+    const lev = adjLtm > 0 ? debt/adjLtm : null;
+    return {debt, adjLtm, ebLtm, deltaLtm, lev, paisLocal};
+  }
+  const delMes = filtered.filter(r => r.mes === f.mes);
+  const cur = agregarMes(delMes);
+
+  // Serie mensual del debt para sparkline
+  const porMes = {};
+  for(const r of filtered){
+    porMes[r.mes] = porMes[r.mes] || [];
+    porMes[r.mes].push(r);
+  }
+  const serie = Object.keys(porMes).sort().map(m => ({mes: m, actuals: agregarMes(porMes[m]).debt}));
+  const idxCorte = serie.findIndex(r => r.mes === f.mes);
+  const last = idxCorte >= 0 ? serie[idxCorte] : null;
+  const prev = idxCorte > 0 ? serie[idxCorte-1] : null;
+  const delta = (last && prev && prev.actuals !== 0) ? (last.actuals - prev.actuals)/Math.abs(prev.actuals) : null;
+
+  const mon = monedaMostrada(cur.paisLocal);
+  const valorTxt = fmtMoneda(cur.debt, mon);
+  const leverageTxt = (cur.lev != null && isFinite(cur.lev))
+    ? `<b>${cur.lev.toFixed(2)}x</b> Adj EBITDA LTM`
+    : `<span class="vs">Leverage n/a</span>`;
+
+  // Color: ▲ debt = peor (invertido)
+  let perfCls = "perf-gray";
+  if(delta != null){
+    if(delta <= 0.05) perfCls = "perf-green";
+    else if(delta <= 0.20) perfCls = "perf-amber";
+    else perfCls = "perf-red";
+  }
+  const deltaTxt = delta != null
+    ? `<span class="${delta > 0 ? 'down' : 'up'}">${delta > 0 ? '▲' : '▼'} ${Math.abs(delta*100).toFixed(1)}%</span> <span class="vs">vs prev. month</span>`
+    : "";
+  const color = SPARK_COLOR[data.estado] || SPARK_COLOR.ejemplo;
+
+  return `<div class="card ${perfCls}" onclick="abrirDrill('${kpiDef.id}')">
+    <div class="kpi-name"><span class="nm">${kpiDef.nombre}</span><span class="tag ${data.estado}">${TAG_LABEL[data.estado]}</span></div>
+    <div class="val">${valorTxt}</div>
+    <div class="ratio-line">Leverage: ${leverageTxt}</div>
+    <div class="delta">${deltaTxt}</div>
+    ${sparkSVG(serie, color)}
+    <div class="src">◷ ${data.fuente || ""}</div>
+    <div class="card-cta">Click for drill-down →</div>
+  </div>`;
+}
+
 /* ================================================== HEALTH SNAPSHOT === */
 
 function renderSnapshot(){
@@ -929,7 +997,7 @@ function abrirDrill(kpiId){
   const filtered = filtrarFacts(data.facts, f);
   const delMes = filtered.filter(r => r.mes === f.mes);
 
-  document.getElementById("drillEyebrow").textContent = "DRILL-DOWN · " + data.seccion;
+  document.getElementById("drillEyebrow").textContent = "DRILL-DOWN";
   document.getElementById("drillTitle").textContent = data.nombre;
   const monedaTxt = f.moneda === "USD" ? "USD" : "local currency";
   const filtrosTxt = [
@@ -941,6 +1009,78 @@ function abrirDrill(kpiId){
   const ajLabel = {sin_ajustes:"excluded", con_ajustes:"included", solo_ajustes:"only adjustments"}[f.ajustes] || f.ajustes;
   document.getElementById("drillSub").innerHTML =
     `Period: <b>${mesYYYYMM_a_label(f.mes)}</b> · View: <b>${filtrosTxt}</b> · Currency: <b>${monedaTxt}</b> · Eliminations: <b>${elimLabel}</b> · Adjustments: <b>${ajLabel}</b>`;
+
+  // Drill especial para Debt in Homes con Adj EBITDA leverage
+  if(data.unidad === "MONEDA_DEBT_HOMES"){
+    let html = "";
+    const paises = f.pais === "Global" ? ["Colombia", "Mexico", "Offshore"] : [f.pais];
+    let totRows = "";
+    for(const p of paises){
+      const row = delMes.find(r => r.pais === p);
+      if(!row) continue;
+      const mon = f.moneda === "USD" ? "USD" : monedaDePais(p);
+      const debt = f.moneda === "USD" ? convertir(row.actuals[elim], p) : row.actuals[elim];
+      const eb   = row.ebitda_ltm    != null ? (f.moneda === "USD" ? convertir(row.ebitda_ltm,    p) : row.ebitda_ltm)    : null;
+      const dt_  = row.delta_tape_ltm!= null ? (f.moneda === "USD" ? convertir(row.delta_tape_ltm,p) : row.delta_tape_ltm): null;
+      const adj  = row.adj_ebitda_ltm!= null ? (f.moneda === "USD" ? convertir(row.adj_ebitda_ltm,p) : row.adj_ebitda_ltm): null;
+      const lev  = row.leverage;
+      totRows += `<tr>
+        <td><b>${p}</b></td>
+        <td class="num">${fmtMoneda(debt, mon)}</td>
+        <td class="num">${eb  != null ? fmtMoneda(eb, mon)  : "—"}</td>
+        <td class="num">${dt_ != null ? fmtMoneda(dt_, mon) : "—"}</td>
+        <td class="num"><b>${adj != null ? fmtMoneda(adj, mon) : "—"}</b></td>
+        <td class="num">${(lev != null && isFinite(lev)) ? lev.toFixed(2)+"x" : "—"}</td>
+      </tr>`;
+    }
+    html += `<div class="drill-block">
+      <h3>Debt &amp; leverage breakdown · ${mesYYYYMM_a_label(f.mes)}</h3>
+      <table class="drill-table">
+        <thead><tr>
+          <th>Country</th>
+          <th style="text-align:right">Debt in Homes</th>
+          <th style="text-align:right">EBITDA LTM</th>
+          <th style="text-align:right">Delta tape LTM</th>
+          <th style="text-align:right">Adj EBITDA LTM</th>
+          <th style="text-align:right">Leverage</th>
+        </tr></thead>
+        <tbody>${totRows || `<tr><td colspan="6" class="drill-empty">No data.</td></tr>`}</tbody>
+      </table>
+    </div>`;
+
+    // Chart historico debt
+    function agrDebt(facts){
+      let d = 0;
+      for(const r of facts){ d += convertir((r.actuals && r.actuals[elim]) || 0, r.pais) || 0; }
+      return d;
+    }
+    const porMesSerie = {};
+    for(const r of filtered){
+      porMesSerie[r.mes] = porMesSerie[r.mes] || [];
+      porMesSerie[r.mes].push(r);
+    }
+    const serieDebt = Object.keys(porMesSerie).sort().map(m => ({
+      mes: m, actuals: agrDebt(porMesSerie[m]), budget: null,
+    }));
+    const monedaSerie = f.moneda === "USD" ? "USD" : (
+      f.pais !== "Global" ? monedaDePais(f.pais) : "COP"
+    );
+    html += `<div class="drill-block chart-block">
+      <h3>Monthly Debt in Homes</h3>
+      ${lineChartSVG(serieDebt, monedaSerie, "MONEY", {actuals: "Debt", budget: ""})}
+    </div>`;
+
+    html += `<div class="drill-note">
+      <b>How leverage is built</b>: Debt = bet_data_p2 drivers <code>m_metrica='05. Debt in Homes'</code>. <br>
+      EBITDA LTM = sum of last 12 months EBITDA (BET Financials: Gross Profit + Other Costs + OpEx).<br>
+      Delta tape LTM = sum of last 12 months of the tape adjustment from Adjusted Revenue (Σ <code>c_precio</code> − MM Sales BET, by month).<br>
+      Adj EBITDA LTM = EBITDA LTM + Delta tape LTM. Leverage = Debt ÷ Adj EBITDA LTM.<br>
+      <b>Note</b>: Corporate Debt is empty in BET — this only covers home financing debt. Reported to the data owner as pending.
+    </div>`;
+    document.getElementById("drillBody").innerHTML = html;
+    document.getElementById("drillModal").hidden = false;
+    return;
+  }
 
   // Drill especial para sell-through (PORCENTAJE_SELLTHROUGH)
   if(data.unidad === "PORCENTAJE_SELLTHROUGH"){
