@@ -141,8 +141,17 @@ html,body{background:var(--bg);color:var(--txt);font-family:'IBM Plex Sans',sans
 @media (max-width:760px){.drill-grid{grid-template-columns:1fr}}
 .drill-block h3{font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--txt2);margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--line)}
 .drill-list{display:flex;flex-direction:column}
-.drill-row{display:grid;grid-template-columns:1fr 130px 130px 90px;align-items:center;column-gap:14px;padding:9px 4px;border-bottom:1px solid var(--line2);font-size:13px}
-.drill-list.with-ratio .drill-row{grid-template-columns:1fr 130px 80px 130px 90px}
+.drill-row{display:grid;grid-template-columns:minmax(160px,2fr) 110px 110px 90px 80px;align-items:center;column-gap:10px;padding:9px 4px;border-bottom:1px solid var(--line2);font-size:13px}
+.drill-list.with-ratio .drill-row{grid-template-columns:minmax(140px,2fr) 110px 70px 110px 90px 80px}
+.dr-progress{display:flex;flex-direction:column;gap:3px;min-width:0;max-width:90px}
+.dr-progress.empty{visibility:hidden}
+.dr-progress-bar{height:5px;background:var(--line2);border-radius:3px;overflow:hidden;display:block}
+.dr-progress-fill{height:100%;border-radius:3px;display:block}
+.dr-progress-fill.perf-green{background:var(--green)}
+.dr-progress-fill.perf-amber{background:var(--amber)}
+.dr-progress-fill.perf-red{background:var(--red)}
+.dr-progress-fill.perf-gray{background:var(--txt3)}
+.dr-progress-lbl{font-size:10.5px;color:var(--txt2);font-family:'IBM Plex Mono',monospace;font-weight:500;text-align:right}
 .drill-row:last-child{border-bottom:none}
 .dr-k{color:var(--txt);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .dr-v,.dr-bud,.dr-delta{font-family:'IBM Plex Mono',monospace;font-variant-numeric:tabular-nums;text-align:right}
@@ -193,6 +202,14 @@ html,body{background:var(--bg);color:var(--txt);font-family:'IBM Plex Sans',sans
 .drill-table-compact{font-size:11.5px}
 .drill-table-compact td{padding:5px 6px}
 .bucket-chip{display:inline-block;padding:2px 8px;border-radius:11px;font-size:10.5px;font-weight:600;color:#0F1115;font-family:'IBM Plex Mono',monospace}
+.progress-wrap{margin:6px 0 4px}
+.progress-bar{height:6px;background:var(--line2);border-radius:3px;overflow:hidden}
+.progress-fill{height:100%;border-radius:3px;transition:width .3s ease}
+.progress-fill.perf-green{background:var(--green)}
+.progress-fill.perf-amber{background:var(--amber)}
+.progress-fill.perf-red{background:var(--red)}
+.progress-fill.perf-gray{background:var(--txt3)}
+.progress-label{margin-top:3px;font-size:10.5px;color:var(--txt2);font-family:'IBM Plex Mono',monospace;font-weight:500}
 .bucket-filter{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:10px 0 4px;padding:8px 10px;background:var(--panel2);border:1px solid var(--line);border-radius:8px}
 .bucket-filter-label{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--txt2);font-family:'IBM Plex Mono',monospace}
 .bucket-filter-btn{background:transparent;border:1.5px solid var(--line);border-radius:14px;padding:3px 11px;font-size:11.5px;font-weight:600;color:var(--txt);cursor:pointer;font-family:'IBM Plex Mono',monospace;transition:all .12s}

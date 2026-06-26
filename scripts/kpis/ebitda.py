@@ -47,6 +47,7 @@ SELECT
   c_subsidiaria,
   c_total_reporte,
   c_subtotal_reporte,
+  m_metrica,
   c_cuenta,
   c_cuenta_descripcion,
   dummie_eliminaciones,
@@ -57,7 +58,7 @@ FROM `{TABLE_BET}`
 WHERE m_tipo = '1. Financials'
   AND c_total_reporte IN ('1 Gross Profit', '2 Other Costs', '3 Operating Expenses')
   AND mes BETWEEN DATE('{mes_inicio.isoformat()}') AND DATE('{mes_corte.isoformat()}')
-GROUP BY 1, 2, 3, 4, 5, 6, 7, 8, 9
+GROUP BY 1, 2, 3, 4, 5, 6, 7, 8, 9, 10
 """.strip()
 
 
@@ -119,9 +120,9 @@ def _facts(df: pd.DataFrame) -> list[dict[str, Any]]:
     de EBITDA puede mostrar el desglose entre Gross Profit / Other Costs / OpEx.
     """
     rows = []
-    keys = ["mes", "m_pais", "c_subsidiaria", "c_total_reporte", "c_cuenta", "c_cuenta_descripcion", "dummie_ajustes"]
+    keys = ["mes", "m_pais", "c_subsidiaria", "c_total_reporte", "m_metrica", "c_cuenta", "c_cuenta_descripcion", "dummie_ajustes"]
     for vals, g in df.groupby(keys, dropna=False):
-        mes, pais, sub, tot_rep, cuenta, desc, ajuste = vals
+        mes, pais, sub, tot_rep, metrica, cuenta, desc, ajuste = vals
         rows.append({
             "mes": mes.strftime("%Y-%m"),
             "pais": pais if pd.notna(pais) else None,
@@ -131,6 +132,7 @@ def _facts(df: pd.DataFrame) -> list[dict[str, Any]]:
             "cuenta_desc": desc if pd.notna(desc) else None,
             "es_ajuste": bool(pd.notna(ajuste) and ajuste == 1),
             "bloque_pyl": str(tot_rep) if pd.notna(tot_rep) else None,  # GP / OC / OpEx
+            "metrica": str(metrica) if pd.notna(metrica) else None,
             "actuals": _twin_sum(g),
             "budget": _twin_sum(g, "budget"),
             "revenue_actuals": _twin_sum_revenue(g),
@@ -163,6 +165,8 @@ def build(mes_corte: dt.date) -> dict[str, Any]:
         "unidad": "MONEDA_CON_RATIO",
         "ratio_label": "EBITDA / Adj. Rev.",
         "ratio_against": "ingresos_ajustados",
+        "summary_field": "metrica",
+        "summary_label": "By metric",
         "estado": "real",
         "fuente": "bet_data_p2 · Gross Profit + Other Costs + Operating Expenses",
         "receta": {

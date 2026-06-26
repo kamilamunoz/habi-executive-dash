@@ -41,6 +41,7 @@ SELECT
   m_pais,
   c_subsidiaria,
   m_metrica,
+  m_submetrica,
   c_cuenta,
   c_cuenta_descripcion,
   dummie_eliminaciones,
@@ -52,7 +53,7 @@ FROM `{TABLE_BET}`
 WHERE c_total_reporte = '3 Operating Expenses'
   AND m_tipo          = '1. Financials'
   AND mes BETWEEN DATE('{mes_inicio.isoformat()}') AND DATE('{mes_corte.isoformat()}')
-GROUP BY 1, 2, 3, 4, 5, 6, 7, 8
+GROUP BY 1, 2, 3, 4, 5, 6, 7, 8, 9
 """.strip()
 
 
@@ -96,9 +97,9 @@ def _series_indexada(df: pd.DataFrame, group_col: str) -> dict[str, list[dict[st
 def _facts(df: pd.DataFrame) -> list[dict[str, Any]]:
     rows = []
     # No incluimos 'linea' como key porque para OpEx no aplica (overhead transversal)
-    keys = ["mes", "m_pais", "c_subsidiaria", "m_metrica", "c_cuenta", "c_cuenta_descripcion", "dummie_ajustes"]
+    keys = ["mes", "m_pais", "c_subsidiaria", "m_metrica", "m_submetrica", "c_cuenta", "c_cuenta_descripcion", "dummie_ajustes"]
     for vals, g in df.groupby(keys, dropna=False):
-        mes, pais, sub, metrica, cuenta, desc, ajuste = vals
+        mes, pais, sub, metrica, submetrica, cuenta, desc, ajuste = vals
         rows.append({
             "mes": mes.strftime("%Y-%m"),
             "pais": pais if pd.notna(pais) else None,
@@ -107,6 +108,7 @@ def _facts(df: pd.DataFrame) -> list[dict[str, Any]]:
             "cuenta": int(cuenta) if pd.notna(cuenta) else None,
             "cuenta_desc": desc if pd.notna(desc) else None,
             "categoria_gasto": str(metrica) if pd.notna(metrica) else None,
+            "submetrica": str(submetrica) if pd.notna(submetrica) else None,
             "es_ajuste": bool(pd.notna(ajuste) and ajuste == 1),
             "actuals": _twin_sum(g),
             "budget": _twin_sum(g, "budget"),
@@ -140,6 +142,8 @@ def build(mes_corte: dt.date) -> dict[str, Any]:
         "fuente": "bet_data_p2 · c_total_reporte='3 Operating Expenses' · Financials",
         "ratio_against": "ingresos_ajustados",
         "ratio_label": "OpEx/Adj. Rev.",
+        "summary_field": "submetrica",
+        "summary_label": "By expense detail",
         "invertir_delta": True,  # mas OpEx = peor (rojo)
         "receta": {
             "tabla": TABLE_BET,

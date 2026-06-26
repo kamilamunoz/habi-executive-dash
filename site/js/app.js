@@ -24,7 +24,7 @@ const STATE = {
     pais: "Global",
     subsidiaria: "All",
     linea: "All",
-    moneda: "LOCAL",
+    moneda: "USD",
     elim: "sin_elim",
     ajustes: "sin_ajustes",  // sin_ajustes (default) | con_ajustes | solo_ajustes
     fxCOP: 3700,
@@ -63,7 +63,7 @@ const KPIS_42 = [
   { id: "capital_roic",        nombre: "Capital deployed / ROIC",    file: null },
   { id: "ciclo_caja",          nombre: "Cash conversion cycle",      file: "kpi_ciclo.json" },
   { id: "rotacion",            nombre: "Sell-through",               file: "kpi_rotacion.json" },
-  { id: "net_debt",            nombre: "Net debt & leverage",        file: null, pendingMsg: "Confirming methodology" },
+  { id: "net_debt",            nombre: "Net debt, leverage & cost of capital", file: "kpi_net_debt.json" },
 ];
 
 const FMT_MES = {
@@ -687,11 +687,25 @@ function renderCard(kpiDef){
     : "";
 
   const perfCls = perfColor(diff, invertir);
+
+  // Barra de cumplimiento vs budget. Capped a 100% visualmente; color refleja performance real.
+  let progressHTML = "";
+  if(actuals != null && budget != null && budget !== 0){
+    const pct = actuals / budget;
+    const cappedPct = Math.min(Math.max(pct, 0), 1) * 100;
+    const fillCls = perfCls;  // mismo color que la card
+    progressHTML = `<div class="progress-wrap">
+      <div class="progress-bar"><div class="progress-fill ${fillCls}" style="width:${cappedPct.toFixed(1)}%"></div></div>
+      <div class="progress-label">${(pct*100).toFixed(0)}% of budget</div>
+    </div>`;
+  }
+
   return `<div class="card ${perfCls}" onclick="abrirDrill('${kpiDef.id}')">
     <div class="kpi-name"><span class="nm">${kpiDef.nombre}</span><span class="tag ${data.estado}">${TAG_LABEL[data.estado]}</span></div>
     <div class="val">${valor}</div>
     ${ratioHTML}
     <div class="budget-line">Budget: <b>${budgetTxt}</b></div>
+    ${progressHTML}
     <div class="delta">
       ${diff != null ? fmtDelta(diff, invertir) + ' <span class="vs">vs budget</span>' : ''}
       ${diffMoM != null ? fmtDelta(diffMoM, invertir) + ' <span class="vs">vs prev. month</span>' : ''}
@@ -888,25 +902,28 @@ function renderCardSellThrough(kpiDef, data){
   </div>`;
 }
 
-/* Card render para Debt in Homes con leverage sobre Adjusted EBITDA LTM. */
+/* Card render para Net debt + Leverage + Cost of capital. */
 function renderCardDebtHomes(kpiDef, data){
   const f = STATE.filters;
   const filtered = filtrarFacts(data.facts, f);
 
   function agregarMes(facts){
-    let debt = 0, adjLtm = 0, ebLtm = 0, deltaLtm = 0, paisLocal = null;
+    let debt = 0, adjLtm = 0, ebLtm = 0, capLtm = 0, intLtm = 0, avgDebtLtm = 0, paisLocal = null;
     const paises = new Set();
     for(const r of facts){
       const p = r.pais;
       debt   += convertir((r.actuals && r.actuals[f.elim]) || 0, p) || 0;
       adjLtm += convertir(r.adj_ebitda_ltm || 0, p) || 0;
       ebLtm  += convertir(r.ebitda_ltm || 0, p) || 0;
-      deltaLtm += convertir(r.delta_tape_ltm || 0, p) || 0;
+      capLtm += convertir(r.capitalized_payroll_ltm || 0, p) || 0;
+      intLtm += convertir(r.net_interest_ltm || 0, p) || 0;
+      avgDebtLtm += convertir(r.debt_avg_ltm || 0, p) || 0;
       paises.add(p);
     }
     if(paises.size === 1) paisLocal = [...paises][0];
     const lev = adjLtm > 0 ? debt/adjLtm : null;
-    return {debt, adjLtm, ebLtm, deltaLtm, lev, paisLocal};
+    const coc = avgDebtLtm > 0 ? intLtm/avgDebtLtm : null;
+    return {debt, adjLtm, ebLtm, capLtm, intLtm, avgDebtLtm, lev, coc, paisLocal};
   }
   const delMes = filtered.filter(r => r.mes === f.mes);
   const cur = agregarMes(delMes);
@@ -926,8 +943,11 @@ function renderCardDebtHomes(kpiDef, data){
   const mon = monedaMostrada(cur.paisLocal);
   const valorTxt = fmtMoneda(cur.debt, mon);
   const leverageTxt = (cur.lev != null && isFinite(cur.lev))
-    ? `<b>${cur.lev.toFixed(2)}x</b> Adj EBITDA LTM`
+    ? `<b>${cur.lev.toFixed(2)}x</b> Adj EBITDA`
     : `<span class="vs">Leverage n/a</span>`;
+  const cocTxt = (cur.coc != null && isFinite(cur.coc))
+    ? `<b>${(cur.coc*100).toFixed(1)}%</b> cost of capital`
+    : `<span class="vs">Cost of capital n/a</span>`;
 
   // Color: ▲ debt = peor (invertido)
   let perfCls = "perf-gray";
@@ -944,7 +964,8 @@ function renderCardDebtHomes(kpiDef, data){
   return `<div class="card ${perfCls}" onclick="abrirDrill('${kpiDef.id}')">
     <div class="kpi-name"><span class="nm">${kpiDef.nombre}</span><span class="tag ${data.estado}">${TAG_LABEL[data.estado]}</span></div>
     <div class="val">${valorTxt}</div>
-    <div class="ratio-line">Leverage: ${leverageTxt}</div>
+    <div class="ratio-line">${leverageTxt}</div>
+    <div class="ratio-line">${cocTxt}</div>
     <div class="delta">${deltaTxt}</div>
     ${sparkSVG(serie, color)}
     <div class="src">◷ ${data.fuente || ""}</div>
@@ -1021,31 +1042,42 @@ function abrirDrill(kpiId){
       const mon = f.moneda === "USD" ? "USD" : monedaDePais(p);
       const debt = f.moneda === "USD" ? convertir(row.actuals[elim], p) : row.actuals[elim];
       const eb   = row.ebitda_ltm    != null ? (f.moneda === "USD" ? convertir(row.ebitda_ltm,    p) : row.ebitda_ltm)    : null;
-      const dt_  = row.delta_tape_ltm!= null ? (f.moneda === "USD" ? convertir(row.delta_tape_ltm,p) : row.delta_tape_ltm): null;
+      const cap  = row.capitalized_payroll_ltm!= null ? (f.moneda === "USD" ? convertir(row.capitalized_payroll_ltm,p) : row.capitalized_payroll_ltm): null;
       const adj  = row.adj_ebitda_ltm!= null ? (f.moneda === "USD" ? convertir(row.adj_ebitda_ltm,p) : row.adj_ebitda_ltm): null;
       const lev  = row.leverage;
+      const intLtm  = row.net_interest_ltm != null ? (f.moneda === "USD" ? convertir(row.net_interest_ltm, p) : row.net_interest_ltm) : null;
+      const avgDebt = row.debt_avg_ltm != null ? (f.moneda === "USD" ? convertir(row.debt_avg_ltm, p) : row.debt_avg_ltm) : null;
+      const coc = row.cost_of_capital;
       totRows += `<tr>
         <td><b>${p}</b></td>
         <td class="num">${fmtMoneda(debt, mon)}</td>
         <td class="num">${eb  != null ? fmtMoneda(eb, mon)  : "—"}</td>
-        <td class="num">${dt_ != null ? fmtMoneda(dt_, mon) : "—"}</td>
+        <td class="num">${cap != null ? fmtMoneda(cap, mon) : "—"}</td>
         <td class="num"><b>${adj != null ? fmtMoneda(adj, mon) : "—"}</b></td>
         <td class="num">${(lev != null && isFinite(lev)) ? lev.toFixed(2)+"x" : "—"}</td>
+        <td class="num">${intLtm  != null ? fmtMoneda(intLtm, mon)  : "—"}</td>
+        <td class="num">${avgDebt != null ? fmtMoneda(avgDebt, mon) : "—"}</td>
+        <td class="num"><b>${(coc != null && isFinite(coc)) ? (coc*100).toFixed(1)+"%" : "—"}</b></td>
       </tr>`;
     }
     html += `<div class="drill-block">
-      <h3>Debt &amp; leverage breakdown · ${mesYYYYMM_a_label(f.mes)}</h3>
-      <table class="drill-table">
+      <h3>Debt, leverage &amp; cost of capital · ${mesYYYYMM_a_label(f.mes)}</h3>
+      <div class="drill-table-scroll">
+      <table class="drill-table drill-table-compact">
         <thead><tr>
           <th>Country</th>
           <th style="text-align:right">Debt in Homes</th>
           <th style="text-align:right">EBITDA LTM</th>
-          <th style="text-align:right">Delta tape LTM</th>
+          <th style="text-align:right">Cap. Payroll LTM</th>
           <th style="text-align:right">Adj EBITDA LTM</th>
           <th style="text-align:right">Leverage</th>
+          <th style="text-align:right">Net Interest LTM</th>
+          <th style="text-align:right">Avg Debt LTM</th>
+          <th style="text-align:right">Cost of Capital</th>
         </tr></thead>
-        <tbody>${totRows || `<tr><td colspan="6" class="drill-empty">No data.</td></tr>`}</tbody>
+        <tbody>${totRows || `<tr><td colspan="9" class="drill-empty">No data.</td></tr>`}</tbody>
       </table>
+      </div>
     </div>`;
 
     // Chart historico debt
@@ -1071,10 +1103,11 @@ function abrirDrill(kpiId){
     </div>`;
 
     html += `<div class="drill-note">
-      <b>How leverage is built</b>: Debt = bet_data_p2 drivers <code>m_metrica='05. Debt in Homes'</code>. <br>
+      <b>How metrics are built</b>: Debt = BET drivers <code>m_metrica='05. Debt in Homes'</code>.<br>
       EBITDA LTM = sum of last 12 months EBITDA (BET Financials: Gross Profit + Other Costs + OpEx).<br>
-      Delta tape LTM = sum of last 12 months of the tape adjustment from Adjusted Revenue (Σ <code>c_precio</code> − MM Sales BET, by month).<br>
-      Adj EBITDA LTM = EBITDA LTM + Delta tape LTM. Leverage = Debt ÷ Adj EBITDA LTM.<br>
+      Cap. Payroll LTM = sum of last 12 months payroll capitalized as non-current asset (BET <code>m_categoria='05. Capitalized Payroll'</code>, sign inverted).<br>
+      Adj EBITDA LTM = EBITDA LTM + Cap. Payroll LTM. <b>Leverage</b> = Debt ÷ Adj EBITDA LTM.<br>
+      Net Interest LTM = sum of last 12 months of <code>m_categoria='06. Net financing costs'</code> (Interest Expense + Interest Income, sign inverted to positive cost). Avg Debt LTM = average of monthly debt balances over 12 months. <b>Cost of Capital</b> = |Net Interest LTM| ÷ Avg Debt LTM (annualized).<br>
       <b>Note</b>: Corporate Debt is empty in BET — this only covers home financing debt. Reported to the data owner as pending.
     </div>`;
     document.getElementById("drillBody").innerHTML = html;
@@ -1318,11 +1351,24 @@ function abrirDrill(kpiId){
           ratioHTML = `<span class="v-ratio empty"></span>`;
         }
       }
+      // Barra de cumplimiento por fila: % actuals/budget, capped a 100% visualmente.
+      // Color: mismo umbral que la card (perf-green/amber/red), respeta invertir_delta.
+      let progressHTML = `<span class="dr-progress empty"></span>`;
+      if(a != null && b != null && b !== 0){
+        const pct = a / b;
+        const cappedPct = Math.min(Math.max(pct, 0), 1) * 100;
+        const cls = perfColor(diff, invertirKPI);
+        progressHTML = `<span class="dr-progress">
+          <span class="dr-progress-bar"><span class="dr-progress-fill ${cls}" style="width:${cappedPct.toFixed(1)}%"></span></span>
+          <span class="dr-progress-lbl">${(pct*100).toFixed(0)}%</span>
+        </span>`;
+      }
       html += `<div class="drill-row">
         <span class="dr-k">${r.key}</span>
         <span class="dr-v">${fmtMoneda(a, mon)}</span>
         ${blockTieneRatio ? `<span class="dr-ratio">${ratioHTML}</span>` : ""}
         <span class="dr-bud">${b != null ? fmtMoneda(b, mon) : "—"}</span>
+        ${progressHTML}
         <span class="dr-delta">${diff != null ? fmtDelta(diff, invertirKPI, true) : ""}</span>
       </div>`;
     }
@@ -1709,47 +1755,55 @@ function abrirDrill(kpiId){
     return;
   }
 
-  // Top 20 detalle — respeta TODOS los filtros activos.
-  // Si el KPI tiene cuenta contable, se muestra como tabla cuenta+descripcion.
-  // Si no (ej. GMV), se muestra como "Detalle" con la submetrica completa.
-  const porDetalle = (() => {
-    const map = new Map();
-    for(const r of delMes){
-      const k = `${r.cuenta || "—"}|${r.cuenta_desc || ""}`;
-      const e = map.get(k) || {cuenta: r.cuenta, desc: r.cuenta_desc, actuals: 0, budget: 0, pais: r.pais};
-      e.actuals += (r.actuals && r.actuals[elim]) || 0;
-      e.budget  += (r.budget && r.budget[elim]) || 0;
-      map.set(k, e);
+  // Bloque resumido por metrica/submetrica si el KPI define summary_field.
+  // Si no, fallback al Top 20 cuentas tradicional.
+  if(data.summary_field){
+    const porSummary = agrupar(delMes, r => r[data.summary_field] || "(unassigned)", elim);
+    html += `<div class="drill-block">
+      <h3>${data.summary_label || "Summary"}${filtrosTxt && filtrosTxt !== "Global · todas" ? " · " + filtrosTxt : ""}</h3>
+      ${pintarLista(porSummary)}
+    </div>`;
+  } else {
+    // Top 20 detalle tradicional — respeta TODOS los filtros activos.
+    const porDetalle = (() => {
+      const map = new Map();
+      for(const r of delMes){
+        const k = `${r.cuenta || "—"}|${r.cuenta_desc || ""}`;
+        const e = map.get(k) || {cuenta: r.cuenta, desc: r.cuenta_desc, actuals: 0, budget: 0, pais: r.pais};
+        e.actuals += (r.actuals && r.actuals[elim]) || 0;
+        e.budget  += (r.budget && r.budget[elim]) || 0;
+        map.set(k, e);
+      }
+      return [...map.values()].sort((a,b) => Math.abs(b.actuals) - Math.abs(a.actuals)).slice(0, 20);
+    })();
+    const tituloDetalle = tieneCuenta ? "Top 20 accounts" : "Top 20 detail";
+    html += `<div class="drill-block">
+      <h3>${tituloDetalle}${filtrosTxt && filtrosTxt !== "Global · todas" ? " · " + filtrosTxt : ""}</h3>
+      <table class="drill-table">
+        <thead><tr>
+          ${tieneCuenta ? "<th>Account</th>" : ""}
+          <th>${tieneCuenta ? "Description" : "Detail"}</th>
+          <th style="text-align:right">Actuals</th>
+          <th style="text-align:right">Budget</th>
+          <th style="text-align:right">vs Bud</th>
+        </tr></thead>
+        <tbody>`;
+    for(const c of porDetalle){
+      const a = f.moneda === "USD" ? convertir(c.actuals, c.pais) : c.actuals;
+      const b = c.budget !== 0 ? (f.moneda === "USD" ? convertir(c.budget, c.pais) : c.budget) : null;
+      const mon = f.moneda === "USD" ? "USD" : monedaDePais(c.pais || "Colombia");
+      const diff = (a != null && b != null && b !== 0) ? (a - b) / Math.abs(b) : null;
+      html += `<tr>
+        ${tieneCuenta ? `<td><code>${c.cuenta ?? "—"}</code></td>` : ""}
+        <td>${c.desc || "(sin descripción)"}</td>
+        <td class="num">${fmtMoneda(a, mon)}</td>
+        <td class="num">${b != null ? fmtMoneda(b, mon) : "—"}</td>
+        <td class="num">${diff != null ? fmtDelta(diff, invertirKPI) : "—"}</td>
+      </tr>`;
     }
-    return [...map.values()].sort((a,b) => Math.abs(b.actuals) - Math.abs(a.actuals)).slice(0, 20);
-  })();
-  const tituloDetalle = tieneCuenta ? "Top 20 accounts" : "Top 20 detail";
-  html += `<div class="drill-block">
-    <h3>${tituloDetalle}${filtrosTxt && filtrosTxt !== "Global · todas" ? " · " + filtrosTxt : ""}</h3>
-    <table class="drill-table">
-      <thead><tr>
-        ${tieneCuenta ? "<th>Account</th>" : ""}
-        <th>${tieneCuenta ? "Description" : "Detail"}</th>
-        <th style="text-align:right">Actuals</th>
-        <th style="text-align:right">Budget</th>
-        <th style="text-align:right">vs Bud</th>
-      </tr></thead>
-      <tbody>`;
-  for(const c of porDetalle){
-    const a = f.moneda === "USD" ? convertir(c.actuals, c.pais) : c.actuals;
-    const b = c.budget !== 0 ? (f.moneda === "USD" ? convertir(c.budget, c.pais) : c.budget) : null;
-    const mon = f.moneda === "USD" ? "USD" : monedaDePais(c.pais || "Colombia");
-    const diff = (a != null && b != null && b !== 0) ? (a - b) / Math.abs(b) : null;
-    html += `<tr>
-      ${tieneCuenta ? `<td><code>${c.cuenta ?? "—"}</code></td>` : ""}
-      <td>${c.desc || "(sin descripción)"}</td>
-      <td class="num">${fmtMoneda(a, mon)}</td>
-      <td class="num">${b != null ? fmtMoneda(b, mon) : "—"}</td>
-      <td class="num">${diff != null ? fmtDelta(diff, invertirKPI) : "—"}</td>
-    </tr>`;
+    html += `</tbody></table>
+    </div>`;
   }
-  html += `</tbody></table>
-  </div>`;
   // Solo mostrar la nota especifica de Ingresos cuando el KPI sea ingresos
   if(kpiId === "ingresos_totales"){
     html += `<div class="drill-note">

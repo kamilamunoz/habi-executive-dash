@@ -124,9 +124,9 @@ def _series_indexada(df: pd.DataFrame, group_col: str) -> dict[str, list[dict[st
 
 def _facts(df: pd.DataFrame) -> list[dict[str, Any]]:
     rows = []
-    keys = ["mes", "m_pais", "c_subsidiaria", "c_total_reporte", "c_subtotal_reporte", "c_cuenta", "c_cuenta_descripcion", "dummie_ajustes"]
+    keys = ["mes", "m_pais", "c_subsidiaria", "c_total_reporte", "c_subtotal_reporte", "m_metrica", "c_cuenta", "c_cuenta_descripcion", "dummie_ajustes"]
     for vals, g in df.groupby(keys, dropna=False):
-        mes, pais, sub, tot_rep, sub_rep, cuenta, desc, ajuste = vals
+        mes, pais, sub, tot_rep, sub_rep, metrica, cuenta, desc, ajuste = vals
         rows.append({
             "mes": mes.strftime("%Y-%m"),
             "pais": pais if pd.notna(pais) else None,
@@ -136,6 +136,7 @@ def _facts(df: pd.DataFrame) -> list[dict[str, Any]]:
             "cuenta_desc": desc if pd.notna(desc) else None,
             "es_ajuste": bool(pd.notna(ajuste) and ajuste == 1),
             "bloque_pyl": BLOQUE_LABELS.get((str(tot_rep), str(sub_rep)), f"{tot_rep} · {sub_rep}") if pd.notna(tot_rep) else None,
+            "metrica": str(metrica) if pd.notna(metrica) else None,
             "actuals": _twin_sum(g),
             "budget": _twin_sum(g, "budget"),
             "revenue_actuals": _twin_sum_revenue(g),
@@ -168,6 +169,8 @@ def build(mes_corte: dt.date) -> dict[str, Any]:
         "unidad": "MONEDA_CON_RATIO",
         "ratio_label": "Contribution Margin",
         "estado": "real",
+        "summary_field": "metrica",
+        "summary_label": "By metric",
         "fuente": "bet_data_p2 · Gross Profit + Other Costs · Financials",
         "receta": {
             "tabla": TABLE_BET,

@@ -1,15 +1,23 @@
-"""KPI 4.2.6 — Debt in Homes con leverage sobre Adjusted EBITDA LTM.
+"""KPI 4.2.6 — Net debt, leverage & cost of capital.
 
 Cifra principal del card: Debt in Homes (saldo de la deuda asociada a la
 financiacion de inmuebles, de los drivers de BET).
 
-Metrica secundaria: Leverage = Debt in Homes / Adjusted EBITDA LTM
-  - EBITDA LTM = suma 12 meses del EBITDA BET (mismo filtro que el KPI EBITDA)
-  - Delta tape LTM = ajuste tape (Σ c_precio − MM Sales BET) acumulado 12 meses,
-    misma logica que el KPI Adjusted Revenue.
-  - Adjusted EBITDA LTM = EBITDA LTM + Delta tape LTM (asumiendo que el delta
-    tape representa revenue real no reconocido contablemente, sin costos
-    adicionales materiales).
+Metricas secundarias:
+
+  Leverage = Debt in Homes / Adjusted EBITDA LTM
+    - EBITDA LTM = suma 12 meses del EBITDA BET.
+    - Capitalized Payroll LTM = suma 12 meses del payroll capitalizado
+      (m_categoria='05. Capitalized Payroll'). En BET viene negativo (sale del
+      P&L); aqui lo invertimos para sumarlo al EBITDA.
+    - Adjusted EBITDA LTM = EBITDA LTM + Capitalized Payroll LTM.
+
+  Cost of capital = |Net Interest LTM| / Average Debt LTM
+    - Net Interest LTM = suma 12 meses de m_categoria='06. Net financing costs'
+      (Interest Expense + Interest Income, ambos con signo de BET). En BET viene
+      negativo neto; aqui lo invertimos para mostrar como costo positivo.
+    - Average Debt LTM = promedio de los saldos de Debt in Homes en los 12 meses.
+    - Resultado anualizado naturalmente (LTM / LTM).
 
 NO incluye deuda corporativa (04. Corporate Debt esta vacio en BET; pendiente
 reportar al owner).
@@ -30,10 +38,6 @@ log = logging.getLogger(__name__)
 
 HISTORY_MONTHS = 13
 LTM_MONTHS = 12
-
-TAPE_TABLE = "clients-domain-data-master.finance_wh_bi.finance_tapes_global"
-
-INTERCO_TERCEROS = ("MCN INVESTMENTS CORP", "CORPORATIVO MCNEMEXICO", "MERBOS")
 
 
 def _sql_debt(mes_inicio: dt.date, mes_corte: dt.date) -> str:
@@ -69,56 +73,42 @@ GROUP BY 1, 2
 """.strip()
 
 
-def _sql_delta_tape(mes_inicio_ltm: dt.date, mes_corte: dt.date) -> str:
-    """Delta tape mensual: tape_sum − rev_mm_bet_sin_elim por mes y pais."""
-    interco_list = ", ".join(f"'{t}'" for t in INTERCO_TERCEROS)
+def _sql_net_interest(mes_inicio_ltm: dt.date, mes_corte: dt.date) -> str:
+    """Net Interest Expense mensual por pais. En BET viene negativo neto
+    (gasto > ingreso); aqui lo invertimos para mostrar como costo positivo."""
     return f"""
-WITH bet_mm_nids AS (
-  SELECT DISTINCT CAST(nid AS STRING) AS nid_str
-  FROM `{TABLE_BET}`
-  WHERE m_categoria = '01. Total Revenue'
-    AND m_tipo = '1. Financials'
-    AND m_negocio = '01. Market Maker'
-    AND m_metrica != '01. Total Revenue'
-    AND nid IS NOT NULL
-    AND UPPER(COALESCE(c_tercero, '')) NOT IN ({interco_list})
-),
-rev_mm_bet AS (
-  SELECT
-    mes,
-    m_pais,
-    SUM(IF(dummie_eliminaciones IS NULL OR dummie_eliminaciones NOT IN (1, -1),
-           actuals_accounting, 0)) AS rev_mm_sin_elim
-  FROM `{TABLE_BET}`
-  WHERE m_categoria = '01. Total Revenue'
-    AND m_tipo = '1. Financials'
-    AND m_negocio = '01. Market Maker'
-    AND m_metrica != '01. Total Revenue'
-    AND mes BETWEEN DATE('{mes_inicio_ltm.isoformat()}') AND DATE('{mes_corte.isoformat()}')
-  GROUP BY 1, 2
-),
-tape_sum AS (
-  SELECT
-    DATE_TRUNC(t.c_fecha_factura, MONTH) AS mes,
-    CASE t.pais
-      WHEN 'Colombia' THEN '1. Colombia'
-      WHEN 'México'   THEN '2. Mexico'
-      ELSE NULL
-    END AS m_pais,
-    SUM(t.c_precio) AS tape_sum
-  FROM `{TAPE_TABLE}` t
-  INNER JOIN bet_mm_nids n ON CAST(t.nid AS STRING) = n.nid_str
-  WHERE t.c_fecha_factura IS NOT NULL
-    AND t.c_fecha_factura BETWEEN DATE('{mes_inicio_ltm.isoformat()}') AND LAST_DAY(DATE('{mes_corte.isoformat()}'))
-  GROUP BY 1, 2
-)
 SELECT
-  COALESCE(r.mes, t.mes) AS mes,
-  COALESCE(r.m_pais, t.m_pais) AS m_pais,
-  COALESCE(t.tape_sum, 0) - COALESCE(r.rev_mm_sin_elim, 0) AS delta_tape
-FROM rev_mm_bet r
-FULL OUTER JOIN tape_sum t USING (mes, m_pais)
-WHERE COALESCE(r.m_pais, t.m_pais) IS NOT NULL
+  mes,
+  m_pais,
+  -- Invertimos signo: en BET es negativo neto, lo emitimos positivo como costo
+  -SUM(IF(dummie_eliminaciones IS NULL OR dummie_eliminaciones NOT IN (1, -1),
+          actuals_accounting, 0)) AS net_interest
+FROM `{TABLE_BET}`
+WHERE m_tipo = '1. Financials'
+  AND m_categoria = '06. Net financing costs'
+  AND mes BETWEEN DATE('{mes_inicio_ltm.isoformat()}') AND DATE('{mes_corte.isoformat()}')
+  AND (dummie_ajustes IS NULL OR dummie_ajustes != 1)
+GROUP BY 1, 2
+""".strip()
+
+
+def _sql_capitalized_payroll(mes_inicio_ltm: dt.date, mes_corte: dt.date) -> str:
+    """Capitalized Payroll mensual por pais. En BET viene negativo (porque se
+    capitaliza como activo no corriente, sale del P&L); aqui lo invertimos
+    para sumarlo al EBITDA en la formula Adj EBITDA = EBITDA + Cap. Payroll."""
+    return f"""
+SELECT
+  mes,
+  m_pais,
+  -- Invertimos signo: en BET es negativo, lo emitimos positivo para sumar
+  -SUM(IF(dummie_eliminaciones IS NULL OR dummie_eliminaciones NOT IN (1, -1),
+          actuals_accounting, 0)) AS capitalized_payroll
+FROM `{TABLE_BET}`
+WHERE m_tipo = '1. Financials'
+  AND m_categoria = '05. Capitalized Payroll'
+  AND mes BETWEEN DATE('{mes_inicio_ltm.isoformat()}') AND DATE('{mes_corte.isoformat()}')
+  AND (dummie_ajustes IS NULL OR dummie_ajustes != 1)
+GROUP BY 1, 2
 """.strip()
 
 
@@ -145,9 +135,11 @@ def build(mes_corte: dt.date) -> dict[str, Any]:
         mes_inicio_ltm = dt.date(prev_last.year, prev_last.month, 1)
 
     log.info("Debt in Homes: rango %s -> %s (LTM desde %s)", mes_inicio, mes_corte, mes_inicio_ltm)
-    df_debt   = run_query(_sql_debt(mes_inicio, mes_corte), label="debt_homes")
+    # Debt LTM tambien: necesitamos 12 meses para calcular Average Debt LTM
+    df_debt   = run_query(_sql_debt(mes_inicio_ltm, mes_corte), label="debt_homes")
     df_ebitda = run_query(_sql_ebitda(mes_inicio_ltm, mes_corte), label="debt_ebitda")
-    df_delta  = run_query(_sql_delta_tape(mes_inicio_ltm, mes_corte), label="debt_delta_tape")
+    df_cap    = run_query(_sql_capitalized_payroll(mes_inicio_ltm, mes_corte), label="debt_cap_payroll")
+    df_int    = run_query(_sql_net_interest(mes_inicio_ltm, mes_corte), label="debt_net_interest")
 
     df_debt["mes"] = pd.to_datetime(df_debt["mes"])
     df_debt["pais_label"] = df_debt["m_pais"].map(PAIS_LABEL).fillna("(sin pais)")
@@ -156,40 +148,68 @@ def build(mes_corte: dt.date) -> dict[str, Any]:
     df_ebitda["mes"] = pd.to_datetime(df_ebitda["mes"])
     df_ebitda["pais_label"] = df_ebitda["m_pais"].map(PAIS_LABEL).fillna("(sin pais)")
 
-    df_delta["mes"] = pd.to_datetime(df_delta["mes"])
-    df_delta["pais_label"] = df_delta["m_pais"].map(PAIS_LABEL).fillna("(sin pais)")
+    df_cap["mes"] = pd.to_datetime(df_cap["mes"])
+    df_cap["pais_label"] = df_cap["m_pais"].map(PAIS_LABEL).fillna("(sin pais)")
+
+    df_int["mes"] = pd.to_datetime(df_int["mes"])
+    df_int["pais_label"] = df_int["m_pais"].map(PAIS_LABEL).fillna("(sin pais)")
 
     # Adj EBITDA mensual por pais
     ebitda_pivot = df_ebitda.pivot_table(
         index="mes", columns="pais_label", values="ebitda", aggfunc="sum"
     ).fillna(0)
-    delta_pivot = df_delta.pivot_table(
-        index="mes", columns="pais_label", values="delta_tape", aggfunc="sum"
+    cap_pivot = df_cap.pivot_table(
+        index="mes", columns="pais_label", values="capitalized_payroll", aggfunc="sum"
     ).reindex(ebitda_pivot.index).fillna(0)
-    # Alinear columnas: el delta solo tiene CO y MX
+    # Alinear columnas
     for col in ebitda_pivot.columns:
-        if col not in delta_pivot.columns:
-            delta_pivot[col] = 0.0
-    delta_pivot = delta_pivot[ebitda_pivot.columns]
-    adj_ebitda_pivot = ebitda_pivot + delta_pivot
+        if col not in cap_pivot.columns:
+            cap_pivot[col] = 0.0
+    cap_pivot = cap_pivot[ebitda_pivot.columns]
+    adj_ebitda_pivot = ebitda_pivot + cap_pivot
 
     # LTM rolling
     ebitda_ltm = ebitda_pivot.rolling(window=LTM_MONTHS, min_periods=1).sum()
-    delta_ltm  = delta_pivot.rolling(window=LTM_MONTHS, min_periods=1).sum()
+    cap_ltm    = cap_pivot.rolling(window=LTM_MONTHS, min_periods=1).sum()
     adj_ltm    = adj_ebitda_pivot.rolling(window=LTM_MONTHS, min_periods=1).sum()
 
-    meses_disponibles = sorted({m.strftime("%Y-%m") for m in df_debt["mes"].unique()})
+    # Net interest LTM (suma 12 meses)
+    int_pivot = df_int.pivot_table(
+        index="mes", columns="pais_label", values="net_interest", aggfunc="sum"
+    ).reindex(ebitda_pivot.index).fillna(0)
+    for col in ebitda_pivot.columns:
+        if col not in int_pivot.columns:
+            int_pivot[col] = 0.0
+    int_pivot = int_pivot[ebitda_pivot.columns]
+    interest_ltm = int_pivot.rolling(window=LTM_MONTHS, min_periods=1).sum()
+
+    # Debt saldo mensual (snapshot) y promedio LTM
+    debt_snapshot = df_debt.pivot_table(
+        index="mes", columns="pais_label", values="debt", aggfunc="sum"
+    ).reindex(ebitda_pivot.index).fillna(0)
+    for col in ebitda_pivot.columns:
+        if col not in debt_snapshot.columns:
+            debt_snapshot[col] = 0.0
+    debt_snapshot = debt_snapshot[ebitda_pivot.columns]
+    debt_avg_ltm = debt_snapshot.rolling(window=LTM_MONTHS, min_periods=1).mean()
+
+    # Emitir facts solo del rango [mes_inicio, mes_corte] (no del rango LTM extendido)
+    df_debt_emit = df_debt[df_debt["mes"] >= pd.Timestamp(mes_inicio)].copy()
+    meses_disponibles = sorted({m.strftime("%Y-%m") for m in df_debt_emit["mes"].unique()})
 
     facts = []
     keys = ["mes", "m_pais", "dummie_ajustes"]
-    for vals, g in df_debt.groupby(keys, dropna=False):
+    for vals, g in df_debt_emit.groupby(keys, dropna=False):
         mes, pais, ajuste = vals
         debt_buckets = _twin_sum(g, "debt")
         mes_ts = pd.Timestamp(mes) if not isinstance(mes, pd.Timestamp) else mes
         ebitda_ltm_v = float(ebitda_ltm.loc[mes_ts, pais]) if pais in ebitda_ltm.columns and mes_ts in ebitda_ltm.index else None
-        delta_ltm_v  = float(delta_ltm.loc[mes_ts, pais])  if pais in delta_ltm.columns  and mes_ts in delta_ltm.index  else None
+        cap_ltm_v    = float(cap_ltm.loc[mes_ts, pais])    if pais in cap_ltm.columns    and mes_ts in cap_ltm.index    else None
         adj_ltm_v    = float(adj_ltm.loc[mes_ts, pais])    if pais in adj_ltm.columns    and mes_ts in adj_ltm.index    else None
+        interest_ltm_v = float(interest_ltm.loc[mes_ts, pais]) if pais in interest_ltm.columns and mes_ts in interest_ltm.index else None
+        debt_avg_v     = float(debt_avg_ltm.loc[mes_ts, pais]) if pais in debt_avg_ltm.columns and mes_ts in debt_avg_ltm.index else None
         leverage     = (debt_buckets["sin_elim"] / adj_ltm_v) if (adj_ltm_v and adj_ltm_v != 0) else None
+        cost_of_capital = (interest_ltm_v / debt_avg_v) if (interest_ltm_v is not None and debt_avg_v and debt_avg_v != 0) else None
         facts.append({
             "mes": mes_ts.strftime("%Y-%m"),
             "pais": pais if pd.notna(pais) else None,
@@ -201,26 +221,30 @@ def build(mes_corte: dt.date) -> dict[str, Any]:
             "actuals": debt_buckets,
             "budget":  {"sin_elim": 0.0, "con_elim": 0.0, "solo_elim": 0.0},
             "ebitda_ltm": ebitda_ltm_v,
-            "delta_tape_ltm": delta_ltm_v,
+            "capitalized_payroll_ltm": cap_ltm_v,
             "adj_ebitda_ltm": adj_ltm_v,
             "leverage": leverage,
+            "net_interest_ltm": interest_ltm_v,
+            "debt_avg_ltm": debt_avg_v,
+            "cost_of_capital": cost_of_capital,
         })
 
     log.info("Debt in Homes: %d facts", len(facts))
 
     payload: dict[str, Any] = {
         "id": "net_debt",
-        "nombre": "Debt in Homes",
+        "nombre": "Net debt, leverage & cost of capital",
         "seccion": "4.2",
         "unidad": "MONEDA_DEBT_HOMES",
         "estado": "real",
         "invertir_delta": True,  # mas deuda = peor
         "fuente": (
-            "bet_data_p2 · drivers Debt in Homes · leverage = Debt / Adj EBITDA LTM"
+            "bet_data_p2 · drivers Debt in Homes · "
+            "leverage = Debt / Adj EBITDA LTM · "
+            "cost of capital = |Net Interest LTM| / Avg Debt LTM"
         ),
         "receta": {
             "tabla": TABLE_BET,
-            "tabla_tape": TAPE_TABLE,
             "filtros_debt": [
                 "m_tipo = '3. Drivers'",
                 "m_categoria = '03. Balance General'",
@@ -230,7 +254,17 @@ def build(mes_corte: dt.date) -> dict[str, Any]:
                 "m_tipo = '1. Financials'",
                 "c_total_reporte IN ('1 Gross Profit', '2 Other Costs', '3 Operating Expenses')",
             ],
-            "adj_ebitda_formula": "EBITDA BET + Delta tape (mismo ajuste que Adjusted Revenue)",
+            "filtros_capitalized_payroll": [
+                "m_tipo = '1. Financials'",
+                "m_categoria = '05. Capitalized Payroll'",
+            ],
+            "filtros_net_interest": [
+                "m_tipo = '1. Financials'",
+                "m_categoria = '06. Net financing costs'",
+                "incluye Interest Expense + Interest Income",
+            ],
+            "adj_ebitda_formula": "EBITDA BET + Capitalized Payroll (formula contable estandar)",
+            "cost_of_capital_formula": "|Net Interest LTM| / promedio(Debt LTM 12 meses)",
             "ltm_meses": LTM_MONTHS,
             "nota": "Corporate Debt vacio en BET; pendiente reportar al owner.",
             "monedas": MONEDA_POR_PAIS,

@@ -64,6 +64,7 @@ SELECT
   m_pais,
   c_subsidiaria,
   m_metrica,
+  m_submetrica,
   c_cuenta,
   c_cuenta_descripcion,
   dummie_eliminaciones,
@@ -75,7 +76,7 @@ WHERE m_categoria = '01. Total Revenue'
   AND m_tipo      = '1. Financials'
   AND m_metrica  != '01. Total Revenue'
   AND mes BETWEEN DATE('{mes_inicio.isoformat()}') AND DATE('{mes_corte.isoformat()}')
-GROUP BY 1, 2, 3, 4, 5, 6, 7, 8
+GROUP BY 1, 2, 3, 4, 5, 6, 7, 8, 9
 """.strip()
 
 
@@ -152,14 +153,15 @@ def _twin_sum(df: pd.DataFrame, value_col: str = "actuals") -> dict[str, float]:
 
 def _facts_plano(df: pd.DataFrame) -> list[dict[str, Any]]:
     rows = []
-    keys = ["mes", "m_pais", "c_subsidiaria", "linea", "c_cuenta", "c_cuenta_descripcion", "dummie_ajustes"]
+    keys = ["mes", "m_pais", "c_subsidiaria", "linea", "m_submetrica", "c_cuenta", "c_cuenta_descripcion", "dummie_ajustes"]
     for vals, g in df.groupby(keys, dropna=False):
-        mes, pais, sub, linea, cuenta, desc, ajuste = vals
+        mes, pais, sub, linea, submetrica, cuenta, desc, ajuste = vals
         rows.append({
             "mes": mes.strftime("%Y-%m"),
             "pais": pais if pd.notna(pais) else None,
             "subsidiaria": sub if pd.notna(sub) else None,
             "linea": linea if pd.notna(linea) else None,
+            "submetrica": str(submetrica) if pd.notna(submetrica) else None,
             "cuenta": int(cuenta) if pd.notna(cuenta) else None,
             "cuenta_desc": desc if pd.notna(desc) else None,
             "es_ajuste": bool(pd.notna(ajuste) and ajuste == 1),
@@ -190,6 +192,7 @@ def _facts_tape_delta(df_delta: pd.DataFrame) -> list[dict[str, Any]]:
             "pais": pais_label,
             "subsidiaria": pivot,
             "linea": "Market Maker",
+            "submetrica": "Tape Adjustment",
             "cuenta": None,
             "cuenta_desc": "Tape Adjustment (c_precio − BET MM)",
             "es_ajuste": False,
@@ -244,6 +247,8 @@ def build(mes_corte: dt.date) -> dict[str, Any]:
         "seccion": "4.1",
         "unidad": "MONEDA",
         "estado": "real",
+        "summary_field": "submetrica",
+        "summary_label": "By revenue detail",
         "fuente": (
             "bet_data_p2 (revenue plano) + finance_tapes_global (delta MM via c_precio); "
             "pivot c_fecha_factura. Delta asignado a subsidiaria pivot (Habi CO / Corporativo MX)."

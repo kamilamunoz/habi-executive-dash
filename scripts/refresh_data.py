@@ -41,7 +41,7 @@ KPIS = [
     ("kpi_aging.json", aging),
     ("kpi_ciclo.json", ciclo),
     ("kpi_rotacion.json", rotacion),
-    # ("kpi_net_debt.json", net_debt),  # Pausado hasta confirmar metodología (delta tape en denominador)
+    ("kpi_net_debt.json", net_debt),
 ]
 
 
