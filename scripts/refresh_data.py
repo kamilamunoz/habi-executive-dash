@@ -17,8 +17,22 @@ import json
 import logging
 import time
 
-from scripts._common import DATA_DIR, FX_DEFAULT, mes_corte_default, mes_label
-from scripts.kpis import adj_ingresos, aging, burn, ciclo, contribution, ebitda, gmv, ingresos, inventario, margen, net_debt, opex, rotacion
+from scripts._common import DATA_DIR, FX_DEFAULT, mes_corte_default, mes_label, mes_max_disponible
+from scripts.kpis import (
+    adj_ingresos,
+    aging,
+    burn,
+    ciclo,
+    contribution,
+    ebitda,
+    gmv,
+    ingresos,
+    inventario,
+    margen,
+    net_debt,
+    opex,
+    rotacion,
+)
 
 logging.basicConfig(
     level=logging.INFO,
@@ -48,13 +62,25 @@ KPIS = [
 def main() -> None:
     DATA_DIR.mkdir(parents=True, exist_ok=True)
     mes_corte = mes_corte_default()
-    log.info("Mes corte: %s", mes_label(mes_corte))
+    mes_max = mes_max_disponible()
+    es_parcial = mes_max > mes_corte
+    log.info(
+        "Mes corte: %s | Mes max: %s%s",
+        mes_label(mes_corte),
+        mes_label(mes_max),
+        " (parcial · MTD)" if es_parcial else "",
+    )
 
     # Meta global del refresh — la UI la lee para mostrar "Datos al ..."
+    # mes_corte = ultimo mes cerrado (default del selector).
+    # mes_max   = ultimo mes con datos en BQ (puede ser MTD parcial).
     meta = {
         "generado_en": dt.datetime.now().isoformat(timespec="seconds"),
         "mes_corte": mes_corte.isoformat(),
         "mes_corte_label": mes_label(mes_corte),
+        "mes_max": mes_max.isoformat(),
+        "mes_max_label": mes_label(mes_max),
+        "es_mes_parcial": es_parcial,
         "fx_default": FX_DEFAULT,
     }
     (DATA_DIR / "meta.json").write_text(json.dumps(meta, indent=2, ensure_ascii=False))
@@ -64,7 +90,7 @@ def main() -> None:
     for filename, module in KPIS:
         t0 = time.time()
         log.info("Construyendo %s ...", filename)
-        payload = module.build(mes_corte=mes_corte)
+        payload = module.build(mes_corte=mes_corte, mes_max=mes_max)
         (DATA_DIR / filename).write_text(json.dumps(payload, indent=2, ensure_ascii=False))
         log.info("%s escrito en %.1fs", filename, time.time() - t0)
 

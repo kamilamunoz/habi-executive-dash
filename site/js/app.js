@@ -362,8 +362,20 @@ async function cargarTodo(){
   }
   const primero = Object.values(STATE.kpis)[0];
   if(primero && primero.meses_disponibles && primero.meses_disponibles.length){
-    STATE.filters.mes = primero.meses_disponibles[primero.meses_disponibles.length - 1];
+    // Default = ultimo mes CERRADO (meta.mes_corte). Si no esta en meta, cae
+    // al ultimo mes disponible (back-compat con meta.json viejos).
+    const defaultMes = (STATE.meta.mes_corte || "").slice(0, 7);
+    const disponibles = primero.meses_disponibles;
+    STATE.filters.mes = disponibles.includes(defaultMes)
+      ? defaultMes
+      : disponibles[disponibles.length - 1];
   }
+}
+
+/* True si el mes YYYY-MM es el mes parcial (MTD) reportado por meta.json. */
+function esMesParcial(mesYYYYMM){
+  if(!STATE.meta || !STATE.meta.es_mes_parcial || !STATE.meta.mes_max) return false;
+  return STATE.meta.mes_max.slice(0, 7) === mesYYYYMM;
 }
 
 /* ========================================================= LECTURA KPI = */
@@ -1852,12 +1864,18 @@ function rebuildMesOptions(){
   const sel = document.getElementById("fMes");
   sel.innerHTML = primero.meses_disponibles
     .slice().reverse()
-    .map(m => `<option value="${m}">${mesYYYYMM_a_label(m)}</option>`).join("");
+    .map(m => {
+      const label = mesYYYYMM_a_label(m) + (esMesParcial(m) ? " · MTD" : "");
+      return `<option value="${m}">${label}</option>`;
+    }).join("");
   sel.value = STATE.filters.mes;
 }
 
 function render(){
-  document.getElementById("mesCorte").textContent = mesYYYYMM_a_label(STATE.filters.mes);
+  const mesActual = STATE.filters.mes;
+  const parcial = esMesParcial(mesActual);
+  const labelMes = mesYYYYMM_a_label(mesActual) + (parcial ? ' <span class="mtd-badge">MTD · partial</span>' : "");
+  document.getElementById("mesCorte").innerHTML = labelMes;
   document.getElementById("refreshAt").textContent = STATE.meta.generado_en.replace("T", " ").slice(0,16);
   const ctx = `${STATE.filters.pais}${STATE.filters.subsidiaria !== "All" ? " · " + STATE.filters.subsidiaria : ""}${STATE.filters.linea !== "All" ? " · " + STATE.filters.linea : ""} · ${STATE.filters.moneda === "USD" ? "USD" : "Local currency"}`;
   document.getElementById("contextLabel").innerHTML = ctx;

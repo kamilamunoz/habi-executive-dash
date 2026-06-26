@@ -122,7 +122,9 @@ def _twin_sum(df: pd.DataFrame, value_col: str = "debt") -> dict[str, float]:
     }
 
 
-def build(mes_corte: dt.date) -> dict[str, Any]:
+def build(mes_corte: dt.date, mes_max: dt.date | None = None) -> dict[str, Any]:
+    if mes_max is None:
+        mes_max = mes_corte
     mes_inicio = dt.date(mes_corte.year, mes_corte.month, 1)
     for _ in range(HISTORY_MONTHS - 1):
         prev_last = mes_inicio - dt.timedelta(days=1)
@@ -134,12 +136,12 @@ def build(mes_corte: dt.date) -> dict[str, Any]:
         prev_last = mes_inicio_ltm - dt.timedelta(days=1)
         mes_inicio_ltm = dt.date(prev_last.year, prev_last.month, 1)
 
-    log.info("Debt in Homes: rango %s -> %s (LTM desde %s)", mes_inicio, mes_corte, mes_inicio_ltm)
+    log.info("Debt in Homes: rango %s -> %s (LTM desde %s)", mes_inicio, mes_max, mes_inicio_ltm)
     # Debt LTM tambien: necesitamos 12 meses para calcular Average Debt LTM
-    df_debt   = run_query(_sql_debt(mes_inicio_ltm, mes_corte), label="debt_homes")
-    df_ebitda = run_query(_sql_ebitda(mes_inicio_ltm, mes_corte), label="debt_ebitda")
-    df_cap    = run_query(_sql_capitalized_payroll(mes_inicio_ltm, mes_corte), label="debt_cap_payroll")
-    df_int    = run_query(_sql_net_interest(mes_inicio_ltm, mes_corte), label="debt_net_interest")
+    df_debt   = run_query(_sql_debt(mes_inicio_ltm, mes_max), label="debt_homes")
+    df_ebitda = run_query(_sql_ebitda(mes_inicio_ltm, mes_max), label="debt_ebitda")
+    df_cap    = run_query(_sql_capitalized_payroll(mes_inicio_ltm, mes_max), label="debt_cap_payroll")
+    df_int    = run_query(_sql_net_interest(mes_inicio_ltm, mes_max), label="debt_net_interest")
 
     df_debt["mes"] = pd.to_datetime(df_debt["mes"])
     df_debt["pais_label"] = df_debt["m_pais"].map(PAIS_LABEL).fillna("(sin pais)")

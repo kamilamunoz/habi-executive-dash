@@ -172,17 +172,19 @@ def _cash_balances(df_cash: pd.DataFrame) -> dict[str, Any]:
     return out
 
 
-def build(mes_corte: dt.date) -> dict[str, Any]:
+def build(mes_corte: dt.date, mes_max: dt.date | None = None) -> dict[str, Any]:
     """Construye el payload JSON del KPI Burn / Runway."""
+    if mes_max is None:
+        mes_max = mes_corte
     mes_inicio = dt.date(mes_corte.year, mes_corte.month, 1)
     for _ in range(HISTORY_MONTHS - 1):
         prev_last = mes_inicio - dt.timedelta(days=1)
         mes_inicio = dt.date(prev_last.year, prev_last.month, 1)
 
-    log.info("Burn: query rango %s -> %s", mes_inicio, mes_corte)
-    df_burn = run_query(_sql_burn(mes_inicio, mes_corte), label="burn")
+    log.info("Burn: query rango %s -> %s", mes_inicio, mes_max)
+    df_burn = run_query(_sql_burn(mes_inicio, mes_max), label="burn")
     log.info("Burn: query cash balance")
-    df_cash = run_query(_sql_cash(mes_inicio, mes_corte), label="burn_cash")
+    df_cash = run_query(_sql_cash(mes_inicio, mes_max), label="burn_cash")
 
     # Normalizar burn
     df_burn["c_subsidiaria"] = df_burn["c_subsidiaria"].map(normalize_subsidiaria)

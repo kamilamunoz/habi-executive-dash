@@ -1,7 +1,10 @@
 {
-  "generado_en": "2026-06-25T23:22:25",
+  "generado_en": "2026-06-26T09:38:59",
   "mes_corte": "2026-05-01",
   "mes_corte_label": "May 2026",
+  "mes_max": "2026-06-01",
+  "mes_max_label": "Jun 2026",
+  "es_mes_parcial": true,
   "fx_default": {
     "COP": 3700.0,
     "MXN": 18.5,

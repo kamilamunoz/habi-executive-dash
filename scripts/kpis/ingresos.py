@@ -141,15 +141,22 @@ def _facts(df: pd.DataFrame) -> list[dict[str, Any]]:
     return rows
 
 
-def build(mes_corte: dt.date) -> dict[str, Any]:
-    """Construye el payload JSON del KPI Ingresos."""
+def build(mes_corte: dt.date, mes_max: dt.date | None = None) -> dict[str, Any]:
+    """Construye el payload JSON del KPI Ingresos.
+
+    mes_corte: ultimo mes cerrado (ancla del rango historico).
+    mes_max:   upper bound real de la query — puede ser mes_corte (cerrado)
+               o el mes en curso (MTD parcial). Si None, cae a mes_corte.
+    """
+    if mes_max is None:
+        mes_max = mes_corte
     mes_inicio = dt.date(mes_corte.year, mes_corte.month, 1)
     for _ in range(HISTORY_MONTHS - 1):
         prev_last = mes_inicio - dt.timedelta(days=1)
         mes_inicio = dt.date(prev_last.year, prev_last.month, 1)
 
-    log.info("Ingresos: query rango %s -> %s", mes_inicio, mes_corte)
-    df = run_query(_sql(mes_inicio, mes_corte), label="ingresos")
+    log.info("Ingresos: query rango %s -> %s", mes_inicio, mes_max)
+    df = run_query(_sql(mes_inicio, mes_max), label="ingresos")
 
     # Normalizar
     df["c_subsidiaria"] = df["c_subsidiaria"].map(normalize_subsidiaria)

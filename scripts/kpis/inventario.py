@@ -170,17 +170,19 @@ def _reconciliation(df_op: pd.DataFrame) -> list[dict[str, Any]]:
     return rows
 
 
-def build(mes_corte: dt.date) -> dict[str, Any]:
+def build(mes_corte: dt.date, mes_max: dt.date | None = None) -> dict[str, Any]:
     """Construye el payload JSON de Inventory on books."""
+    if mes_max is None:
+        mes_max = mes_corte
     mes_inicio = dt.date(mes_corte.year, mes_corte.month, 1)
     for _ in range(HISTORY_MONTHS - 1):
         prev_last = mes_inicio - dt.timedelta(days=1)
         mes_inicio = dt.date(prev_last.year, prev_last.month, 1)
 
-    log.info("Inventory: query rango %s -> %s", mes_inicio, mes_corte)
-    df_books = run_query(_sql_books(mes_inicio, mes_corte), label="inventario_books")
-    df_op    = run_query(_sql_operativo(mes_inicio, mes_corte), label="inventario_op")
-    df_det   = run_query(_sql_detalle_mes(mes_inicio, mes_corte), label="inventario_detalle")
+    log.info("Inventory: query rango %s -> %s", mes_inicio, mes_max)
+    df_books = run_query(_sql_books(mes_inicio, mes_max), label="inventario_books")
+    df_op    = run_query(_sql_operativo(mes_inicio, mes_max), label="inventario_op")
+    df_det   = run_query(_sql_detalle_mes(mes_inicio, mes_max), label="inventario_detalle")
 
     df_books["mes"] = pd.to_datetime(df_books["mes"])
     df_books["pais_label"] = df_books["m_pais"].map(PAIS_LABEL).fillna("(sin pais)")

@@ -49,7 +49,8 @@
     "2026-02",
     "2026-03",
     "2026-04",
-    "2026-05"
+    "2026-05",
+    "2026-06"
   ],
   "facts": [
     {
@@ -70,13 +71,13 @@
         "con_elim": 0.0,
         "solo_elim": 0.0
       },
-      "ebitda_ltm": 12718641648.05781,
+      "ebitda_ltm": 12718641648.057648,
       "capitalized_payroll_ltm": 4345073894.39,
-      "adj_ebitda_ltm": 17063715542.447807,
-      "leverage": 10.077009873509262,
-      "net_interest_ltm": 2583448134.9964046,
+      "adj_ebitda_ltm": 17063715542.447645,
+      "leverage": 10.077009873509358,
+      "net_interest_ltm": 2583448134.996401,
       "debt_avg_ltm": 143082312500.0,
-      "cost_of_capital": 0.018055677811304627
+      "cost_of_capital": 0.0180556778113046
     },
     {
       "mes": "2025-05",
@@ -96,13 +97,13 @@
         "con_elim": 0.0,
         "solo_elim": 0.0
       },
-      "ebitda_ltm": 72252457.55481905,
-      "capitalized_payroll_ltm": 31866308.219999984,
-      "adj_ebitda_ltm": 104118765.774819,
-      "leverage": 7.108605125042711,
-      "net_interest_ltm": 10728345.18908709,
+      "ebitda_ltm": 72252457.55481994,
+      "capitalized_payroll_ltm": 31866308.21999998,
+      "adj_ebitda_ltm": 104118765.7748199,
+      "leverage": 7.10860512504265,
+      "net_interest_ltm": 10728345.189086523,
       "debt_avg_ltm": 715708033.35,
-      "cost_of_capital": 0.014989834805781265
+      "cost_of_capital": 0.014989834805780474
     },
     {
       "mes": "2025-05",
@@ -122,11 +123,11 @@
         "con_elim": 0.0,
         "solo_elim": 0.0
       },
-      "ebitda_ltm": 684993.669999999,
+      "ebitda_ltm": 684993.6699999995,
       "capitalized_payroll_ltm": 0.0,
-      "adj_ebitda_ltm": 684993.669999999,
+      "adj_ebitda_ltm": 684993.6699999995,
       "leverage": 0.0,
-      "net_interest_ltm": 1023049.2699999992,
+      "net_interest_ltm": 1023049.2699999993,
       "debt_avg_ltm": 0.0,
       "cost_of_capital": null
     },
@@ -148,13 +149,13 @@
         "con_elim": 0.0,
         "solo_elim": 0.0
       },
-      "ebitda_ltm": 15005327302.302704,
+      "ebitda_ltm": 15005327302.302498,
       "capitalized_payroll_ltm": 4245445660.59,
-      "adj_ebitda_ltm": 19250772962.8927,
-      "leverage": 8.860828099152247,
-      "net_interest_ltm": 2816635973.258205,
+      "adj_ebitda_ltm": 19250772962.892494,
+      "leverage": 8.860828099152343,
+      "net_interest_ltm": 2816635973.258201,
       "debt_avg_ltm": 148455461666.66666,
-      "cost_of_capital": 0.018972936001388194
+      "cost_of_capital": 0.01897293600138817
     },
     {
       "mes": "2025-06",
@@ -174,13 +175,13 @@
         "con_elim": 0.0,
         "solo_elim": 0.0
       },
-      "ebitda_ltm": 78751565.19084103,
-      "capitalized_payroll_ltm": 31135645.389999982,
-      "adj_ebitda_ltm": 109887210.58084099,
-      "leverage": 6.560815668986494,
-      "net_interest_ltm": 11615975.48902309,
+      "ebitda_ltm": 78751565.19084197,
+      "capitalized_payroll_ltm": 31135645.38999998,
+      "adj_ebitda_ltm": 109887210.58084191,
+      "leverage": 6.5608156689864385,
+      "net_interest_ltm": 11615975.489022521,
       "debt_avg_ltm": 723992725.8416667,
-      "cost_of_capital": 0.01604432624032115
+      "cost_of_capital": 0.016044326240320365
     },
     {
       "mes": "2025-06",
@@ -200,9 +201,9 @@
         "con_elim": 0.0,
         "solo_elim": 0.0
       },
-      "ebitda_ltm": 653405.139999999,
+      "ebitda_ltm": 653405.1399999994,
       "capitalized_payroll_ltm": 0.0,
-      "adj_ebitda_ltm": 653405.139999999,
+      "adj_ebitda_ltm": 653405.1399999994,
       "leverage": 0.0,
       "net_interest_ltm": 1112628.4599999993,
       "debt_avg_ltm": 0.0,
@@ -226,13 +227,13 @@
         "con_elim": 0.0,
         "solo_elim": 0.0
       },
-      "ebitda_ltm": 18220603498.3403,
+      "ebitda_ltm": 18220603498.340096,
       "capitalized_payroll_ltm": 4107696376.1099997,
-      "adj_ebitda_ltm": 22328299874.4503,
-      "leverage": 7.780584772546503,
-      "net_interest_ltm": 3044302810.325305,
+      "adj_ebitda_ltm": 22328299874.450092,
+      "leverage": 7.780584772546575,
+      "net_interest_ltm": 3044302810.3253016,
       "debt_avg_ltm": 154091064166.66666,
-      "cost_of_capital": 0.019756517529352334
+      "cost_of_capital": 0.019756517529352313
     },
     {
       "mes": "2025-07",
@@ -252,13 +253,13 @@
         "con_elim": 0.0,
         "solo_elim": 0.0
       },
-      "ebitda_ltm": 87523996.04502714,
-      "capitalized_payroll_ltm": 30125406.829999983,
-      "adj_ebitda_ltm": 117649402.87502709,
-      "leverage": 5.963818394771759,
-      "net_interest_ltm": 9806594.472153088,
+      "ebitda_ltm": 87523996.0450281,
+      "capitalized_payroll_ltm": 30125406.82999998,
+      "adj_ebitda_ltm": 117649402.87502804,
+      "leverage": 5.96381839477171,
+      "net_interest_ltm": 9806594.47215252,
       "debt_avg_ltm": 730668246.6666666,
-      "cost_of_capital": 0.013421405017791734
+      "cost_of_capital": 0.013421405017790957
     },
     {
       "mes": "2025-07",
@@ -278,11 +279,11 @@
         "con_elim": 0.0,
         "solo_elim": 0.0
       },
-      "ebitda_ltm": 633047.5099999991,
+      "ebitda_ltm": 633047.5099999994,
       "capitalized_payroll_ltm": 0.0,
-      "adj_ebitda_ltm": 633047.5099999991,
+      "adj_ebitda_ltm": 633047.5099999994,
       "leverage": 0.0,
-      "net_interest_ltm": 1240669.0199999993,
+      "net_interest_ltm": 1240669.019999999,
       "debt_avg_ltm": 0.0,
       "cost_of_capital": null
     },
@@ -304,13 +305,13 @@
         "con_elim": 0.0,
         "solo_elim": 0.0
       },
-      "ebitda_ltm": 20448635870.482304,
+      "ebitda_ltm": 20448635870.482018,
       "capitalized_payroll_ltm": 3972880318.9800005,
-      "adj_ebitda_ltm": 24421516189.4623,
-      "leverage": 6.907071972574113,
-      "net_interest_ltm": 3224084368.8831053,
+      "adj_ebitda_ltm": 24421516189.462017,
+      "leverage": 6.907071972574193,
+      "net_interest_ltm": 3224084368.8831015,
       "debt_avg_ltm": 158256161666.66666,
-      "cost_of_capital": 0.02037256770876297
+      "cost_of_capital": 0.020372567708762945
     },
     {
       "mes": "2025-08",
@@ -330,13 +331,13 @@
         "con_elim": 0.0,
         "solo_elim": 0.0
       },
-      "ebitda_ltm": 106409949.84210815,
-      "capitalized_payroll_ltm": 29136680.249999985,
-      "adj_ebitda_ltm": 135546630.09210813,
-      "leverage": 4.900521780206724,
-      "net_interest_ltm": 8128588.5303280875,
+      "ebitda_ltm": 106409949.84210914,
+      "capitalized_payroll_ltm": 29136680.24999998,
+      "adj_ebitda_ltm": 135546630.09210908,
+      "leverage": 4.900521780206689,
+      "net_interest_ltm": 8128588.530327521,
       "debt_avg_ltm": 731303791.3333334,
-      "cost_of_capital": 0.011115200859970682
+      "cost_of_capital": 0.011115200859969908
     },
     {
       "mes": "2025-08",
@@ -356,9 +357,9 @@
         "con_elim": 0.0,
         "solo_elim": 0.0
       },
-      "ebitda_ltm": 629630.189999999,
+      "ebitda_ltm": 629630.1899999995,
       "capitalized_payroll_ltm": 0.0,
-      "adj_ebitda_ltm": 629630.189999999,
+      "adj_ebitda_ltm": 629630.1899999995,
       "leverage": 0.0,
       "net_interest_ltm": 1422910.7399999993,
       "debt_avg_ltm": 0.0,
@@ -382,13 +383,13 @@
         "con_elim": 0.0,
         "solo_elim": 0.0
       },
-      "ebitda_ltm": 25898079170.859646,
+      "ebitda_ltm": 25898079170.859406,
       "capitalized_payroll_ltm": 3869954478.33,
-      "adj_ebitda_ltm": 29768033649.18964,
-      "leverage": 5.529436103834854,
-      "net_interest_ltm": 3275687891.989405,
+      "adj_ebitda_ltm": 29768033649.189404,
+      "leverage": 5.5294361038348985,
+      "net_interest_ltm": 3275687891.989402,
       "debt_avg_ltm": 161556198333.33334,
-      "cost_of_capital": 0.020275841631472356
+      "cost_of_capital": 0.020275841631472336
     },
     {
       "mes": "2025-09",
@@ -408,13 +409,13 @@
         "con_elim": 0.0,
         "solo_elim": 0.0
       },
-      "ebitda_ltm": 110033838.88344085,
-      "capitalized_payroll_ltm": 28381833.119999982,
-      "adj_ebitda_ltm": 138415672.0034408,
-      "leverage": 5.091462135750649,
-      "net_interest_ltm": 124580.8390280893,
+      "ebitda_ltm": 110033838.88344218,
+      "capitalized_payroll_ltm": 28381833.11999998,
+      "adj_ebitda_ltm": 138415672.0034421,
+      "leverage": 5.091462135750601,
+      "net_interest_ltm": 124580.83902752306,
       "debt_avg_ltm": 729063414.3333334,
-      "cost_of_capital": 0.0001708779189557988
+      "cost_of_capital": 0.00017087791895502213
     },
     {
       "mes": "2025-09",
@@ -434,9 +435,9 @@
         "con_elim": 0.0,
         "solo_elim": 0.0
       },
-      "ebitda_ltm": 543001.729999999,
+      "ebitda_ltm": 543001.7299999995,
       "capitalized_payroll_ltm": 0.0,
-      "adj_ebitda_ltm": 543001.729999999,
+      "adj_ebitda_ltm": 543001.7299999995,
       "leverage": 0.0,
       "net_interest_ltm": 1577206.1399999992,
       "debt_avg_ltm": 0.0,
@@ -460,13 +461,13 @@
         "con_elim": 0.0,
         "solo_elim": 0.0
       },
-      "ebitda_ltm": 28619571484.36684,
+      "ebitda_ltm": 28619571484.366604,
       "capitalized_payroll_ltm": 3770728508.65,
-      "adj_ebitda_ltm": 32390299993.016838,
-      "leverage": 5.0557027886529236,
-      "net_interest_ltm": 3105788057.487905,
+      "adj_ebitda_ltm": 32390299993.016605,
+      "leverage": 5.05570278865296,
+      "net_interest_ltm": 3105788057.4879017,
       "debt_avg_ltm": 164785842500.0,
-      "cost_of_capital": 0.01884742044807584
+      "cost_of_capital": 0.01884742044807582
     },
     {
       "mes": "2025-10",
@@ -486,13 +487,13 @@
         "con_elim": 0.0,
         "solo_elim": 0.0
       },
-      "ebitda_ltm": 117068652.43193409,
-      "capitalized_payroll_ltm": 27654120.449999984,
-      "adj_ebitda_ltm": 144722772.88193408,
-      "leverage": 5.079411334936937,
-      "net_interest_ltm": -7439109.079603917,
+      "ebitda_ltm": 117068652.43193547,
+      "capitalized_payroll_ltm": 27654120.44999998,
+      "adj_ebitda_ltm": 144722772.88193542,
+      "leverage": 5.07941133493689,
+      "net_interest_ltm": -7439109.0796044525,
       "debt_avg_ltm": 731431935.1666666,
-      "cost_of_capital": -0.0101706101715518
+      "cost_of_capital": -0.010170610171552533
     },
     {
       "mes": "2025-10",
@@ -512,9 +513,9 @@
         "con_elim": 0.0,
         "solo_elim": 0.0
       },
-      "ebitda_ltm": 1103139.279999999,
+      "ebitda_ltm": 1103139.2799999996,
       "capitalized_payroll_ltm": 0.0,
-      "adj_ebitda_ltm": 1103139.279999999,
+      "adj_ebitda_ltm": 1103139.2799999996,
       "leverage": 0.0,
       "net_interest_ltm": 1779038.7499999993,
       "debt_avg_ltm": 0.0,
@@ -538,13 +539,13 @@
         "con_elim": 0.0,
         "solo_elim": 0.0
       },
-      "ebitda_ltm": 30347044709.39127,
+      "ebitda_ltm": 30347044709.391182,
       "capitalized_payroll_ltm": 3714990535.25,
-      "adj_ebitda_ltm": 34062035244.641266,
-      "leverage": 4.654563617860814,
-      "net_interest_ltm": 2995895147.707405,
+      "adj_ebitda_ltm": 34062035244.64118,
+      "leverage": 4.654563617860826,
+      "net_interest_ltm": 2995895147.7074018,
       "debt_avg_ltm": 166356168333.33334,
-      "cost_of_capital": 0.018008921326586647
+      "cost_of_capital": 0.018008921326586626
     },
     {
       "mes": "2025-11",
@@ -564,13 +565,13 @@
         "con_elim": 0.0,
         "solo_elim": 0.0
       },
-      "ebitda_ltm": 122026288.6671808,
+      "ebitda_ltm": 122026288.66718215,
       "capitalized_payroll_ltm": 27245344.09999998,
-      "adj_ebitda_ltm": 149271632.76718077,
-      "leverage": 4.256668003297278,
-      "net_interest_ltm": -9824665.81076391,
+      "adj_ebitda_ltm": 149271632.7671821,
+      "leverage": 4.25666800329724,
+      "net_interest_ltm": -9824665.810764,
       "debt_avg_ltm": 726793164.9166666,
-      "cost_of_capital": -0.01351782912252676
+      "cost_of_capital": -0.013517829122526883
     },
     {
       "mes": "2025-11",
@@ -590,11 +591,11 @@
         "con_elim": 0.0,
         "solo_elim": 0.0
       },
-      "ebitda_ltm": 1766567.9399999992,
+      "ebitda_ltm": 1766567.9399999995,
       "capitalized_payroll_ltm": 0.0,
-      "adj_ebitda_ltm": 1766567.9399999992,
+      "adj_ebitda_ltm": 1766567.9399999995,
       "leverage": 0.0,
-      "net_interest_ltm": 1520384.4899999995,
+      "net_interest_ltm": 1520384.4899999993,
       "debt_avg_ltm": 0.0,
       "cost_of_capital": null
     },
@@ -616,10 +617,10 @@
         "con_elim": 0.0,
         "solo_elim": 0.0
       },
-      "ebitda_ltm": 891478958.9721928,
+      "ebitda_ltm": 891478958.9722271,
       "capitalized_payroll_ltm": 3507969857.63,
-      "adj_ebitda_ltm": 4399448816.602192,
-      "leverage": 35.722177152495455,
+      "adj_ebitda_ltm": 4399448816.602226,
+      "leverage": 35.72217715249518,
       "net_interest_ltm": 14730972903.389801,
       "debt_avg_ltm": 166597626666.66666,
       "cost_of_capital": 0.08842246554246512
@@ -642,10 +643,10 @@
         "con_elim": 0.0,
         "solo_elim": 0.0
       },
-      "ebitda_ltm": -395346614.92083794,
-      "capitalized_payroll_ltm": 25727076.539999984,
-      "adj_ebitda_ltm": -369619538.3808379,
-      "leverage": -1.8709155014621668,
+      "ebitda_ltm": -395346614.92083603,
+      "capitalized_payroll_ltm": 25727076.53999998,
+      "adj_ebitda_ltm": -369619538.38083607,
+      "leverage": -1.8709155014621761,
       "net_interest_ltm": 112328603.109236,
       "debt_avg_ltm": 719580284.5,
       "cost_of_capital": 0.15610294713297693
@@ -694,13 +695,13 @@
         "con_elim": 0.0,
         "solo_elim": 0.0
       },
-      "ebitda_ltm": 189733507.60139656,
+      "ebitda_ltm": 189733507.6014309,
       "capitalized_payroll_ltm": 3476048152.5099998,
-      "adj_ebitda_ltm": 3665781660.111396,
-      "leverage": 42.410526434701964,
-      "net_interest_ltm": 14084570752.107801,
+      "adj_ebitda_ltm": 3665781660.11143,
+      "leverage": 42.410526434701566,
+      "net_interest_ltm": 14084570752.1078,
       "debt_avg_ltm": 166348704166.66666,
-      "cost_of_capital": 0.08466895382603228
+      "cost_of_capital": 0.08466895382603226
     },
     {
       "mes": "2026-01",
@@ -720,10 +721,10 @@
         "con_elim": 0.0,
         "solo_elim": 0.0
       },
-      "ebitda_ltm": -409660003.3840392,
-      "capitalized_payroll_ltm": 25492966.159999985,
-      "adj_ebitda_ltm": -384167037.2240392,
-      "leverage": -1.800085371709573,
+      "ebitda_ltm": -409660003.3840374,
+      "capitalized_payroll_ltm": 25492966.15999998,
+      "adj_ebitda_ltm": -384167037.2240374,
+      "leverage": -1.8000853717095815,
       "net_interest_ltm": 107142670.61923599,
       "debt_avg_ltm": 713768200.4166666,
       "cost_of_capital": 0.1501084953864445
@@ -772,10 +773,10 @@
         "con_elim": 0.0,
         "solo_elim": 0.0
       },
-      "ebitda_ltm": -453158744.6422291,
+      "ebitda_ltm": -453158744.64219475,
       "capitalized_payroll_ltm": 3424792012.6000004,
-      "adj_ebitda_ltm": 2971633267.95777,
-      "leverage": 57.07092521431891,
+      "adj_ebitda_ltm": 2971633267.957804,
+      "leverage": 57.07092521431825,
       "net_interest_ltm": 14095140832.538,
       "debt_avg_ltm": 167132742500.0,
       "cost_of_capital": 0.0843350059461748
@@ -798,10 +799,10 @@
         "con_elim": 0.0,
         "solo_elim": 0.0
       },
-      "ebitda_ltm": -416503572.1235604,
-      "capitalized_payroll_ltm": 25117059.09999999,
-      "adj_ebitda_ltm": -391386513.0235604,
-      "leverage": -1.8145153661880251,
+      "ebitda_ltm": -416503572.12355995,
+      "capitalized_payroll_ltm": 25117059.099999987,
+      "adj_ebitda_ltm": -391386513.02356,
+      "leverage": -1.8145153661880271,
       "net_interest_ltm": 101682421.829236,
       "debt_avg_ltm": 711072002.8333334,
       "cost_of_capital": 0.1429987700599557
@@ -850,10 +851,10 @@
         "con_elim": 0.0,
         "solo_elim": 0.0
       },
-      "ebitda_ltm": -44942252.66945338,
+      "ebitda_ltm": -44942252.66941905,
       "capitalized_payroll_ltm": 3373909595.9500003,
-      "adj_ebitda_ltm": 3328967343.2805457,
-      "leverage": 53.17394628398801,
+      "adj_ebitda_ltm": 3328967343.28058,
+      "leverage": 53.173946283987455,
       "net_interest_ltm": 13536766870.4272,
       "debt_avg_ltm": 167290179224.39584,
       "cost_of_capital": 0.08091788133163252
@@ -876,10 +877,10 @@
         "con_elim": 0.0,
         "solo_elim": 0.0
       },
-      "ebitda_ltm": -442610845.33048445,
-      "capitalized_payroll_ltm": 24743892.889999997,
-      "adj_ebitda_ltm": -417866952.44048434,
-      "leverage": -1.64813163610513,
+      "ebitda_ltm": -442610845.3304839,
+      "capitalized_payroll_ltm": 24743892.889999993,
+      "adj_ebitda_ltm": -417866952.440484,
+      "leverage": -1.6481316361051315,
       "net_interest_ltm": 98164941.60569601,
       "debt_avg_ltm": 703613938.8333334,
       "cost_of_capital": 0.1395153452594528
@@ -928,10 +929,10 @@
         "con_elim": 0.0,
         "solo_elim": 0.0
       },
-      "ebitda_ltm": -754056580.8715471,
+      "ebitda_ltm": -754056580.8715076,
       "capitalized_payroll_ltm": 3513383118.57,
-      "adj_ebitda_ltm": 2759326537.6984515,
-      "leverage": 56.43207448098229,
+      "adj_ebitda_ltm": 2759326537.6984916,
+      "leverage": 56.43207448098147,
       "net_interest_ltm": 12761671806.0643,
       "debt_avg_ltm": 165565485948.79166,
       "cost_of_capital": 0.07707930027162427
@@ -954,10 +955,10 @@
         "con_elim": 0.0,
         "solo_elim": 0.0
       },
-      "ebitda_ltm": -429747966.2528707,
-      "capitalized_payroll_ltm": 23390612.12,
-      "adj_ebitda_ltm": -406357354.1328706,
-      "leverage": -1.6948130432378226,
+      "ebitda_ltm": -429747966.2528702,
+      "capitalized_payroll_ltm": 23390612.119999997,
+      "adj_ebitda_ltm": -406357354.1328702,
+      "leverage": -1.6948130432378243,
       "net_interest_ltm": 93907697.110149,
       "debt_avg_ltm": 697738246.5,
       "cost_of_capital": 0.1345887194534763
@@ -1006,10 +1007,10 @@
         "con_elim": 0.0,
         "solo_elim": 0.0
       },
-      "ebitda_ltm": 909468290.0224758,
+      "ebitda_ltm": 909468290.0225172,
       "capitalized_payroll_ltm": 3684070751.9700003,
-      "adj_ebitda_ltm": 4593539041.992475,
-      "leverage": 27.68121921210359,
+      "adj_ebitda_ltm": 4593539041.992516,
+      "leverage": 27.68121921210334,
       "net_interest_ltm": 13382619285.2571,
       "debt_avg_ltm": 161832446880.52084,
       "cost_of_capital": 0.08269428994753655
@@ -1032,9 +1033,9 @@
         "con_elim": 0.0,
         "solo_elim": 0.0
       },
-      "ebitda_ltm": -420366370.1083973,
+      "ebitda_ltm": -420366370.1083968,
       "capitalized_payroll_ltm": 22218673.189999998,
-      "adj_ebitda_ltm": -398147696.91839725,
+      "adj_ebitda_ltm": -398147696.91839683,
       "leverage": -0.0,
       "net_interest_ltm": 89869897.970149,
       "debt_avg_ltm": 636059980.5,
@@ -1063,6 +1064,84 @@
       "adj_ebitda_ltm": -2229228.3,
       "leverage": -0.0,
       "net_interest_ltm": 992203.26,
+      "debt_avg_ltm": 0.0,
+      "cost_of_capital": null
+    },
+    {
+      "mes": "2026-06",
+      "pais": "Colombia",
+      "subsidiaria": null,
+      "linea": null,
+      "cuenta": null,
+      "cuenta_desc": null,
+      "es_ajuste": false,
+      "actuals": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "con_elim": 0.0,
+        "solo_elim": 0.0
+      },
+      "ebitda_ltm": 4330409306.542094,
+      "capitalized_payroll_ltm": 3405370417.53,
+      "adj_ebitda_ltm": 7735779724.072094,
+      "leverage": 0.0,
+      "net_interest_ltm": 12222706263.143099,
+      "debt_avg_ltm": 147617631047.1875,
+      "cost_of_capital": 0.08279977246915705
+    },
+    {
+      "mes": "2026-06",
+      "pais": "Mexico",
+      "subsidiaria": null,
+      "linea": null,
+      "cuenta": null,
+      "cuenta_desc": null,
+      "es_ajuste": false,
+      "actuals": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "con_elim": 0.0,
+        "solo_elim": 0.0
+      },
+      "ebitda_ltm": -408407713.7268568,
+      "capitalized_payroll_ltm": 20174714.68,
+      "adj_ebitda_ltm": -388232999.0468569,
+      "leverage": -0.0,
+      "net_interest_ltm": 79079911.790213,
+      "debt_avg_ltm": 575980836.0833334,
+      "cost_of_capital": 0.13729608145985547
+    },
+    {
+      "mes": "2026-06",
+      "pais": "Offshore",
+      "subsidiaria": null,
+      "linea": null,
+      "cuenta": null,
+      "cuenta_desc": null,
+      "es_ajuste": false,
+      "actuals": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "con_elim": 0.0,
+        "solo_elim": 0.0
+      },
+      "ebitda_ltm": -2063510.2699999998,
+      "capitalized_payroll_ltm": 0.0,
+      "adj_ebitda_ltm": -2063510.2699999998,
+      "leverage": -0.0,
+      "net_interest_ltm": 833696.0,
       "debt_avg_ltm": 0.0,
       "cost_of_capital": null
     }

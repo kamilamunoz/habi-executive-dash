@@ -170,15 +170,17 @@ def _facts(df: pd.DataFrame) -> list[dict[str, Any]]:
     return rows
 
 
-def build(mes_corte: dt.date) -> dict[str, Any]:
+def build(mes_corte: dt.date, mes_max: dt.date | None = None) -> dict[str, Any]:
     """Construye el payload JSON del KPI GMV."""
+    if mes_max is None:
+        mes_max = mes_corte
     mes_inicio = dt.date(mes_corte.year, mes_corte.month, 1)
     for _ in range(HISTORY_MONTHS - 1):
         prev_last = mes_inicio - dt.timedelta(days=1)
         mes_inicio = dt.date(prev_last.year, prev_last.month, 1)
 
-    log.info("GMV: query rango %s -> %s", mes_inicio, mes_corte)
-    df = run_query(_sql(mes_inicio, mes_corte), label="gmv")
+    log.info("GMV: query rango %s -> %s", mes_inicio, mes_max)
+    df = run_query(_sql(mes_inicio, mes_max), label="gmv")
 
     df["c_subsidiaria"] = df["c_subsidiaria"].map(normalize_subsidiaria)
     df["linea"] = df["m_categoria"].map(CATEGORIA_A_LINEA).fillna("(sin clasificar)")

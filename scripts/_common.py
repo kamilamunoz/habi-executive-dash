@@ -73,3 +73,9 @@ def mes_corte_default() -> dt.date:
     primer_dia_mes_actual = dt.date(hoy.year, hoy.month, 1)
     ultimo_dia_mes_anterior = primer_dia_mes_actual - dt.timedelta(days=1)
     return dt.date(ultimo_dia_mes_anterior.year, ultimo_dia_mes_anterior.month, 1)
+
+
+def mes_max_disponible() -> dt.date:
+    """Mes en curso (parcial). Upper bound de las queries para traer MTD."""
+    hoy = dt.date.today()
+    return dt.date(hoy.year, hoy.month, 1)

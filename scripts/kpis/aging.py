@@ -143,15 +143,17 @@ def _facts(df: pd.DataFrame) -> list[dict[str, Any]]:
     return rows
 
 
-def build(mes_corte: dt.date) -> dict[str, Any]:
+def build(mes_corte: dt.date, mes_max: dt.date | None = None) -> dict[str, Any]:
+    if mes_max is None:
+        mes_max = mes_corte
     mes_inicio = dt.date(mes_corte.year, mes_corte.month, 1)
     for _ in range(HISTORY_MONTHS - 1):
         prev_last = mes_inicio - dt.timedelta(days=1)
         mes_inicio = dt.date(prev_last.year, prev_last.month, 1)
 
-    log.info("Aging: query rango %s -> %s", mes_inicio, mes_corte)
-    df = run_query(_sql(mes_inicio, mes_corte), label="aging")
-    df_det = run_query(_sql_detalle_mes(mes_inicio, mes_corte), label="aging_detalle")
+    log.info("Aging: query rango %s -> %s", mes_inicio, mes_max)
+    df = run_query(_sql(mes_inicio, mes_max), label="aging")
+    df_det = run_query(_sql_detalle_mes(mes_inicio, mes_max), label="aging_detalle")
 
     df["mes"] = pd.to_datetime(df["mes"])
     df["pais_label"] = df["m_pais"].map(PAIS_LABEL).fillna("(sin pais)")

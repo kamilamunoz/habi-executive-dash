@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/styles.css">
+<link rel="stylesheet" href="css/styles.css?v=2026-06-26">
 </head>
 <body>
 
@@ -184,9 +184,10 @@
 
   function unlock(){
     gate.classList.add("hidden");
-    // Cargar app solo despues de unlock
+    // Cargar app solo despues de unlock. Cache-buster en query string para
+    // que el browser baje siempre la version mas reciente de app.js.
     const s = document.createElement("script");
-    s.src = "js/app.js";
+    s.src = "js/app.js?t=" + Date.now();
     document.body.appendChild(s);
   }
 
