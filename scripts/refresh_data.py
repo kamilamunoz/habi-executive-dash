@@ -29,6 +29,7 @@ from scripts.kpis import (
     ingresos,
     inventario,
     margen,
+    mtd_transactions,
     net_debt,
     opex,
     rotacion,
@@ -56,6 +57,7 @@ KPIS = [
     ("kpi_ciclo.json", ciclo),
     ("kpi_rotacion.json", rotacion),
     ("kpi_net_debt.json", net_debt),
+    ("kpi_mtd_transactions.json", mtd_transactions),
 ]
 
 

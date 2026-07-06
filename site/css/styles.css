@@ -86,6 +86,30 @@ html,body{background:var(--bg);color:var(--txt);font-family:'IBM Plex Sans',sans
 .snap.red{background:var(--red-bg);border-color:#EFC4BF}
 .snap.gray{background:var(--panel2)}
 
+/* ======================================================= TAB BAR ======= */
+/* 3 tabs bajo el snapshot: Performance / Capital / MTD.
+ * Un solo tab-pane visible a la vez (.on). Estilo consistente con .seg y
+ * .chart-tabs (mismo pattern boton pill + activo purple). */
+.tab-bar{display:flex;gap:4px;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:5px;margin-bottom:18px;box-shadow:0 1px 2px rgba(20,20,50,.03)}
+.tab-btn{flex:1;font-family:inherit;font-size:13px;font-weight:600;border:none;background:none;color:var(--txt2);padding:11px 14px;border-radius:8px;cursor:pointer;transition:all .15s;letter-spacing:.01em}
+.tab-btn:hover:not(.on){background:var(--panel2);color:var(--txt)}
+.tab-btn.on{background:var(--purple);color:#fff}
+.tab-pane{display:none}
+.tab-pane.on{display:block}
+@media (max-width:600px){
+  .tab-bar{flex-direction:column;gap:3px}
+  .tab-btn{font-size:12.5px;padding:9px 12px}
+}
+
+/* ==================================================== SUBTAB BAR ======= */
+/* Sub-tabs dentro del pane MTD, por linea de negocio (MM / BR Used / BR New / HC).
+ * Estilo mas chico que la tab-bar principal — pill outlined similar a
+ * .bucket-filter-btn. Cambian el filtro de linea_negocio del grid MTD. */
+.subtab-bar{display:flex;gap:6px;flex-wrap:wrap;margin:6px 0 14px;padding:2px}
+.subtab-btn{font-family:inherit;font-size:12px;font-weight:600;background:transparent;border:1.5px solid var(--line);border-radius:16px;padding:5px 13px;color:var(--txt);cursor:pointer;transition:all .12s;font-family:'IBM Plex Mono',monospace;letter-spacing:.02em}
+.subtab-btn:hover:not(.on){background:var(--panel);border-color:var(--purple-line)}
+.subtab-btn.on{background:var(--txt);color:var(--panel);border-color:var(--txt)}
+
 /* =================================================== SECTION BAND ====== */
 .sec-band{display:flex;align-items:center;gap:12px;margin:8px 0 14px;padding:10px 16px;background:var(--purple-soft);border-left:4px solid var(--purple);border-radius:0 8px 8px 0}
 .sec-band .stag{font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:600;color:var(--purple)}
@@ -114,6 +138,17 @@ html,body{background:var(--bg);color:var(--txt);font-family:'IBM Plex Sans',sans
 .card.pendiente .val{color:var(--txt3);font-size:15px;font-style:italic;font-weight:400}
 .budget-line{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--txt2);margin-top:2px}
 .budget-line b{color:var(--txt);font-weight:500}
+.adj-line{font-family:'IBM Plex Mono',monospace;font-size:12.5px;color:var(--blue);margin-top:3px;font-weight:500}
+.adj-line b{color:var(--blue);font-weight:700;font-size:15px}
+
+/* MTD card */
+.mtd-card .mtd-unit{font-size:14px;font-weight:500;color:var(--txt2);margin-left:4px;letter-spacing:0}
+.mtd-card .adj-line{color:var(--txt2);font-size:12px}
+.mtd-card .adj-line b{color:var(--txt);font-size:13px}
+.mtd-forecast{font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:var(--txt2);margin-top:4px;line-height:1.4}
+.mtd-forecast b{color:var(--txt);font-weight:600;font-size:12.5px}
+.mtd-forecast .lbl{color:var(--txt3);font-weight:500}
+.mtd-forecast .vs{color:var(--txt3);margin-left:5px}
 .ratio-line{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--purple);margin-top:3px;font-weight:500}
 .ratio-line b{color:var(--purple);font-weight:700;font-size:14px}
 .ratio-line .vs{color:var(--txt3);font-weight:400;font-size:11px;margin-left:5px}

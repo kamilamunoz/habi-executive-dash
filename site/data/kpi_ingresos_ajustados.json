@@ -28,7 +28,6 @@
     }
   },
   "meses_disponibles": [
-    "2025-05",
     "2025-06",
     "2025-07",
     "2025-08",
@@ -41,1794 +40,10 @@
     "2026-03",
     "2026-04",
     "2026-05",
-    "2026-06"
+    "2026-06",
+    "2026-07"
   ],
   "facts": [
-    {
-      "mes": "2025-05",
-      "pais": "Colombia",
-      "subsidiaria": "Habi",
-      "linea": "Brokerage",
-      "submetrica": "01. Brokerage Sales",
-      "cuenta": 41010105,
-      "cuenta_desc": "1. Cuenta: 41010105 INGRESOS POR COMISIONES HABI INMOBILIARIA",
-      "es_ajuste": false,
-      "es_tape_adjustment": false,
-      "actuals": {
-        "sin_elim": 442960000.0,
-        "solo_elim": 0.0,
-        "con_elim": 442960000.0
-      },
-      "budget": {
-        "sin_elim": 648000000.0,
-        "solo_elim": 0.0,
-        "con_elim": 648000000.0
-      }
-    },
-    {
-      "mes": "2025-05",
-      "pais": "Colombia",
-      "subsidiaria": "Habi",
-      "linea": "Market Maker",
-      "submetrica": "01. Market Maker Selling Price (On Balance Sales)",
-      "cuenta": 41010101,
-      "cuenta_desc": "1. Cuenta: 41010101 INGRESOS POR VENTA DE INMUEBLES",
-      "es_ajuste": false,
-      "es_tape_adjustment": false,
-      "actuals": {
-        "sin_elim": 41136532640.0,
-        "solo_elim": 0.0,
-        "con_elim": 41136532640.0
-      },
-      "budget": {
-        "sin_elim": 39522710937.5,
-        "solo_elim": 0.0,
-        "con_elim": 39522710937.5
-      }
-    },
-    {
-      "mes": "2025-05",
-      "pais": "Colombia",
-      "subsidiaria": "Habi",
-      "linea": "Market Maker",
-      "submetrica": "01. Other Products",
-      "cuenta": 41010122,
-      "cuenta_desc": "1. Cuenta: 41010122 INGRESOS POR BONO DDC",
-      "es_ajuste": false,
-      "es_tape_adjustment": false,
-      "actuals": {
-        "sin_elim": 0.0,
-        "solo_elim": 0.0,
-        "con_elim": 0.0
-      },
-      "budget": {
-        "sin_elim": 0.0,
-        "solo_elim": 0.0,
-        "con_elim": 0.0
-      }
-    },
-    {
-      "mes": "2025-05",
-      "pais": "Colombia",
-      "subsidiaria": "Habi",
-      "linea": "Market Maker",
-      "submetrica": "02. Market Maker Alianzas",
-      "cuenta": 41010103,
-      "cuenta_desc": "1. Cuenta: 41010103 INGRESOS POR INTERESES PRESTAMOS",
-      "es_ajuste": false,
-      "es_tape_adjustment": false,
-      "actuals": {
-        "sin_elim": 140456910.0,
-        "solo_elim": 0.0,
-        "con_elim": 140456910.0
-      },
-      "budget": {
-        "sin_elim": 9191328125.0,
-        "solo_elim": 0.0,
-        "con_elim": 9191328125.0
-      }
-    },
-    {
-      "mes": "2025-05",
-      "pais": "Colombia",
-      "subsidiaria": "Habi",
-      "linea": "Market Maker",
-      "submetrica": "02. Market Maker Alianzas",
-      "cuenta": 41010110,
-      "cuenta_desc": "1. Cuenta: 41010110 UTILIDAD O PERDIDA EN CONTRATO DE COLABORACIÓN",
-      "es_ajuste": false,
-      "es_tape_adjustment": false,
-      "actuals": {
-        "sin_elim": 764469581.91,
-        "solo_elim": 0.0,
-        "con_elim": 764469581.91
-      },
-      "budget": {
-        "sin_elim": 0.0,
-        "solo_elim": 0.0,
-        "con_elim": 0.0
-      }
-    },
-    {
-      "mes": "2025-05",
-      "pais": "Colombia",
-      "subsidiaria": "Habi",
-      "linea": "Other",
-      "submetrica": "01. Other Products",
-      "cuenta": 41010102,
-      "cuenta_desc": "1. Cuenta: 41010102 INGRESOS POR SERVICIOS PROFESIONALES",
-      "es_ajuste": false,
-      "es_tape_adjustment": false,
-      "actuals": {
-        "sin_elim": 0.0,
-        "solo_elim": 0.0,
-        "con_elim": 0.0
-      },
-      "budget": {
-        "sin_elim": 0.0,
-        "solo_elim": 0.0,
-        "con_elim": 0.0
-      }
-    },
-    {
-      "mes": "2025-05",
-      "pais": "Colombia",
-      "subsidiaria": "Habi",
-      "linea": "Other",
-      "submetrica": "01. Other Products",
-      "cuenta": 41010108,
-      "cuenta_desc": "1. Cuenta: 41010108 INGRESOS POR ARRIENDOS",
-      "es_ajuste": false,
-      "es_tape_adjustment": false,
-      "actuals": {
-        "sin_elim": 0.0,
-        "solo_elim": 0.0,
-        "con_elim": 0.0
-      },
-      "budget": {
-        "sin_elim": 0.0,
-        "solo_elim": 0.0,
-        "con_elim": 0.0
-      }
-    },
-    {
-      "mes": "2025-05",
-      "pais": "Colombia",
-      "subsidiaria": "Habi",
-      "linea": "Other",
-      "submetrica": "99. Other Other Products",
-      "cuenta": 41010117,
-      "cuenta_desc": "99. Explicación Other: Linea Reporte = Other_Revenue",
-      "es_ajuste": false,
-      "es_tape_adjustment": false,
-      "actuals": {
-        "sin_elim": 103162155.0,
-        "solo_elim": 0.0,
-        "con_elim": 103162155.0
-      },
-      "budget": {
-        "sin_elim": 0.0,
-        "solo_elim": 0.0,
-        "con_elim": 0.0
-      }
-    },
-    {
-      "mes": "2025-05",
-      "pais": "Colombia",
-      "subsidiaria": "HabiCapital",
-      "linea": "Brokerage",
-      "submetrica": "01. Brokerage Sales",
-      "cuenta": 41010105,
-      "cuenta_desc": "1. Cuenta: 41010105 INGRESOS POR COMISIONES HABI INMOBILIARIA",
-      "es_ajuste": false,
-      "es_tape_adjustment": false,
-      "actuals": {
-        "sin_elim": 0.0,
-        "solo_elim": 0.0,
-        "con_elim": 0.0
-      },
-      "budget": {
-        "sin_elim": 0.0,
-        "solo_elim": 0.0,
-        "con_elim": 0.0
-      }
-    },
-    {
-      "mes": "2025-05",
-      "pais": "Colombia",
-      "subsidiaria": "HabiCapital",
-      "linea": "HabiCredit",
-      "submetrica": "01. HabiCredit",
-      "cuenta": 41010106,
-      "cuenta_desc": "1. Cuenta: 41010106 INGRESOS POR HABICREDIT",
-      "es_ajuste": false,
-      "es_tape_adjustment": false,
-      "actuals": {
-        "sin_elim": 0.0,
-        "solo_elim": 0.0,
-        "con_elim": 0.0
-      },
-      "budget": {
-        "sin_elim": 0.0,
-        "solo_elim": 0.0,
-        "con_elim": 0.0
-      }
-    },
-    {
-      "mes": "2025-05",
-      "pais": "Colombia",
-      "subsidiaria": "HabiCapital",
-      "linea": "HabiCredit",
-      "submetrica": "02. Other Revenue",
-      "cuenta": 41010102,
-      "cuenta_desc": "1. Cuenta: 41010102 INGRESO POR COMISIONES HABI INMOBILIARIA",
-      "es_ajuste": false,
-      "es_tape_adjustment": false,
-      "actuals": {
-        "sin_elim": 0.0,
-        "solo_elim": 0.0,
-        "con_elim": 0.0
-      },
-      "budget": {
-        "sin_elim": 0.0,
-        "solo_elim": 0.0,
-        "con_elim": 0.0
-      }
-    },
-    {
-      "mes": "2025-05",
-      "pais": "Colombia",
-      "subsidiaria": "HabiCapital",
-      "linea": "Market Maker",
-      "submetrica": "01. Market Maker Selling Price (On Balance Sales)",
-      "cuenta": 41010101,
-      "cuenta_desc": "1. Cuenta: 41010101 INGRESOS POR VENTA DE INMUEBLES",
-      "es_ajuste": false,
-      "es_tape_adjustment": false,
-      "actuals": {
-        "sin_elim": 0.0,
-        "solo_elim": 0.0,
-        "con_elim": 0.0
-      },
-      "budget": {
-        "sin_elim": 0.0,
-        "solo_elim": 0.0,
-        "con_elim": 0.0
-      }
-    },
-    {
-      "mes": "2025-05",
-      "pais": "Colombia",
-      "subsidiaria": "HabiCapital",
-      "linea": "Market Maker",
-      "submetrica": "01. Other Products",
-      "cuenta": 41010122,
-      "cuenta_desc": "1. Cuenta: 41010122 INGRESOS POR BONO DDC",
-      "es_ajuste": false,
-      "es_tape_adjustment": false,
-      "actuals": {
-        "sin_elim": 0.0,
-        "solo_elim": 0.0,
-        "con_elim": 0.0
-      },
-      "budget": {
-        "sin_elim": 0.0,
-        "solo_elim": 0.0,
-        "con_elim": 0.0
-      }
-    },
-    {
-      "mes": "2025-05",
-      "pais": "Colombia",
-      "subsidiaria": "HabiCapital",
-      "linea": "Market Maker",
-      "submetrica": "02. Market Maker Alianzas",
-      "cuenta": 41010103,
-      "cuenta_desc": "1. Cuenta: 41010103 INGRESOS POR INTERESES PRESTAMOS",
-      "es_ajuste": false,
-      "es_tape_adjustment": false,
-      "actuals": {
-        "sin_elim": 0.0,
-        "solo_elim": 0.0,
-        "con_elim": 0.0
-      },
-      "budget": {
-        "sin_elim": 0.0,
-        "solo_elim": 0.0,
-        "con_elim": 0.0
-      }
-    },
-    {
-      "mes": "2025-05",
-      "pais": "Colombia",
-      "subsidiaria": "HabiCapital",
-      "linea": "Market Maker",
-      "submetrica": "02. Market Maker Alianzas",
-      "cuenta": 41010110,
-      "cuenta_desc": "1. Cuenta: 41010110 UTILIDAD O PERDIDA EN CONTRATO DE COLABORACIÓN",
-      "es_ajuste": false,
-      "es_tape_adjustment": false,
-      "actuals": {
-        "sin_elim": 0.0,
-        "solo_elim": 0.0,
-        "con_elim": 0.0
-      },
-      "budget": {
-        "sin_elim": 0.0,
-        "solo_elim": 0.0,
-        "con_elim": 0.0
-      }
-    },
-    {
-      "mes": "2025-05",
-      "pais": "Colombia",
-      "subsidiaria": "HabiCapital",
-      "linea": "Other",
-      "submetrica": "01. Other Products",
-      "cuenta": 41010102,
-      "cuenta_desc": "1. Cuenta: 41010102 INGRESOS POR SERVICIOS PROFESIONALES",
-      "es_ajuste": false,
-      "es_tape_adjustment": false,
-      "actuals": {
-        "sin_elim": 0.0,
-        "solo_elim": 0.0,
-        "con_elim": 0.0
-      },
-      "budget": {
-        "sin_elim": 0.0,
-        "solo_elim": 0.0,
-        "con_elim": 0.0
-      }
-    },
-    {
-      "mes": "2025-05",
-      "pais": "Colombia",
-      "subsidiaria": "HabiCapital",
-      "linea": "Other",
-      "submetrica": "01. Other Products",
-      "cuenta": 41010108,
-      "cuenta_desc": "1. Cuenta: 41010108 INGRESOS POR ARRIENDOS",
-      "es_ajuste": false,
-      "es_tape_adjustment": false,
-      "actuals": {
-        "sin_elim": 0.0,
-        "solo_elim": 0.0,
-        "con_elim": 0.0
-      },
-      "budget": {
-        "sin_elim": 0.0,
-        "solo_elim": 0.0,
-        "con_elim": 0.0
-      }
-    },
-    {
-      "mes": "2025-05",
-      "pais": "Colombia",
-      "subsidiaria": "Habicredit",
-      "linea": "Brokerage",
-      "submetrica": "01. Brokerage Sales",
-      "cuenta": 41010105,
-      "cuenta_desc": "1. Cuenta: 41010105 INGRESOS POR COMISIONES HABI INMOBILIARIA",
-      "es_ajuste": false,
-      "es_tape_adjustment": false,
-      "actuals": {
-        "sin_elim": 73400000.0,
-        "solo_elim": 0.0,
-        "con_elim": 73400000.0
-      },
-      "budget": {
-        "sin_elim": 0.0,
-        "solo_elim": 0.0,
-        "con_elim": 0.0
-      }
-    },
-    {
-      "mes": "2025-05",
-      "pais": "Colombia",
-      "subsidiaria": "Habicredit",
-      "linea": "HabiCredit",
-      "submetrica": "01. HabiCredit",
-      "cuenta": 41010106,
-      "cuenta_desc": "1. Cuenta: 41010106 INGRESOS POR HABICREDIT",
-      "es_ajuste": false,
-      "es_tape_adjustment": false,
-      "actuals": {
-        "sin_elim": 2351469658.0,
-        "solo_elim": 0.0,
-        "con_elim": 2351469658.0
-      },
-      "budget": {
-        "sin_elim": 1358354080.89,
-        "solo_elim": 0.0,
-        "con_elim": 1358354080.89
-      }
-    },
-    {
-      "mes": "2025-05",
-      "pais": "Colombia",
-      "subsidiaria": "Habicredit",
-      "linea": "HabiCredit",
-      "submetrica": "02. Other Revenue",
-      "cuenta": 41010102,
-      "cuenta_desc": "1. Cuenta: 41010102 INGRESO POR COMISIONES HABI INMOBILIARIA",
-      "es_ajuste": false,
-      "es_tape_adjustment": false,
-      "actuals": {
-        "sin_elim": 3122906.01,
-        "solo_elim": 0.0,
-        "con_elim": 3122906.01
-      },
-      "budget": {
-        "sin_elim": 0.0,
-        "solo_elim": 0.0,
-        "con_elim": 0.0
-      }
-    },
-    {
-      "mes": "2025-05",
-      "pais": "Colombia",
-      "subsidiaria": null,
-      "linea": "Brokerage",
-      "submetrica": "99. Other Brokerage Sales",
-      "cuenta": null,
-      "cuenta_desc": "99. Explicación Other: Linea Reporte = Revenue_Habi_Inmobiliria",
-      "es_ajuste": false,
-      "es_tape_adjustment": false,
-      "actuals": {
-        "sin_elim": 0.0,
-        "solo_elim": 0.0,
-        "con_elim": 0.0
-      },
-      "budget": {
-        "sin_elim": 0.0,
-        "solo_elim": 0.0,
-        "con_elim": 0.0
-      }
-    },
-    {
-      "mes": "2025-05",
-      "pais": "Colombia",
-      "subsidiaria": null,
-      "linea": "HabiCredit",
-      "submetrica": "99. Other Revenue",
-      "cuenta": null,
-      "cuenta_desc": "99. Explicación Other: Linea Reporte = Revenue_Habicredit",
-      "es_ajuste": false,
-      "es_tape_adjustment": false,
-      "actuals": {
-        "sin_elim": 0.0,
-        "solo_elim": 0.0,
-        "con_elim": 0.0
-      },
-      "budget": {
-        "sin_elim": 0.0,
-        "solo_elim": 0.0,
-        "con_elim": 0.0
-      }
-    },
-    {
-      "mes": "2025-05",
-      "pais": "Colombia",
-      "subsidiaria": null,
-      "linea": "Market Maker",
-      "submetrica": "99. Other Market Maker Sales (selling price)",
-      "cuenta": null,
-      "cuenta_desc": "97. Ajuste: iBuying Sales - Deeds not booked Colombia 2024",
-      "es_ajuste": true,
-      "es_tape_adjustment": false,
-      "actuals": {
-        "sin_elim": 0.0,
-        "solo_elim": 0.0,
-        "con_elim": 0.0
-      },
-      "budget": {
-        "sin_elim": 0.0,
-        "solo_elim": 0.0,
-        "con_elim": 0.0
-      }
-    },
-    {
-      "mes": "2025-05",
-      "pais": "Colombia",
-      "subsidiaria": null,
-      "linea": "Market Maker",
-      "submetrica": "99. Other Market Maker Sales (selling price)",
-      "cuenta": null,
-      "cuenta_desc": "97. Ajuste: iBuying Sales - Deeds not booked Colombia 2025",
-      "es_ajuste": true,
-      "es_tape_adjustment": false,
-      "actuals": {
-        "sin_elim": 0.0,
-        "solo_elim": 0.0,
-        "con_elim": 0.0
-      },
-      "budget": {
-        "sin_elim": 0.0,
-        "solo_elim": 0.0,
-        "con_elim": 0.0
-      }
-    },
-    {
-      "mes": "2025-05",
-      "pais": "Colombia",
-      "subsidiaria": null,
-      "linea": "Market Maker",
-      "submetrica": "99. Other Market Maker Sales (selling price)",
-      "cuenta": null,
-      "cuenta_desc": "97. Ajuste: iBuying Sales - Deeds not booked Colombia 2026",
-      "es_ajuste": true,
-      "es_tape_adjustment": false,
-      "actuals": {
-        "sin_elim": 0.0,
-        "solo_elim": 0.0,
-        "con_elim": 0.0
-      },
-      "budget": {
-        "sin_elim": 0.0,
-        "solo_elim": 0.0,
-        "con_elim": 0.0
-      }
-    },
-    {
-      "mes": "2025-05",
-      "pais": "Colombia",
-      "subsidiaria": null,
-      "linea": "Market Maker",
-      "submetrica": "99. Other Market Maker Sales (selling price)",
-      "cuenta": null,
-      "cuenta_desc": "99. Explicación Other: Linea Reporte = Interest",
-      "es_ajuste": false,
-      "es_tape_adjustment": false,
-      "actuals": {
-        "sin_elim": 0.0,
-        "solo_elim": 0.0,
-        "con_elim": 0.0
-      },
-      "budget": {
-        "sin_elim": 0.0,
-        "solo_elim": 0.0,
-        "con_elim": 0.0
-      }
-    },
-    {
-      "mes": "2025-05",
-      "pais": "Colombia",
-      "subsidiaria": null,
-      "linea": "Market Maker",
-      "submetrica": "99. Other Market Maker Sales (selling price)",
-      "cuenta": null,
-      "cuenta_desc": "99. Explicación Other: Linea Reporte = Joint_Venture",
-      "es_ajuste": false,
-      "es_tape_adjustment": false,
-      "actuals": {
-        "sin_elim": 0.0,
-        "solo_elim": 0.0,
-        "con_elim": 0.0
-      },
-      "budget": {
-        "sin_elim": 0.0,
-        "solo_elim": 0.0,
-        "con_elim": 0.0
-      }
-    },
-    {
-      "mes": "2025-05",
-      "pais": "Colombia",
-      "subsidiaria": null,
-      "linea": "Market Maker",
-      "submetrica": "99. Other Market Maker Sales (selling price)",
-      "cuenta": null,
-      "cuenta_desc": "99. Explicación Other: Linea Reporte = iBuying_Revenue",
-      "es_ajuste": false,
-      "es_tape_adjustment": false,
-      "actuals": {
-        "sin_elim": 0.0,
-        "solo_elim": 0.0,
-        "con_elim": 0.0
-      },
-      "budget": {
-        "sin_elim": 0.0,
-        "solo_elim": 0.0,
-        "con_elim": 0.0
-      }
-    },
-    {
-      "mes": "2025-05",
-      "pais": "Colombia",
-      "subsidiaria": null,
-      "linea": "Other",
-      "submetrica": "99. Other Other Products",
-      "cuenta": null,
-      "cuenta_desc": "99. Explicación Other: Linea Reporte = Other_Revenue",
-      "es_ajuste": false,
-      "es_tape_adjustment": false,
-      "actuals": {
-        "sin_elim": 0.0,
-        "solo_elim": 0.0,
-        "con_elim": 0.0
-      },
-      "budget": {
-        "sin_elim": 0.0,
-        "solo_elim": 0.0,
-        "con_elim": 0.0
-      }
-    },
-    {
-      "mes": "2025-05",
-      "pais": "Colombia",
-      "subsidiaria": null,
-      "linea": "Other",
-      "submetrica": "99. Other Other Products",
-      "cuenta": null,
-      "cuenta_desc": "99. Explicación Other: Linea Reporte = Professional_Services",
-      "es_ajuste": false,
-      "es_tape_adjustment": false,
-      "actuals": {
-        "sin_elim": 0.0,
-        "solo_elim": 0.0,
-        "con_elim": 0.0
-      },
-      "budget": {
-        "sin_elim": 0.0,
-        "solo_elim": 0.0,
-        "con_elim": 0.0
-      }
-    },
-    {
-      "mes": "2025-05",
-      "pais": "Mexico",
-      "subsidiaria": "Corporativo",
-      "linea": "Brokerage",
-      "submetrica": "01. Inmo",
-      "cuenta": 41010105,
-      "cuenta_desc": "1. Cuenta: 41010105 INGRESOS POR COMISIONES HABI INMOBILIARIA",
-      "es_ajuste": false,
-      "es_tape_adjustment": false,
-      "actuals": {
-        "sin_elim": 2705645.4,
-        "solo_elim": 0.0,
-        "con_elim": 2705645.4
-      },
-      "budget": {
-        "sin_elim": 2320500.0,
-        "solo_elim": 0.0,
-        "con_elim": 2320500.0
-      }
-    },
-    {
-      "mes": "2025-05",
-      "pais": "Mexico",
-      "subsidiaria": "Corporativo",
-      "linea": "Brokerage",
-      "submetrica": "02. Brokerage",
-      "cuenta": 41010107,
-      "cuenta_desc": "1. Cuenta: 41010107 INGRESOS POR BROKERAGE",
-      "es_ajuste": false,
-      "es_tape_adjustment": false,
-      "actuals": {
-        "sin_elim": 1823860.67,
-        "solo_elim": 0.0,
-        "con_elim": 1823860.67
-      },
-      "budget": {
-        "sin_elim": 2085517.24,
-        "solo_elim": 0.0,
-        "con_elim": 2085517.24
-      }
-    },
-    {
-      "mes": "2025-05",
-      "pais": "Mexico",
-      "subsidiaria": "Corporativo",
-      "linea": "HabiCredit",
-      "submetrica": "01. HabiCredit (Bancario)",
-      "cuenta": 41010115,
-      "cuenta_desc": "1. Cuenta: 41010115 41010115 INGRESOS POR ACTIVIDADES ANEXAS",
-      "es_ajuste": false,
-      "es_tape_adjustment": false,
-      "actuals": {
-        "sin_elim": 0.0,
-        "solo_elim": 0.0,
-        "con_elim": 0.0
-      },
-      "budget": {
-        "sin_elim": 0.0,
-        "solo_elim": 0.0,
-        "con_elim": 0.0
-      }
-    },
-    {
-      "mes": "2025-05",
-      "pais": "Mexico",
-      "subsidiaria": "Corporativo",
-      "linea": "HabiCredit",
-      "submetrica": "99. Other Revenue",
-      "cuenta": 41010106,
-      "cuenta_desc": "99. Explicación Other: Linea Reporte = Revenue_Habicredit",
-      "es_ajuste": false,
-      "es_tape_adjustment": false,
-      "actuals": {
-        "sin_elim": 29212.02,
-        "solo_elim": 0.0,
-        "con_elim": 29212.02
-      },
-      "budget": {
-        "sin_elim": 0.0,
-        "solo_elim": 0.0,
-        "con_elim": 0.0
-      }
-    },
-    {
-      "mes": "2025-05",
-      "pais": "Mexico",
-      "subsidiaria": "Corporativo",
-      "linea": "Market Maker",
-      "submetrica": "01. Market Maker (\"Compraventa\")",
-      "cuenta": 41010101,
-      "cuenta_desc": "1. Cuenta: 41010101 INGRESOS POR VENTA DE INMUEBLES",
-      "es_ajuste": false,
-      "es_tape_adjustment": false,
-      "actuals": {
-        "sin_elim": 19571000.0,
-        "solo_elim": 0.0,
-        "con_elim": 19571000.0
-      },
-      "budget": {
-        "sin_elim": 13200000.0,
-        "solo_elim": 0.0,
-        "con_elim": 13200000.0
-      }
-    },
-    {
-      "mes": "2025-05",
-      "pais": "Mexico",
-      "subsidiaria": "Corporativo",
-      "linea": "Market Maker",
-      "submetrica": "01. Other Products",
-      "cuenta": 41010118,
-      "cuenta_desc": "1. Cuenta: 41010118 41010118 INGRESOS POR EXCLUSIVIDAD VENTA",
-      "es_ajuste": false,
-      "es_tape_adjustment": false,
-      "actuals": {
-        "sin_elim": 610317.3019680002,
-        "solo_elim": 0.0,
-        "con_elim": 610317.3019680002
-      },
-      "budget": {
-        "sin_elim": 0.0,
-        "solo_elim": 0.0,
-        "con_elim": 0.0
-      }
-    },
-    {
-      "mes": "2025-05",
-      "pais": "Mexico",
-      "subsidiaria": "Corporativo",
-      "linea": "Market Maker",
-      "submetrica": "02. Market Maker (\"Prestamos\")",
-      "cuenta": 41010102,
-      "cuenta_desc": "1. Cuenta: 41010102 INGRESOS POR SERVICIOS PROFESIONALES",
-      "es_ajuste": false,
-      "es_tape_adjustment": false,
-      "actuals": {
-        "sin_elim": 11612506.279999997,
-        "solo_elim": 0.0,
-        "con_elim": 11612506.279999997
-      },
-      "budget": {
-        "sin_elim": 0.0,
-        "solo_elim": 0.0,
-        "con_elim": 0.0
-      }
-    },
-    {
-      "mes": "2025-05",
-      "pais": "Mexico",
-      "subsidiaria": "Corporativo",
-      "linea": "Market Maker",
-      "submetrica": "02. Market Maker (\"Prestamos\")",
-      "cuenta": 41010103,
-      "cuenta_desc": "1. Cuenta: 41010103 INGRESOS POR INTERESES PRESTAMOS",
-      "es_ajuste": false,
-      "es_tape_adjustment": false,
-      "actuals": {
-        "sin_elim": 8302769.63,
-        "solo_elim": 0.0,
-        "con_elim": 8302769.63
-      },
-      "budget": {
-        "sin_elim": 8847710.47,
-        "solo_elim": 0.0,
-        "con_elim": 8847710.47
-      }
-    },
-    {
-      "mes": "2025-05",
-      "pais": "Mexico",
-      "subsidiaria": "Corporativo",
-      "linea": "Market Maker",
-      "submetrica": "02. Market Maker (\"Prestamos\")",
-      "cuenta": 41010104,
-      "cuenta_desc": "1. Cuenta: 41010104 INGRESOS POR COMISION MERCANTIL",
-      "es_ajuste": false,
-      "es_tape_adjustment": false,
-      "actuals": {
-        "sin_elim": 6312671.160000002,
-        "solo_elim": 0.0,
-        "con_elim": 6312671.160000002
-      },
-      "budget": {
-        "sin_elim": 23833345.31,
-        "solo_elim": 0.0,
-        "con_elim": 23833345.31
-      }
-    },
-    {
-      "mes": "2025-05",
-      "pais": "Mexico",
-      "subsidiaria": "Corporativo",
-      "linea": "Market Maker",
-      "submetrica": "02. Market Maker (\"Prestamos\")",
-      "cuenta": 41010114,
-      "cuenta_desc": "1. Cuenta: 41010114 INGRESOS POR REMODELACIONES",
-      "es_ajuste": false,
-      "es_tape_adjustment": false,
-      "actuals": {
-        "sin_elim": 4135493.3599999994,
-        "solo_elim": 0.0,
-        "con_elim": 4135493.3599999994
-      },
-      "budget": {
-        "sin_elim": 0.0,
-        "solo_elim": 0.0,
-        "con_elim": 0.0
-      }
-    },
-    {
-      "mes": "2025-05",
-      "pais": "Mexico",
-      "subsidiaria": "Corporativo",
-      "linea": "Market Maker",
-      "submetrica": "02. Market Maker (\"Prestamos\")",
-      "cuenta": 41010120,
-      "cuenta_desc": "1. Cuenta: 41010120 41010120 DESCUENTOS EN VENTAS",
-      "es_ajuste": false,
-      "es_tape_adjustment": false,
-      "actuals": {
-        "sin_elim": -316133.45,
-        "solo_elim": 0.0,
-        "con_elim": -316133.45
-      },
-      "budget": {
-        "sin_elim": 0.0,
-        "solo_elim": 0.0,
-        "con_elim": 0.0
-      }
-    },
-    {
-      "mes": "2025-05",
-      "pais": "Mexico",
-      "subsidiaria": "Corporativo",
-      "linea": "Market Maker",
-      "submetrica": "99. Other Market Maker Sales (selling price)",
-      "cuenta": 41010119,
-      "cuenta_desc": "99. Explicación Other: Linea Reporte = Professional_Services",
-      "es_ajuste": false,
-      "es_tape_adjustment": false,
-      "actuals": {
-        "sin_elim": 96454.31,
-        "solo_elim": 0.0,
-        "con_elim": 96454.31
-      },
-      "budget": {
-        "sin_elim": 0.0,
-        "solo_elim": 0.0,
-        "con_elim": 0.0
-      }
-    },
-    {
-      "mes": "2025-05",
-      "pais": "Mexico",
-      "subsidiaria": "Corporativo",
-      "linea": "Other",
-      "submetrica": "01. Other Products",
-      "cuenta": 41010109,
-      "cuenta_desc": "1. Cuenta: 41010109 INGRESOS POR PREMIUM ADS",
-      "es_ajuste": false,
-      "es_tape_adjustment": false,
-      "actuals": {
-        "sin_elim": 303290.59000000014,
-        "solo_elim": 0.0,
-        "con_elim": 303290.59000000014
-      },
-      "budget": {
-        "sin_elim": 600000.0,
-        "solo_elim": 0.0,
-        "con_elim": 600000.0
-      }
-    },
-    {
-      "mes": "2025-05",
-      "pais": "Mexico",
-      "subsidiaria": "Corporativo",
-      "linea": "Other",
-      "submetrica": "02. Other Products",
-      "cuenta": 41010116,
-      "cuenta_desc": "96. Eliminación: 41010116 INGRESOS POR SERVICIOS PROFESIONALES INTERCOMPAÑIAS",
-      "es_ajuste": false,
-      "es_tape_adjustment": false,
-      "actuals": {
-        "sin_elim": 0.0,
-        "solo_elim": 1032771.0,
-        "con_elim": 1032771.0
-      },
-      "budget": {
-        "sin_elim": 0.0,
-        "solo_elim": 0.0,
-        "con_elim": 0.0
-      }
-    },
-    {
-      "mes": "2025-05",
-      "pais": "Mexico",
-      "subsidiaria": "Merbos",
-      "linea": "HabiCredit",
-      "submetrica": "01. HabiCredit (Bancario)",
-      "cuenta": 41010106,
-      "cuenta_desc": "1. Cuenta: 41010106 INGRESOS POR HABICREDIT",
-      "es_ajuste": false,
-      "es_tape_adjustment": false,
-      "actuals": {
-        "sin_elim": 120361.45,
-        "solo_elim": 0.0,
-        "con_elim": 120361.45
-      },
-      "budget": {
-        "sin_elim": 0.0,
-        "solo_elim": 0.0,
-        "con_elim": 0.0
-      }
-    },
-    {
-      "mes": "2025-05",
-      "pais": "Mexico",
-      "subsidiaria": "Merbos",
-      "linea": "HabiCredit",
-      "submetrica": "01. HabiCredit (Bancario)",
-      "cuenta": 41010120,
-      "cuenta_desc": "1. Cuenta: 41010120 DESCUENTOS EN VENTAS",
-      "es_ajuste": false,
-      "es_tape_adjustment": false,
-      "actuals": {
-        "sin_elim": -2407.23,
-        "solo_elim": 0.0,
-        "con_elim": -2407.23
-      },
-      "budget": {
-        "sin_elim": 0.0,
-        "solo_elim": 0.0,
-        "con_elim": 0.0
-      }
-    },
-    {
-      "mes": "2025-05",
-      "pais": "Mexico",
-      "subsidiaria": "Merbos",
-      "linea": "Other",
-      "submetrica": "02. Other Products",
-      "cuenta": 41010116,
-      "cuenta_desc": "96. Eliminación: 41010116 41010116 INGRESOS POR SERVICIOS PROFESIONALES INTERCOMPAÑIAS",
-      "es_ajuste": false,
-      "es_tape_adjustment": false,
-      "actuals": {
-        "sin_elim": 0.0,
-        "solo_elim": 6054822.95,
-        "con_elim": 6054822.95
-      },
-      "budget": {
-        "sin_elim": 0.0,
-        "solo_elim": 0.0,
-        "con_elim": 0.0
-      }
-    },
-    {
-      "mes": "2025-05",
-      "pais": "Mexico",
-      "subsidiaria": "Tu HabiPres",
-      "linea": "Brokerage",
-      "submetrica": "01. Inmo",
-      "cuenta": 41010105,
-      "cuenta_desc": "1. Cuenta: 41010105 INGRESOS POR COMISIONES HABI INMOBILIARIA",
-      "es_ajuste": false,
-      "es_tape_adjustment": false,
-      "actuals": {
-        "sin_elim": 0.0,
-        "solo_elim": 0.0,
-        "con_elim": 0.0
-      },
-      "budget": {
-        "sin_elim": 0.0,
-        "solo_elim": 0.0,
-        "con_elim": 0.0
-      }
-    },
-    {
-      "mes": "2025-05",
-      "pais": "Mexico",
-      "subsidiaria": "Tu HabiPres",
-      "linea": "Brokerage",
-      "submetrica": "02. Brokerage",
-      "cuenta": 41010107,
-      "cuenta_desc": "1. Cuenta: 41010107 INGRESOS POR BROKERAGE",
-      "es_ajuste": false,
-      "es_tape_adjustment": false,
-      "actuals": {
-        "sin_elim": 0.0,
-        "solo_elim": 0.0,
-        "con_elim": 0.0
-      },
-      "budget": {
-        "sin_elim": 0.0,
-        "solo_elim": 0.0,
-        "con_elim": 0.0
-      }
-    },
-    {
-      "mes": "2025-05",
-      "pais": "Mexico",
-      "subsidiaria": "Tu HabiPres",
-      "linea": "HabiCredit",
-      "submetrica": "01. HabiCredit (Bancario)",
-      "cuenta": 41010106,
-      "cuenta_desc": "1. Cuenta: 41010106 INGRESOS POR HABICREDIT",
-      "es_ajuste": false,
-      "es_tape_adjustment": false,
-      "actuals": {
-        "sin_elim": 0.0,
-        "solo_elim": 0.0,
-        "con_elim": 0.0
-      },
-      "budget": {
-        "sin_elim": 0.0,
-        "solo_elim": 0.0,
-        "con_elim": 0.0
-      }
-    },
-    {
-      "mes": "2025-05",
-      "pais": "Mexico",
-      "subsidiaria": "Tu HabiPres",
-      "linea": "HabiCredit",
-      "submetrica": "01. HabiCredit (Bancario)",
-      "cuenta": 41010115,
-      "cuenta_desc": "1. Cuenta: 41010115 41010115 INGRESOS POR ACTIVIDADES ANEXAS",
-      "es_ajuste": false,
-      "es_tape_adjustment": false,
-      "actuals": {
-        "sin_elim": 0.0,
-        "solo_elim": 0.0,
-        "con_elim": 0.0
-      },
-      "budget": {
-        "sin_elim": 0.0,
-        "solo_elim": 0.0,
-        "con_elim": 0.0
-      }
-    },
-    {
-      "mes": "2025-05",
-      "pais": "Mexico",
-      "subsidiaria": "Tu HabiPres",
-      "linea": "HabiCredit",
-      "submetrica": "01. HabiCredit (Bancario)",
-      "cuenta": 41010120,
-      "cuenta_desc": "1. Cuenta: 41010120 DESCUENTOS EN VENTAS",
-      "es_ajuste": false,
-      "es_tape_adjustment": false,
-      "actuals": {
-        "sin_elim": 0.0,
-        "solo_elim": 0.0,
-        "con_elim": 0.0
-      },
-      "budget": {
-        "sin_elim": 0.0,
-        "solo_elim": 0.0,
-        "con_elim": 0.0
-      }
-    },
-    {
-      "mes": "2025-05",
-      "pais": "Mexico",
-      "subsidiaria": "Tu HabiPres",
-      "linea": "Market Maker",
-      "submetrica": "01. Market Maker (\"Compraventa\")",
-      "cuenta": 41010101,
-      "cuenta_desc": "1. Cuenta: 41010101 INGRESOS POR VENTA DE INMUEBLES",
-      "es_ajuste": false,
-      "es_tape_adjustment": false,
-      "actuals": {
-        "sin_elim": 0.0,
-        "solo_elim": 0.0,
-        "con_elim": 0.0
-      },
-      "budget": {
-        "sin_elim": 0.0,
-        "solo_elim": 0.0,
-        "con_elim": 0.0
-      }
-    },
-    {
-      "mes": "2025-05",
-      "pais": "Mexico",
-      "subsidiaria": "Tu HabiPres",
-      "linea": "Market Maker",
-      "submetrica": "01. Other Products",
-      "cuenta": 41010118,
-      "cuenta_desc": "1. Cuenta: 41010118 41010118 INGRESOS POR EXCLUSIVIDAD VENTA",
-      "es_ajuste": false,
-      "es_tape_adjustment": false,
-      "actuals": {
-        "sin_elim": 0.0,
-        "solo_elim": 0.0,
-        "con_elim": 0.0
-      },
-      "budget": {
-        "sin_elim": 0.0,
-        "solo_elim": 0.0,
-        "con_elim": 0.0
-      }
-    },
-    {
-      "mes": "2025-05",
-      "pais": "Mexico",
-      "subsidiaria": "Tu HabiPres",
-      "linea": "Market Maker",
-      "submetrica": "02. Market Maker (\"Prestamos\")",
-      "cuenta": 41010102,
-      "cuenta_desc": "1. Cuenta: 41010102 INGRESOS POR SERVICIOS PROFESIONALES",
-      "es_ajuste": false,
-      "es_tape_adjustment": false,
-      "actuals": {
-        "sin_elim": 0.0,
-        "solo_elim": 0.0,
-        "con_elim": 0.0
-      },
-      "budget": {
-        "sin_elim": 0.0,
-        "solo_elim": 0.0,
-        "con_elim": 0.0
-      }
-    },
-    {
-      "mes": "2025-05",
-      "pais": "Mexico",
-      "subsidiaria": "Tu HabiPres",
-      "linea": "Market Maker",
-      "submetrica": "02. Market Maker (\"Prestamos\")",
-      "cuenta": 41010103,
-      "cuenta_desc": "1. Cuenta: 41010103 INGRESOS POR INTERESES PRESTAMOS",
-      "es_ajuste": false,
-      "es_tape_adjustment": false,
-      "actuals": {
-        "sin_elim": 0.0,
-        "solo_elim": 0.0,
-        "con_elim": 0.0
-      },
-      "budget": {
-        "sin_elim": 0.0,
-        "solo_elim": 0.0,
-        "con_elim": 0.0
-      }
-    },
-    {
-      "mes": "2025-05",
-      "pais": "Mexico",
-      "subsidiaria": "Tu HabiPres",
-      "linea": "Market Maker",
-      "submetrica": "02. Market Maker (\"Prestamos\")",
-      "cuenta": 41010104,
-      "cuenta_desc": "1. Cuenta: 41010104 INGRESOS POR COMISION MERCANTIL",
-      "es_ajuste": false,
-      "es_tape_adjustment": false,
-      "actuals": {
-        "sin_elim": 0.0,
-        "solo_elim": 0.0,
-        "con_elim": 0.0
-      },
-      "budget": {
-        "sin_elim": 0.0,
-        "solo_elim": 0.0,
-        "con_elim": 0.0
-      }
-    },
-    {
-      "mes": "2025-05",
-      "pais": "Mexico",
-      "subsidiaria": "Tu HabiPres",
-      "linea": "Market Maker",
-      "submetrica": "02. Market Maker (\"Prestamos\")",
-      "cuenta": 41010114,
-      "cuenta_desc": "1. Cuenta: 41010114 INGRESOS POR REMODELACIONES",
-      "es_ajuste": false,
-      "es_tape_adjustment": false,
-      "actuals": {
-        "sin_elim": 0.0,
-        "solo_elim": 0.0,
-        "con_elim": 0.0
-      },
-      "budget": {
-        "sin_elim": 0.0,
-        "solo_elim": 0.0,
-        "con_elim": 0.0
-      }
-    },
-    {
-      "mes": "2025-05",
-      "pais": "Mexico",
-      "subsidiaria": "Tu HabiPres",
-      "linea": "Market Maker",
-      "submetrica": "02. Market Maker (\"Prestamos\")",
-      "cuenta": 41010120,
-      "cuenta_desc": "1. Cuenta: 41010120 41010120 DESCUENTOS EN VENTAS",
-      "es_ajuste": false,
-      "es_tape_adjustment": false,
-      "actuals": {
-        "sin_elim": 0.0,
-        "solo_elim": 0.0,
-        "con_elim": 0.0
-      },
-      "budget": {
-        "sin_elim": 0.0,
-        "solo_elim": 0.0,
-        "con_elim": 0.0
-      }
-    },
-    {
-      "mes": "2025-05",
-      "pais": "Mexico",
-      "subsidiaria": "Tu HabiPres",
-      "linea": "Other",
-      "submetrica": "01. Other Products",
-      "cuenta": 41010109,
-      "cuenta_desc": "1. Cuenta: 41010109 INGRESOS POR PREMIUM ADS",
-      "es_ajuste": false,
-      "es_tape_adjustment": false,
-      "actuals": {
-        "sin_elim": 0.0,
-        "solo_elim": 0.0,
-        "con_elim": 0.0
-      },
-      "budget": {
-        "sin_elim": 0.0,
-        "solo_elim": 0.0,
-        "con_elim": 0.0
-      }
-    },
-    {
-      "mes": "2025-05",
-      "pais": "Mexico",
-      "subsidiaria": "Tu HabiPres",
-      "linea": "Other",
-      "submetrica": "02. Other Products",
-      "cuenta": 41010116,
-      "cuenta_desc": "96. Eliminación: 41010116 41010116 INGRESOS POR SERVICIOS PROFESIONALES INTERCOMPAÑIAS",
-      "es_ajuste": false,
-      "es_tape_adjustment": false,
-      "actuals": {
-        "sin_elim": 0.0,
-        "solo_elim": 0.0,
-        "con_elim": 0.0
-      },
-      "budget": {
-        "sin_elim": 0.0,
-        "solo_elim": 0.0,
-        "con_elim": 0.0
-      }
-    },
-    {
-      "mes": "2025-05",
-      "pais": "Mexico",
-      "subsidiaria": "Tu HabiPres",
-      "linea": "Other",
-      "submetrica": "02. Other Products",
-      "cuenta": 41010116,
-      "cuenta_desc": "96. Eliminación: 41010116 INGRESOS POR SERVICIOS PROFESIONALES INTERCOMPAÑIAS",
-      "es_ajuste": false,
-      "es_tape_adjustment": false,
-      "actuals": {
-        "sin_elim": 0.0,
-        "solo_elim": 0.0,
-        "con_elim": 0.0
-      },
-      "budget": {
-        "sin_elim": 0.0,
-        "solo_elim": 0.0,
-        "con_elim": 0.0
-      }
-    },
-    {
-      "mes": "2025-05",
-      "pais": "Mexico",
-      "subsidiaria": null,
-      "linea": "Brokerage",
-      "submetrica": "99. Brokerage Sales",
-      "cuenta": null,
-      "cuenta_desc": "99. Explicación Other: Linea Reporte = Brokerage",
-      "es_ajuste": false,
-      "es_tape_adjustment": false,
-      "actuals": {
-        "sin_elim": 0.0,
-        "solo_elim": 0.0,
-        "con_elim": 0.0
-      },
-      "budget": {
-        "sin_elim": 0.0,
-        "solo_elim": 0.0,
-        "con_elim": 0.0
-      }
-    },
-    {
-      "mes": "2025-05",
-      "pais": "Mexico",
-      "subsidiaria": null,
-      "linea": "Brokerage",
-      "submetrica": "99. Brokerage Sales",
-      "cuenta": null,
-      "cuenta_desc": "99. Explicación Other: Linea Reporte = Revenue_Habi_Inmobiliria",
-      "es_ajuste": false,
-      "es_tape_adjustment": false,
-      "actuals": {
-        "sin_elim": 0.0,
-        "solo_elim": 0.0,
-        "con_elim": 0.0
-      },
-      "budget": {
-        "sin_elim": 0.0,
-        "solo_elim": 0.0,
-        "con_elim": 0.0
-      }
-    },
-    {
-      "mes": "2025-05",
-      "pais": "Mexico",
-      "subsidiaria": null,
-      "linea": "HabiCredit",
-      "submetrica": "99. Other Revenue",
-      "cuenta": null,
-      "cuenta_desc": "96. Eliminación:  Ajuste suma HC100",
-      "es_ajuste": false,
-      "es_tape_adjustment": false,
-      "actuals": {
-        "sin_elim": 0.0,
-        "solo_elim": 0.0,
-        "con_elim": 0.0
-      },
-      "budget": {
-        "sin_elim": 0.0,
-        "solo_elim": 6220788.0,
-        "con_elim": 6220788.0
-      }
-    },
-    {
-      "mes": "2025-05",
-      "pais": "Mexico",
-      "subsidiaria": null,
-      "linea": "HabiCredit",
-      "submetrica": "99. Other Revenue",
-      "cuenta": null,
-      "cuenta_desc": "99. Explicación Other: Linea Reporte = Revenue_Discounts",
-      "es_ajuste": false,
-      "es_tape_adjustment": false,
-      "actuals": {
-        "sin_elim": 0.0,
-        "solo_elim": 0.0,
-        "con_elim": 0.0
-      },
-      "budget": {
-        "sin_elim": 0.0,
-        "solo_elim": 0.0,
-        "con_elim": 0.0
-      }
-    },
-    {
-      "mes": "2025-05",
-      "pais": "Mexico",
-      "subsidiaria": null,
-      "linea": "HabiCredit",
-      "submetrica": "99. Other Revenue",
-      "cuenta": null,
-      "cuenta_desc": "99. Explicación Other: Linea Reporte = Revenue_Habicredit",
-      "es_ajuste": false,
-      "es_tape_adjustment": false,
-      "actuals": {
-        "sin_elim": 0.0,
-        "solo_elim": 0.0,
-        "con_elim": 0.0
-      },
-      "budget": {
-        "sin_elim": 0.0,
-        "solo_elim": 0.0,
-        "con_elim": 0.0
-      }
-    },
-    {
-      "mes": "2025-05",
-      "pais": "Mexico",
-      "subsidiaria": null,
-      "linea": "Market Maker",
-      "submetrica": "99. Other Market Maker Sales (selling price)",
-      "cuenta": null,
-      "cuenta_desc": "96. Eliminación:  Ajuste resta HC100",
-      "es_ajuste": false,
-      "es_tape_adjustment": false,
-      "actuals": {
-        "sin_elim": 0.0,
-        "solo_elim": 0.0,
-        "con_elim": 0.0
-      },
-      "budget": {
-        "sin_elim": 0.0,
-        "solo_elim": 0.0,
-        "con_elim": 0.0
-      }
-    },
-    {
-      "mes": "2025-05",
-      "pais": "Mexico",
-      "subsidiaria": null,
-      "linea": "Market Maker",
-      "submetrica": "99. Other Market Maker Sales (selling price)",
-      "cuenta": null,
-      "cuenta_desc": "97. Ajuste: iBuying Cost of sales (Purchase price) - Deeds not booked Mexico 2024",
-      "es_ajuste": true,
-      "es_tape_adjustment": false,
-      "actuals": {
-        "sin_elim": 0.0,
-        "solo_elim": 0.0,
-        "con_elim": 0.0
-      },
-      "budget": {
-        "sin_elim": 0.0,
-        "solo_elim": 0.0,
-        "con_elim": 0.0
-      }
-    },
-    {
-      "mes": "2025-05",
-      "pais": "Mexico",
-      "subsidiaria": null,
-      "linea": "Market Maker",
-      "submetrica": "99. Other Market Maker Sales (selling price)",
-      "cuenta": null,
-      "cuenta_desc": "97. Ajuste: iBuying Cost of sales (Purchase price) - Deeds not booked Mexico 2025",
-      "es_ajuste": true,
-      "es_tape_adjustment": false,
-      "actuals": {
-        "sin_elim": 0.0,
-        "solo_elim": 0.0,
-        "con_elim": 0.0
-      },
-      "budget": {
-        "sin_elim": 0.0,
-        "solo_elim": 0.0,
-        "con_elim": 0.0
-      }
-    },
-    {
-      "mes": "2025-05",
-      "pais": "Mexico",
-      "subsidiaria": null,
-      "linea": "Market Maker",
-      "submetrica": "99. Other Market Maker Sales (selling price)",
-      "cuenta": null,
-      "cuenta_desc": "97. Ajuste: iBuying Sales - Deeds not booked Mexico 2024",
-      "es_ajuste": true,
-      "es_tape_adjustment": false,
-      "actuals": {
-        "sin_elim": 0.0,
-        "solo_elim": 0.0,
-        "con_elim": 0.0
-      },
-      "budget": {
-        "sin_elim": 0.0,
-        "solo_elim": 0.0,
-        "con_elim": 0.0
-      }
-    },
-    {
-      "mes": "2025-05",
-      "pais": "Mexico",
-      "subsidiaria": null,
-      "linea": "Market Maker",
-      "submetrica": "99. Other Market Maker Sales (selling price)",
-      "cuenta": null,
-      "cuenta_desc": "97. Ajuste: iBuying Sales - Deeds not booked Mexico 2025",
-      "es_ajuste": true,
-      "es_tape_adjustment": false,
-      "actuals": {
-        "sin_elim": 0.0,
-        "solo_elim": 0.0,
-        "con_elim": 0.0
-      },
-      "budget": {
-        "sin_elim": 0.0,
-        "solo_elim": 0.0,
-        "con_elim": 0.0
-      }
-    },
-    {
-      "mes": "2025-05",
-      "pais": "Mexico",
-      "subsidiaria": null,
-      "linea": "Market Maker",
-      "submetrica": "99. Other Market Maker Sales (selling price)",
-      "cuenta": null,
-      "cuenta_desc": "97. Ajuste: iBuying Sales - Freedom: Normalization",
-      "es_ajuste": true,
-      "es_tape_adjustment": false,
-      "actuals": {
-        "sin_elim": 0.0,
-        "solo_elim": 0.0,
-        "con_elim": 0.0
-      },
-      "budget": {
-        "sin_elim": 0.0,
-        "solo_elim": 0.0,
-        "con_elim": 0.0
-      }
-    },
-    {
-      "mes": "2025-05",
-      "pais": "Mexico",
-      "subsidiaria": null,
-      "linea": "Market Maker",
-      "submetrica": "99. Other Market Maker Sales (selling price)",
-      "cuenta": null,
-      "cuenta_desc": "97. Ajuste: iBuying Sales - iBuying Sales: Credit Notes",
-      "es_ajuste": true,
-      "es_tape_adjustment": false,
-      "actuals": {
-        "sin_elim": 0.0,
-        "solo_elim": 0.0,
-        "con_elim": 0.0
-      },
-      "budget": {
-        "sin_elim": 0.0,
-        "solo_elim": 0.0,
-        "con_elim": 0.0
-      }
-    },
-    {
-      "mes": "2025-05",
-      "pais": "Mexico",
-      "subsidiaria": null,
-      "linea": "Market Maker",
-      "submetrica": "99. Other Market Maker Sales (selling price)",
-      "cuenta": null,
-      "cuenta_desc": "97. Ajuste: iBuying Sales - iBuying Sales: Credit Notes (Post-Auditoria)",
-      "es_ajuste": true,
-      "es_tape_adjustment": false,
-      "actuals": {
-        "sin_elim": 0.0,
-        "solo_elim": 0.0,
-        "con_elim": 0.0
-      },
-      "budget": {
-        "sin_elim": 0.0,
-        "solo_elim": 0.0,
-        "con_elim": 0.0
-      }
-    },
-    {
-      "mes": "2025-05",
-      "pais": "Mexico",
-      "subsidiaria": null,
-      "linea": "Market Maker",
-      "submetrica": "99. Other Market Maker Sales (selling price)",
-      "cuenta": null,
-      "cuenta_desc": "99. Explicación Other: Linea Reporte = Interest",
-      "es_ajuste": false,
-      "es_tape_adjustment": false,
-      "actuals": {
-        "sin_elim": 0.0,
-        "solo_elim": 0.0,
-        "con_elim": 0.0
-      },
-      "budget": {
-        "sin_elim": 0.0,
-        "solo_elim": 0.0,
-        "con_elim": 0.0
-      }
-    },
-    {
-      "mes": "2025-05",
-      "pais": "Mexico",
-      "subsidiaria": null,
-      "linea": "Market Maker",
-      "submetrica": "99. Other Market Maker Sales (selling price)",
-      "cuenta": null,
-      "cuenta_desc": "99. Explicación Other: Linea Reporte = Merchant_comission",
-      "es_ajuste": false,
-      "es_tape_adjustment": false,
-      "actuals": {
-        "sin_elim": 0.0,
-        "solo_elim": 0.0,
-        "con_elim": 0.0
-      },
-      "budget": {
-        "sin_elim": 0.0,
-        "solo_elim": 0.0,
-        "con_elim": 0.0
-      }
-    },
-    {
-      "mes": "2025-05",
-      "pais": "Mexico",
-      "subsidiaria": null,
-      "linea": "Market Maker",
-      "submetrica": "99. Other Market Maker Sales (selling price)",
-      "cuenta": null,
-      "cuenta_desc": "99. Explicación Other: Linea Reporte = Professional_Services",
-      "es_ajuste": false,
-      "es_tape_adjustment": false,
-      "actuals": {
-        "sin_elim": 0.0,
-        "solo_elim": 0.0,
-        "con_elim": 0.0
-      },
-      "budget": {
-        "sin_elim": 0.0,
-        "solo_elim": 0.0,
-        "con_elim": 0.0
-      }
-    },
-    {
-      "mes": "2025-05",
-      "pais": "Mexico",
-      "subsidiaria": null,
-      "linea": "Market Maker",
-      "submetrica": "99. Other Market Maker Sales (selling price)",
-      "cuenta": null,
-      "cuenta_desc": "99. Explicación Other: Linea Reporte = Remodelation_Revenue",
-      "es_ajuste": false,
-      "es_tape_adjustment": false,
-      "actuals": {
-        "sin_elim": 0.0,
-        "solo_elim": 0.0,
-        "con_elim": 0.0
-      },
-      "budget": {
-        "sin_elim": 0.0,
-        "solo_elim": 0.0,
-        "con_elim": 0.0
-      }
-    },
-    {
-      "mes": "2025-05",
-      "pais": "Mexico",
-      "subsidiaria": null,
-      "linea": "Market Maker",
-      "submetrica": "99. Other Market Maker Sales (selling price)",
-      "cuenta": null,
-      "cuenta_desc": "99. Explicación Other: Linea Reporte = Revenue_Discounts",
-      "es_ajuste": false,
-      "es_tape_adjustment": false,
-      "actuals": {
-        "sin_elim": 0.0,
-        "solo_elim": 0.0,
-        "con_elim": 0.0
-      },
-      "budget": {
-        "sin_elim": 0.0,
-        "solo_elim": 0.0,
-        "con_elim": 0.0
-      }
-    },
-    {
-      "mes": "2025-05",
-      "pais": "Mexico",
-      "subsidiaria": null,
-      "linea": "Market Maker",
-      "submetrica": "99. Other Market Maker Sales (selling price)",
-      "cuenta": null,
-      "cuenta_desc": "99. Explicación Other: Linea Reporte = iBuying_Revenue",
-      "es_ajuste": false,
-      "es_tape_adjustment": false,
-      "actuals": {
-        "sin_elim": 0.0,
-        "solo_elim": 0.0,
-        "con_elim": 0.0
-      },
-      "budget": {
-        "sin_elim": 0.0,
-        "solo_elim": 0.0,
-        "con_elim": 0.0
-      }
-    },
-    {
-      "mes": "2025-05",
-      "pais": "Mexico",
-      "subsidiaria": null,
-      "linea": "Other",
-      "submetrica": "99. Other Other Products",
-      "cuenta": null,
-      "cuenta_desc": "99. Explicación Other: Linea Reporte = Premium_Ads",
-      "es_ajuste": false,
-      "es_tape_adjustment": false,
-      "actuals": {
-        "sin_elim": 0.0,
-        "solo_elim": 0.0,
-        "con_elim": 0.0
-      },
-      "budget": {
-        "sin_elim": 0.0,
-        "solo_elim": 0.0,
-        "con_elim": 0.0
-      }
-    },
-    {
-      "mes": "2025-05",
-      "pais": "Mexico",
-      "subsidiaria": null,
-      "linea": "Other",
-      "submetrica": "99. Other Other Products",
-      "cuenta": null,
-      "cuenta_desc": "99. Explicación Other: Linea Reporte = Professional_Services_Intercompanies",
-      "es_ajuste": false,
-      "es_tape_adjustment": false,
-      "actuals": {
-        "sin_elim": 0.0,
-        "solo_elim": 0.0,
-        "con_elim": 0.0
-      },
-      "budget": {
-        "sin_elim": 0.0,
-        "solo_elim": 0.0,
-        "con_elim": 0.0
-      }
-    },
-    {
-      "mes": "2025-05",
-      "pais": "Offshore",
-      "subsidiaria": "Corp",
-      "linea": "Other",
-      "submetrica": "01. Other Products",
-      "cuenta": 41010116,
-      "cuenta_desc": "96. Eliminación: 41010116 INGRESOS POR SERVICIOS PROFESIONALES INTERCOMPAÑIAS",
-      "es_ajuste": false,
-      "es_tape_adjustment": false,
-      "actuals": {
-        "sin_elim": 0.0,
-        "solo_elim": 150546.96999999997,
-        "con_elim": 150546.96999999997
-      },
-      "budget": {
-        "sin_elim": 0.0,
-        "solo_elim": 159228.94,
-        "con_elim": 159228.94
-      }
-    },
-    {
-      "mes": "2025-05",
-      "pais": "Offshore",
-      "subsidiaria": null,
-      "linea": "Other",
-      "submetrica": "99. Other Other Products",
-      "cuenta": null,
-      "cuenta_desc": "99. Explicación Other: Linea Reporte = Professional_Services_Intercompanies",
-      "es_ajuste": false,
-      "es_tape_adjustment": false,
-      "actuals": {
-        "sin_elim": 0.0,
-        "solo_elim": 0.0,
-        "con_elim": 0.0
-      },
-      "budget": {
-        "sin_elim": 0.0,
-        "solo_elim": 0.0,
-        "con_elim": 0.0
-      }
-    },
     {
       "mes": "2025-06",
       "pais": "Colombia",
@@ -2491,9 +706,9 @@
       "es_ajuste": false,
       "es_tape_adjustment": false,
       "actuals": {
-        "sin_elim": 2389454.2399999998,
+        "sin_elim": 2389454.24,
         "solo_elim": 0.0,
-        "con_elim": 2389454.2399999998
+        "con_elim": 2389454.24
       },
       "budget": {
         "sin_elim": 2085517.24,
@@ -2785,9 +1000,9 @@
       "es_ajuste": false,
       "es_tape_adjustment": false,
       "actuals": {
-        "sin_elim": -3696.61,
+        "sin_elim": -3696.6100000000006,
         "solo_elim": 0.0,
-        "con_elim": -3696.61
+        "con_elim": -3696.6100000000006
       },
       "budget": {
         "sin_elim": 0.0,
@@ -3709,9 +1924,9 @@
       "es_ajuste": false,
       "es_tape_adjustment": false,
       "actuals": {
-        "sin_elim": 2591498225.1200004,
+        "sin_elim": 2591498225.12,
         "solo_elim": 0.0,
-        "con_elim": 2591498225.1200004
+        "con_elim": 2591498225.12
       },
       "budget": {
         "sin_elim": 0.0,
@@ -4276,9 +2491,9 @@
       "es_ajuste": false,
       "es_tape_adjustment": false,
       "actuals": {
-        "sin_elim": 1797818.2100000002,
+        "sin_elim": 1797818.21,
         "solo_elim": 0.0,
-        "con_elim": 1797818.2100000002
+        "con_elim": 1797818.21
       },
       "budget": {
         "sin_elim": 2085517.24,
@@ -6040,9 +4255,9 @@
       "es_ajuste": false,
       "es_tape_adjustment": false,
       "actuals": {
-        "sin_elim": 3384043.72,
+        "sin_elim": 3384043.720000001,
         "solo_elim": 0.0,
-        "con_elim": 3384043.72
+        "con_elim": 3384043.720000001
       },
       "budget": {
         "sin_elim": 2085517.24,
@@ -6334,9 +4549,9 @@
       "es_ajuste": false,
       "es_tape_adjustment": false,
       "actuals": {
-        "sin_elim": -5480.070000000001,
+        "sin_elim": -5480.07,
         "solo_elim": 0.0,
-        "con_elim": -5480.070000000001
+        "con_elim": -5480.07
       },
       "budget": {
         "sin_elim": 0.0,
@@ -7468,9 +5683,9 @@
       "es_ajuste": false,
       "es_tape_adjustment": false,
       "actuals": {
-        "sin_elim": 1113661.0499999998,
+        "sin_elim": 1113661.05,
         "solo_elim": 0.0,
-        "con_elim": 1113661.0499999998
+        "con_elim": 1113661.05
       },
       "budget": {
         "sin_elim": 0.0,
@@ -7804,9 +6019,9 @@
       "es_ajuste": false,
       "es_tape_adjustment": false,
       "actuals": {
-        "sin_elim": 1956984.64,
+        "sin_elim": 1956984.6400000001,
         "solo_elim": 0.0,
-        "con_elim": 1956984.64
+        "con_elim": 1956984.6400000001
       },
       "budget": {
         "sin_elim": 2085517.24,
@@ -8036,8 +6251,8 @@
       "es_tape_adjustment": false,
       "actuals": {
         "sin_elim": 0.0,
-        "solo_elim": 1008107.58,
-        "con_elim": 1008107.58
+        "solo_elim": 1008107.5800000001,
+        "con_elim": 1008107.5800000001
       },
       "budget": {
         "sin_elim": 0.0,
@@ -8077,9 +6292,9 @@
       "es_ajuste": false,
       "es_tape_adjustment": false,
       "actuals": {
-        "sin_elim": -6400.789999999999,
+        "sin_elim": -6400.79,
         "solo_elim": 0.0,
-        "con_elim": -6400.789999999999
+        "con_elim": -6400.79
       },
       "budget": {
         "sin_elim": 0.0,
@@ -9022,9 +7237,9 @@
       "es_ajuste": false,
       "es_tape_adjustment": false,
       "actuals": {
-        "sin_elim": 1688754206.8899999,
+        "sin_elim": 1688754206.89,
         "solo_elim": 0.0,
-        "con_elim": 1688754206.8899999
+        "con_elim": 1688754206.89
       },
       "budget": {
         "sin_elim": 0.0,
@@ -9589,9 +7804,9 @@
       "es_ajuste": false,
       "es_tape_adjustment": false,
       "actuals": {
-        "sin_elim": 1900441.2999999998,
+        "sin_elim": 1900441.3,
         "solo_elim": 0.0,
-        "con_elim": 1900441.2999999998
+        "con_elim": 1900441.3
       },
       "budget": {
         "sin_elim": 2085517.24,
@@ -9673,9 +7888,9 @@
       "es_ajuste": false,
       "es_tape_adjustment": false,
       "actuals": {
-        "sin_elim": 2.473825588822365e-10,
+        "sin_elim": 1.9099388737231493e-10,
         "solo_elim": 0.0,
-        "con_elim": 2.473825588822365e-10
+        "con_elim": 1.9099388737231493e-10
       },
       "budget": {
         "sin_elim": 0.0,
@@ -10807,9 +9022,9 @@
       "es_ajuste": false,
       "es_tape_adjustment": false,
       "actuals": {
-        "sin_elim": 1507018185.3999999,
+        "sin_elim": 1507018185.4,
         "solo_elim": 0.0,
-        "con_elim": 1507018185.3999999
+        "con_elim": 1507018185.4
       },
       "budget": {
         "sin_elim": 0.0,
@@ -11374,9 +9589,9 @@
       "es_ajuste": false,
       "es_tape_adjustment": false,
       "actuals": {
-        "sin_elim": 1528023.5099999995,
+        "sin_elim": 1528023.5099999998,
         "solo_elim": 0.0,
-        "con_elim": 1528023.5099999995
+        "con_elim": 1528023.5099999998
       },
       "budget": {
         "sin_elim": 2085517.24,
@@ -12571,9 +10786,9 @@
       "es_ajuste": false,
       "es_tape_adjustment": false,
       "actuals": {
-        "sin_elim": 406955946.09,
+        "sin_elim": 406955946.0899999,
         "solo_elim": 0.0,
-        "con_elim": 406955946.09
+        "con_elim": 406955946.0899999
       },
       "budget": {
         "sin_elim": 18151560000.0,
@@ -12592,9 +10807,9 @@
       "es_ajuste": false,
       "es_tape_adjustment": false,
       "actuals": {
-        "sin_elim": 7012236810.0599985,
+        "sin_elim": 7012236810.06,
         "solo_elim": 0.0,
-        "con_elim": 7012236810.0599985
+        "con_elim": 7012236810.06
       },
       "budget": {
         "sin_elim": 0.0,
@@ -13348,9 +11563,9 @@
       "es_ajuste": false,
       "es_tape_adjustment": false,
       "actuals": {
-        "sin_elim": -1439676.0,
+        "sin_elim": -1439675.9999999998,
         "solo_elim": 0.0,
-        "con_elim": -1439676.0
+        "con_elim": -1439675.9999999998
       },
       "budget": {
         "sin_elim": 0.0,
@@ -13411,9 +11626,9 @@
       "es_ajuste": false,
       "es_tape_adjustment": false,
       "actuals": {
-        "sin_elim": 126626.95000000001,
+        "sin_elim": 126626.95,
         "solo_elim": 0.0,
-        "con_elim": 126626.95000000001
+        "con_elim": 126626.95
       },
       "budget": {
         "sin_elim": 0.0,
@@ -13475,8 +11690,8 @@
       "es_tape_adjustment": false,
       "actuals": {
         "sin_elim": 0.0,
-        "solo_elim": -5073552.119999999,
-        "con_elim": -5073552.119999999
+        "solo_elim": -5073552.12,
+        "con_elim": -5073552.12
       },
       "budget": {
         "sin_elim": 0.0,
@@ -14252,8 +12467,8 @@
       "es_tape_adjustment": false,
       "actuals": {
         "sin_elim": 0.0,
-        "solo_elim": 106147.81000000001,
-        "con_elim": 106147.81000000001
+        "solo_elim": 106147.80999999998,
+        "con_elim": 106147.80999999998
       },
       "budget": {
         "sin_elim": 0.0,
@@ -16120,14 +14335,14 @@
       "es_ajuste": false,
       "es_tape_adjustment": false,
       "actuals": {
-        "sin_elim": 56590420.99999999,
+        "sin_elim": 56590421.0,
         "solo_elim": 0.0,
-        "con_elim": 56590420.99999999
+        "con_elim": 56590421.0
       },
       "budget": {
-        "sin_elim": 56590420.99999999,
+        "sin_elim": 56590421.0,
         "solo_elim": 0.0,
-        "con_elim": 56590420.99999999
+        "con_elim": 56590421.0
       }
     },
     {
@@ -16876,14 +15091,14 @@
       "es_ajuste": false,
       "es_tape_adjustment": false,
       "actuals": {
-        "sin_elim": 547769.2799999999,
+        "sin_elim": 547769.28,
         "solo_elim": 0.0,
-        "con_elim": 547769.2799999999
+        "con_elim": 547769.28
       },
       "budget": {
-        "sin_elim": 547769.2799999999,
+        "sin_elim": 547769.28,
         "solo_elim": 0.0,
-        "con_elim": 547769.2799999999
+        "con_elim": 547769.28
       }
     },
     {
@@ -18451,9 +16666,9 @@
       "es_ajuste": false,
       "es_tape_adjustment": false,
       "actuals": {
-        "sin_elim": 1828634.6100000003,
+        "sin_elim": 1828634.6099999999,
         "solo_elim": 0.0,
-        "con_elim": 1828634.6100000003
+        "con_elim": 1828634.6099999999
       },
       "budget": {
         "sin_elim": 1759654.9512,
@@ -19590,9 +17805,9 @@
         "con_elim": 677507700.0
       },
       "budget": {
-        "sin_elim": 601218388.2638918,
+        "sin_elim": 604565606.1217597,
         "solo_elim": 0.0,
-        "con_elim": 601218388.2638918
+        "con_elim": 604565606.1217597
       }
     },
     {
@@ -21354,9 +19569,9 @@
         "con_elim": 483716600.0
       },
       "budget": {
-        "sin_elim": 647631489.443443,
+        "sin_elim": 653767111.0163032,
         "solo_elim": 0.0,
-        "con_elim": 647631489.443443
+        "con_elim": 653767111.0163032
       }
     },
     {
@@ -21433,9 +19648,9 @@
       "es_ajuste": false,
       "es_tape_adjustment": false,
       "actuals": {
-        "sin_elim": 2831790114.5599995,
+        "sin_elim": 2831790114.56,
         "solo_elim": 0.0,
-        "con_elim": 2831790114.5599995
+        "con_elim": 2831790114.56
       },
       "budget": {
         "sin_elim": 0.0,
@@ -23134,14 +21349,14 @@
       "es_ajuste": false,
       "es_tape_adjustment": false,
       "actuals": {
-        "sin_elim": 327189000.0,
+        "sin_elim": 591432404.0,
         "solo_elim": 0.0,
-        "con_elim": 327189000.0
+        "con_elim": 591432404.0
       },
       "budget": {
-        "sin_elim": 692842035.9398725,
+        "sin_elim": 701116270.1392392,
         "solo_elim": 0.0,
-        "con_elim": 692842035.9398725
+        "con_elim": 701116270.1392392
       }
     },
     {
@@ -23155,9 +21370,9 @@
       "es_ajuste": false,
       "es_tape_adjustment": false,
       "actuals": {
-        "sin_elim": 18818594733.98,
+        "sin_elim": 27322194733.98,
         "solo_elim": 0.0,
-        "con_elim": 18818594733.98
+        "con_elim": 27322194733.98
       },
       "budget": {
         "sin_elim": 30687000000.0,
@@ -23176,9 +21391,9 @@
       "es_ajuste": false,
       "es_tape_adjustment": false,
       "actuals": {
-        "sin_elim": 285512857.14999986,
+        "sin_elim": 536628907.4600006,
         "solo_elim": 0.0,
-        "con_elim": 285512857.14999986
+        "con_elim": 536628907.4600006
       },
       "budget": {
         "sin_elim": 656880821.1,
@@ -23197,9 +21412,9 @@
       "es_ajuste": false,
       "es_tape_adjustment": false,
       "actuals": {
-        "sin_elim": 159527166.30999997,
+        "sin_elim": 239056863.3,
         "solo_elim": 0.0,
-        "con_elim": 159527166.30999997
+        "con_elim": 239056863.3
       },
       "budget": {
         "sin_elim": 2435379478.7614713,
@@ -23218,9 +21433,9 @@
       "es_ajuste": false,
       "es_tape_adjustment": false,
       "actuals": {
-        "sin_elim": 0.0,
+        "sin_elim": 2811482189.63,
         "solo_elim": 0.0,
-        "con_elim": 0.0
+        "con_elim": 2811482189.63
       },
       "budget": {
         "sin_elim": 0.0,
@@ -23239,9 +21454,9 @@
       "es_ajuste": false,
       "es_tape_adjustment": false,
       "actuals": {
-        "sin_elim": 4637415.04,
+        "sin_elim": 6137415.039999999,
         "solo_elim": 0.0,
-        "con_elim": 4637415.04
+        "con_elim": 6137415.039999999
       },
       "budget": {
         "sin_elim": 0.0,
@@ -23323,9 +21538,9 @@
       "es_ajuste": false,
       "es_tape_adjustment": false,
       "actuals": {
-        "sin_elim": 0.0,
+        "sin_elim": 7394891.0,
         "solo_elim": 0.0,
-        "con_elim": 0.0
+        "con_elim": 7394891.0
       },
       "budget": {
         "sin_elim": 0.0,
@@ -23386,9 +21601,9 @@
       "es_ajuste": false,
       "es_tape_adjustment": false,
       "actuals": {
-        "sin_elim": 43019997.379999995,
+        "sin_elim": 114382956.38999999,
         "solo_elim": 0.0,
-        "con_elim": 43019997.379999995
+        "con_elim": 114382956.38999999
       },
       "budget": {
         "sin_elim": 0.0,
@@ -23428,9 +21643,9 @@
       "es_ajuste": false,
       "es_tape_adjustment": false,
       "actuals": {
-        "sin_elim": 0.0,
+        "sin_elim": 7394891.0,
         "solo_elim": 0.0,
-        "con_elim": 0.0
+        "con_elim": 7394891.0
       },
       "budget": {
         "sin_elim": 0.0,
@@ -23491,9 +21706,9 @@
       "es_ajuste": false,
       "es_tape_adjustment": false,
       "actuals": {
-        "sin_elim": 2713528847.0,
+        "sin_elim": 2577281194.0,
         "solo_elim": 0.0,
-        "con_elim": 2713528847.0
+        "con_elim": 2577281194.0
       },
       "budget": {
         "sin_elim": 3067038000.0,
@@ -23512,9 +21727,9 @@
       "es_ajuste": false,
       "es_tape_adjustment": false,
       "actuals": {
-        "sin_elim": 12773523.0,
+        "sin_elim": 15356215.5,
         "solo_elim": 0.0,
-        "con_elim": 12773523.0
+        "con_elim": 15356215.5
       },
       "budget": {
         "sin_elim": 0.0,
@@ -23743,9 +21958,9 @@
       "es_ajuste": false,
       "es_tape_adjustment": false,
       "actuals": {
-        "sin_elim": 1527470.0,
+        "sin_elim": 2759475.0,
         "solo_elim": 0.0,
-        "con_elim": 1527470.0
+        "con_elim": 2759475.0
       },
       "budget": {
         "sin_elim": 3770692.468400278,
@@ -23764,9 +21979,9 @@
       "es_ajuste": false,
       "es_tape_adjustment": false,
       "actuals": {
-        "sin_elim": 927992.3299999998,
+        "sin_elim": 987447.87,
         "solo_elim": 0.0,
-        "con_elim": 927992.3299999998
+        "con_elim": 987447.87
       },
       "budget": {
         "sin_elim": 1890000.0000000002,
@@ -23827,9 +22042,9 @@
       "es_ajuste": false,
       "es_tape_adjustment": false,
       "actuals": {
-        "sin_elim": 0.0,
+        "sin_elim": 952500.0,
         "solo_elim": 0.0,
-        "con_elim": 0.0
+        "con_elim": 952500.0
       },
       "budget": {
         "sin_elim": 38106592.81179225,
@@ -23848,9 +22063,9 @@
       "es_ajuste": false,
       "es_tape_adjustment": false,
       "actuals": {
-        "sin_elim": 684820.0,
+        "sin_elim": 987138.2400000002,
         "solo_elim": 0.0,
-        "con_elim": 684820.0
+        "con_elim": 987138.2400000002
       },
       "budget": {
         "sin_elim": 826971.933718511,
@@ -23869,9 +22084,9 @@
       "es_ajuste": false,
       "es_tape_adjustment": false,
       "actuals": {
-        "sin_elim": 666023.6299999997,
+        "sin_elim": 1649691.1799999983,
         "solo_elim": 0.0,
-        "con_elim": 666023.6299999997
+        "con_elim": 1649691.1799999983
       },
       "budget": {
         "sin_elim": 0.0,
@@ -23890,9 +22105,9 @@
       "es_ajuste": false,
       "es_tape_adjustment": false,
       "actuals": {
-        "sin_elim": 368182.62,
+        "sin_elim": 1326174.95,
         "solo_elim": 0.0,
-        "con_elim": 368182.62
+        "con_elim": 1326174.95
       },
       "budget": {
         "sin_elim": 0.0,
@@ -23911,9 +22126,9 @@
       "es_ajuste": false,
       "es_tape_adjustment": false,
       "actuals": {
-        "sin_elim": 553262.52,
+        "sin_elim": 1371158.2700000003,
         "solo_elim": 0.0,
-        "con_elim": 553262.52
+        "con_elim": 1371158.2700000003
       },
       "budget": {
         "sin_elim": 0.0,
@@ -23932,9 +22147,9 @@
       "es_ajuste": false,
       "es_tape_adjustment": false,
       "actuals": {
-        "sin_elim": 688724.3299999998,
+        "sin_elim": 1925011.6999999995,
         "solo_elim": 0.0,
-        "con_elim": 688724.3299999998
+        "con_elim": 1925011.6999999995
       },
       "budget": {
         "sin_elim": 0.0,
@@ -23974,9 +22189,9 @@
       "es_ajuste": false,
       "es_tape_adjustment": false,
       "actuals": {
-        "sin_elim": 385160.35000000003,
+        "sin_elim": 1380032.5299999996,
         "solo_elim": 0.0,
-        "con_elim": 385160.35000000003
+        "con_elim": 1380032.5299999996
       },
       "budget": {
         "sin_elim": 507500.0,
@@ -23996,8 +22211,8 @@
       "es_tape_adjustment": false,
       "actuals": {
         "sin_elim": 0.0,
-        "solo_elim": 0.0,
-        "con_elim": 0.0
+        "solo_elim": 25523543.52,
+        "con_elim": 25523543.52
       },
       "budget": {
         "sin_elim": 0.0,
@@ -24058,9 +22273,9 @@
       "es_ajuste": false,
       "es_tape_adjustment": false,
       "actuals": {
-        "sin_elim": 6178887.190000001,
+        "sin_elim": 14577564.48,
         "solo_elim": 0.0,
-        "con_elim": 6178887.190000001
+        "con_elim": 14577564.48
       },
       "budget": {
         "sin_elim": 0.0,
@@ -24888,144 +23103,1761 @@
       }
     },
     {
-      "mes": "2025-05",
+      "mes": "2026-07",
       "pais": "Colombia",
       "subsidiaria": "Habi",
-      "linea": "Market Maker",
-      "submetrica": "Tape Adjustment",
-      "cuenta": null,
-      "cuenta_desc": "Tape Adjustment (c_precio − BET MM)",
+      "linea": "Brokerage",
+      "submetrica": "01. Brokerage Sales",
+      "cuenta": 41010105,
+      "cuenta_desc": "1. Cuenta: 41010105 INGRESOS POR COMISIONES HABI INMOBILIARIA",
       "es_ajuste": false,
-      "es_tape_adjustment": true,
+      "es_tape_adjustment": false,
       "actuals": {
-        "sin_elim": 5637653508.090004,
-        "con_elim": 5637653508.090004,
-        "solo_elim": 0.0
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
       },
       "budget": {
-        "sin_elim": 0.0,
-        "con_elim": 0.0,
-        "solo_elim": 0.0
+        "sin_elim": 750629281.2204822,
+        "solo_elim": 0.0,
+        "con_elim": 750629281.2204822
       }
     },
     {
-      "mes": "2025-08",
+      "mes": "2026-07",
+      "pais": "Colombia",
+      "subsidiaria": "Habi",
+      "linea": "Market Maker",
+      "submetrica": "01. Market Maker Selling Price (On Balance Sales)",
+      "cuenta": 41010101,
+      "cuenta_desc": "1. Cuenta: 41010101 INGRESOS POR VENTA DE INMUEBLES",
+      "es_ajuste": false,
+      "es_tape_adjustment": false,
+      "actuals": {
+        "sin_elim": 837000000.0,
+        "solo_elim": 0.0,
+        "con_elim": 837000000.0
+      },
+      "budget": {
+        "sin_elim": 31266000000.0,
+        "solo_elim": 0.0,
+        "con_elim": 31266000000.0
+      }
+    },
+    {
+      "mes": "2026-07",
+      "pais": "Colombia",
+      "subsidiaria": "Habi",
+      "linea": "Market Maker",
+      "submetrica": "01. Other Products",
+      "cuenta": 41010122,
+      "cuenta_desc": "1. Cuenta: 41010122 INGRESOS POR BONO DDC",
+      "es_ajuste": false,
+      "es_tape_adjustment": false,
+      "actuals": {
+        "sin_elim": -23126722.680000003,
+        "solo_elim": 0.0,
+        "con_elim": -23126722.680000003
+      },
+      "budget": {
+        "sin_elim": 622550681.1,
+        "solo_elim": 0.0,
+        "con_elim": 622550681.1
+      }
+    },
+    {
+      "mes": "2026-07",
+      "pais": "Colombia",
+      "subsidiaria": "Habi",
+      "linea": "Market Maker",
+      "submetrica": "02. Market Maker Alianzas",
+      "cuenta": 41010103,
+      "cuenta_desc": "1. Cuenta: 41010103 INGRESOS POR INTERESES PRESTAMOS",
+      "es_ajuste": false,
+      "es_tape_adjustment": false,
+      "actuals": {
+        "sin_elim": 3408600.0,
+        "solo_elim": 0.0,
+        "con_elim": 3408600.0
+      },
+      "budget": {
+        "sin_elim": 2160023046.0959835,
+        "solo_elim": 0.0,
+        "con_elim": 2160023046.0959835
+      }
+    },
+    {
+      "mes": "2026-07",
+      "pais": "Colombia",
+      "subsidiaria": "Habi",
+      "linea": "Market Maker",
+      "submetrica": "02. Market Maker Alianzas",
+      "cuenta": 41010110,
+      "cuenta_desc": "1. Cuenta: 41010110 UTILIDAD O PERDIDA EN CONTRATO DE COLABORACIÓN",
+      "es_ajuste": false,
+      "es_tape_adjustment": false,
+      "actuals": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      }
+    },
+    {
+      "mes": "2026-07",
+      "pais": "Colombia",
+      "subsidiaria": "Habi",
+      "linea": "Other",
+      "submetrica": "01. Other Products",
+      "cuenta": 41010102,
+      "cuenta_desc": "1. Cuenta: 41010102 INGRESOS POR SERVICIOS PROFESIONALES",
+      "es_ajuste": false,
+      "es_tape_adjustment": false,
+      "actuals": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      }
+    },
+    {
+      "mes": "2026-07",
+      "pais": "Colombia",
+      "subsidiaria": "Habi",
+      "linea": "Other",
+      "submetrica": "01. Other Products",
+      "cuenta": 41010108,
+      "cuenta_desc": "1. Cuenta: 41010108 INGRESOS POR ARRIENDOS",
+      "es_ajuste": false,
+      "es_tape_adjustment": false,
+      "actuals": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      }
+    },
+    {
+      "mes": "2026-07",
+      "pais": "Colombia",
+      "subsidiaria": "HabiCapital",
+      "linea": "Brokerage",
+      "submetrica": "01. Brokerage Sales",
+      "cuenta": 41010105,
+      "cuenta_desc": "1. Cuenta: 41010105 INGRESOS POR COMISIONES HABI INMOBILIARIA",
+      "es_ajuste": false,
+      "es_tape_adjustment": false,
+      "actuals": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      }
+    },
+    {
+      "mes": "2026-07",
+      "pais": "Colombia",
+      "subsidiaria": "HabiCapital",
+      "linea": "HabiCredit",
+      "submetrica": "01. HabiCredit",
+      "cuenta": 41010106,
+      "cuenta_desc": "1. Cuenta: 41010106 INGRESOS POR HABICREDIT",
+      "es_ajuste": false,
+      "es_tape_adjustment": false,
+      "actuals": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      }
+    },
+    {
+      "mes": "2026-07",
+      "pais": "Colombia",
+      "subsidiaria": "HabiCapital",
+      "linea": "HabiCredit",
+      "submetrica": "02. Other Revenue",
+      "cuenta": 41010102,
+      "cuenta_desc": "1. Cuenta: 41010102 INGRESO POR COMISIONES HABI INMOBILIARIA",
+      "es_ajuste": false,
+      "es_tape_adjustment": false,
+      "actuals": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      }
+    },
+    {
+      "mes": "2026-07",
+      "pais": "Colombia",
+      "subsidiaria": "HabiCapital",
+      "linea": "Market Maker",
+      "submetrica": "01. Market Maker Selling Price (On Balance Sales)",
+      "cuenta": 41010101,
+      "cuenta_desc": "1. Cuenta: 41010101 INGRESOS POR VENTA DE INMUEBLES",
+      "es_ajuste": false,
+      "es_tape_adjustment": false,
+      "actuals": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      }
+    },
+    {
+      "mes": "2026-07",
+      "pais": "Colombia",
+      "subsidiaria": "HabiCapital",
+      "linea": "Market Maker",
+      "submetrica": "01. Other Products",
+      "cuenta": 41010122,
+      "cuenta_desc": "1. Cuenta: 41010122 INGRESOS POR BONO DDC",
+      "es_ajuste": false,
+      "es_tape_adjustment": false,
+      "actuals": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      }
+    },
+    {
+      "mes": "2026-07",
+      "pais": "Colombia",
+      "subsidiaria": "HabiCapital",
+      "linea": "Market Maker",
+      "submetrica": "02. Market Maker Alianzas",
+      "cuenta": 41010103,
+      "cuenta_desc": "1. Cuenta: 41010103 INGRESOS POR INTERESES PRESTAMOS",
+      "es_ajuste": false,
+      "es_tape_adjustment": false,
+      "actuals": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      }
+    },
+    {
+      "mes": "2026-07",
+      "pais": "Colombia",
+      "subsidiaria": "HabiCapital",
+      "linea": "Market Maker",
+      "submetrica": "02. Market Maker Alianzas",
+      "cuenta": 41010110,
+      "cuenta_desc": "1. Cuenta: 41010110 UTILIDAD O PERDIDA EN CONTRATO DE COLABORACIÓN",
+      "es_ajuste": false,
+      "es_tape_adjustment": false,
+      "actuals": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      }
+    },
+    {
+      "mes": "2026-07",
+      "pais": "Colombia",
+      "subsidiaria": "HabiCapital",
+      "linea": "Other",
+      "submetrica": "01. Other Products",
+      "cuenta": 41010102,
+      "cuenta_desc": "1. Cuenta: 41010102 INGRESOS POR SERVICIOS PROFESIONALES",
+      "es_ajuste": false,
+      "es_tape_adjustment": false,
+      "actuals": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      }
+    },
+    {
+      "mes": "2026-07",
+      "pais": "Colombia",
+      "subsidiaria": "HabiCapital",
+      "linea": "Other",
+      "submetrica": "01. Other Products",
+      "cuenta": 41010108,
+      "cuenta_desc": "1. Cuenta: 41010108 INGRESOS POR ARRIENDOS",
+      "es_ajuste": false,
+      "es_tape_adjustment": false,
+      "actuals": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      }
+    },
+    {
+      "mes": "2026-07",
+      "pais": "Colombia",
+      "subsidiaria": "Habicredit",
+      "linea": "Brokerage",
+      "submetrica": "01. Brokerage Sales",
+      "cuenta": 41010105,
+      "cuenta_desc": "1. Cuenta: 41010105 INGRESOS POR COMISIONES HABI INMOBILIARIA",
+      "es_ajuste": false,
+      "es_tape_adjustment": false,
+      "actuals": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      }
+    },
+    {
+      "mes": "2026-07",
+      "pais": "Colombia",
+      "subsidiaria": "Habicredit",
+      "linea": "HabiCredit",
+      "submetrica": "01. HabiCredit",
+      "cuenta": 41010106,
+      "cuenta_desc": "1. Cuenta: 41010106 INGRESOS POR HABICREDIT",
+      "es_ajuste": false,
+      "es_tape_adjustment": false,
+      "actuals": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      },
+      "budget": {
+        "sin_elim": 3433014000.0,
+        "solo_elim": 0.0,
+        "con_elim": 3433014000.0
+      }
+    },
+    {
+      "mes": "2026-07",
+      "pais": "Colombia",
+      "subsidiaria": "Habicredit",
+      "linea": "HabiCredit",
+      "submetrica": "02. Other Revenue",
+      "cuenta": 41010102,
+      "cuenta_desc": "1. Cuenta: 41010102 INGRESO POR COMISIONES HABI INMOBILIARIA",
+      "es_ajuste": false,
+      "es_tape_adjustment": false,
+      "actuals": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      }
+    },
+    {
+      "mes": "2026-07",
+      "pais": "Colombia",
+      "subsidiaria": null,
+      "linea": "Brokerage",
+      "submetrica": "99. Other Brokerage Sales",
+      "cuenta": null,
+      "cuenta_desc": "99. Explicación Other: Linea Reporte = Revenue_Habi_Inmobiliria",
+      "es_ajuste": false,
+      "es_tape_adjustment": false,
+      "actuals": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      }
+    },
+    {
+      "mes": "2026-07",
+      "pais": "Colombia",
+      "subsidiaria": null,
+      "linea": "HabiCredit",
+      "submetrica": "99. Other Revenue",
+      "cuenta": null,
+      "cuenta_desc": "99. Explicación Other: Linea Reporte = Revenue_Habicredit",
+      "es_ajuste": false,
+      "es_tape_adjustment": false,
+      "actuals": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      }
+    },
+    {
+      "mes": "2026-07",
+      "pais": "Colombia",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "submetrica": "99. Other Market Maker Sales (selling price)",
+      "cuenta": null,
+      "cuenta_desc": "97. Ajuste: iBuying Sales - Deeds not booked Colombia 2024",
+      "es_ajuste": true,
+      "es_tape_adjustment": false,
+      "actuals": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      }
+    },
+    {
+      "mes": "2026-07",
+      "pais": "Colombia",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "submetrica": "99. Other Market Maker Sales (selling price)",
+      "cuenta": null,
+      "cuenta_desc": "97. Ajuste: iBuying Sales - Deeds not booked Colombia 2025",
+      "es_ajuste": true,
+      "es_tape_adjustment": false,
+      "actuals": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      }
+    },
+    {
+      "mes": "2026-07",
+      "pais": "Colombia",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "submetrica": "99. Other Market Maker Sales (selling price)",
+      "cuenta": null,
+      "cuenta_desc": "97. Ajuste: iBuying Sales - Deeds not booked Colombia 2026",
+      "es_ajuste": true,
+      "es_tape_adjustment": false,
+      "actuals": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      }
+    },
+    {
+      "mes": "2026-07",
+      "pais": "Colombia",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "submetrica": "99. Other Market Maker Sales (selling price)",
+      "cuenta": null,
+      "cuenta_desc": "99. Explicación Other: Linea Reporte = Interest",
+      "es_ajuste": false,
+      "es_tape_adjustment": false,
+      "actuals": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      }
+    },
+    {
+      "mes": "2026-07",
+      "pais": "Colombia",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "submetrica": "99. Other Market Maker Sales (selling price)",
+      "cuenta": null,
+      "cuenta_desc": "99. Explicación Other: Linea Reporte = Joint_Venture",
+      "es_ajuste": false,
+      "es_tape_adjustment": false,
+      "actuals": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      }
+    },
+    {
+      "mes": "2026-07",
+      "pais": "Colombia",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "submetrica": "99. Other Market Maker Sales (selling price)",
+      "cuenta": null,
+      "cuenta_desc": "99. Explicación Other: Linea Reporte = iBuying_Revenue",
+      "es_ajuste": false,
+      "es_tape_adjustment": false,
+      "actuals": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      }
+    },
+    {
+      "mes": "2026-07",
+      "pais": "Colombia",
+      "subsidiaria": null,
+      "linea": "Other",
+      "submetrica": "99. Other Other Products",
+      "cuenta": null,
+      "cuenta_desc": "99. Explicación Other: Linea Reporte = Other_Revenue",
+      "es_ajuste": false,
+      "es_tape_adjustment": false,
+      "actuals": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      }
+    },
+    {
+      "mes": "2026-07",
+      "pais": "Colombia",
+      "subsidiaria": null,
+      "linea": "Other",
+      "submetrica": "99. Other Other Products",
+      "cuenta": null,
+      "cuenta_desc": "99. Explicación Other: Linea Reporte = Professional_Services",
+      "es_ajuste": false,
+      "es_tape_adjustment": false,
+      "actuals": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      }
+    },
+    {
+      "mes": "2026-07",
+      "pais": "Mexico",
+      "subsidiaria": "Corporativo",
+      "linea": "Brokerage",
+      "submetrica": "01. Inmo",
+      "cuenta": 41010105,
+      "cuenta_desc": "1. Cuenta: 41010105 INGRESOS POR COMISIONES HABI INMOBILIARIA",
+      "es_ajuste": false,
+      "es_tape_adjustment": false,
+      "actuals": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      },
+      "budget": {
+        "sin_elim": 4118733.8734408584,
+        "solo_elim": 0.0,
+        "con_elim": 4118733.8734408584
+      }
+    },
+    {
+      "mes": "2026-07",
+      "pais": "Mexico",
+      "subsidiaria": "Corporativo",
+      "linea": "Brokerage",
+      "submetrica": "02. Brokerage",
+      "cuenta": 41010107,
+      "cuenta_desc": "1. Cuenta: 41010107 INGRESOS POR BROKERAGE",
+      "es_ajuste": false,
+      "es_tape_adjustment": false,
+      "actuals": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      },
+      "budget": {
+        "sin_elim": 1890000.0000000002,
+        "solo_elim": 0.0,
+        "con_elim": 1890000.0000000002
+      }
+    },
+    {
+      "mes": "2026-07",
+      "pais": "Mexico",
+      "subsidiaria": "Corporativo",
+      "linea": "HabiCredit",
+      "submetrica": "01. HabiCredit (Bancario)",
+      "cuenta": 41010115,
+      "cuenta_desc": "1. Cuenta: 41010115 41010115 INGRESOS POR ACTIVIDADES ANEXAS",
+      "es_ajuste": false,
+      "es_tape_adjustment": false,
+      "actuals": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      }
+    },
+    {
+      "mes": "2026-07",
+      "pais": "Mexico",
+      "subsidiaria": "Corporativo",
+      "linea": "HabiCredit",
+      "submetrica": "99. Other Revenue",
+      "cuenta": 41010106,
+      "cuenta_desc": "99. Explicación Other: Linea Reporte = Revenue_Habicredit",
+      "es_ajuste": false,
+      "es_tape_adjustment": false,
+      "actuals": {
+        "sin_elim": 252594.12,
+        "solo_elim": 0.0,
+        "con_elim": 252594.12
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      }
+    },
+    {
+      "mes": "2026-07",
       "pais": "Mexico",
       "subsidiaria": "Corporativo",
       "linea": "Market Maker",
-      "submetrica": "Tape Adjustment",
-      "cuenta": null,
-      "cuenta_desc": "Tape Adjustment (c_precio − BET MM)",
+      "submetrica": "01. Market Maker (\"Compraventa\")",
+      "cuenta": 41010101,
+      "cuenta_desc": "1. Cuenta: 41010101 INGRESOS POR VENTA DE INMUEBLES",
       "es_ajuste": false,
-      "es_tape_adjustment": true,
+      "es_tape_adjustment": false,
       "actuals": {
-        "sin_elim": 88828321.50999999,
-        "con_elim": 88828321.50999999,
-        "solo_elim": 0.0
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
       },
       "budget": {
-        "sin_elim": 0.0,
-        "con_elim": 0.0,
-        "solo_elim": 0.0
+        "sin_elim": 38522840.92436405,
+        "solo_elim": 0.0,
+        "con_elim": 38522840.92436405
       }
     },
     {
-      "mes": "2025-10",
-      "pais": "Colombia",
-      "subsidiaria": "Habi",
-      "linea": "Market Maker",
-      "submetrica": "Tape Adjustment",
-      "cuenta": null,
-      "cuenta_desc": "Tape Adjustment (c_precio − BET MM)",
-      "es_ajuste": false,
-      "es_tape_adjustment": true,
-      "actuals": {
-        "sin_elim": 6430016254.549999,
-        "con_elim": 6430016254.549999,
-        "solo_elim": 0.0
-      },
-      "budget": {
-        "sin_elim": 0.0,
-        "con_elim": 0.0,
-        "solo_elim": 0.0
-      }
-    },
-    {
-      "mes": "2025-11",
-      "pais": "Colombia",
-      "subsidiaria": "Habi",
-      "linea": "Market Maker",
-      "submetrica": "Tape Adjustment",
-      "cuenta": null,
-      "cuenta_desc": "Tape Adjustment (c_precio − BET MM)",
-      "es_ajuste": false,
-      "es_tape_adjustment": true,
-      "actuals": {
-        "sin_elim": 6693088644.189972,
-        "con_elim": 6693088644.189972,
-        "solo_elim": 0.0
-      },
-      "budget": {
-        "sin_elim": 0.0,
-        "con_elim": 0.0,
-        "solo_elim": 0.0
-      }
-    },
-    {
-      "mes": "2026-06",
-      "pais": "Colombia",
-      "subsidiaria": "Habi",
-      "linea": "Market Maker",
-      "submetrica": "Tape Adjustment",
-      "cuenta": null,
-      "cuenta_desc": "Tape Adjustment (c_precio − BET MM)",
-      "es_ajuste": false,
-      "es_tape_adjustment": true,
-      "actuals": {
-        "sin_elim": 4885356291.329994,
-        "con_elim": 4885356291.329994,
-        "solo_elim": 0.0
-      },
-      "budget": {
-        "sin_elim": 0.0,
-        "con_elim": 0.0,
-        "solo_elim": 0.0
-      }
-    },
-    {
-      "mes": "2026-03",
-      "pais": "Colombia",
-      "subsidiaria": "Habi",
-      "linea": "Market Maker",
-      "submetrica": "Tape Adjustment",
-      "cuenta": null,
-      "cuenta_desc": "Tape Adjustment (c_precio − BET MM)",
-      "es_ajuste": false,
-      "es_tape_adjustment": true,
-      "actuals": {
-        "sin_elim": 14207823141.79998,
-        "con_elim": 14207823141.79998,
-        "solo_elim": 0.0
-      },
-      "budget": {
-        "sin_elim": 0.0,
-        "con_elim": 0.0,
-        "solo_elim": 0.0
-      }
-    },
-    {
-      "mes": "2025-11",
+      "mes": "2026-07",
       "pais": "Mexico",
       "subsidiaria": "Corporativo",
       "linea": "Market Maker",
+      "submetrica": "01. Other Products",
+      "cuenta": 41010118,
+      "cuenta_desc": "1. Cuenta: 41010118 41010118 INGRESOS POR EXCLUSIVIDAD VENTA",
+      "es_ajuste": false,
+      "es_tape_adjustment": false,
+      "actuals": {
+        "sin_elim": 12931.03,
+        "solo_elim": 0.0,
+        "con_elim": 12931.03
+      },
+      "budget": {
+        "sin_elim": 880904.8859175444,
+        "solo_elim": 0.0,
+        "con_elim": 880904.8859175444
+      }
+    },
+    {
+      "mes": "2026-07",
+      "pais": "Mexico",
+      "subsidiaria": "Corporativo",
+      "linea": "Market Maker",
+      "submetrica": "02. Market Maker (\"Prestamos\")",
+      "cuenta": 41010102,
+      "cuenta_desc": "1. Cuenta: 41010102 INGRESOS POR SERVICIOS PROFESIONALES",
+      "es_ajuste": false,
+      "es_tape_adjustment": false,
+      "actuals": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      }
+    },
+    {
+      "mes": "2026-07",
+      "pais": "Mexico",
+      "subsidiaria": "Corporativo",
+      "linea": "Market Maker",
+      "submetrica": "02. Market Maker (\"Prestamos\")",
+      "cuenta": 41010103,
+      "cuenta_desc": "1. Cuenta: 41010103 INGRESOS POR INTERESES PRESTAMOS",
+      "es_ajuste": false,
+      "es_tape_adjustment": false,
+      "actuals": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      }
+    },
+    {
+      "mes": "2026-07",
+      "pais": "Mexico",
+      "subsidiaria": "Corporativo",
+      "linea": "Market Maker",
+      "submetrica": "02. Market Maker (\"Prestamos\")",
+      "cuenta": 41010104,
+      "cuenta_desc": "1. Cuenta: 41010104 INGRESOS POR COMISION MERCANTIL",
+      "es_ajuste": false,
+      "es_tape_adjustment": false,
+      "actuals": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      }
+    },
+    {
+      "mes": "2026-07",
+      "pais": "Mexico",
+      "subsidiaria": "Corporativo",
+      "linea": "Market Maker",
+      "submetrica": "02. Market Maker (\"Prestamos\")",
+      "cuenta": 41010114,
+      "cuenta_desc": "1. Cuenta: 41010114 INGRESOS POR REMODELACIONES",
+      "es_ajuste": false,
+      "es_tape_adjustment": false,
+      "actuals": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      }
+    },
+    {
+      "mes": "2026-07",
+      "pais": "Mexico",
+      "subsidiaria": "Corporativo",
+      "linea": "Market Maker",
+      "submetrica": "02. Market Maker (\"Prestamos\")",
+      "cuenta": 41010120,
+      "cuenta_desc": "1. Cuenta: 41010120 41010120 DESCUENTOS EN VENTAS",
+      "es_ajuste": false,
+      "es_tape_adjustment": false,
+      "actuals": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      }
+    },
+    {
+      "mes": "2026-07",
+      "pais": "Mexico",
+      "subsidiaria": "Corporativo",
+      "linea": "Other",
+      "submetrica": "01. Other Products",
+      "cuenta": 41010109,
+      "cuenta_desc": "1. Cuenta: 41010109 INGRESOS POR PREMIUM ADS",
+      "es_ajuste": false,
+      "es_tape_adjustment": false,
+      "actuals": {
+        "sin_elim": 49222.41,
+        "solo_elim": 0.0,
+        "con_elim": 49222.41
+      },
+      "budget": {
+        "sin_elim": 710500.0,
+        "solo_elim": 0.0,
+        "con_elim": 710500.0
+      }
+    },
+    {
+      "mes": "2026-07",
+      "pais": "Mexico",
+      "subsidiaria": "Corporativo",
+      "linea": "Other",
+      "submetrica": "02. Other Products",
+      "cuenta": 41010116,
+      "cuenta_desc": "96. Eliminación: 41010116 INGRESOS POR SERVICIOS PROFESIONALES INTERCOMPAÑIAS",
+      "es_ajuste": false,
+      "es_tape_adjustment": false,
+      "actuals": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      }
+    },
+    {
+      "mes": "2026-07",
+      "pais": "Mexico",
+      "subsidiaria": "Merbos",
+      "linea": "HabiCredit",
+      "submetrica": "01. HabiCredit (Bancario)",
+      "cuenta": 41010106,
+      "cuenta_desc": "1. Cuenta: 41010106 INGRESOS POR HABICREDIT",
+      "es_ajuste": false,
+      "es_tape_adjustment": false,
+      "actuals": {
+        "sin_elim": 168276.24000000002,
+        "solo_elim": 0.0,
+        "con_elim": 168276.24000000002
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      }
+    },
+    {
+      "mes": "2026-07",
+      "pais": "Mexico",
+      "subsidiaria": "Merbos",
+      "linea": "HabiCredit",
+      "submetrica": "01. HabiCredit (Bancario)",
+      "cuenta": 41010120,
+      "cuenta_desc": "1. Cuenta: 41010120 DESCUENTOS EN VENTAS",
+      "es_ajuste": false,
+      "es_tape_adjustment": false,
+      "actuals": {
+        "sin_elim": -4717.72,
+        "solo_elim": 0.0,
+        "con_elim": -4717.72
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      }
+    },
+    {
+      "mes": "2026-07",
+      "pais": "Mexico",
+      "subsidiaria": "Merbos",
+      "linea": "Other",
+      "submetrica": "02. Other Products",
+      "cuenta": 41010116,
+      "cuenta_desc": "96. Eliminación: 41010116 41010116 INGRESOS POR SERVICIOS PROFESIONALES INTERCOMPAÑIAS",
+      "es_ajuste": false,
+      "es_tape_adjustment": false,
+      "actuals": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      }
+    },
+    {
+      "mes": "2026-07",
+      "pais": "Mexico",
+      "subsidiaria": "Tu HabiPres",
+      "linea": "Brokerage",
+      "submetrica": "01. Inmo",
+      "cuenta": 41010105,
+      "cuenta_desc": "1. Cuenta: 41010105 INGRESOS POR COMISIONES HABI INMOBILIARIA",
+      "es_ajuste": false,
+      "es_tape_adjustment": false,
+      "actuals": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      }
+    },
+    {
+      "mes": "2026-07",
+      "pais": "Mexico",
+      "subsidiaria": "Tu HabiPres",
+      "linea": "Brokerage",
+      "submetrica": "02. Brokerage",
+      "cuenta": 41010107,
+      "cuenta_desc": "1. Cuenta: 41010107 INGRESOS POR BROKERAGE",
+      "es_ajuste": false,
+      "es_tape_adjustment": false,
+      "actuals": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      }
+    },
+    {
+      "mes": "2026-07",
+      "pais": "Mexico",
+      "subsidiaria": "Tu HabiPres",
+      "linea": "HabiCredit",
+      "submetrica": "01. HabiCredit (Bancario)",
+      "cuenta": 41010106,
+      "cuenta_desc": "1. Cuenta: 41010106 INGRESOS POR HABICREDIT",
+      "es_ajuste": false,
+      "es_tape_adjustment": false,
+      "actuals": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      }
+    },
+    {
+      "mes": "2026-07",
+      "pais": "Mexico",
+      "subsidiaria": "Tu HabiPres",
+      "linea": "HabiCredit",
+      "submetrica": "01. HabiCredit (Bancario)",
+      "cuenta": 41010115,
+      "cuenta_desc": "1. Cuenta: 41010115 41010115 INGRESOS POR ACTIVIDADES ANEXAS",
+      "es_ajuste": false,
+      "es_tape_adjustment": false,
+      "actuals": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      }
+    },
+    {
+      "mes": "2026-07",
+      "pais": "Mexico",
+      "subsidiaria": "Tu HabiPres",
+      "linea": "HabiCredit",
+      "submetrica": "01. HabiCredit (Bancario)",
+      "cuenta": 41010120,
+      "cuenta_desc": "1. Cuenta: 41010120 DESCUENTOS EN VENTAS",
+      "es_ajuste": false,
+      "es_tape_adjustment": false,
+      "actuals": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      }
+    },
+    {
+      "mes": "2026-07",
+      "pais": "Mexico",
+      "subsidiaria": "Tu HabiPres",
+      "linea": "Market Maker",
+      "submetrica": "01. Market Maker (\"Compraventa\")",
+      "cuenta": 41010101,
+      "cuenta_desc": "1. Cuenta: 41010101 INGRESOS POR VENTA DE INMUEBLES",
+      "es_ajuste": false,
+      "es_tape_adjustment": false,
+      "actuals": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      }
+    },
+    {
+      "mes": "2026-07",
+      "pais": "Mexico",
+      "subsidiaria": "Tu HabiPres",
+      "linea": "Market Maker",
+      "submetrica": "01. Other Products",
+      "cuenta": 41010118,
+      "cuenta_desc": "1. Cuenta: 41010118 41010118 INGRESOS POR EXCLUSIVIDAD VENTA",
+      "es_ajuste": false,
+      "es_tape_adjustment": false,
+      "actuals": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      }
+    },
+    {
+      "mes": "2026-07",
+      "pais": "Mexico",
+      "subsidiaria": "Tu HabiPres",
+      "linea": "Market Maker",
+      "submetrica": "02. Market Maker (\"Prestamos\")",
+      "cuenta": 41010102,
+      "cuenta_desc": "1. Cuenta: 41010102 INGRESOS POR SERVICIOS PROFESIONALES",
+      "es_ajuste": false,
+      "es_tape_adjustment": false,
+      "actuals": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      }
+    },
+    {
+      "mes": "2026-07",
+      "pais": "Mexico",
+      "subsidiaria": "Tu HabiPres",
+      "linea": "Market Maker",
+      "submetrica": "02. Market Maker (\"Prestamos\")",
+      "cuenta": 41010103,
+      "cuenta_desc": "1. Cuenta: 41010103 INGRESOS POR INTERESES PRESTAMOS",
+      "es_ajuste": false,
+      "es_tape_adjustment": false,
+      "actuals": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      }
+    },
+    {
+      "mes": "2026-07",
+      "pais": "Mexico",
+      "subsidiaria": "Tu HabiPres",
+      "linea": "Market Maker",
+      "submetrica": "02. Market Maker (\"Prestamos\")",
+      "cuenta": 41010104,
+      "cuenta_desc": "1. Cuenta: 41010104 INGRESOS POR COMISION MERCANTIL",
+      "es_ajuste": false,
+      "es_tape_adjustment": false,
+      "actuals": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      }
+    },
+    {
+      "mes": "2026-07",
+      "pais": "Mexico",
+      "subsidiaria": "Tu HabiPres",
+      "linea": "Market Maker",
+      "submetrica": "02. Market Maker (\"Prestamos\")",
+      "cuenta": 41010114,
+      "cuenta_desc": "1. Cuenta: 41010114 INGRESOS POR REMODELACIONES",
+      "es_ajuste": false,
+      "es_tape_adjustment": false,
+      "actuals": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      }
+    },
+    {
+      "mes": "2026-07",
+      "pais": "Mexico",
+      "subsidiaria": "Tu HabiPres",
+      "linea": "Market Maker",
+      "submetrica": "02. Market Maker (\"Prestamos\")",
+      "cuenta": 41010120,
+      "cuenta_desc": "1. Cuenta: 41010120 41010120 DESCUENTOS EN VENTAS",
+      "es_ajuste": false,
+      "es_tape_adjustment": false,
+      "actuals": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      }
+    },
+    {
+      "mes": "2026-07",
+      "pais": "Mexico",
+      "subsidiaria": "Tu HabiPres",
+      "linea": "Other",
+      "submetrica": "01. Other Products",
+      "cuenta": 41010109,
+      "cuenta_desc": "1. Cuenta: 41010109 INGRESOS POR PREMIUM ADS",
+      "es_ajuste": false,
+      "es_tape_adjustment": false,
+      "actuals": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      }
+    },
+    {
+      "mes": "2026-07",
+      "pais": "Mexico",
+      "subsidiaria": "Tu HabiPres",
+      "linea": "Other",
+      "submetrica": "02. Other Products",
+      "cuenta": 41010116,
+      "cuenta_desc": "96. Eliminación: 41010116 41010116 INGRESOS POR SERVICIOS PROFESIONALES INTERCOMPAÑIAS",
+      "es_ajuste": false,
+      "es_tape_adjustment": false,
+      "actuals": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      }
+    },
+    {
+      "mes": "2026-07",
+      "pais": "Mexico",
+      "subsidiaria": "Tu HabiPres",
+      "linea": "Other",
+      "submetrica": "02. Other Products",
+      "cuenta": 41010116,
+      "cuenta_desc": "96. Eliminación: 41010116 INGRESOS POR SERVICIOS PROFESIONALES INTERCOMPAÑIAS",
+      "es_ajuste": false,
+      "es_tape_adjustment": false,
+      "actuals": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      }
+    },
+    {
+      "mes": "2026-07",
+      "pais": "Mexico",
+      "subsidiaria": null,
+      "linea": "Brokerage",
+      "submetrica": "99. Brokerage Sales",
+      "cuenta": null,
+      "cuenta_desc": "99. Explicación Other: Linea Reporte = Brokerage",
+      "es_ajuste": false,
+      "es_tape_adjustment": false,
+      "actuals": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      }
+    },
+    {
+      "mes": "2026-07",
+      "pais": "Mexico",
+      "subsidiaria": null,
+      "linea": "Brokerage",
+      "submetrica": "99. Brokerage Sales",
+      "cuenta": null,
+      "cuenta_desc": "99. Explicación Other: Linea Reporte = Revenue_Habi_Inmobiliria",
+      "es_ajuste": false,
+      "es_tape_adjustment": false,
+      "actuals": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      }
+    },
+    {
+      "mes": "2026-07",
+      "pais": "Mexico",
+      "subsidiaria": null,
+      "linea": "HabiCredit",
+      "submetrica": "99. Other Revenue",
+      "cuenta": null,
+      "cuenta_desc": "96. Eliminación:  Ajuste suma HC100",
+      "es_ajuste": false,
+      "es_tape_adjustment": false,
+      "actuals": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      }
+    },
+    {
+      "mes": "2026-07",
+      "pais": "Mexico",
+      "subsidiaria": null,
+      "linea": "HabiCredit",
+      "submetrica": "99. Other Revenue",
+      "cuenta": null,
+      "cuenta_desc": "99. Explicación Other: Linea Reporte = Revenue_Discounts",
+      "es_ajuste": false,
+      "es_tape_adjustment": false,
+      "actuals": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      }
+    },
+    {
+      "mes": "2026-07",
+      "pais": "Mexico",
+      "subsidiaria": null,
+      "linea": "HabiCredit",
+      "submetrica": "99. Other Revenue",
+      "cuenta": null,
+      "cuenta_desc": "99. Explicación Other: Linea Reporte = Revenue_Habicredit",
+      "es_ajuste": false,
+      "es_tape_adjustment": false,
+      "actuals": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      }
+    },
+    {
+      "mes": "2026-07",
+      "pais": "Mexico",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "submetrica": "99. Other Market Maker Sales (selling price)",
+      "cuenta": null,
+      "cuenta_desc": "96. Eliminación:  Ajuste resta HC100",
+      "es_ajuste": false,
+      "es_tape_adjustment": false,
+      "actuals": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      }
+    },
+    {
+      "mes": "2026-07",
+      "pais": "Mexico",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "submetrica": "99. Other Market Maker Sales (selling price)",
+      "cuenta": null,
+      "cuenta_desc": "97. Ajuste: iBuying Cost of sales (Purchase price) - Deeds not booked Mexico 2024",
+      "es_ajuste": true,
+      "es_tape_adjustment": false,
+      "actuals": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      }
+    },
+    {
+      "mes": "2026-07",
+      "pais": "Mexico",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "submetrica": "99. Other Market Maker Sales (selling price)",
+      "cuenta": null,
+      "cuenta_desc": "97. Ajuste: iBuying Cost of sales (Purchase price) - Deeds not booked Mexico 2025",
+      "es_ajuste": true,
+      "es_tape_adjustment": false,
+      "actuals": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      }
+    },
+    {
+      "mes": "2026-07",
+      "pais": "Mexico",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "submetrica": "99. Other Market Maker Sales (selling price)",
+      "cuenta": null,
+      "cuenta_desc": "97. Ajuste: iBuying Sales - Deeds not booked Mexico 2024",
+      "es_ajuste": true,
+      "es_tape_adjustment": false,
+      "actuals": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      }
+    },
+    {
+      "mes": "2026-07",
+      "pais": "Mexico",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "submetrica": "99. Other Market Maker Sales (selling price)",
+      "cuenta": null,
+      "cuenta_desc": "97. Ajuste: iBuying Sales - Deeds not booked Mexico 2025",
+      "es_ajuste": true,
+      "es_tape_adjustment": false,
+      "actuals": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      }
+    },
+    {
+      "mes": "2026-07",
+      "pais": "Mexico",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "submetrica": "99. Other Market Maker Sales (selling price)",
+      "cuenta": null,
+      "cuenta_desc": "97. Ajuste: iBuying Sales - Freedom: Normalization",
+      "es_ajuste": true,
+      "es_tape_adjustment": false,
+      "actuals": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      }
+    },
+    {
+      "mes": "2026-07",
+      "pais": "Mexico",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "submetrica": "99. Other Market Maker Sales (selling price)",
+      "cuenta": null,
+      "cuenta_desc": "97. Ajuste: iBuying Sales - iBuying Sales: Credit Notes",
+      "es_ajuste": true,
+      "es_tape_adjustment": false,
+      "actuals": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      }
+    },
+    {
+      "mes": "2026-07",
+      "pais": "Mexico",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "submetrica": "99. Other Market Maker Sales (selling price)",
+      "cuenta": null,
+      "cuenta_desc": "97. Ajuste: iBuying Sales - iBuying Sales: Credit Notes (Post-Auditoria)",
+      "es_ajuste": true,
+      "es_tape_adjustment": false,
+      "actuals": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      }
+    },
+    {
+      "mes": "2026-07",
+      "pais": "Mexico",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "submetrica": "99. Other Market Maker Sales (selling price)",
+      "cuenta": null,
+      "cuenta_desc": "99. Explicación Other: Linea Reporte = Interest",
+      "es_ajuste": false,
+      "es_tape_adjustment": false,
+      "actuals": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      }
+    },
+    {
+      "mes": "2026-07",
+      "pais": "Mexico",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "submetrica": "99. Other Market Maker Sales (selling price)",
+      "cuenta": null,
+      "cuenta_desc": "99. Explicación Other: Linea Reporte = Merchant_comission",
+      "es_ajuste": false,
+      "es_tape_adjustment": false,
+      "actuals": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      }
+    },
+    {
+      "mes": "2026-07",
+      "pais": "Mexico",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "submetrica": "99. Other Market Maker Sales (selling price)",
+      "cuenta": null,
+      "cuenta_desc": "99. Explicación Other: Linea Reporte = Professional_Services",
+      "es_ajuste": false,
+      "es_tape_adjustment": false,
+      "actuals": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      }
+    },
+    {
+      "mes": "2026-07",
+      "pais": "Mexico",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "submetrica": "99. Other Market Maker Sales (selling price)",
+      "cuenta": null,
+      "cuenta_desc": "99. Explicación Other: Linea Reporte = Remodelation_Revenue",
+      "es_ajuste": false,
+      "es_tape_adjustment": false,
+      "actuals": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      }
+    },
+    {
+      "mes": "2026-07",
+      "pais": "Mexico",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "submetrica": "99. Other Market Maker Sales (selling price)",
+      "cuenta": null,
+      "cuenta_desc": "99. Explicación Other: Linea Reporte = Revenue_Discounts",
+      "es_ajuste": false,
+      "es_tape_adjustment": false,
+      "actuals": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      }
+    },
+    {
+      "mes": "2026-07",
+      "pais": "Mexico",
+      "subsidiaria": null,
+      "linea": "Market Maker",
+      "submetrica": "99. Other Market Maker Sales (selling price)",
+      "cuenta": null,
+      "cuenta_desc": "99. Explicación Other: Linea Reporte = iBuying_Revenue",
+      "es_ajuste": false,
+      "es_tape_adjustment": false,
+      "actuals": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      }
+    },
+    {
+      "mes": "2026-07",
+      "pais": "Mexico",
+      "subsidiaria": null,
+      "linea": "Other",
+      "submetrica": "99. Other Other Products",
+      "cuenta": null,
+      "cuenta_desc": "99. Explicación Other: Linea Reporte = Premium_Ads",
+      "es_ajuste": false,
+      "es_tape_adjustment": false,
+      "actuals": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      }
+    },
+    {
+      "mes": "2026-07",
+      "pais": "Mexico",
+      "subsidiaria": null,
+      "linea": "Other",
+      "submetrica": "99. Other Other Products",
+      "cuenta": null,
+      "cuenta_desc": "99. Explicación Other: Linea Reporte = Professional_Services_Intercompanies",
+      "es_ajuste": false,
+      "es_tape_adjustment": false,
+      "actuals": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      }
+    },
+    {
+      "mes": "2026-07",
+      "pais": "Offshore",
+      "subsidiaria": "Corp",
+      "linea": "Other",
+      "submetrica": "01. Other Products",
+      "cuenta": 41010116,
+      "cuenta_desc": "96. Eliminación: 41010116 INGRESOS POR SERVICIOS PROFESIONALES INTERCOMPAÑIAS",
+      "es_ajuste": false,
+      "es_tape_adjustment": false,
+      "actuals": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      }
+    },
+    {
+      "mes": "2026-07",
+      "pais": "Offshore",
+      "subsidiaria": null,
+      "linea": "Other",
+      "submetrica": "99. Other Other Products",
+      "cuenta": null,
+      "cuenta_desc": "99. Explicación Other: Linea Reporte = Professional_Services_Intercompanies",
+      "es_ajuste": false,
+      "es_tape_adjustment": false,
+      "actuals": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "solo_elim": 0.0,
+        "con_elim": 0.0
+      }
+    },
+    {
+      "mes": "2026-04",
+      "pais": "Colombia",
+      "subsidiaria": "Habi",
+      "linea": "Market Maker",
       "submetrica": "Tape Adjustment",
       "cuenta": null,
       "cuenta_desc": "Tape Adjustment (c_precio − BET MM)",
       "es_ajuste": false,
       "es_tape_adjustment": true,
       "actuals": {
-        "sin_elim": 89308573.17,
-        "con_elim": 89308573.17,
+        "sin_elim": 5974006443.07999,
+        "con_elim": 5974006443.07999,
         "solo_elim": 0.0
       },
       "budget": {
@@ -25045,8 +24877,8 @@
       "es_ajuste": false,
       "es_tape_adjustment": true,
       "actuals": {
-        "sin_elim": 103243721.46999997,
-        "con_elim": 103243721.46999997,
+        "sin_elim": 103226141.46999997,
+        "con_elim": 103226141.46999997,
         "solo_elim": 0.0
       },
       "budget": {
@@ -25056,49 +24888,7 @@
       }
     },
     {
-      "mes": "2026-04",
-      "pais": "Mexico",
-      "subsidiaria": "Corporativo",
-      "linea": "Market Maker",
-      "submetrica": "Tape Adjustment",
-      "cuenta": null,
-      "cuenta_desc": "Tape Adjustment (c_precio − BET MM)",
-      "es_ajuste": false,
-      "es_tape_adjustment": true,
-      "actuals": {
-        "sin_elim": 130137903.33999997,
-        "con_elim": 130137903.33999997,
-        "solo_elim": 0.0
-      },
-      "budget": {
-        "sin_elim": 0.0,
-        "con_elim": 0.0,
-        "solo_elim": 0.0
-      }
-    },
-    {
-      "mes": "2025-10",
-      "pais": "Mexico",
-      "subsidiaria": "Corporativo",
-      "linea": "Market Maker",
-      "submetrica": "Tape Adjustment",
-      "cuenta": null,
-      "cuenta_desc": "Tape Adjustment (c_precio − BET MM)",
-      "es_ajuste": false,
-      "es_tape_adjustment": true,
-      "actuals": {
-        "sin_elim": 109249251.54999998,
-        "con_elim": 109249251.54999998,
-        "solo_elim": 0.0
-      },
-      "budget": {
-        "sin_elim": 0.0,
-        "con_elim": 0.0,
-        "solo_elim": 0.0
-      }
-    },
-    {
-      "mes": "2026-01",
+      "mes": "2025-07",
       "pais": "Colombia",
       "subsidiaria": "Habi",
       "linea": "Market Maker",
@@ -25108,8 +24898,71 @@
       "es_ajuste": false,
       "es_tape_adjustment": true,
       "actuals": {
-        "sin_elim": 2898324237.76,
-        "con_elim": 2898324237.76,
+        "sin_elim": 5066261241.750008,
+        "con_elim": 5066261241.750008,
+        "solo_elim": 0.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "con_elim": 0.0,
+        "solo_elim": 0.0
+      }
+    },
+    {
+      "mes": "2026-03",
+      "pais": "Mexico",
+      "subsidiaria": "Corporativo",
+      "linea": "Market Maker",
+      "submetrica": "Tape Adjustment",
+      "cuenta": null,
+      "cuenta_desc": "Tape Adjustment (c_precio − BET MM)",
+      "es_ajuste": false,
+      "es_tape_adjustment": true,
+      "actuals": {
+        "sin_elim": 65130829.400000006,
+        "con_elim": 65130829.400000006,
+        "solo_elim": 0.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "con_elim": 0.0,
+        "solo_elim": 0.0
+      }
+    },
+    {
+      "mes": "2026-05",
+      "pais": "Colombia",
+      "subsidiaria": "Habi",
+      "linea": "Market Maker",
+      "submetrica": "Tape Adjustment",
+      "cuenta": null,
+      "cuenta_desc": "Tape Adjustment (c_precio − BET MM)",
+      "es_ajuste": false,
+      "es_tape_adjustment": true,
+      "actuals": {
+        "sin_elim": 8493891151.649994,
+        "con_elim": 8493891151.649994,
+        "solo_elim": 0.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "con_elim": 0.0,
+        "solo_elim": 0.0
+      }
+    },
+    {
+      "mes": "2026-05",
+      "pais": "Mexico",
+      "subsidiaria": "Corporativo",
+      "linea": "Market Maker",
+      "submetrica": "Tape Adjustment",
+      "cuenta": null,
+      "cuenta_desc": "Tape Adjustment (c_precio − BET MM)",
+      "es_ajuste": false,
+      "es_tape_adjustment": true,
+      "actuals": {
+        "sin_elim": 110823140.19999997,
+        "con_elim": 110823140.19999997,
         "solo_elim": 0.0
       },
       "budget": {
@@ -25140,28 +24993,7 @@
       }
     },
     {
-      "mes": "2025-06",
-      "pais": "Mexico",
-      "subsidiaria": "Corporativo",
-      "linea": "Market Maker",
-      "submetrica": "Tape Adjustment",
-      "cuenta": null,
-      "cuenta_desc": "Tape Adjustment (c_precio − BET MM)",
-      "es_ajuste": false,
-      "es_tape_adjustment": true,
-      "actuals": {
-        "sin_elim": 125112202.25196806,
-        "con_elim": 125112202.25196806,
-        "solo_elim": 0.0
-      },
-      "budget": {
-        "sin_elim": 0.0,
-        "con_elim": 0.0,
-        "solo_elim": 0.0
-      }
-    },
-    {
-      "mes": "2025-12",
+      "mes": "2025-11",
       "pais": "Colombia",
       "subsidiaria": "Habi",
       "linea": "Market Maker",
@@ -25171,197 +25003,8 @@
       "es_ajuste": false,
       "es_tape_adjustment": true,
       "actuals": {
-        "sin_elim": 6458222508.789978,
-        "con_elim": 6458222508.789978,
-        "solo_elim": 0.0
-      },
-      "budget": {
-        "sin_elim": 0.0,
-        "con_elim": 0.0,
-        "solo_elim": 0.0
-      }
-    },
-    {
-      "mes": "2025-09",
-      "pais": "Mexico",
-      "subsidiaria": "Corporativo",
-      "linea": "Market Maker",
-      "submetrica": "Tape Adjustment",
-      "cuenta": null,
-      "cuenta_desc": "Tape Adjustment (c_precio − BET MM)",
-      "es_ajuste": false,
-      "es_tape_adjustment": true,
-      "actuals": {
-        "sin_elim": 95071676.78000002,
-        "con_elim": 95071676.78000002,
-        "solo_elim": 0.0
-      },
-      "budget": {
-        "sin_elim": 0.0,
-        "con_elim": 0.0,
-        "solo_elim": 0.0
-      }
-    },
-    {
-      "mes": "2025-05",
-      "pais": "Mexico",
-      "subsidiaria": "Corporativo",
-      "linea": "Market Maker",
-      "submetrica": "Tape Adjustment",
-      "cuenta": null,
-      "cuenta_desc": "Tape Adjustment (c_precio − BET MM)",
-      "es_ajuste": false,
-      "es_tape_adjustment": true,
-      "actuals": {
-        "sin_elim": 128243603.74803193,
-        "con_elim": 128243603.74803193,
-        "solo_elim": 0.0
-      },
-      "budget": {
-        "sin_elim": 0.0,
-        "con_elim": 0.0,
-        "solo_elim": 0.0
-      }
-    },
-    {
-      "mes": "2025-08",
-      "pais": "Colombia",
-      "subsidiaria": "Habi",
-      "linea": "Market Maker",
-      "submetrica": "Tape Adjustment",
-      "cuenta": null,
-      "cuenta_desc": "Tape Adjustment (c_precio − BET MM)",
-      "es_ajuste": false,
-      "es_tape_adjustment": true,
-      "actuals": {
-        "sin_elim": 4573063112.210007,
-        "con_elim": 4573063112.210007,
-        "solo_elim": 0.0
-      },
-      "budget": {
-        "sin_elim": 0.0,
-        "con_elim": 0.0,
-        "solo_elim": 0.0
-      }
-    },
-    {
-      "mes": "2026-02",
-      "pais": "Colombia",
-      "subsidiaria": "Habi",
-      "linea": "Market Maker",
-      "submetrica": "Tape Adjustment",
-      "cuenta": null,
-      "cuenta_desc": "Tape Adjustment (c_precio − BET MM)",
-      "es_ajuste": false,
-      "es_tape_adjustment": true,
-      "actuals": {
-        "sin_elim": 7509529048.869991,
-        "con_elim": 7509529048.869991,
-        "solo_elim": 0.0
-      },
-      "budget": {
-        "sin_elim": 0.0,
-        "con_elim": 0.0,
-        "solo_elim": 0.0
-      }
-    },
-    {
-      "mes": "2026-01",
-      "pais": "Mexico",
-      "subsidiaria": "Corporativo",
-      "linea": "Market Maker",
-      "submetrica": "Tape Adjustment",
-      "cuenta": null,
-      "cuenta_desc": "Tape Adjustment (c_precio − BET MM)",
-      "es_ajuste": false,
-      "es_tape_adjustment": true,
-      "actuals": {
-        "sin_elim": 45984759.55000002,
-        "con_elim": 45984759.55000002,
-        "solo_elim": 0.0
-      },
-      "budget": {
-        "sin_elim": 0.0,
-        "con_elim": 0.0,
-        "solo_elim": 0.0
-      }
-    },
-    {
-      "mes": "2026-06",
-      "pais": "Mexico",
-      "subsidiaria": "Corporativo",
-      "linea": "Market Maker",
-      "submetrica": "Tape Adjustment",
-      "cuenta": null,
-      "cuenta_desc": "Tape Adjustment (c_precio − BET MM)",
-      "es_ajuste": false,
-      "es_tape_adjustment": true,
-      "actuals": {
-        "sin_elim": 36184003.21,
-        "con_elim": 36184003.21,
-        "solo_elim": 0.0
-      },
-      "budget": {
-        "sin_elim": 0.0,
-        "con_elim": 0.0,
-        "solo_elim": 0.0
-      }
-    },
-    {
-      "mes": "2026-05",
-      "pais": "Mexico",
-      "subsidiaria": "Corporativo",
-      "linea": "Market Maker",
-      "submetrica": "Tape Adjustment",
-      "cuenta": null,
-      "cuenta_desc": "Tape Adjustment (c_precio − BET MM)",
-      "es_ajuste": false,
-      "es_tape_adjustment": true,
-      "actuals": {
-        "sin_elim": 110823140.2,
-        "con_elim": 110823140.2,
-        "solo_elim": 0.0
-      },
-      "budget": {
-        "sin_elim": 0.0,
-        "con_elim": 0.0,
-        "solo_elim": 0.0
-      }
-    },
-    {
-      "mes": "2026-05",
-      "pais": "Colombia",
-      "subsidiaria": "Habi",
-      "linea": "Market Maker",
-      "submetrica": "Tape Adjustment",
-      "cuenta": null,
-      "cuenta_desc": "Tape Adjustment (c_precio − BET MM)",
-      "es_ajuste": false,
-      "es_tape_adjustment": true,
-      "actuals": {
-        "sin_elim": 8493891151.650017,
-        "con_elim": 8493891151.650017,
-        "solo_elim": 0.0
-      },
-      "budget": {
-        "sin_elim": 0.0,
-        "con_elim": 0.0,
-        "solo_elim": 0.0
-      }
-    },
-    {
-      "mes": "2025-09",
-      "pais": "Colombia",
-      "subsidiaria": "Habi",
-      "linea": "Market Maker",
-      "submetrica": "Tape Adjustment",
-      "cuenta": null,
-      "cuenta_desc": "Tape Adjustment (c_precio − BET MM)",
-      "es_ajuste": false,
-      "es_tape_adjustment": true,
-      "actuals": {
-        "sin_elim": 6022548895.580009,
-        "con_elim": 6022548895.580009,
+        "sin_elim": 6693088644.189972,
+        "con_elim": 6693088644.189972,
         "solo_elim": 0.0
       },
       "budget": {
@@ -25372,8 +25015,8 @@
     },
     {
       "mes": "2026-04",
-      "pais": "Colombia",
-      "subsidiaria": "Habi",
+      "pais": "Mexico",
+      "subsidiaria": "Corporativo",
       "linea": "Market Maker",
       "submetrica": "Tape Adjustment",
       "cuenta": null,
@@ -25381,8 +25024,8 @@
       "es_ajuste": false,
       "es_tape_adjustment": true,
       "actuals": {
-        "sin_elim": 5974006443.07999,
-        "con_elim": 5974006443.07999,
+        "sin_elim": 130137903.33999997,
+        "con_elim": 130137903.33999997,
         "solo_elim": 0.0
       },
       "budget": {
@@ -25423,8 +25066,155 @@
       "es_ajuste": false,
       "es_tape_adjustment": true,
       "actuals": {
-        "sin_elim": 90949764.06,
-        "con_elim": 90949764.06,
+        "sin_elim": 90829134.06,
+        "con_elim": 90829134.06,
+        "solo_elim": 0.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "con_elim": 0.0,
+        "solo_elim": 0.0
+      }
+    },
+    {
+      "mes": "2025-08",
+      "pais": "Colombia",
+      "subsidiaria": "Habi",
+      "linea": "Market Maker",
+      "submetrica": "Tape Adjustment",
+      "cuenta": null,
+      "cuenta_desc": "Tape Adjustment (c_precio − BET MM)",
+      "es_ajuste": false,
+      "es_tape_adjustment": true,
+      "actuals": {
+        "sin_elim": 4573063112.210007,
+        "con_elim": 4573063112.210007,
+        "solo_elim": 0.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "con_elim": 0.0,
+        "solo_elim": 0.0
+      }
+    },
+    {
+      "mes": "2026-07",
+      "pais": "Colombia",
+      "subsidiaria": "Habi",
+      "linea": "Market Maker",
+      "submetrica": "Tape Adjustment",
+      "cuenta": null,
+      "cuenta_desc": "Tape Adjustment (c_precio − BET MM)",
+      "es_ajuste": false,
+      "es_tape_adjustment": true,
+      "actuals": {
+        "sin_elim": 28591400.0,
+        "con_elim": 28591400.0,
+        "solo_elim": 0.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "con_elim": 0.0,
+        "solo_elim": 0.0
+      }
+    },
+    {
+      "mes": "2026-01",
+      "pais": "Mexico",
+      "subsidiaria": "Corporativo",
+      "linea": "Market Maker",
+      "submetrica": "Tape Adjustment",
+      "cuenta": null,
+      "cuenta_desc": "Tape Adjustment (c_precio − BET MM)",
+      "es_ajuste": false,
+      "es_tape_adjustment": true,
+      "actuals": {
+        "sin_elim": 45984759.55000002,
+        "con_elim": 45984759.55000002,
+        "solo_elim": 0.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "con_elim": 0.0,
+        "solo_elim": 0.0
+      }
+    },
+    {
+      "mes": "2025-08",
+      "pais": "Mexico",
+      "subsidiaria": "Corporativo",
+      "linea": "Market Maker",
+      "submetrica": "Tape Adjustment",
+      "cuenta": null,
+      "cuenta_desc": "Tape Adjustment (c_precio − BET MM)",
+      "es_ajuste": false,
+      "es_tape_adjustment": true,
+      "actuals": {
+        "sin_elim": 89478801.51,
+        "con_elim": 89478801.51,
+        "solo_elim": 0.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "con_elim": 0.0,
+        "solo_elim": 0.0
+      }
+    },
+    {
+      "mes": "2025-06",
+      "pais": "Mexico",
+      "subsidiaria": "Corporativo",
+      "linea": "Market Maker",
+      "submetrica": "Tape Adjustment",
+      "cuenta": null,
+      "cuenta_desc": "Tape Adjustment (c_precio − BET MM)",
+      "es_ajuste": false,
+      "es_tape_adjustment": true,
+      "actuals": {
+        "sin_elim": 125112202.25196809,
+        "con_elim": 125112202.25196809,
+        "solo_elim": 0.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "con_elim": 0.0,
+        "solo_elim": 0.0
+      }
+    },
+    {
+      "mes": "2025-09",
+      "pais": "Mexico",
+      "subsidiaria": "Corporativo",
+      "linea": "Market Maker",
+      "submetrica": "Tape Adjustment",
+      "cuenta": null,
+      "cuenta_desc": "Tape Adjustment (c_precio − BET MM)",
+      "es_ajuste": false,
+      "es_tape_adjustment": true,
+      "actuals": {
+        "sin_elim": 95071676.78000002,
+        "con_elim": 95071676.78000002,
+        "solo_elim": 0.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "con_elim": 0.0,
+        "solo_elim": 0.0
+      }
+    },
+    {
+      "mes": "2025-12",
+      "pais": "Colombia",
+      "subsidiaria": "Habi",
+      "linea": "Market Maker",
+      "submetrica": "Tape Adjustment",
+      "cuenta": null,
+      "cuenta_desc": "Tape Adjustment (c_precio − BET MM)",
+      "es_ajuste": false,
+      "es_tape_adjustment": true,
+      "actuals": {
+        "sin_elim": 6458222508.789993,
+        "con_elim": 6458222508.789993,
         "solo_elim": 0.0
       },
       "budget": {
@@ -25435,27 +25225,6 @@
     },
     {
       "mes": "2026-03",
-      "pais": "Mexico",
-      "subsidiaria": "Corporativo",
-      "linea": "Market Maker",
-      "submetrica": "Tape Adjustment",
-      "cuenta": null,
-      "cuenta_desc": "Tape Adjustment (c_precio − BET MM)",
-      "es_ajuste": false,
-      "es_tape_adjustment": true,
-      "actuals": {
-        "sin_elim": 65130829.400000006,
-        "con_elim": 65130829.400000006,
-        "solo_elim": 0.0
-      },
-      "budget": {
-        "sin_elim": 0.0,
-        "con_elim": 0.0,
-        "solo_elim": 0.0
-      }
-    },
-    {
-      "mes": "2025-07",
       "pais": "Colombia",
       "subsidiaria": "Habi",
       "linea": "Market Maker",
@@ -25465,8 +25234,197 @@
       "es_ajuste": false,
       "es_tape_adjustment": true,
       "actuals": {
-        "sin_elim": 5066261241.750008,
-        "con_elim": 5066261241.750008,
+        "sin_elim": 14207823141.79998,
+        "con_elim": 14207823141.79998,
+        "solo_elim": 0.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "con_elim": 0.0,
+        "solo_elim": 0.0
+      }
+    },
+    {
+      "mes": "2025-10",
+      "pais": "Colombia",
+      "subsidiaria": "Habi",
+      "linea": "Market Maker",
+      "submetrica": "Tape Adjustment",
+      "cuenta": null,
+      "cuenta_desc": "Tape Adjustment (c_precio − BET MM)",
+      "es_ajuste": false,
+      "es_tape_adjustment": true,
+      "actuals": {
+        "sin_elim": 6430016254.549999,
+        "con_elim": 6430016254.549999,
+        "solo_elim": 0.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "con_elim": 0.0,
+        "solo_elim": 0.0
+      }
+    },
+    {
+      "mes": "2026-06",
+      "pais": "Mexico",
+      "subsidiaria": "Corporativo",
+      "linea": "Market Maker",
+      "submetrica": "Tape Adjustment",
+      "cuenta": null,
+      "cuenta_desc": "Tape Adjustment (c_precio − BET MM)",
+      "es_ajuste": false,
+      "es_tape_adjustment": true,
+      "actuals": {
+        "sin_elim": 66459927.17,
+        "con_elim": 66459927.17,
+        "solo_elim": 0.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "con_elim": 0.0,
+        "solo_elim": 0.0
+      }
+    },
+    {
+      "mes": "2026-01",
+      "pais": "Colombia",
+      "subsidiaria": "Habi",
+      "linea": "Market Maker",
+      "submetrica": "Tape Adjustment",
+      "cuenta": null,
+      "cuenta_desc": "Tape Adjustment (c_precio − BET MM)",
+      "es_ajuste": false,
+      "es_tape_adjustment": true,
+      "actuals": {
+        "sin_elim": 2898324237.76,
+        "con_elim": 2898324237.76,
+        "solo_elim": 0.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "con_elim": 0.0,
+        "solo_elim": 0.0
+      }
+    },
+    {
+      "mes": "2025-10",
+      "pais": "Mexico",
+      "subsidiaria": "Corporativo",
+      "linea": "Market Maker",
+      "submetrica": "Tape Adjustment",
+      "cuenta": null,
+      "cuenta_desc": "Tape Adjustment (c_precio − BET MM)",
+      "es_ajuste": false,
+      "es_tape_adjustment": true,
+      "actuals": {
+        "sin_elim": 109191651.54999998,
+        "con_elim": 109191651.54999998,
+        "solo_elim": 0.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "con_elim": 0.0,
+        "solo_elim": 0.0
+      }
+    },
+    {
+      "mes": "2025-11",
+      "pais": "Mexico",
+      "subsidiaria": "Corporativo",
+      "linea": "Market Maker",
+      "submetrica": "Tape Adjustment",
+      "cuenta": null,
+      "cuenta_desc": "Tape Adjustment (c_precio − BET MM)",
+      "es_ajuste": false,
+      "es_tape_adjustment": true,
+      "actuals": {
+        "sin_elim": 89308573.17,
+        "con_elim": 89308573.17,
+        "solo_elim": 0.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "con_elim": 0.0,
+        "solo_elim": 0.0
+      }
+    },
+    {
+      "mes": "2026-06",
+      "pais": "Colombia",
+      "subsidiaria": "Habi",
+      "linea": "Market Maker",
+      "submetrica": "Tape Adjustment",
+      "cuenta": null,
+      "cuenta_desc": "Tape Adjustment (c_precio − BET MM)",
+      "es_ajuste": false,
+      "es_tape_adjustment": true,
+      "actuals": {
+        "sin_elim": 6756481446.6999855,
+        "con_elim": 6756481446.6999855,
+        "solo_elim": 0.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "con_elim": 0.0,
+        "solo_elim": 0.0
+      }
+    },
+    {
+      "mes": "2025-09",
+      "pais": "Colombia",
+      "subsidiaria": "Habi",
+      "linea": "Market Maker",
+      "submetrica": "Tape Adjustment",
+      "cuenta": null,
+      "cuenta_desc": "Tape Adjustment (c_precio − BET MM)",
+      "es_ajuste": false,
+      "es_tape_adjustment": true,
+      "actuals": {
+        "sin_elim": 6022548895.580009,
+        "con_elim": 6022548895.580009,
+        "solo_elim": 0.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "con_elim": 0.0,
+        "solo_elim": 0.0
+      }
+    },
+    {
+      "mes": "2026-02",
+      "pais": "Colombia",
+      "subsidiaria": "Habi",
+      "linea": "Market Maker",
+      "submetrica": "Tape Adjustment",
+      "cuenta": null,
+      "cuenta_desc": "Tape Adjustment (c_precio − BET MM)",
+      "es_ajuste": false,
+      "es_tape_adjustment": true,
+      "actuals": {
+        "sin_elim": 7509529048.869991,
+        "con_elim": 7509529048.869991,
+        "solo_elim": 0.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "con_elim": 0.0,
+        "solo_elim": 0.0
+      }
+    },
+    {
+      "mes": "2026-07",
+      "pais": "Mexico",
+      "subsidiaria": "Corporativo",
+      "linea": "Market Maker",
+      "submetrica": "Tape Adjustment",
+      "cuenta": null,
+      "cuenta_desc": "Tape Adjustment (c_precio − BET MM)",
+      "es_ajuste": false,
+      "es_tape_adjustment": true,
+      "actuals": {
+        "sin_elim": -12931.03,
+        "con_elim": -12931.03,
         "solo_elim": 0.0
       },
       "budget": {

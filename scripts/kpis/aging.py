@@ -4,9 +4,9 @@ Fuente: finance_tapes_global. Para cada mes M:
   - NIDs vivos al cierre = mismo filtro que inventario (v_fecha_escritura sin
     c_fecha_escritura, no desistidos)
   - dias_en_inv = LAST_DAY(M) − v_fecha_escritura
-  - bucket por dias: 0-90, 90-180, 180-365, 365+
+  - bucket por dias: 0-30, 30-60, 60-90, 90-120, 120-240, 240-300, 300+
 
-Card: % NIDs con dias_en_inv > 180.
+Card: % NIDs con dias_en_inv > 120.
 Drill: distribucion por bucket (nids y valor_compra) y serie mensual del %.
 """
 
@@ -24,15 +24,20 @@ from scripts._common import MONEDA_POR_PAIS, PAIS_LABEL
 log = logging.getLogger(__name__)
 
 HISTORY_MONTHS = 13
-UMBRAL_DIAS = 180
+UMBRAL_DIAS = 120
 
 TAPE_TABLE = "clients-domain-data-master.finance_wh_bi.finance_tapes_global"
 
+# color por bucket: del verde oscuro (fresco) al rojo (viejo). El front lee
+# este field de buckets_meta para pintar barras apiladas y chips del drill.
 BUCKETS_META = [
-    {"name": "0-90",    "min": 0,   "max": 89,   "over": False},
-    {"name": "90-180",  "min": 90,  "max": 179,  "over": False},
-    {"name": "180-365", "min": 180, "max": 364,  "over": True},
-    {"name": "365+",    "min": 365, "max": None, "over": True},
+    {"name": "0-30",    "min": 0,   "max": 29,   "over": False, "color": "#15803D"},
+    {"name": "30-60",   "min": 30,  "max": 59,   "over": False, "color": "#22C55E"},
+    {"name": "60-90",   "min": 60,  "max": 89,   "over": False, "color": "#4ADE80"},
+    {"name": "90-120",  "min": 90,  "max": 119,  "over": False, "color": "#FACC15"},
+    {"name": "120-240", "min": 120, "max": 239,  "over": True,  "color": "#FB923C"},
+    {"name": "240-300", "min": 240, "max": 299,  "over": True,  "color": "#EA580C"},
+    {"name": "300+",    "min": 300, "max": None, "over": True,  "color": "#EF4444"},
 ]
 
 
@@ -69,10 +74,13 @@ WHERE t.v_fecha_escritura IS NOT NULL
 
 
 def _bucket_for(dias: int) -> str:
-    if dias < 90:  return "0-90"
-    if dias < 180: return "90-180"
-    if dias < 365: return "180-365"
-    return "365+"
+    if dias < 30:  return "0-30"
+    if dias < 60:  return "30-60"
+    if dias < 90:  return "60-90"
+    if dias < 120: return "90-120"
+    if dias < 240: return "120-240"
+    if dias < 300: return "240-300"
+    return "300+"
 
 
 def _sql(mes_inicio: dt.date, mes_corte: dt.date) -> str:
@@ -105,10 +113,13 @@ SELECT
   mes,
   m_pais,
   CASE
-    WHEN dias < 90  THEN '0-90'
-    WHEN dias < 180 THEN '90-180'
-    WHEN dias < 365 THEN '180-365'
-    ELSE                 '365+'
+    WHEN dias < 30  THEN '0-30'
+    WHEN dias < 60  THEN '30-60'
+    WHEN dias < 90  THEN '60-90'
+    WHEN dias < 120 THEN '90-120'
+    WHEN dias < 240 THEN '120-240'
+    WHEN dias < 300 THEN '240-300'
+    ELSE                 '300+'
   END AS bucket,
   COUNT(*)      AS nids,
   SUM(v_precio) AS valor_compra,

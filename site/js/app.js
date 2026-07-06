@@ -237,6 +237,49 @@ function calcularRunway(kpiData){
   return cashConvertido / burnAvg;
 }
 
+/* Capitalized Payroll filtrado por (mes, pais, subsidiaria, ajustes, elim) con
+ * FX aplicado. Devuelve {actuals, budget} en la moneda mostrada.
+ *
+ * Cap. payroll en BET ya viene con signo invertido (positivo) desde el builder,
+ * de modo que el front lo SUMA directo al EBITDA para obtener Adj EBITDA. Solo
+ * lo usa el KPI EBITDA por ahora (data.cap_payroll_serie). */
+function montoCapPayroll(capSerie, filters, mes){
+  if(!capSerie) return {actuals: 0, budget: 0};
+  let a = 0, b = 0;
+  for(const r of capSerie){
+    if(r.mes !== mes) continue;
+    if(filters.pais !== "Global" && r.pais !== filters.pais) continue;
+    if(filters.subsidiaria !== "All" && r.subsidiaria !== filters.subsidiaria) continue;
+    const esAj = !!r.es_ajuste;
+    if(filters.ajustes === "sin_ajustes" && esAj) continue;
+    if(filters.ajustes === "solo_ajustes" && !esAj) continue;
+    const aVal = (r.actuals && r.actuals[filters.elim]) || 0;
+    const bVal = (r.budget  && r.budget[filters.elim])  || 0;
+    a += convertir(aVal, r.pais) || 0;
+    b += convertir(bVal, r.pais) || 0;
+  }
+  return {actuals: a, budget: b};
+}
+
+/* Serie mensual de cap. payroll para el chart (mismo filtro que arriba pero por
+ * cada mes en lugar de un mes especifico). */
+function serieCapPayroll(capSerie, filters){
+  if(!capSerie) return new Map();
+  const map = new Map();
+  for(const r of capSerie){
+    if(filters.pais !== "Global" && r.pais !== filters.pais) continue;
+    if(filters.subsidiaria !== "All" && r.subsidiaria !== filters.subsidiaria) continue;
+    const esAj = !!r.es_ajuste;
+    if(filters.ajustes === "sin_ajustes" && esAj) continue;
+    if(filters.ajustes === "solo_ajustes" && !esAj) continue;
+    const ex = map.get(r.mes) || {actuals: 0, budget: 0};
+    ex.actuals += convertir((r.actuals && r.actuals[filters.elim]) || 0, r.pais) || 0;
+    ex.budget  += convertir((r.budget  && r.budget[filters.elim])  || 0, r.pais) || 0;
+    map.set(r.mes, ex);
+  }
+  return map;
+}
+
 /* Devuelve true si algun filtro activo no se esta aplicando porque el KPI no
  * tiene esa dimension. La UI muestra un aviso en la card cuando esto ocurre. */
 function filtrosDegradados(kpiData, filters){
@@ -330,6 +373,29 @@ function sumarConFX(facts, elim){
   return {actuals: a, budget: b, revenue_actuals: ra, revenue_budget: rb};
 }
 
+/* Ventana movil de N meses terminando en mesFinal (inclusive). Si mesFinal no
+ * esta en la serie, recorta a los meses <= mesFinal. Centralizado para que
+ * todas las graficas (sparkline, line chart, stacked bars) usen el mismo corte
+ * dictado por STATE.filters.mes. */
+const VENTANA_MESES_CHART = 13;
+function recortarVentana(serie, mesFinal, N){
+  N = N || VENTANA_MESES_CHART;
+  if(!mesFinal || !serie || !serie.length) return serie || [];
+  // Guarda contra series que no usan formato YYYY-MM (ej. eje de "dia del
+  // mes" del tab MTD). Si el primer mes no parece YYYY-MM, no recortar.
+  if(!/^\d{4}-\d{2}$/.test(String(serie[0].mes))) return serie;
+  // serie ya viene ordenada por mes asc en todos los callers
+  let cutEnd = serie.findIndex(r => r.mes === mesFinal);
+  if(cutEnd < 0){
+    // mes no esta en la serie: cortar al ultimo mes <= mesFinal
+    let i = serie.length - 1;
+    while(i >= 0 && serie[i].mes > mesFinal) i--;
+    cutEnd = i;
+  }
+  if(cutEnd < 0) return [];
+  return serie.slice(Math.max(0, cutEnd - N + 1), cutEnd + 1);
+}
+
 /* Serie mensual filtrada con FX aplicado. */
 function serieMensualFiltrada(facts, elim){
   const map = new Map();
@@ -359,6 +425,13 @@ async function cargarTodo(){
     } catch(e){
       console.warn("No se pudo cargar", kpi.file, e);
     }
+  }
+  // MTD · Transactions (Fase 1) — payload con shape distinto a los KPIs
+  // (multi-stream agrupado por pais con ventanas mes_actual/anterior/yoy).
+  try{
+    STATE.mtd = await fetch("data/kpi_mtd_transactions.json" + cb).then(r => r.json());
+  } catch(e){
+    console.warn("No se pudo cargar kpi_mtd_transactions.json", e);
   }
   const primero = Object.values(STATE.kpis)[0];
   if(primero && primero.meses_disponibles && primero.meses_disponibles.length){
@@ -398,6 +471,8 @@ function montoMesActual(kpiData){
 /* ========================================================= SPARK + CHART = */
 
 function sparkSVG(serie, color){
+  // Recorte a ventana movil de 13m terminando en el mes seleccionado.
+  serie = recortarVentana(serie, STATE.filters && STATE.filters.mes);
   const pts = serie.filter(p => p.actuals != null && !isNaN(p.actuals)).map(p => p.actuals);
   if(pts.length < 2) return "";
   const w=260, h=36, pad=3;
@@ -426,17 +501,27 @@ function fmtChartValue(v, unit, moneda){
   if(v == null || isNaN(v)) return "—";
   if(unit === "PCT") return (v*100).toFixed(1) + "%";
   if(unit === "DAYS") return Math.round(v) + "d";
+  if(unit === "COUNT") return Math.round(v).toLocaleString();
   return fmtMoneda(v, moneda, {compact: true});
 }
 
-function lineChartSVG(serie, moneda, unit, labels){
+function lineChartSVG(serie, moneda, unit, labels, extra){
   unit = unit || "MONEY";
   labels = labels || {actuals: "Actuals", budget: "Budget"};
+  // extra: opcional, {serie:[{mes, actuals}], label, color}. Pinta una tercera
+  // linea (ej. Adj EBITDA en azul) alineada por indice de mes con serie.
+  // Recorte a ventana movil de 13m terminando en el mes seleccionado.
+  const mesFinal = STATE.filters && STATE.filters.mes;
+  serie = recortarVentana(serie, mesFinal);
+  if(extra && extra.serie){ extra = Object.assign({}, extra, {serie: recortarVentana(extra.serie, mesFinal)}); }
   if(!serie || serie.length === 0) return "<div class='chart-empty'>No data</div>";
   const W = 1200, H = 460, pad = {l: 78, r: 28, t: 30, b: 58};
   const cw = W - pad.l - pad.r, ch = H - pad.t - pad.b;
 
-  const vals = serie.flatMap(r => [r.actuals, r.budget]).filter(v => v != null && !isNaN(v));
+  const extraVals = (extra && extra.serie)
+    ? extra.serie.flatMap(r => [r.actuals]).filter(v => v != null && !isNaN(v))
+    : [];
+  const vals = serie.flatMap(r => [r.actuals, r.budget]).concat(extraVals).filter(v => v != null && !isNaN(v));
   if(vals.length === 0) return "<div class='chart-empty'>No data</div>";
   const max = Math.max(...vals), min = Math.min(...vals);
   const yMin = Math.min(0, min);
@@ -470,10 +555,16 @@ function lineChartSVG(serie, moneda, unit, labels){
   const pointsB = serie.map((r,i) => (r.budget == null || isNaN(r.budget) || r.budget === 0)
     ? null
     : {x: xAt(i), y: yAt(r.budget), v: r.budget, i}).filter(Boolean);
+  const pointsE = (extra && extra.serie)
+    ? extra.serie.map((r,i) => (r.actuals == null || isNaN(r.actuals))
+        ? null
+        : {x: xAt(i), y: yAt(r.actuals), v: r.actuals, i}).filter(Boolean)
+    : [];
 
   // Paths
   const dA = pointsA.map((p,i) => (i?"L":"M") + p.x.toFixed(1) + " " + p.y.toFixed(1)).join(" ");
   const dB = pointsB.map((p,i) => (i?"L":"M") + p.x.toFixed(1) + " " + p.y.toFixed(1)).join(" ");
+  const dE = pointsE.map((p,i) => (i?"L":"M") + p.x.toFixed(1) + " " + p.y.toFixed(1)).join(" ");
 
   // Decision: actuals arriba salvo que choque con el techo; budget abajo.
   // Si actuals > budget en el punto, actuals va arriba y budget abajo (lo natural).
@@ -497,21 +588,47 @@ function lineChartSVG(serie, moneda, unit, labels){
     labelsB += `<text x="${p.x.toFixed(1)}" y="${yLabel.toFixed(1)}" text-anchor="middle" font-size="11.5" font-weight="500" fill="#7A3FE0" font-family="IBM Plex Mono, monospace" paint-order="stroke" stroke="#FFFFFF" stroke-width="3">${fmtChartValue(p.v, unit, moneda)}</text>`;
   });
 
-  // Eje X
+  // Extra series (Adj EBITDA en azul). Sin label encima del punto para no
+  // saturar; el valor sale en el tooltip al hacer hover.
+  let dotsE = "";
+  const extraColor = (extra && extra.color) || "#2D6FD4";
+  const extraLabel = (extra && extra.label) || "Adj EBITDA";
+  pointsE.forEach(p => {
+    const mes = (extra.serie[p.i] || {}).mes || "";
+    dotsE += `<circle cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="4.5" fill="${extraColor}">
+      <title>${mes} · ${extraLabel}: ${fmtChartValue(p.v, unit, moneda)}</title></circle>`;
+  });
+
+  // Eje X — formato YYYY-MM (mes/anyo) o numerico (dia del mes en MTD)
+  const esYYYYMM = /^\d{4}-\d{2}$/.test(String(serie[0].mes));
   let xLabels = "";
   serie.forEach((r,i) => {
     const x = xAt(i);
-    const [y, m] = r.mes.split("-");
-    xLabels += `<text x="${x.toFixed(1)}" y="${H - 30}" text-anchor="middle" font-size="13" font-weight="600" fill="#1A1A2E" font-family="IBM Plex Mono, monospace">${FMT_MES[m]}</text>
-                <text x="${x.toFixed(1)}" y="${H - 14}" text-anchor="middle" font-size="11" fill="#5C5C70" font-family="IBM Plex Mono, monospace">${y}</text>`;
+    if(esYYYYMM){
+      const [y, m] = r.mes.split("-");
+      xLabels += `<text x="${x.toFixed(1)}" y="${H - 30}" text-anchor="middle" font-size="13" font-weight="600" fill="#1A1A2E" font-family="IBM Plex Mono, monospace">${FMT_MES[m]}</text>
+                  <text x="${x.toFixed(1)}" y="${H - 14}" text-anchor="middle" font-size="11" fill="#5C5C70" font-family="IBM Plex Mono, monospace">${y}</text>`;
+    } else {
+      // Dia del mes: pintar solo cada 3 dias + 1 y ultimo para no saturar
+      const dia = parseInt(r.mes, 10);
+      const mostrar = (dia === 1) || (dia === serie.length) || (dia % 3 === 0);
+      if(mostrar){
+        xLabels += `<text x="${x.toFixed(1)}" y="${H - 22}" text-anchor="middle" font-size="12" font-weight="600" fill="#1A1A2E" font-family="IBM Plex Mono, monospace">${dia}</text>`;
+      }
+    }
   });
 
+  const legendExtra = (extra && extra.serie && extra.serie.length)
+    ? `<span><span class="lg-line lg-adj" style="background:${extraColor}"></span>${extraLabel}</span>`
+    : "";
   return `<div class="chart-wrap">
     <svg viewBox="0 0 ${W} ${H}" class="chart" preserveAspectRatio="xMidYMid meet">
       ${yAxis}
       ${dB ? `<path d="${dB}" fill="none" stroke="#8B4FE8" stroke-width="2.4" stroke-dasharray="6 4" stroke-linejoin="round" stroke-linecap="round" opacity="0.85"/>` : ""}
+      ${dE ? `<path d="${dE}" fill="none" stroke="${extraColor}" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round" opacity="0.95"/>` : ""}
       ${dA ? `<path d="${dA}" fill="none" stroke="#6B2FD4" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>` : ""}
       ${dotsB}
+      ${dotsE}
       ${dotsA}
       ${labelsB}
       ${labelsA}
@@ -520,6 +637,7 @@ function lineChartSVG(serie, moneda, unit, labels){
   </div>
   <div class="chart-legend">
     <span><span class="lg-line lg-actuals"></span>${labels.actuals}</span>
+    ${legendExtra}
     <span><span class="lg-line lg-budget"></span>${labels.budget}</span>
   </div>`;
 }
@@ -527,6 +645,8 @@ function lineChartSVG(serie, moneda, unit, labels){
 /* Stacked bar chart SVG. seriePorMes = [{mes, segmentos: [{key, value, color}, ...]}].
  * Renderiza barras apiladas con leyenda inferior. value = entero (count). */
 function stackedBarChartSVG(seriePorMes, legendOrder, colorMap){
+  // Recorte a ventana movil de 13m terminando en el mes seleccionado.
+  seriePorMes = recortarVentana(seriePorMes, STATE.filters && STATE.filters.mes);
   if(!seriePorMes || !seriePorMes.length) return "<div class='chart-empty'>No data</div>";
   const W = 1200, H = 460, pad = {l: 78, r: 28, t: 30, b: 58};
   const cw = W - pad.l - pad.r, ch = H - pad.t - pad.b;
@@ -650,6 +770,14 @@ function renderCard(kpiDef){
   const budgetTxt = budget != null && budget !== 0 ? fmtMoneda(budget, mon) : "—";
   const diff = (actuals != null && budget != null && budget !== 0) ? (actuals - budget)/Math.abs(budget) : null;
   const invertir = !!data.invertir_delta;
+  // Cap. payroll adjustment (solo KPI EBITDA hoy). Adj EBITDA = EBITDA + Cap. Payroll
+  // (en el payload viene con signo invertido, asi que se suma directo).
+  let capPayroll = null, adjActuals = null, adjBudget = null;
+  if(data.cap_payroll_serie){
+    capPayroll = montoCapPayroll(data.cap_payroll_serie, STATE.filters, STATE.filters.mes);
+    adjActuals = actuals != null ? actuals + capPayroll.actuals : null;
+    adjBudget  = budget  != null ? budget  + capPayroll.budget  : null;
+  }
   // Ratio puede venir embebido (Margen) o cross-KPI (OpEx vs Ingresos)
   let ratioVal = data.unidad === "MONEDA_CON_RATIO" ? ratio : null;
   let ratioBud = data.unidad === "MONEDA_CON_RATIO" ? ratio_budget : null;
@@ -657,10 +785,14 @@ function renderCard(kpiDef){
   let ratioComoMeses = false;
   if(data.ratio_against && STATE.kpis[data.ratio_against] && actuals != null){
     const ref = montoMesActual(STATE.kpis[data.ratio_against]);
+    // Si el KPI usa Adj EBITDA como numerador (EBITDA), reemplazar actuals/budget
+    // por sus versiones ajustadas para el calculo del ratio.
+    const numA = (data.ratio_numerator === "adj_ebitda" && adjActuals != null) ? adjActuals : actuals;
+    const numB = (data.ratio_numerator === "adj_ebitda" && adjBudget  != null) ? adjBudget  : budget;
     if(ref.actuals && ref.actuals !== 0){
-      ratioVal = Math.abs(actuals) / Math.abs(ref.actuals);
-      if(ref.budget && ref.budget !== 0 && budget != null){
-        ratioBud = Math.abs(budget) / Math.abs(ref.budget);
+      ratioVal = Math.abs(numA) / Math.abs(ref.actuals);
+      if(ref.budget && ref.budget !== 0 && numB != null){
+        ratioBud = Math.abs(numB) / Math.abs(ref.budget);
       }
     }
   }
@@ -712,9 +844,15 @@ function renderCard(kpiDef){
     </div>`;
   }
 
+  // Linea secundaria con Adj EBITDA (solo si el KPI usa cap_payroll_serie).
+  const adjHTML = (adjActuals != null)
+    ? `<div class="adj-line">Adj. EBITDA: <b>${fmtMoneda(adjActuals, mon)}</b></div>`
+    : "";
+
   return `<div class="card ${perfCls}" onclick="abrirDrill('${kpiDef.id}')">
     <div class="kpi-name"><span class="nm">${kpiDef.nombre}</span><span class="tag ${data.estado}">${TAG_LABEL[data.estado]}</span></div>
     <div class="val">${valor}</div>
+    ${adjHTML}
     ${ratioHTML}
     <div class="budget-line">Budget: <b>${budgetTxt}</b></div>
     ${progressHTML}
@@ -1003,10 +1141,31 @@ function renderSnapshot(){
     resSem = semaforoDelta(diff);
     resTxt = diff != null ? `Revenue ${(diff*100).toFixed(1)}% vs budget` : "Revenue has no budget for this period";
   }
+
+  // Capital = Inventory on books vs Budget. Para inventario, sobre-budget es
+  // PEOR (capital inmovilizado en exceso); negamos diff antes del semaforo.
+  let capSem = "gray", capTxt = "Inventory on books pending";
+  if(STATE.kpis.inventario){
+    const {actuals, budget} = montoMesActual(STATE.kpis.inventario);
+    const diff = (actuals && budget) ? (actuals-budget)/Math.abs(budget) : null;
+    capSem = semaforoDelta(diff != null ? -diff : null);
+    capTxt = diff != null ? `Inventory ${(diff*100).toFixed(1)}% vs budget` : "Inventory has no budget for this period";
+  }
+
+  // Growth = GMV vs Budget. Mismo patron que Performance: arriba de budget es
+  // bueno (mas volumen transado).
+  let grSem = "gray", grTxt = "GMV pending";
+  if(STATE.kpis.gmv){
+    const {actuals, budget} = montoMesActual(STATE.kpis.gmv);
+    const diff = (actuals && budget) ? (actuals-budget)/Math.abs(budget) : null;
+    grSem = semaforoDelta(diff);
+    grTxt = diff != null ? `GMV ${(diff*100).toFixed(1)}% vs budget` : "GMV has no budget for this period";
+  }
+
   const areas = [
     { area: "Performance", sem: resSem, txt: resTxt },
-    { area: "Capital",     sem: "gray", txt: "Inventory on books pending" },
-    { area: "Growth",      sem: "gray", txt: "GMV and pipeline coverage pending" },
+    { area: "Capital",     sem: capSem, txt: capTxt },
+    { area: "Growth",      sem: grSem,  txt: grTxt  },
     { area: "Risk",        sem: "gray", txt: "Inventory aging and NPS pending" },
   ];
   document.getElementById("snapshot").innerHTML = areas.map(a => `
@@ -1544,14 +1703,24 @@ function abrirDrill(kpiId){
         revPorMes.set(r.mes, ex);
       }
     }
-    const seriePct = serieMensual.map(s => {
+    // Serie de Adj EBITDA por mes (solo KPI con cap_payroll_serie). El numerador
+    // del ratio % cambia a Adj EBITDA cuando ratio_numerator==='adj_ebitda'.
+    const capMap = data.cap_payroll_serie ? serieCapPayroll(data.cap_payroll_serie, f) : null;
+    const usaAdj = data.ratio_numerator === "adj_ebitda" && capMap;
+    const serieAdj = capMap ? serieMensual.map(s => {
+      const c = capMap.get(s.mes) || {actuals: 0, budget: 0};
+      return {mes: s.mes, actuals: s.actuals + c.actuals, budget: s.budget + c.budget};
+    }) : null;
+    const seriePct = serieMensual.map((s, i) => {
       const rev = revPorMes.get(s.mes) || {revenue_a:0, revenue_b:0};
+      const sA = (usaAdj && serieAdj) ? serieAdj[i] : s;
       return {
         mes: s.mes,
-        actuals: rev.revenue_a !== 0 ? s.actuals / rev.revenue_a : null,
-        budget:  rev.revenue_b !== 0 ? s.budget  / rev.revenue_b : null,
+        actuals: rev.revenue_a !== 0 ? sA.actuals / rev.revenue_a : null,
+        budget:  rev.revenue_b !== 0 ? sA.budget  / rev.revenue_b : null,
       };
     });
+    const chartExtra = serieAdj ? {serie: serieAdj, label: "Adj EBITDA", color: "#2D6FD4"} : undefined;
     html += `<div class="drill-block chart-block">
       <div class="chart-tab-bar">
         <h3>Monthly execution · Actuals vs Budget</h3>
@@ -1562,7 +1731,7 @@ function abrirDrill(kpiId){
       </div>
       <div class="chart-pane on" data-pane="amount">
         <div class="chart-unit-label">${monedaSerie}</div>
-        ${lineChartSVG(serieMensual, monedaSerie, "MONEY")}
+        ${lineChartSVG(serieMensual, monedaSerie, "MONEY", undefined, chartExtra)}
       </div>
       <div class="chart-pane" data-pane="pct">
         <div class="chart-unit-label">% of ${data.ratio_against === "ingresos_ajustados" ? "Adj. Revenue" : "Revenue"}</div>
@@ -1572,12 +1741,9 @@ function abrirDrill(kpiId){
   } else if(data.unidad === "PORCENTAJE_AGING"){
     // Chart mensual: barras apiladas por bucket. NIDs por bucket.
     const ordenBuckets = (data.buckets_meta || []).map(b => b.name);
-    const colorBucket = {
-      "0-90":    "#22C55E",
-      "90-180":  "#FACC15",
-      "180-365": "#FB923C",
-      "365+":    "#EF4444",
-    };
+    const colorBucket = Object.fromEntries(
+      (data.buckets_meta || []).map(b => [b.name, b.color || "#9CA3AF"])
+    );
     const porMes = new Map();
     for(const r of filtered){
       const ex = porMes.get(r.mes) || {mes: r.mes, segs: {}};
@@ -1697,8 +1863,10 @@ function abrirDrill(kpiId){
     // Tabla de detalle por NID al cierre del mes_corte. Solo si el mes filtrado
     // coincide con el mes del snapshot (el detalle es solo del ultimo cierre).
     if(data.detalle_nids && data.detalle_nids.por_mes && (data.detalle_nids.por_mes[f.mes] || []).length){
-      const colorBucket = {"0-90":"#22C55E","90-180":"#FACC15","180-365":"#FB923C","365+":"#EF4444"};
       const ordenBuckets = (data.buckets_meta || []).map(b => b.name);
+      const colorBucket = Object.fromEntries(
+        (data.buckets_meta || []).map(b => [b.name, b.color || "#9CA3AF"])
+      );
       let nids = data.detalle_nids.por_mes[f.mes].slice();
       // Filtros activos: pais
       if(f.pais !== "Global") nids = nids.filter(n => n.pais === f.pais);
@@ -1842,6 +2010,461 @@ function cerrarDrill(){
   STATE.currentDrillKpi = null;
 }
 
+/* ===================================================== MTD · TRANSACTIONS = */
+/* Fase 1: tab MTD con cards de transacciones del mes en curso (MTD) y
+ * forecast de cierre comparando contra (a) curva del mes anterior y (b)
+ * curva del mismo mes anyo anterior.
+ *
+ * Data shape (kpi_mtd_transactions.json):
+ *   streams: [{
+ *     id, nombre, granularidad, gmv_tipo_precio,
+ *     por_pais: { Colombia: {moneda, mes_actual, mes_anterior, mes_yoy} }
+ *   }]
+ * Cada ventana (mes_actual/anterior/yoy):
+ *   {mes, dias_en_mes, nids_total, gmv_total, [nids_budget, gmv_budget], curva}
+ * curva: [{dia, nids, gmv, nids_cum, gmv_cum}, ...]   (solo dias con dato)
+ *
+ * Forecast: MTD × (ref_total / ref_cum_al_dia_D), con D = hoy_dia_del_mes.
+ */
+
+/* Convierte una curva sparse (solo dias con dato) a un array denso de
+ * dias_en_mes elementos con nids_cum/gmv_cum interpolando por carry-forward.
+ * Dia sin dato → mismos cum que el dia anterior. */
+function densificarCurva(curva, dias_en_mes){
+  const out = [];
+  let lastN = 0, lastG = 0;
+  let idx = 0;
+  for(let d = 1; d <= dias_en_mes; d++){
+    while(idx < curva.length && curva[idx].dia < d) idx++;
+    if(idx < curva.length && curva[idx].dia === d){
+      lastN = curva[idx].nids_cum;
+      lastG = curva[idx].gmv_cum;
+      idx++;
+    }
+    out.push({dia: d, nids_cum: lastN, gmv_cum: lastG});
+  }
+  return out;
+}
+
+/* Lookup del valor acumulado en el dia D usando la curva. Si D > ultimo dia
+ * con dato, devuelve el ultimo valor acumulado (= total del mes asumido). */
+function acumuladoAlDia(curva, dia, field){
+  let last = 0;
+  for(const p of curva){
+    if(p.dia <= dia) last = p[field];
+    else break;
+  }
+  return last;
+}
+
+/* Agrega los datos de un stream segun el filtro de pais activo. Si el
+ * filtro es Global, suma Colombia + Mexico (NIDs validos; GMV se convierte
+ * a la moneda mostrada). Si es un pais especifico, retorna ese. */
+function agregarStream(stream){
+  const f = STATE.filters;
+  const paisesAUsar = f.pais === "Global" ? ["Colombia", "Mexico"] : [f.pais];
+  // Acumuladores por ventana
+  function ventanaVacia(){ return {nids_total: 0, gmv_total: 0, nids_budget: 0, gmv_budget: 0, curva: [], dias_en_mes: 0, mes: ""}; }
+  const out = {
+    mes_actual: ventanaVacia(),
+    mes_anterior: ventanaVacia(),
+    mes_yoy: ventanaVacia(),
+    moneda: f.moneda === "USD" ? "USD" : (f.pais === "Global" ? "COP" : monedaDePais(f.pais)),
+    paisLocal: paisesAUsar.length === 1 ? paisesAUsar[0] : null,
+  };
+  for(const ventana of ["mes_actual", "mes_anterior", "mes_yoy"]){
+    let curvasParaSumar = [];  // [{moneda, curva_densa}]
+    let dias_en_mes = 0;
+    let mes_str = "";
+    for(const pais of paisesAUsar){
+      const d = stream.por_pais[pais];
+      if(!d) continue;
+      const w = d[ventana];
+      if(!w) continue;
+      dias_en_mes = Math.max(dias_en_mes, w.dias_en_mes);
+      mes_str = w.mes;
+      out[ventana].nids_total  += w.nids_total || 0;
+      out[ventana].gmv_total   += convertir(w.gmv_total || 0, pais) || 0;
+      if(ventana === "mes_actual"){
+        out[ventana].nids_budget += w.nids_budget || 0;
+        out[ventana].gmv_budget  += convertir(w.gmv_budget || 0, pais) || 0;
+      }
+      curvasParaSumar.push({pais, curva: densificarCurva(w.curva, w.dias_en_mes)});
+    }
+    // Suma las curvas (NIDs directo; GMV con FX por pais)
+    const curvaSumada = [];
+    for(let i = 0; i < dias_en_mes; i++){
+      let n = 0, g = 0;
+      for(const c of curvasParaSumar){
+        if(c.curva[i]){
+          n += c.curva[i].nids_cum || 0;
+          g += convertir(c.curva[i].gmv_cum || 0, c.pais) || 0;
+        }
+      }
+      curvaSumada.push({dia: i + 1, nids_cum: n, gmv_cum: g});
+    }
+    out[ventana].curva = curvaSumada;
+    out[ventana].dias_en_mes = dias_en_mes;
+    out[ventana].mes = mes_str;
+  }
+  return out;
+}
+
+/* Calcula forecast {nids, gmv} usando una ventana de referencia. */
+function forecastDesde(agregado, refKey){
+  const ma = agregado.mes_actual;
+  const ref = agregado[refKey];
+  if(!ref || !ref.curva.length) return null;
+  const D = STATE.mtd.hoy_dia_del_mes;
+  const refNidsAlD = acumuladoAlDia(ref.curva, D, "nids_cum");
+  const refGmvAlD  = acumuladoAlDia(ref.curva, D, "gmv_cum");
+  if(refNidsAlD <= 0 || ma.nids_total <= 0) return null;
+  const factorN = ref.nids_total / refNidsAlD;
+  const factorG = refGmvAlD > 0 ? ref.gmv_total / refGmvAlD : factorN;
+  return {
+    nids: ma.nids_total * factorN,
+    gmv:  ma.gmv_total  * factorG,
+    factor_nids: factorN,
+    ref_mes: ref.mes,
+  };
+}
+
+/* Color de performance del card MTD: forecast_nids vs budget_nids.
+ * Para Sale/Purchase Deeds asumimos "mas = mejor" (sobre-cumplir budget). */
+function perfMTD(fcast_nids, budget_nids){
+  if(!fcast_nids || !budget_nids) return "perf-gray";
+  const pct = fcast_nids / budget_nids;
+  if(pct >= 0.95) return "perf-green";
+  if(pct >= 0.80) return "perf-amber";
+  return "perf-red";
+}
+
+function renderMTDCard(stream){
+  // Bifurcar por tipo: 'ratio' (Gross Margin) tiene shape distinto.
+  if(stream.tipo === "ratio") return renderMTDCardRatio(stream);
+  return renderMTDCardCount(stream);
+}
+
+function renderMTDCardCount(stream){
+  const agg = agregarStream(stream);
+  const ma = agg.mes_actual;
+  const fcPrev = forecastDesde(agg, "mes_anterior");
+  const fcYoy  = forecastDesde(agg, "mes_yoy");
+
+  // Promedio de los 2 estimados (si ambos existen) para el color/progress
+  const fcastNidsAvg = (fcPrev && fcYoy) ? (fcPrev.nids + fcYoy.nids) / 2
+                     : (fcPrev ? fcPrev.nids : (fcYoy ? fcYoy.nids : null));
+  const cls = perfMTD(fcastNidsAvg, ma.nids_budget);
+
+  const mon = agg.moneda;
+  const dia = STATE.mtd.hoy_dia_del_mes;
+  const diasMes = STATE.mtd.days_in_month_actual;
+
+  function pctOfBudget(v){
+    if(!ma.nids_budget) return "";
+    return `<span class="vs">${Math.round((v/ma.nids_budget)*100)}% of budget</span>`;
+  }
+
+  const fcPrevHTML = fcPrev
+    ? `<div class="mtd-forecast"><span class="lbl">Forecast (vs ${fcPrev.ref_mes}):</span> <b>${Math.round(fcPrev.nids).toLocaleString()} NIDs</b> · ${fmtMoneda(fcPrev.gmv, mon, {compact: true})} ${pctOfBudget(fcPrev.nids)}</div>`
+    : "";
+  const fcYoyHTML = fcYoy
+    ? `<div class="mtd-forecast"><span class="lbl">Forecast (vs ${fcYoy.ref_mes} · YoY):</span> <b>${Math.round(fcYoy.nids).toLocaleString()} NIDs</b> · ${fmtMoneda(fcYoy.gmv, mon, {compact: true})} ${pctOfBudget(fcYoy.nids)}</div>`
+    : "";
+
+  // Progress bar: avg forecast vs budget (capped a 100% visualmente)
+  let progressHTML = "";
+  if(fcastNidsAvg && ma.nids_budget){
+    const pct = fcastNidsAvg / ma.nids_budget;
+    const capped = Math.min(Math.max(pct, 0), 1) * 100;
+    progressHTML = `<div class="progress-wrap">
+      <div class="progress-bar"><div class="progress-fill ${cls}" style="width:${capped.toFixed(1)}%"></div></div>
+      <div class="progress-label">${(pct*100).toFixed(0)}% of budget (forecast avg)</div>
+    </div>`;
+  }
+
+  // Sparkline: curva acumulada de NIDs del mes actual
+  const sparkSerie = ma.curva.slice(0, dia).map(p => ({mes: String(p.dia), actuals: p.nids_cum}));
+  const color = "#6B2FD4";
+  // sparkSVG es generico — recorta por STATE.filters.mes que aqui no aplica.
+  // Para evitar el recorte, llamamos directo a una mini-version inline.
+  const spark = miniSparkSVG(sparkSerie, color);
+
+  const budgetTxt = ma.nids_budget
+    ? `Budget: <b>${Math.round(ma.nids_budget).toLocaleString()} NIDs</b> · ${fmtMoneda(ma.gmv_budget, mon, {compact: true})}`
+    : "Budget: —";
+
+  return `<div class="card mtd-card ${cls}" onclick="abrirDrillMTD('${stream.id}')">
+    <div class="kpi-name"><span class="nm">${stream.nombre}</span><span class="tag real">MTD</span></div>
+    <div class="val">${Math.round(ma.nids_total).toLocaleString()} <span class="mtd-unit">NIDs</span></div>
+    <div class="adj-line">${fmtMoneda(ma.gmv_total, mon, {compact: true})} <span class="vs">${stream.gmv_tipo_precio}</span></div>
+    ${fcPrevHTML}
+    ${fcYoyHTML}
+    <div class="budget-line">${budgetTxt}</div>
+    ${progressHTML}
+    <div class="delta"><span class="vs">Day ${dia} of ${diasMes}</span></div>
+    ${spark}
+    <div class="src">◷ ${STATE.mtd.fuente || ""}</div>
+    <div class="card-cta">Click for drill-down →</div>
+  </div>`;
+}
+
+/* Agrega un stream ratio (Gross Margin) sobre paises seleccionados.
+ * Revenue y Cost se convierten a la moneda display; el margen se recalcula
+ * sobre los totales sumados (NO promedio de porcentajes por pais). */
+function agregarStreamRatio(stream){
+  const f = STATE.filters;
+  const paisesAUsar = f.pais === "Global" ? ["Colombia", "Mexico"] : [f.pais];
+  function ventanaVacia(){
+    return {revenue_total:0, cost_total:0, gp_total:0, nids_total:0, margen_pct:null, curva:[], dias_en_mes:0, mes:""};
+  }
+  const out = {
+    mes_actual: ventanaVacia(), mes_anterior: ventanaVacia(), mes_yoy: ventanaVacia(),
+    moneda: f.moneda === "USD" ? "USD" : (f.pais === "Global" ? "COP" : monedaDePais(f.pais)),
+    paisLocal: paisesAUsar.length === 1 ? paisesAUsar[0] : null,
+  };
+  for(const ventana of ["mes_actual","mes_anterior","mes_yoy"]){
+    let dias_en_mes = 0, mes_str = "";
+    // Sumar totales convertidos por pais
+    for(const pais of paisesAUsar){
+      const d = stream.por_pais[pais];
+      if(!d) continue;
+      const w = d[ventana];
+      if(!w) continue;
+      dias_en_mes = Math.max(dias_en_mes, w.dias_en_mes);
+      mes_str = w.mes;
+      out[ventana].revenue_total += convertir(w.revenue_total || 0, pais) || 0;
+      out[ventana].cost_total    += convertir(w.cost_total    || 0, pais) || 0;
+      out[ventana].nids_total    += w.nids_total || 0;
+    }
+    // Recalcular GP y margen sobre totales sumados
+    out[ventana].gp_total   = out[ventana].revenue_total - out[ventana].cost_total;
+    out[ventana].margen_pct = out[ventana].revenue_total > 0
+      ? (out[ventana].gp_total / out[ventana].revenue_total * 100) : null;
+    out[ventana].dias_en_mes = dias_en_mes;
+    out[ventana].mes = mes_str;
+    // Curva sumada dia a dia: acumular revenue+cost por dia, luego derivar margen
+    const curvaSumada = [];
+    for(let i = 0; i < dias_en_mes; i++){
+      let rev_cum = 0, cost_cum = 0, nids_cum = 0;
+      for(const pais of paisesAUsar){
+        const d = stream.por_pais[pais];
+        if(!d || !d[ventana]) continue;
+        const curvaDensa = densificarCurvaMargen(d[ventana].curva, d[ventana].dias_en_mes);
+        if(curvaDensa[i]){
+          rev_cum  += convertir(curvaDensa[i].revenue_cum || 0, pais) || 0;
+          cost_cum += convertir(curvaDensa[i].cost_cum    || 0, pais) || 0;
+          nids_cum += curvaDensa[i].nids_cum || 0;
+        }
+      }
+      const gp_cum = rev_cum - cost_cum;
+      curvaSumada.push({
+        dia: i + 1,
+        revenue_cum: rev_cum,
+        cost_cum: cost_cum,
+        gp_cum: gp_cum,
+        nids_cum: nids_cum,
+        margen_cum_pct: rev_cum > 0 ? (gp_cum / rev_cum * 100) : null,
+      });
+    }
+    out[ventana].curva = curvaSumada;
+  }
+  return out;
+}
+
+/* Densifica una curva de margen (rellena dias sin dato con el ultimo cum). */
+function densificarCurvaMargen(curva, diasEnMes){
+  const dense = [];
+  let last = {revenue_cum:0, cost_cum:0, nids_cum:0};
+  const pormap = {};
+  for(const p of curva) pormap[p.dia] = p;
+  for(let d = 1; d <= diasEnMes; d++){
+    if(pormap[d]){
+      last = {revenue_cum: pormap[d].revenue_cum, cost_cum: pormap[d].cost_cum, nids_cum: pormap[d].nids_cum};
+    }
+    dense.push({dia: d, ...last});
+  }
+  return dense;
+}
+
+/* Color de performance para Gross Margin: margen actual vs referencia mes anterior.
+ * Simple: verde si iguala o supera, ambar si -2pp, rojo si peor. */
+function perfMTDMargin(margenActual, margenRef){
+  if(margenActual == null || margenRef == null) return "perf-gray";
+  const delta = margenActual - margenRef;
+  if(delta >= 0) return "perf-green";
+  if(delta >= -2) return "perf-amber";
+  return "perf-red";
+}
+
+function renderMTDCardRatio(stream){
+  const agg = agregarStreamRatio(stream);
+  const ma = agg.mes_actual, mp = agg.mes_anterior, my = agg.mes_yoy;
+  const dia = STATE.mtd.hoy_dia_del_mes;
+  const diasMes = STATE.mtd.days_in_month_actual;
+  const mon = agg.moneda;
+  const cls = perfMTDMargin(ma.margen_pct, mp.margen_pct);
+  const margenTxt = ma.margen_pct != null ? `${ma.margen_pct.toFixed(1)}%` : "—";
+  const gpTxt = fmtMoneda(ma.gp_total, mon, {compact: true});
+  const revTxt = fmtMoneda(ma.revenue_total, mon, {compact: true});
+
+  function pp(v){ return v == null ? "—" : `${v.toFixed(1)}%`; }
+  function deltaPP(a, b){
+    if(a == null || b == null) return "";
+    const d = a - b;
+    const sign = d >= 0 ? "+" : "";
+    const cls = d >= 0 ? "up" : "down";
+    return ` <span class="${cls}">(${sign}${d.toFixed(1)}pp)</span>`;
+  }
+
+  // Sparkline con la curva del margen acumulado (%)
+  const sparkSerie = ma.curva.slice(0, dia)
+    .map(p => ({mes: String(p.dia), actuals: p.margen_cum_pct}))
+    .filter(p => p.actuals != null);
+  const spark = miniSparkSVG(sparkSerie, "#6B2FD4");
+
+  return `<div class="card mtd-card ${cls}" onclick="abrirDrillMTD('${stream.id}')">
+    <div class="kpi-name"><span class="nm">${stream.nombre}</span><span class="tag real">MTD %</span></div>
+    <div class="val">${margenTxt}</div>
+    <div class="adj-line">GP <b>${gpTxt}</b> / Rev ${revTxt} · ${Math.round(ma.nids_total).toLocaleString()} NIDs</div>
+    <div class="mtd-forecast"><span class="lbl">Prev month (${mp.mes}):</span> <b>${pp(mp.margen_pct)}</b>${deltaPP(ma.margen_pct, mp.margen_pct)}</div>
+    <div class="mtd-forecast"><span class="lbl">YoY (${my.mes}):</span> <b>${pp(my.margen_pct)}</b>${deltaPP(ma.margen_pct, my.margen_pct)}</div>
+    <div class="delta"><span class="vs">Day ${dia} of ${diasMes} · proxy tape (revenue = c_precio, cost = v_precio)</span></div>
+    ${spark}
+    <div class="src">◷ ${STATE.mtd.fuente || ""}</div>
+    <div class="card-cta">Click for drill-down →</div>
+  </div>`;
+}
+
+/* Sparkline minimo sin el recorte de ventana (la curva MTD es por dia, no
+ * por mes; no le aplica STATE.filters.mes). */
+function miniSparkSVG(serie, color){
+  const pts = serie.filter(p => p.actuals != null && !isNaN(p.actuals)).map(p => p.actuals);
+  if(pts.length < 2) return "";
+  const w=260, h=36, pad=3;
+  const mn = Math.min(...pts), mx = Math.max(...pts), rng = (mx-mn) || 1;
+  const xy = pts.map((v,i) => [
+    pad + i*(w-2*pad)/(pts.length-1),
+    h - pad - ((v-mn)/rng)*(h-2*pad),
+  ]);
+  const d = xy.map((p,i) => (i?"L":"M") + p[0].toFixed(1) + " " + p[1].toFixed(1)).join(" ");
+  const last = xy[xy.length-1];
+  const gid = "g" + Math.random().toString(36).slice(2,8);
+  return `<svg class="spark" viewBox="0 0 ${w} ${h}" preserveAspectRatio="none">
+    <defs><linearGradient id="${gid}" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="${color}" stop-opacity=".18"/>
+      <stop offset="100%" stop-color="${color}" stop-opacity="0"/></linearGradient></defs>
+    <path d="${d} L ${last[0].toFixed(1)} ${h} L ${xy[0][0].toFixed(1)} ${h} Z" fill="url(#${gid})"/>
+    <path d="${d}" fill="none" stroke="${color}" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"/>
+    <circle cx="${last[0].toFixed(1)}" cy="${last[1].toFixed(1)}" r="2.6" fill="${color}"/>
+  </svg>`;
+}
+
+function renderMTD(){
+  const grid = document.getElementById("gridMTD");
+  if(!grid) return;
+  if(!STATE.mtd || !STATE.mtd.streams){
+    grid.innerHTML = `<div class="card pendiente"><div class="kpi-name"><span class="nm">MTD data unavailable</span></div></div>`;
+    return;
+  }
+  // Filtrar por sub-tab activo (linea_negocio). Default: Market Maker.
+  const subtab = STATE.mtdSubtab || "Market Maker";
+  const streams = STATE.mtd.streams.filter(s => s.linea_negocio === subtab);
+  if(streams.length === 0){
+    // Placeholder para lineas sin data aun (BR Used, BR New, HC — Fase 2)
+    grid.innerHTML = `<div class="card pendiente"><div class="kpi-name"><span class="nm">${subtab} · Fase 2 pendiente</span></div><div class="val">—</div><div class="adj-line">Data streams a incluir cuando lleguen del builder.</div></div>`;
+  } else {
+    grid.innerHTML = streams.map(renderMTDCard).join("");
+  }
+  const ctx = `${STATE.filters.pais}${STATE.filters.moneda === "USD" ? " · USD" : " · Local"} · ${STATE.mtd.mes_actual} · day ${STATE.mtd.hoy_dia_del_mes} of ${STATE.mtd.days_in_month_actual}`;
+  document.getElementById("ctxMTD").textContent = ctx;
+}
+
+/* Drill: chart con 3 curvas acumuladas (NIDs o GMV toggle) y tabla
+ * comparativa. */
+function abrirDrillMTD(streamId){
+  const stream = STATE.mtd.streams.find(s => s.id === streamId);
+  if(!stream) return;
+  STATE.currentDrillKpi = "__mtd__" + streamId;  // marker para no chocar con KPIs
+  const agg = agregarStream(stream);
+  const ma = agg.mes_actual;
+  const fcPrev = forecastDesde(agg, "mes_anterior");
+  const fcYoy  = forecastDesde(agg, "mes_yoy");
+  const mon = agg.moneda;
+  const dia = STATE.mtd.hoy_dia_del_mes;
+  const diasMes = STATE.mtd.days_in_month_actual;
+
+  document.getElementById("drillEyebrow").textContent = "MTD · FORECAST";
+  document.getElementById("drillTitle").textContent = stream.nombre;
+  const monedaTxt = STATE.filters.moneda === "USD" ? "USD" : "local currency";
+  const filtroPais = STATE.filters.pais === "Global" ? "Colombia + Mexico" : STATE.filters.pais;
+  document.getElementById("drillSub").innerHTML =
+    `Period: <b>${ma.mes}</b> · Day <b>${dia}/${diasMes}</b> · View: <b>${filtroPais}</b> · Currency: <b>${monedaTxt}</b>`;
+
+  // Tabla resumen
+  function row(label, nids, gmv, pctNids){
+    const nidsTxt = nids != null ? Math.round(nids).toLocaleString() : "—";
+    const gmvTxt  = gmv  != null ? fmtMoneda(gmv, mon, {compact: true}) : "—";
+    const pctTxt  = pctNids != null ? `${(pctNids*100).toFixed(0)}%` : "—";
+    return `<tr><td><b>${label}</b></td><td class="num">${nidsTxt}</td><td class="num">${gmvTxt}</td><td class="num">${pctTxt}</td></tr>`;
+  }
+  const budN = ma.nids_budget || 0;
+  let tabla = `<table class="drill-table">
+    <thead><tr><th></th><th style="text-align:right">NIDs</th><th style="text-align:right">${stream.gmv_tipo_precio}</th><th style="text-align:right">% of budget</th></tr></thead>
+    <tbody>
+      ${row(`MTD (day ${dia}/${diasMes})`, ma.nids_total, ma.gmv_total, budN ? ma.nids_total/budN : null)}
+      ${fcPrev ? row(`Forecast vs ${fcPrev.ref_mes}`, fcPrev.nids, fcPrev.gmv, budN ? fcPrev.nids/budN : null) : ""}
+      ${fcYoy  ? row(`Forecast vs ${fcYoy.ref_mes} · YoY`, fcYoy.nids, fcYoy.gmv, budN ? fcYoy.nids/budN : null) : ""}
+      ${row("Budget (mes completo)", budN, ma.gmv_budget, budN ? 1 : null)}
+      ${row(`Mes anterior (${agg.mes_anterior.mes})`, agg.mes_anterior.nids_total, agg.mes_anterior.gmv_total, budN ? agg.mes_anterior.nids_total/budN : null)}
+      ${row(`YoY (${agg.mes_yoy.mes})`, agg.mes_yoy.nids_total, agg.mes_yoy.gmv_total, budN ? agg.mes_yoy.nids_total/budN : null)}
+    </tbody>
+  </table>`;
+
+  // Chart de curvas acumuladas — 3 series (actual, mes anterior, YoY)
+  // Construimos un eje X de "dia del mes" 1..max_dias.
+  const maxDias = Math.max(agg.mes_actual.dias_en_mes, agg.mes_anterior.dias_en_mes, agg.mes_yoy.dias_en_mes);
+  function serieDe(ventana, hastaDia){
+    const out = [];
+    for(let d = 1; d <= maxDias; d++){
+      if(hastaDia != null && d > hastaDia){ out.push({mes: String(d), actuals: null}); continue; }
+      out.push({mes: String(d), actuals: acumuladoAlDia(ventana.curva, d, "nids_cum")});
+    }
+    return out;
+  }
+  // serieActual solo hasta el dia_corte
+  const serieActual = serieDe(agg.mes_actual, dia);
+  const seriePrev   = serieDe(agg.mes_anterior, null);
+  const serieYoy    = serieDe(agg.mes_yoy, null);
+  // serie principal (actuals=actual, budget=prev) + extra (YoY)
+  const serieChart = serieActual.map((p, i) => ({mes: p.mes, actuals: p.actuals, budget: seriePrev[i].actuals}));
+  const chartExtra = {serie: serieYoy.map(p => ({mes: p.mes, actuals: p.actuals})), label: `YoY (${agg.mes_yoy.mes})`, color: "#EA580C"};
+
+  // lineChartSVG recorta por STATE.filters.mes (formato YYYY-MM). Como aqui
+  // el "mes" es el dia (string "1".."31"), el recorte no aplica (no match).
+  // Pero por seguridad, sobrescribimos temporalmente el filtro... no, mejor:
+  // pasamos un labels custom y dejamos que recortarVentana no haga nada
+  // (porque ningun item tiene mes igual a STATE.filters.mes).
+  const labels = {actuals: `MTD (${ma.mes})`, budget: `Mes anterior (${agg.mes_anterior.mes})`};
+  let html = `<div class="drill-grid">
+    <div class="drill-block">
+      <h3>Summary · ${stream.nombre}</h3>
+      ${tabla}
+    </div>
+  </div>
+  <div class="drill-block chart-block">
+    <h3>Cumulative curve by day of month · ${STATE.filters.pais === "Global" ? "Colombia + Mexico" : STATE.filters.pais}</h3>
+    <div class="chart-unit-label">Cumulative NIDs</div>
+    ${lineChartSVG(serieChart, "NIDS", "COUNT", labels, chartExtra)}
+  </div>
+  <div class="drill-note">
+    <b>How forecast is built</b>: For day D (today = day ${dia} of ${diasMes}), we take the reference month's cumulative NIDs at day D and its full-month total. Forecast = <code>MTD × (ref_total / ref_at_day_D)</code>. Two references shown: previous calendar month and same month one year ago. NIDs come from <code>finance_tapes_global</code> (filtered to <code>desistimientos='No desistidos'</code>); budget from <code>bet_data_p2 budget_1</code>.
+  </div>`;
+
+  document.getElementById("drillBody").innerHTML = html;
+  document.getElementById("drillModal").hidden = false;
+}
+
 /* ============================================================ RENDER === */
 
 function rebuildSubsidiariaOptions(){
@@ -1884,10 +2507,15 @@ function render(){
   renderSnapshot();
   document.getElementById("grid41").innerHTML = KPIS_41.map(renderCard).join("");
   document.getElementById("grid42").innerHTML = KPIS_42.map(renderCard).join("");
+  renderMTD();
 
   // Si el drill esta abierto, re-renderizar con los filtros nuevos
   if(STATE.currentDrillKpi && !document.getElementById("drillModal").hidden){
-    abrirDrill(STATE.currentDrillKpi);
+    if(STATE.currentDrillKpi.startsWith("__mtd__")){
+      abrirDrillMTD(STATE.currentDrillKpi.slice("__mtd__".length));
+    } else {
+      abrirDrill(STATE.currentDrillKpi);
+    }
   }
 
   document.getElementById("pageFoot").innerHTML =
@@ -1989,4 +2617,70 @@ function filterAgingBucket(btn, bucket){
 window.abrirDrill = abrirDrill;
 window.switchChartTab = switchChartTab;
 window.filterAgingBucket = filterAgingBucket;
+
+/* ============================================================ TAB BAR =====
+ * Bajo el snapshot hay 3 tabs (Performance / Capital / MTD).
+ * Solo el .tab-pane con clase .on esta visible. El tab activo se guarda en
+ * sessionStorage para persistir entre refreshes de la misma sesion.
+ * NOTA: renderMTD/render41/render42 escriben en sus grids por id, no
+ * dependen de visibilidad, asi que se puede ocultar el pane sin romper
+ * nada. Los renders siguen corriendo aunque el tab no este visible. */
+(function initTabBar(){
+  const bar = document.getElementById("tabBar");
+  if(!bar) return;
+  const KEY = "habi_dash_tab";
+  const saved = sessionStorage.getItem(KEY);
+  if(saved && document.querySelector(`.tab-pane[data-tab="${saved}"]`)){
+    activateTab(saved);
+  }
+  bar.addEventListener("click", (e) => {
+    const btn = e.target.closest(".tab-btn");
+    if(!btn) return;
+    const tab = btn.dataset.tab;
+    activateTab(tab);
+    sessionStorage.setItem(KEY, tab);
+  });
+  function activateTab(tab){
+    document.querySelectorAll(".tab-btn").forEach(b => {
+      const on = b.dataset.tab === tab;
+      b.classList.toggle("on", on);
+      b.setAttribute("aria-selected", on ? "true" : "false");
+    });
+    document.querySelectorAll(".tab-pane").forEach(p => {
+      p.classList.toggle("on", p.dataset.tab === tab);
+    });
+  }
+})();
+
+/* ========================================================= SUBTAB BAR =====
+ * Dentro del pane MTD hay 4 sub-tabs por linea de negocio (MM/BR Used/BR
+ * New/HC). Al cambiar, re-renderiza el grid MTD filtrado por linea_negocio.
+ * El sub-tab activo tambien se persiste en sessionStorage. */
+(function initSubtabBar(){
+  const bar = document.getElementById("subtabBar");
+  if(!bar) return;
+  const KEY = "habi_dash_mtd_subtab";
+  const saved = sessionStorage.getItem(KEY);
+  if(saved && document.querySelector(`.subtab-btn[data-subtab="${saved}"]`)){
+    activateSubtab(saved);
+  }
+  bar.addEventListener("click", (e) => {
+    const btn = e.target.closest(".subtab-btn");
+    if(!btn) return;
+    const sub = btn.dataset.subtab;
+    activateSubtab(sub);
+    sessionStorage.setItem(KEY, sub);
+    // Re-render solo el grid MTD (los otros paneles no cambian)
+    if(typeof renderMTD === "function") renderMTD();
+  });
+  function activateSubtab(sub){
+    if(typeof STATE !== "undefined") STATE.mtdSubtab = sub;
+    document.querySelectorAll(".subtab-btn").forEach(b => {
+      const on = b.dataset.subtab === sub;
+      b.classList.toggle("on", on);
+      b.setAttribute("aria-selected", on ? "true" : "false");
+    });
+  }
+})();
+
 init();
