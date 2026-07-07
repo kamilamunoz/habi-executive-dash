@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/styles.css?v=2026-07-06-brused">
+<link rel="stylesheet" href="css/styles.css?v=2026-07-07-tabs-reorg">
 </head>
 <body>
 
@@ -123,43 +123,66 @@
       <div class="snap-grid" id="snapshot"></div>
     </section>
 
-    <!-- TAB BAR: Performance / Capital / MTD -->
+    <!-- TAB BAR: Historical / Current month -->
     <nav class="tab-bar" id="tabBar" role="tablist">
-      <button class="tab-btn on" data-tab="perf" role="tab" aria-selected="true">Performance &amp; Profitability</button>
-      <button class="tab-btn"    data-tab="cap"  role="tab" aria-selected="false">Capital &amp; Liquidity</button>
-      <button class="tab-btn"    data-tab="mtd"  role="tab" aria-selected="false">MTD · This Month</button>
+      <button class="tab-btn on" data-tab="hist" role="tab" aria-selected="true">Historical</button>
+      <button class="tab-btn"    data-tab="mtd"  role="tab" aria-selected="false">Current month</button>
     </nav>
 
-    <!-- Performance tab -->
-    <section class="tab-pane on" data-tab="perf" role="tabpanel">
-      <div class="sec-band">
-        <span class="stitle">Performance &amp; Profitability</span>
-        <span class="ssub" id="ctx41">—</span>
+    <!-- Historical tab: sub-tabs Profitability / Capital / Growth -->
+    <section class="tab-pane on" data-tab="hist" role="tabpanel">
+      <nav class="subtab-bar" id="subtabBarHist" role="tablist" aria-label="Historical view">
+        <button class="subtab-btn on" data-subtab-hist="perf"   role="tab" aria-selected="true">Profitability</button>
+        <button class="subtab-btn"    data-subtab-hist="cap"    role="tab" aria-selected="false">Capital</button>
+        <button class="subtab-btn"    data-subtab-hist="growth" role="tab" aria-selected="false">Growth</button>
+      </nav>
+
+      <!-- Sub-pane: Profitability (ex-tab perf) -->
+      <div class="hist-pane on" data-subhist="perf">
+        <div class="sec-band">
+          <span class="stitle">Performance &amp; Profitability</span>
+          <span class="ssub" id="ctx41">—</span>
+        </div>
+        <div class="kpi-grid" id="grid41"></div>
       </div>
-      <div class="kpi-grid" id="grid41"></div>
+
+      <!-- Sub-pane: Capital (ex-tab cap) -->
+      <div class="hist-pane" data-subhist="cap">
+        <div class="sec-band">
+          <span class="stitle">Capital, Balance Sheet &amp; Liquidity</span>
+          <span class="ssub">under construction</span>
+        </div>
+        <div class="kpi-grid" id="grid42"></div>
+      </div>
+
+      <!-- Sub-pane: Growth (nuevo — cards land in next commit) -->
+      <div class="hist-pane" data-subhist="growth">
+        <div class="sec-band">
+          <span class="stitle">Growth · Monthly evolution</span>
+          <span class="ssub" id="ctxGrowth">Placeholder — cards arrive with builder commit.</span>
+        </div>
+        <div class="kpi-grid" id="gridGrowth">
+          <div class="card pendiente">
+            <div class="kpi-name"><span class="nm">Growth historical cards</span></div>
+            <div class="val">—</div>
+            <div class="adj-line">Serie mensual 12M de los 8 streams (PSAs / Deeds MM + Subscribed / Sales / Deeds BR Used) desde <code>bet_data_p2</code>. Aterriza en el siguiente commit.</div>
+          </div>
+        </div>
+      </div>
     </section>
 
-    <!-- Capital tab -->
-    <section class="tab-pane" data-tab="cap" role="tabpanel">
-      <div class="sec-band">
-        <span class="stitle">Capital, Balance Sheet &amp; Liquidity</span>
-        <span class="ssub">under construction</span>
-      </div>
-      <div class="kpi-grid" id="grid42"></div>
-    </section>
-
-    <!-- MTD tab -->
+    <!-- Current month (MTD) tab -->
     <section class="tab-pane" data-tab="mtd" role="tabpanel">
       <div class="sec-band">
         <span class="stitle">MTD · Transactions &amp; Forecast</span>
         <span class="ssub" id="ctxMTD">—</span>
       </div>
       <!-- Sub-tabs por linea de negocio dentro del pane MTD -->
-      <nav class="subtab-bar" id="subtabBar" role="tablist" aria-label="Business line">
-        <button class="subtab-btn on" data-subtab="Market Maker"        role="tab" aria-selected="true">Market Maker</button>
-        <button class="subtab-btn"    data-subtab="Brokerage Used"      role="tab" aria-selected="false">Brokerage Used</button>
-        <button class="subtab-btn"    data-subtab="Brokerage New"       role="tab" aria-selected="false">Brokerage New</button>
-        <button class="subtab-btn"    data-subtab="Habicredit"          role="tab" aria-selected="false">Habicredit</button>
+      <nav class="subtab-bar" id="subtabBarMTD" role="tablist" aria-label="Business line">
+        <button class="subtab-btn on" data-subtab-mtd="Market Maker"        role="tab" aria-selected="true">Market Maker</button>
+        <button class="subtab-btn"    data-subtab-mtd="Brokerage Used"      role="tab" aria-selected="false">Brokerage Used</button>
+        <button class="subtab-btn"    data-subtab-mtd="Brokerage New"       role="tab" aria-selected="false">Brokerage New</button>
+        <button class="subtab-btn"    data-subtab-mtd="Habicredit"          role="tab" aria-selected="false">Habicredit</button>
       </nav>
       <div class="kpi-grid" id="gridMTD"></div>
     </section>

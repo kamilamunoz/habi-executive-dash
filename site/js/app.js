@@ -2653,31 +2653,60 @@ window.filterAgingBucket = filterAgingBucket;
   }
 })();
 
-/* ========================================================= SUBTAB BAR =====
- * Dentro del pane MTD hay 4 sub-tabs por linea de negocio (MM/BR Used/BR
- * New/HC). Al cambiar, re-renderiza el grid MTD filtrado por linea_negocio.
- * El sub-tab activo tambien se persiste en sessionStorage. */
-(function initSubtabBar(){
-  const bar = document.getElementById("subtabBar");
+/* ========================================================= SUBTAB BARS ====
+ * Dos sub-tab bars independientes:
+ *   1) subtabBarHist  -> Profitability / Capital / Growth (dentro del pane
+ *      Historical). Toggle .hist-pane[data-subhist].
+ *   2) subtabBarMTD   -> Market Maker / Brokerage Used / Brokerage New /
+ *      Habicredit (dentro del pane MTD). Re-render del grid MTD.
+ * Cada barra usa su propio storage key para persistir en la sesion. */
+(function initSubtabBarHist(){
+  const bar = document.getElementById("subtabBarHist");
   if(!bar) return;
-  const KEY = "habi_dash_mtd_subtab";
+  const KEY = "habi_dash_hist_subtab";
   const saved = sessionStorage.getItem(KEY);
-  if(saved && document.querySelector(`.subtab-btn[data-subtab="${saved}"]`)){
-    activateSubtab(saved);
+  if(saved && bar.querySelector(`.subtab-btn[data-subtab-hist="${saved}"]`)){
+    activate(saved);
   }
   bar.addEventListener("click", (e) => {
     const btn = e.target.closest(".subtab-btn");
     if(!btn) return;
-    const sub = btn.dataset.subtab;
-    activateSubtab(sub);
+    const sub = btn.dataset.subtabHist;
+    activate(sub);
     sessionStorage.setItem(KEY, sub);
-    // Re-render solo el grid MTD (los otros paneles no cambian)
+  });
+  function activate(sub){
+    bar.querySelectorAll(".subtab-btn").forEach(b => {
+      const on = b.dataset.subtabHist === sub;
+      b.classList.toggle("on", on);
+      b.setAttribute("aria-selected", on ? "true" : "false");
+    });
+    document.querySelectorAll(".hist-pane").forEach(p => {
+      p.classList.toggle("on", p.dataset.subhist === sub);
+    });
+  }
+})();
+
+(function initSubtabBarMTD(){
+  const bar = document.getElementById("subtabBarMTD");
+  if(!bar) return;
+  const KEY = "habi_dash_mtd_subtab";
+  const saved = sessionStorage.getItem(KEY);
+  if(saved && bar.querySelector(`.subtab-btn[data-subtab-mtd="${saved}"]`)){
+    activate(saved);
+  }
+  bar.addEventListener("click", (e) => {
+    const btn = e.target.closest(".subtab-btn");
+    if(!btn) return;
+    const sub = btn.dataset.subtabMtd;
+    activate(sub);
+    sessionStorage.setItem(KEY, sub);
     if(typeof renderMTD === "function") renderMTD();
   });
-  function activateSubtab(sub){
+  function activate(sub){
     if(typeof STATE !== "undefined") STATE.mtdSubtab = sub;
-    document.querySelectorAll(".subtab-btn").forEach(b => {
-      const on = b.dataset.subtab === sub;
+    bar.querySelectorAll(".subtab-btn").forEach(b => {
+      const on = b.dataset.subtabMtd === sub;
       b.classList.toggle("on", on);
       b.setAttribute("aria-selected", on ? "true" : "false");
     });

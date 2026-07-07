@@ -87,7 +87,8 @@ html,body{background:var(--bg);color:var(--txt);font-family:'IBM Plex Sans',sans
 .snap.gray{background:var(--panel2)}
 
 /* ======================================================= TAB BAR ======= */
-/* 3 tabs bajo el snapshot: Performance / Capital / MTD.
+/* 2 tabs bajo el snapshot: Historical / Current month.
+ * Historical tiene sub-tabs Profitability / Capital / Growth (.hist-pane).
  * Un solo tab-pane visible a la vez (.on). Estilo consistente con .seg y
  * .chart-tabs (mismo pattern boton pill + activo purple). */
 .tab-bar{display:flex;gap:4px;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:5px;margin-bottom:18px;box-shadow:0 1px 2px rgba(20,20,50,.03)}
@@ -96,6 +97,8 @@ html,body{background:var(--bg);color:var(--txt);font-family:'IBM Plex Sans',sans
 .tab-btn.on{background:var(--purple);color:#fff}
 .tab-pane{display:none}
 .tab-pane.on{display:block}
+.hist-pane{display:none}
+.hist-pane.on{display:block}
 @media (max-width:600px){
   .tab-bar{flex-direction:column;gap:3px}
   .tab-btn{font-size:12.5px;padding:9px 12px}
