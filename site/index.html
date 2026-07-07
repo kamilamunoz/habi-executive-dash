@@ -207,7 +207,11 @@
  * disuasivo basico para acceso casual mientras se define hosting real.
  */
 (function(){
-  const PWD_HASH = "1dddfc98a22a99050137a3c09931dae8d0bed85f02c93e8f780cdfbf0fde7d4a";
+  // Password random de 20 caracteres alfanumericos (SHA-256 abajo). El
+  // gate es cliente-side — sirve como fricción visual, no como
+  // seguridad real: los JSONs de site/data/*.json son directamente
+  // accesibles conociendo la ruta. Ver README para el trade-off.
+  const PWD_HASH = "fa9f3b16e565fe2d6d4df6ab160c378cbdd665f83349854548f14bffb98e9d28";
   const STORAGE_KEY = "habi_dash_auth";
   const gate = document.getElementById("loginGate");
   const form = document.getElementById("loginForm");
