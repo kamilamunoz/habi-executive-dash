@@ -975,13 +975,18 @@ function renderCard(kpiDef){
     ? `<div class="adj-line">Adj. EBITDA: <b>${fmtMoneda(adjActuals, mon)}</b></div>`
     : "";
 
+  const budgetBig = (budget != null && budget !== 0)
+    ? `<div class="val-budget"><span class="sep">/</span> ${budgetTxt}<span class="val-unit"> budget</span></div>`
+    : "";
   return `<div class="card ${perfCls}" onclick="abrirDrill('${kpiDef.id}')">
     <div class="kpi-name"><span class="nm">${kpiDef.nombre}</span><span class="tag ${data.estado}">${TAG_LABEL[data.estado]}</span></div>
-    <div class="val">${valor}</div>
+    <div class="val-row">
+      <div class="val">${valor}</div>
+      ${budgetBig}
+    </div>
+    ${progressHTML}
     ${adjHTML}
     ${ratioHTML}
-    <div class="budget-line">Budget: <b>${budgetTxt}</b></div>
-    ${progressHTML}
     <div class="delta">
       ${diff != null ? fmtDelta(diff, invertir) + ' <span class="vs">vs budget</span>' : ''}
       ${diffMoM != null ? fmtDelta(diffMoM, invertir) + ' <span class="vs">vs prev. month</span>' : ''}
@@ -1314,12 +1319,17 @@ function renderCardCount(kpiDef, data){
     ? `<div class="adj-line">GMV: <b>${fmtMoneda(gmvConv, monLabel)}</b></div>`
     : `<div class="adj-line">GMV: <b>—</b> <span class="vs">(pick country/subsidiary or switch to USD)</span></div>`;
 
+  const budgetBig = (nidsBudget != null && nidsBudget !== 0)
+    ? `<div class="val-budget"><span class="sep">/</span> ${fmtNIDs(nidsBudget)} <span class="val-unit">NIDs budget</span></div>`
+    : "";
   return `<div class="card ${perfCls}" onclick="abrirDrillGrowth('${kpiDef.id}')">
     <div class="kpi-name"><span class="nm">${kpiDef.nombre}</span><span class="tag ${data.estado}">${TAG_LABEL[data.estado]}</span></div>
-    <div class="val">${fmtNIDs(nids)} <span class="val-unit">NIDs</span></div>
-    ${gmvHTML}
-    <div class="budget-line">Budget: <b>${fmtNIDs(nidsBudget)} NIDs</b></div>
+    <div class="val-row">
+      <div class="val">${fmtNIDs(nids)} <span class="val-unit">NIDs</span></div>
+      ${budgetBig}
+    </div>
     ${progressHTML}
+    ${gmvHTML}
     <div class="delta">
       ${diffBud != null ? fmtDelta(diffBud, false) + ' <span class="vs">vs budget</span>' : ''}
       ${diffMoM != null ? fmtDelta(diffMoM, false) + ' <span class="vs">vs prev. month</span>' : ''}
@@ -2398,19 +2408,24 @@ function renderMTDCardCount(stream){
   // Para evitar el recorte, llamamos directo a una mini-version inline.
   const spark = miniSparkSVG(sparkSerie, color);
 
-  const budgetTxt = ma.nids_budget
-    ? `Budget: <b>${Math.round(ma.nids_budget).toLocaleString()} NIDs</b> · ${fmtMoneda(ma.gmv_budget, mon, {compact: true})}`
-    : "Budget: —";
-
   const gmvSub = stream.gmv_tipo_precio ? ` <span class="vs">${stream.gmv_tipo_precio}</span>` : "";
+  const budgetBigHTML = ma.nids_budget
+    ? `<div class="val-budget"><span class="sep">/</span> ${Math.round(ma.nids_budget).toLocaleString()} <span class="mtd-unit">NIDs budget</span></div>`
+    : "";
+  const budgetGmvHTML = ma.nids_budget
+    ? `<div class="budget-line">Budget ${stream.gmv_tipo_precio || "GMV"}: <b>${fmtMoneda(ma.gmv_budget, mon, {compact: true})}</b></div>`
+    : "";
   return `<div class="card mtd-card ${cls}" onclick="abrirDrillMTD('${stream.id}')">
     <div class="kpi-name"><span class="nm">${stream.nombre}</span><span class="tag real">MTD</span></div>
-    <div class="val">${Math.round(ma.nids_total).toLocaleString()} <span class="mtd-unit">NIDs</span></div>
-    <div class="adj-line">${fmtMoneda(ma.gmv_total, mon, {compact: true})}${gmvSub}</div>
+    <div class="val-row">
+      <div class="val">${Math.round(ma.nids_total).toLocaleString()} <span class="mtd-unit">NIDs</span></div>
+      ${budgetBigHTML}
+    </div>
+    ${progressHTML}
+    <div class="adj-line">MTD ${stream.gmv_tipo_precio || "GMV"}: <b>${fmtMoneda(ma.gmv_total, mon, {compact: true})}</b>${gmvSub}</div>
     ${fcPrevHTML}
     ${fcYoyHTML}
-    <div class="budget-line">${budgetTxt}</div>
-    ${progressHTML}
+    ${budgetGmvHTML}
     <div class="delta"><span class="vs">Day ${dia} of ${diasMes}</span></div>
     ${spark}
     <div class="src">◷ ${STATE.mtd.fuente || ""}</div>
@@ -2741,68 +2756,11 @@ function abrirDrillGrowth(streamId){
 }
 window.abrirDrillGrowth = abrirDrillGrowth;
 
-/* Tabla resumen del sub-tab MTD activo. Una fila por stream `tipo=count`
- * (Gross Margin y otros ratios quedan fuera — sus forecasts son %,
- * no comparables con budget de NIDs). Reusa agregarStream + forecastDesde.
- *
- * Columnas: KPI, MTD, Forecast · prev, % of budget (fc prev),
- * Forecast · YoY, % of budget (fc YoY). Cada porcentaje pinta un
- * delta-pill segun cumplimiento (perfMTD). */
-function renderMTDSummaryTable(streams){
-  const countStreams = streams.filter(s => s.tipo === "count");
-  if(!countStreams.length) return "";
-  const dia = STATE.mtd.hoy_dia_del_mes;
-  const dias = STATE.mtd.days_in_month_actual;
-  const mesA = STATE.mtd.mes_actual;
-  const mesP = STATE.mtd.mes_anterior;
-  const mesY = STATE.mtd.mes_yoy;
-  const fmt = (v) => v != null ? Math.round(v).toLocaleString() : "—";
-  const pctPill = (fc, bud) => {
-    if(fc == null || !bud) return "—";
-    const p = fc / bud;
-    const cls = perfMTD(fc, bud).replace("perf-","");   // green/amber/red
-    return `<span class="delta-pill ${cls}">${(p*100).toFixed(0)}%</span>`;
-  };
-  let filas = "";
-  for(const s of countStreams){
-    const agg = agregarStream(s);
-    const ma = agg.mes_actual;
-    const fcPrev = forecastDesde(agg, "mes_anterior");
-    const fcYoy  = forecastDesde(agg, "mes_yoy");
-    const bud = ma.nids_budget || 0;
-    filas += `<tr onclick="abrirDrillMTD('${s.id}')" class="clickable-row">
-      <td><b>${s.nombre}</b><br><span class="sub-txt">Budget: ${fmt(bud)} NIDs</span></td>
-      <td class="num">${fmt(ma.nids_total)}<br><span class="sub-txt">day ${dia}/${dias}</span></td>
-      <td class="num">${fcPrev ? fmt(fcPrev.nids) : "—"}<br><span class="sub-txt">vs ${mesP}</span></td>
-      <td class="num">${pctPill(fcPrev ? fcPrev.nids : null, bud)}</td>
-      <td class="num">${fcYoy ? fmt(fcYoy.nids) : "—"}<br><span class="sub-txt">vs ${mesY}</span></td>
-      <td class="num">${pctPill(fcYoy ? fcYoy.nids : null, bud)}</td>
-    </tr>`;
-  }
-  return `<div class="mtd-summary-wrap">
-    <div class="mtd-summary-title">Summary · ${STATE.mtdSubtab || "Market Maker"} · ${mesA} (day ${dia} of ${dias})</div>
-    <table class="mtd-summary-table">
-      <thead><tr>
-        <th>KPI</th>
-        <th style="text-align:right">MTD actual (NIDs)</th>
-        <th style="text-align:right">Forecast · prev</th>
-        <th style="text-align:right">% of budget<br><span class="sub-txt">(fc prev)</span></th>
-        <th style="text-align:right">Forecast · YoY</th>
-        <th style="text-align:right">% of budget<br><span class="sub-txt">(fc YoY)</span></th>
-      </tr></thead>
-      <tbody>${filas}</tbody>
-    </table>
-    <div class="mtd-summary-note">Click on any row to open its drill-down.</div>
-  </div>`;
-}
-
 function renderMTD(){
   const grid = document.getElementById("gridMTD");
-  const summary = document.getElementById("mtdSummary");
   if(!grid) return;
   if(!STATE.mtd || !STATE.mtd.streams){
     grid.innerHTML = `<div class="card pendiente"><div class="kpi-name"><span class="nm">MTD data unavailable</span></div></div>`;
-    if(summary) summary.innerHTML = "";
     return;
   }
   // Filtrar por sub-tab activo (linea_negocio). Default: Market Maker.
@@ -2811,9 +2769,7 @@ function renderMTD(){
   if(streams.length === 0){
     // Placeholder para lineas sin data aun (BR Used, BR New, HC — Fase 2)
     grid.innerHTML = `<div class="card pendiente"><div class="kpi-name"><span class="nm">${subtab} · Fase 2 pendiente</span></div><div class="val">—</div><div class="adj-line">Data streams a incluir cuando lleguen del builder.</div></div>`;
-    if(summary) summary.innerHTML = "";
   } else {
-    if(summary) summary.innerHTML = renderMTDSummaryTable(streams);
     grid.innerHTML = streams.map(renderMTDCard).join("");
   }
   const ctx = `${STATE.filters.pais}${STATE.filters.moneda === "USD" ? " · USD" : " · Local"} · ${STATE.mtd.mes_actual} · day ${STATE.mtd.hoy_dia_del_mes} of ${STATE.mtd.days_in_month_actual}`;

@@ -154,6 +154,13 @@ html,body{background:var(--bg);color:var(--txt);font-family:'IBM Plex Sans',sans
 .mtd-card .mtd-unit{font-size:14px;font-weight:500;color:var(--txt2);margin-left:4px;letter-spacing:0}
 .mtd-card .adj-line{color:var(--txt2);font-size:12px}
 .mtd-card .adj-line b{color:var(--txt);font-size:13px}
+/* Row con valor actual (grande) + budget (mas chico al lado). Generico —
+ * usado por card estandar (Perf/Cap), Growth (COUNT_NIDS) y MTD. */
+.val-row{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;margin:6px 0 2px}
+.val-row .val{margin:0}
+.val-budget{font-size:19px;font-weight:600;color:var(--txt2);line-height:1.1;letter-spacing:-.01em}
+.val-budget .sep{color:var(--txt3);font-weight:400;margin-right:2px}
+.val-budget .val-unit,.val-budget .mtd-unit{font-size:11.5px;font-weight:500;color:var(--txt3);margin-left:3px}
 .mtd-forecast{font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:var(--txt2);margin-top:4px;line-height:1.4}
 .mtd-forecast b{color:var(--txt);font-weight:600;font-size:12.5px}
 .mtd-forecast .lbl{color:var(--txt3);font-weight:500}
@@ -214,17 +221,7 @@ html,body{background:var(--bg);color:var(--txt);font-family:'IBM Plex Sans',sans
 .delta-pill.flat,.delta-pill.gray{color:var(--txt2);background:var(--line2)}
 .delta-pill.amber{color:var(--amber-tx);background:var(--amber-bg)}
 
-/* MTD summary table — aparece arriba de las cards en el sub-tab activo */
-.mtd-summary-wrap{margin:4px 0 18px;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px 16px;box-shadow:0 1px 2px rgba(20,20,50,.03)}
-.mtd-summary-title{font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:600;color:var(--purple);letter-spacing:.04em;text-transform:uppercase;margin-bottom:10px}
-.mtd-summary-table{width:100%;border-collapse:collapse;font-size:13px}
-.mtd-summary-table th{text-align:left;padding:9px 10px;border-bottom:1.5px solid var(--line);font-weight:600;color:var(--txt2);font-size:12px;letter-spacing:.02em}
-.mtd-summary-table td{padding:11px 10px;border-bottom:1px solid var(--line);vertical-align:top;color:var(--txt)}
-.mtd-summary-table tr:last-child td{border-bottom:none}
-.mtd-summary-table td.num{text-align:right;font-family:'IBM Plex Mono',monospace}
-.mtd-summary-table tr.clickable-row{cursor:pointer;transition:background .12s}
-.mtd-summary-table tr.clickable-row:hover td{background:var(--purple-soft)}
-.mtd-summary-note{margin-top:8px;font-size:11px;color:var(--txt3);font-style:italic}
+/* Texto secundario compacto (usado en drills, subtitulos) */
 .sub-txt{font-size:11px;color:var(--txt3);font-weight:500}
 
 .drill-empty{font-size:12px;color:var(--txt3);font-style:italic;padding:8px 4px}
