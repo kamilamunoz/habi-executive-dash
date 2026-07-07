@@ -246,6 +246,16 @@ html,body{background:var(--bg);color:var(--txt);font-family:'IBM Plex Sans',sans
 .lg-line{width:28px;height:3px;display:inline-block;position:relative}
 .lg-line.lg-actuals{background:var(--purple);height:3px;border-radius:2px}
 .lg-line.lg-budget{background:transparent;border-top:2.5px dashed var(--purple2);height:0}
+/* Leyenda MTD drill: extension forecast (azul prev + naranja yoy) punteada */
+.lg-line.lg-fc-prev{background:transparent;border-top:2.5px dashed #2D6FD4;height:0}
+.lg-line.lg-fc-yoy{background:transparent;border-top:2.5px dashed #EA580C;height:0}
+/* Dots inline en la tabla del drill MTD (referencia visual con leyenda) */
+.dot-prev,.dot-yoy{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:4px;vertical-align:middle}
+.dot-prev{background:#2D6FD4}
+.dot-yoy{background:#EA580C}
+/* Filas destacadas en la tabla del drill MTD */
+.mtd-drill-table tr.row-mtd td{background:var(--purple-soft)}
+.mtd-drill-table tr.row-budget td{background:var(--panel2);font-weight:600;border-top:2px solid var(--line)}
 .chart-empty{padding:40px;color:var(--txt3);text-align:center;font-size:13px;font-style:italic}
 .drill-table{width:100%;border-collapse:collapse;font-size:12.5px;margin-top:6px}
 .drill-table th{text-align:left;font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--txt2);padding:8px 6px;border-bottom:1px solid var(--line)}

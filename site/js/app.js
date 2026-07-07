@@ -654,6 +654,116 @@ function lineChartSVG(serie, moneda, unit, labels, extra){
   </div>`;
 }
 
+/* Chart especifico del drill MTD: MTD acumulado solido morado hasta el
+ * dia D, y desde D hasta fin de mes dos extensiones punteadas que muestran
+ * cual seria el cierre segun cada referencia:
+ *   ext_prev[d] = MTD_D × prev_cum[d] / prev_cum[D]    (azul punteado)
+ *   ext_yoy[d]  = MTD_D × yoy_cum[d]  / yoy_cum[D]     (naranja punteado)
+ * Ambas arrancan exactamente en el punto (D, MTD_D) y terminan en el
+ * forecast total del mes. Marcador vertical en el dia D separa "real"
+ * de "proyeccion". Los labels en dia D y dia N son los numeros clave.
+ */
+function mtdForecastChartSVG(agg, dia, diasMes){
+  if(!agg || !agg.mes_actual) return "<div class='chart-empty'>No data</div>";
+  const ma = agg.mes_actual, mp = agg.mes_anterior, my = agg.mes_yoy;
+  const mtdD = ma.nids_total || 0;
+
+  // Series (indice por dia 1..diasMes; null si fuera de rango)
+  const prevCurve = (mp && mp.curva) ? mp.curva : [];
+  const yoyCurve  = (my && my.curva) ? my.curva : [];
+  const prevD = acumuladoAlDia(prevCurve, dia, "nids_cum");
+  const yoyD  = acumuladoAlDia(yoyCurve,  dia, "nids_cum");
+  const factorPrev = prevD > 0 ? mp.nids_total / prevD : null;
+  const factorYoy  = yoyD  > 0 ? my.nids_total / yoyD  : null;
+
+  const mtdSerie = [];   // dia 1..D
+  for(let d = 1; d <= dia; d++){
+    mtdSerie.push({d, v: acumuladoAlDia(ma.curva, d, "nids_cum")});
+  }
+  const extPrev = [];    // dia D..diasMes
+  const extYoy  = [];
+  for(let d = dia; d <= diasMes; d++){
+    const rp = acumuladoAlDia(prevCurve, d, "nids_cum");
+    const ry = acumuladoAlDia(yoyCurve,  d, "nids_cum");
+    extPrev.push({d, v: (prevD > 0) ? mtdD * (rp / prevD) : null});
+    extYoy.push({d,  v: (yoyD  > 0) ? mtdD * (ry / yoyD)  : null});
+  }
+
+  // Rango Y
+  const vals = mtdSerie.map(p => p.v)
+    .concat(extPrev.map(p => p.v)).concat(extYoy.map(p => p.v))
+    .filter(v => v != null && !isNaN(v));
+  if(!vals.length) return "<div class='chart-empty'>No data</div>";
+  const yMax = Math.max(...vals) * 1.18;
+  const yMin = 0;
+  const yRng = (yMax - yMin) || 1;
+
+  const W = 1200, H = 460, pad = {l: 78, r: 28, t: 30, b: 58};
+  const cw = W - pad.l - pad.r, ch = H - pad.t - pad.b;
+  const xAt = d => pad.l + (diasMes === 1 ? cw/2 : (d - 1) * cw / (diasMes - 1));
+  const yAt = v => pad.t + ch - ((v - yMin) / yRng) * ch;
+
+  // Ejes
+  const ticks = 5;
+  let yAxis = "";
+  for(let i = 0; i <= ticks; i++){
+    const v = yMin + (yRng * i / ticks);
+    const y = pad.t + ch - (ch * i / ticks);
+    yAxis += `<line x1="${pad.l}" x2="${pad.l + cw}" y1="${y}" y2="${y}" stroke="#EFEFF4" stroke-width="1"/>
+              <text x="${pad.l - 10}" y="${y + 4}" text-anchor="end" font-size="12" fill="#5C5C70" font-family="IBM Plex Mono, monospace">${fmtChartValue(v, "COUNT", "NIDS")}</text>`;
+  }
+  let xLabels = "";
+  for(let d = 1; d <= diasMes; d++){
+    const mostrar = (d === 1) || (d === diasMes) || (d === dia) || (d % 3 === 0);
+    if(mostrar){
+      xLabels += `<text x="${xAt(d).toFixed(1)}" y="${H - 22}" text-anchor="middle" font-size="12" font-weight="${d===dia?700:600}" fill="${d===dia?"#6B2FD4":"#1A1A2E"}" font-family="IBM Plex Mono, monospace">${d}</text>`;
+    }
+  }
+  // Marcador vertical dia D
+  const xD = xAt(dia);
+  const vLine = `<line x1="${xD.toFixed(1)}" x2="${xD.toFixed(1)}" y1="${pad.t}" y2="${pad.t + ch}" stroke="#6B2FD4" stroke-width="1" stroke-dasharray="4 4" opacity="0.4"/>
+                 <text x="${xD.toFixed(1)}" y="${pad.t - 8}" text-anchor="middle" font-size="11" font-weight="600" fill="#6B2FD4" font-family="IBM Plex Mono, monospace">day ${dia} (today)</text>`;
+
+  // Paths
+  const path = pts => pts.filter(p => p.v != null && !isNaN(p.v))
+    .map((p, i) => (i ? "L" : "M") + xAt(p.d).toFixed(1) + " " + yAt(p.v).toFixed(1)).join(" ");
+  const dMTD  = path(mtdSerie);
+  const dPrev = path(extPrev);
+  const dYoy  = path(extYoy);
+
+  // Labels de valores clave: MTD_D + forecast prev final + forecast yoy final
+  const mtdLast = mtdSerie[mtdSerie.length - 1];
+  const prevLast = extPrev[extPrev.length - 1];
+  const yoyLast  = extYoy[extYoy.length - 1];
+  function labelAt(p, txt, color, weight){
+    if(!p || p.v == null) return "";
+    const x = xAt(p.d).toFixed(1), y = (yAt(p.v) - 12).toFixed(1);
+    return `<text x="${x}" y="${y}" text-anchor="middle" font-size="12.5" font-weight="${weight||700}" fill="${color}" font-family="IBM Plex Mono, monospace" paint-order="stroke" stroke="#FFFFFF" stroke-width="4">${fmtChartValue(p.v, "COUNT", "NIDS")}</text>`;
+  }
+
+  return `<div class="chart-wrap">
+    <svg viewBox="0 0 ${W} ${H}" class="chart" preserveAspectRatio="xMidYMid meet">
+      ${yAxis}
+      ${vLine}
+      ${dPrev ? `<path d="${dPrev}" fill="none" stroke="#2D6FD4" stroke-width="2.6" stroke-dasharray="6 4" stroke-linejoin="round" stroke-linecap="round" opacity="0.9"/>` : ""}
+      ${dYoy  ? `<path d="${dYoy}"  fill="none" stroke="#EA580C" stroke-width="2.6" stroke-dasharray="6 4" stroke-linejoin="round" stroke-linecap="round" opacity="0.9"/>` : ""}
+      ${dMTD  ? `<path d="${dMTD}"  fill="none" stroke="#6B2FD4" stroke-width="3.2" stroke-linejoin="round" stroke-linecap="round"/>` : ""}
+      <circle cx="${xAt(dia).toFixed(1)}" cy="${yAt(mtdD).toFixed(1)}" r="5.5" fill="#6B2FD4"/>
+      ${prevLast && prevLast.v != null ? `<circle cx="${xAt(prevLast.d).toFixed(1)}" cy="${yAt(prevLast.v).toFixed(1)}" r="5" fill="#FFFFFF" stroke="#2D6FD4" stroke-width="2.4"/>` : ""}
+      ${yoyLast  && yoyLast.v  != null ? `<circle cx="${xAt(yoyLast.d).toFixed(1)}"  cy="${yAt(yoyLast.v).toFixed(1)}"  r="5" fill="#FFFFFF" stroke="#EA580C" stroke-width="2.4"/>` : ""}
+      ${labelAt(mtdLast,  "#3A1980", 700)}
+      ${labelAt(prevLast, "#1E4E9D", 700)}
+      ${labelAt(yoyLast,  "#9C3A08", 700)}
+      ${xLabels}
+    </svg>
+  </div>
+  <div class="chart-legend">
+    <span><span class="lg-line lg-actuals"></span>MTD actual (day 1–${dia})</span>
+    <span><span class="lg-line lg-fc-prev"></span>Forecast · scaled by ${mp ? mp.mes : "prev"} ${factorPrev ? `(×${factorPrev.toFixed(2)})` : ""}</span>
+    <span><span class="lg-line lg-fc-yoy"></span>Forecast · scaled by ${my ? my.mes : "yoy"} ${factorYoy ? `(×${factorYoy.toFixed(2)})` : ""}</span>
+  </div>`;
+}
+
 /* Stacked bar chart SVG. seriePorMes = [{mes, segmentos: [{key, value, color}, ...]}].
  * Renderiza barras apiladas con leyenda inferior. value = entero (count). */
 function stackedBarChartSVG(seriePorMes, legendOrder, colorMap){
@@ -2731,64 +2841,88 @@ function abrirDrillMTD(streamId){
   document.getElementById("drillSub").innerHTML =
     `Period: <b>${ma.mes}</b> · Day <b>${dia}/${diasMes}</b> · View: <b>${filtroPais}</b> · Currency: <b>${monedaTxt}</b>`;
 
-  // Tabla resumen
-  function row(label, nids, gmv, pctNids){
-    const nidsTxt = nids != null ? Math.round(nids).toLocaleString() : "—";
-    const gmvTxt  = gmv  != null ? fmtMoneda(gmv, mon, {compact: true}) : "—";
-    const pctTxt  = pctNids != null ? `${(pctNids*100).toFixed(0)}%` : "—";
-    return `<tr><td><b>${label}</b></td><td class="num">${nidsTxt}</td><td class="num">${gmvTxt}</td><td class="num">${pctTxt}</td></tr>`;
-  }
+  // Numeros clave que alimentan el forecast: referencia acumulada al dia D
+  // + factor por el que se multiplica el MTD para proyectar el cierre.
   const budN = ma.nids_budget || 0;
-  let tabla = `<table class="drill-table">
-    <thead><tr><th></th><th style="text-align:right">NIDs</th><th style="text-align:right">${stream.gmv_tipo_precio || "GMV"}</th><th style="text-align:right">% of budget</th></tr></thead>
+  const prevD_nids = acumuladoAlDia(agg.mes_anterior.curva, dia, "nids_cum");
+  const yoyD_nids  = acumuladoAlDia(agg.mes_yoy.curva,      dia, "nids_cum");
+  const prevD_gmv  = acumuladoAlDia(agg.mes_anterior.curva, dia, "gmv_cum");
+  const yoyD_gmv   = acumuladoAlDia(agg.mes_yoy.curva,      dia, "gmv_cum");
+  const factorPrev = prevD_nids > 0 ? agg.mes_anterior.nids_total / prevD_nids : null;
+  const factorYoy  = yoyD_nids  > 0 ? agg.mes_yoy.nids_total       / yoyD_nids  : null;
+
+  const fmtNids = (v) => (v == null || isNaN(v)) ? "—" : Math.round(v).toLocaleString();
+  const fmtG    = (v) => (v == null || isNaN(v)) ? "—" : fmtMoneda(v, mon, {compact: true});
+  const fmtFac  = (v) => (v == null || isNaN(v)) ? "—" : `×${v.toFixed(2)}`;
+  const fmtPct  = (v) => (v == null || isNaN(v)) ? "—" : `${(v*100).toFixed(0)}%`;
+
+  // Tabla resumen con las 6 columnas que explican de donde sale el forecast
+  const tabla = `<table class="drill-table drill-table-compact mtd-drill-table">
+    <thead><tr>
+      <th>Reference</th>
+      <th style="text-align:right">NIDs @ day ${dia}</th>
+      <th style="text-align:right">NIDs total</th>
+      <th style="text-align:right">Factor (×)</th>
+      <th style="text-align:right">Forecast NIDs</th>
+      <th style="text-align:right">${stream.gmv_tipo_precio || "GMV"} total</th>
+      <th style="text-align:right">Forecast ${stream.gmv_tipo_precio || "GMV"}</th>
+      <th style="text-align:right">% of budget</th>
+    </tr></thead>
     <tbody>
-      ${row(`MTD (day ${dia}/${diasMes})`, ma.nids_total, ma.gmv_total, budN ? ma.nids_total/budN : null)}
-      ${fcPrev ? row(`Forecast vs ${fcPrev.ref_mes}`, fcPrev.nids, fcPrev.gmv, budN ? fcPrev.nids/budN : null) : ""}
-      ${fcYoy  ? row(`Forecast vs ${fcYoy.ref_mes} · YoY`, fcYoy.nids, fcYoy.gmv, budN ? fcYoy.nids/budN : null) : ""}
-      ${row("Budget (mes completo)", budN, ma.gmv_budget, budN ? 1 : null)}
-      ${row(`Mes anterior (${agg.mes_anterior.mes})`, agg.mes_anterior.nids_total, agg.mes_anterior.gmv_total, budN ? agg.mes_anterior.nids_total/budN : null)}
-      ${row(`YoY (${agg.mes_yoy.mes})`, agg.mes_yoy.nids_total, agg.mes_yoy.gmv_total, budN ? agg.mes_yoy.nids_total/budN : null)}
+      <tr class="row-mtd">
+        <td><b>MTD</b> · ${ma.mes} (day ${dia}/${diasMes})</td>
+        <td class="num"><b>${fmtNids(ma.nids_total)}</b></td>
+        <td class="num sub-txt">—</td>
+        <td class="num sub-txt">—</td>
+        <td class="num sub-txt">—</td>
+        <td class="num"><b>${fmtG(ma.gmv_total)}</b></td>
+        <td class="num sub-txt">—</td>
+        <td class="num">${budN ? fmtPct(ma.nids_total/budN) : "—"}</td>
+      </tr>
+      <tr class="row-prev">
+        <td><span class="dot-prev"></span> <b>Prev</b> · ${agg.mes_anterior.mes}</td>
+        <td class="num">${fmtNids(prevD_nids)}</td>
+        <td class="num">${fmtNids(agg.mes_anterior.nids_total)}</td>
+        <td class="num"><b>${fmtFac(factorPrev)}</b></td>
+        <td class="num"><b>${fcPrev ? fmtNids(fcPrev.nids) : "—"}</b></td>
+        <td class="num">${fmtG(agg.mes_anterior.gmv_total)}</td>
+        <td class="num">${fcPrev ? fmtG(fcPrev.gmv) : "—"}</td>
+        <td class="num">${(budN && fcPrev) ? fmtPct(fcPrev.nids/budN) : "—"}</td>
+      </tr>
+      <tr class="row-yoy">
+        <td><span class="dot-yoy"></span> <b>YoY</b> · ${agg.mes_yoy.mes}</td>
+        <td class="num">${fmtNids(yoyD_nids)}</td>
+        <td class="num">${fmtNids(agg.mes_yoy.nids_total)}</td>
+        <td class="num"><b>${fmtFac(factorYoy)}</b></td>
+        <td class="num"><b>${fcYoy ? fmtNids(fcYoy.nids) : "—"}</b></td>
+        <td class="num">${fmtG(agg.mes_yoy.gmv_total)}</td>
+        <td class="num">${fcYoy ? fmtG(fcYoy.gmv) : "—"}</td>
+        <td class="num">${(budN && fcYoy) ? fmtPct(fcYoy.nids/budN) : "—"}</td>
+      </tr>
+      <tr class="row-budget">
+        <td><b>Budget</b> · full month</td>
+        <td class="num sub-txt">—</td>
+        <td class="num"><b>${fmtNids(budN)}</b></td>
+        <td class="num sub-txt">—</td>
+        <td class="num sub-txt">—</td>
+        <td class="num"><b>${fmtG(ma.gmv_budget)}</b></td>
+        <td class="num sub-txt">—</td>
+        <td class="num">100%</td>
+      </tr>
     </tbody>
   </table>`;
 
-  // Chart de curvas acumuladas — 3 series (actual, mes anterior, YoY)
-  // Construimos un eje X de "dia del mes" 1..max_dias.
-  const maxDias = Math.max(agg.mes_actual.dias_en_mes, agg.mes_anterior.dias_en_mes, agg.mes_yoy.dias_en_mes);
-  function serieDe(ventana, hastaDia){
-    const out = [];
-    for(let d = 1; d <= maxDias; d++){
-      if(hastaDia != null && d > hastaDia){ out.push({mes: String(d), actuals: null}); continue; }
-      out.push({mes: String(d), actuals: acumuladoAlDia(ventana.curva, d, "nids_cum")});
-    }
-    return out;
-  }
-  // serieActual solo hasta el dia_corte
-  const serieActual = serieDe(agg.mes_actual, dia);
-  const seriePrev   = serieDe(agg.mes_anterior, null);
-  const serieYoy    = serieDe(agg.mes_yoy, null);
-  // serie principal (actuals=actual, budget=prev) + extra (YoY)
-  const serieChart = serieActual.map((p, i) => ({mes: p.mes, actuals: p.actuals, budget: seriePrev[i].actuals}));
-  const chartExtra = {serie: serieYoy.map(p => ({mes: p.mes, actuals: p.actuals})), label: `YoY (${agg.mes_yoy.mes})`, color: "#EA580C"};
-
-  // lineChartSVG recorta por STATE.filters.mes (formato YYYY-MM). Como aqui
-  // el "mes" es el dia (string "1".."31"), el recorte no aplica (no match).
-  // Pero por seguridad, sobrescribimos temporalmente el filtro... no, mejor:
-  // pasamos un labels custom y dejamos que recortarVentana no haga nada
-  // (porque ningun item tiene mes igual a STATE.filters.mes).
-  const labels = {actuals: `MTD (${ma.mes})`, budget: `Mes anterior (${agg.mes_anterior.mes})`};
-  let html = `<div class="drill-grid">
-    <div class="drill-block">
-      <h3>Summary · ${stream.nombre}</h3>
-      ${tabla}
-    </div>
+  let html = `<div class="drill-block">
+    <h3>Summary · ${stream.nombre}</h3>
+    ${tabla}
   </div>
   <div class="drill-block chart-block">
-    <h3>Cumulative curve by day of month · ${STATE.filters.pais === "Global" ? "Colombia + Mexico" : STATE.filters.pais}</h3>
-    <div class="chart-unit-label">Cumulative NIDs</div>
-    ${lineChartSVG(serieChart, "NIDS", "COUNT", labels, chartExtra)}
+    <h3>Cumulative NIDs by day · ${STATE.filters.pais === "Global" ? "Colombia + Mexico" : STATE.filters.pais}</h3>
+    <div class="chart-unit-label">Solid = actual · Dashed = projected close scaled by each reference</div>
+    ${mtdForecastChartSVG(agg, dia, diasMes)}
   </div>
   <div class="drill-note">
-    <b>How forecast is built</b>: For day D (today = day ${dia} of ${diasMes}), we take the reference month's cumulative NIDs at day D and its full-month total. Forecast = <code>MTD × (ref_total / ref_at_day_D)</code>. Two references shown: previous calendar month and same month one year ago. NIDs come from <code>finance_tapes_global</code> (filtered to <code>desistimientos='No desistidos'</code>); budget from <code>bet_data_p2 budget_1</code>.
+    <b>How the forecast is built</b>: at day D (today = day ${dia}/${diasMes}) we take how many NIDs the reference month had closed <i>at that same day D</i> and its full-month total. The factor <code>(× total / at_day_D)</code> is what turns your MTD into the projected close: <code>Forecast = MTD × factor</code>. Solid purple line is what we've actually done so far. Dashed lines project the rest of the month by scaling each reference's curve so that its day D matches today's MTD. NIDs come from <code>finance_tapes_global</code> (<code>desistimientos='No desistidos'</code>); budget from <code>bet_data_p2 budget_1</code>.
   </div>`;
 
   document.getElementById("drillBody").innerHTML = html;
