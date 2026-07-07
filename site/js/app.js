@@ -433,6 +433,18 @@ async function cargarTodo(){
   } catch(e){
     console.warn("No se pudo cargar kpi_mtd_transactions.json", e);
   }
+  // Growth historico (sub-tab dentro de Historical) — payload consolidado
+  // con 7 streams count. Cada stream sigue el shape estilo Perf/Cap (facts +
+  // series), asi que lo metemos tambien en STATE.kpis con su id para que
+  // renderCard/abrirDrill lo consuman sin ramas especiales.
+  try{
+    STATE.growth = await fetch("data/kpi_growth_historico.json" + cb).then(r => r.json());
+    for(const s of (STATE.growth.streams || [])){
+      STATE.kpis[s.id] = s;
+    }
+  } catch(e){
+    console.warn("No se pudo cargar kpi_growth_historico.json", e);
+  }
   const primero = Object.values(STATE.kpis)[0];
   if(primero && primero.meses_disponibles && primero.meses_disponibles.length){
     // Default = ultimo mes CERRADO (meta.mes_corte). Si no esta en meta, cae
@@ -763,6 +775,10 @@ function renderCard(kpiDef){
   // Caso especial: Debt in Homes con leverage sobre Adj EBITDA LTM
   if(data.unidad === "MONEDA_DEBT_HOMES"){
     return renderCardDebtHomes(kpiDef, data);
+  }
+  // Caso especial: Growth streams miden NIDs (count), GMV en linea secundaria
+  if(data.unidad === "COUNT_NIDS"){
+    return renderCardCount(kpiDef, data);
   }
   const {actuals, budget, paisLocal, ratio, ratio_budget} = montoMesActual(data);
   const mon = monedaMostrada(paisLocal);
@@ -1117,6 +1133,88 @@ function renderCardDebtHomes(kpiDef, data){
     <div class="ratio-line">${leverageTxt}</div>
     <div class="ratio-line">${cocTxt}</div>
     <div class="delta">${deltaTxt}</div>
+    ${sparkSVG(serie, color)}
+    <div class="src">◷ ${data.fuente || ""}</div>
+    <div class="card-cta">Click for drill-down →</div>
+  </div>`;
+}
+
+/* Serie mensual para Growth (unidad COUNT_NIDS).
+ * NIDs se suman crudo (no aplica FX). GMV se convierte por-fact segun el
+ * pais de la fila, respetando el toggle de moneda. Cuando el sidebar filtra
+ * a un pais, todos los facts comparten pais y la suma de GMV es coherente.
+ * Cuando pais=Global + moneda=LOCAL, la suma mezcla COP+MXN — el caller
+ * decide mostrar "—". */
+function serieGrowthFiltrada(facts, elim){
+  const map = new Map();
+  for(const r of facts){
+    const ex = map.get(r.mes) || {mes: r.mes, actuals: 0, budget: 0, gmv_actuals: 0, gmv_budget: 0};
+    ex.actuals     += (r.actuals && r.actuals[elim]) || 0;
+    ex.budget      += (r.budget  && r.budget[elim])  || 0;
+    const gA = (r.gmv_actuals && r.gmv_actuals[elim]) || 0;
+    const gB = (r.gmv_budget  && r.gmv_budget[elim])  || 0;
+    ex.gmv_actuals += convertir(gA, r.pais) || 0;
+    ex.gmv_budget  += convertir(gB, r.pais) || 0;
+    map.set(r.mes, ex);
+  }
+  return [...map.values()].sort((a,b) => a.mes.localeCompare(b.mes));
+}
+
+/* Card render para KPIs Growth. NIDs es el numero grande; GMV va en la
+ * linea secundaria (adj-line). Deltas: vs budget (NIDs) + MoM + YoY. */
+function renderCardCount(kpiDef, data){
+  const f = STATE.filters;
+  const filtered = filtrarFacts(data.facts, f);
+  const serie = serieGrowthFiltrada(filtered, f.elim);
+
+  const idxCorte = serie.findIndex(r => r.mes === f.mes);
+  const last = idxCorte >= 0 ? serie[idxCorte] : null;
+  const prev = idxCorte > 0  ? serie[idxCorte-1] : null;
+  const yoy  = idxCorte >= 12 ? serie[idxCorte-12] : null;
+
+  const nids       = last ? last.actuals    : null;
+  const nidsBudget = last ? last.budget     : null;
+  const gmvConv    = last ? last.gmv_actuals : null;
+
+  const paisLocal = f.pais !== "Global"
+    ? f.pais
+    : (f.subsidiaria !== "All" ? paisDeSubsidiaria(f.subsidiaria) : null);
+  const gmvHelper = (paisLocal || f.moneda === "USD");
+  const monLabel  = monedaMostrada(paisLocal);
+
+  const diffMoM = (last && prev && prev.actuals !== 0) ? (last.actuals - prev.actuals) / Math.abs(prev.actuals) : null;
+  const diffYoY = (last && yoy  && yoy.actuals  !== 0) ? (last.actuals - yoy.actuals)  / Math.abs(yoy.actuals)  : null;
+  const diffBud = (nids != null && nidsBudget && nidsBudget !== 0) ? (nids - nidsBudget) / Math.abs(nidsBudget) : null;
+
+  const perfCls = perfColor(diffBud, false);
+  const color   = SPARK_COLOR[data.estado] || SPARK_COLOR.real;
+  const fmtNIDs = (v) => v != null ? Math.round(v).toLocaleString() : "—";
+
+  let progressHTML = "";
+  if(nids != null && nidsBudget != null && nidsBudget !== 0){
+    const pct = nids / nidsBudget;
+    const capped = Math.min(Math.max(pct, 0), 1) * 100;
+    progressHTML = `<div class="progress-wrap">
+      <div class="progress-bar"><div class="progress-fill ${perfCls}" style="width:${capped.toFixed(1)}%"></div></div>
+      <div class="progress-label">${(pct*100).toFixed(0)}% of budget</div>
+    </div>`;
+  }
+
+  const gmvHTML = (gmvConv != null && gmvHelper)
+    ? `<div class="adj-line">GMV: <b>${fmtMoneda(gmvConv, monLabel)}</b></div>`
+    : `<div class="adj-line">GMV: <b>—</b> <span class="vs">(pick country/subsidiary or switch to USD)</span></div>`;
+
+  return `<div class="card ${perfCls}" onclick="abrirDrillGrowth('${kpiDef.id}')">
+    <div class="kpi-name"><span class="nm">${kpiDef.nombre}</span><span class="tag ${data.estado}">${TAG_LABEL[data.estado]}</span></div>
+    <div class="val">${fmtNIDs(nids)} <span class="val-unit">NIDs</span></div>
+    ${gmvHTML}
+    <div class="budget-line">Budget: <b>${fmtNIDs(nidsBudget)} NIDs</b></div>
+    ${progressHTML}
+    <div class="delta">
+      ${diffBud != null ? fmtDelta(diffBud, false) + ' <span class="vs">vs budget</span>' : ''}
+      ${diffMoM != null ? fmtDelta(diffMoM, false) + ' <span class="vs">vs prev. month</span>' : ''}
+      ${diffYoY != null ? fmtDelta(diffYoY, false) + ' <span class="vs">YoY</span>' : ''}
+    </div>
     ${sparkSVG(serie, color)}
     <div class="src">◷ ${data.fuente || ""}</div>
     <div class="card-cta">Click for drill-down →</div>
@@ -2361,6 +2459,178 @@ function miniSparkSVG(serie, color){
   </svg>`;
 }
 
+/* Sub-tab Growth dentro del tab Historical. Renderiza una card por stream
+ * usando el mismo renderCard() (con case COUNT_NIDS -> renderCardCount). */
+function renderGrowth(){
+  const grid = document.getElementById("gridGrowth");
+  if(!grid) return;
+  if(!STATE.growth || !STATE.growth.streams || !STATE.growth.streams.length){
+    grid.innerHTML = `<div class="card pendiente">
+      <div class="kpi-name"><span class="nm">Growth data unavailable</span></div>
+      <div class="val">—</div>
+      <div class="adj-line">Run <code>make refresh</code> to regenerate <code>kpi_growth_historico.json</code>.</div>
+    </div>`;
+    return;
+  }
+  grid.innerHTML = STATE.growth.streams
+    .map(s => renderCard({id: s.id, nombre: s.nombre}))
+    .join("");
+  const ctxG = `${STATE.filters.pais}${STATE.filters.moneda === "USD" ? " · USD" : " · Local"} · ${STATE.filters.mes}`;
+  const el = document.getElementById("ctxGrowth");
+  if(el) el.textContent = ctxG;
+}
+
+/* Drill del sub-tab Growth. Reutiliza el modal estandar pero muestra
+ * NIDs como metrica principal (con budget y % cumplimiento por pais) +
+ * serie mensual (NIDs y GMV lado a lado) + detalle por submetrica del
+ * mes seleccionado. */
+function abrirDrillGrowth(streamId){
+  const data = STATE.kpis[streamId];
+  if(!data) return;
+  STATE.currentDrillKpi = streamId;
+  const f = STATE.filters;
+  const elim = f.elim;
+  const filtered = filtrarFacts(data.facts, f);
+  const delMes = filtered.filter(r => r.mes === f.mes);
+  const serie = serieGrowthFiltrada(filtered, elim);
+
+  document.getElementById("drillEyebrow").textContent = "HISTORICAL · GROWTH";
+  document.getElementById("drillTitle").textContent = data.nombre;
+  const monedaTxt = f.moneda === "USD" ? "USD" : "local currency";
+  const filtrosTxt = [
+    f.pais !== "Global" ? f.pais : null,
+    f.subsidiaria !== "All" ? f.subsidiaria : null,
+    f.linea !== "All" ? f.linea : null,
+  ].filter(Boolean).join(" · ") || "Global · all";
+  document.getElementById("drillSub").innerHTML =
+    `Period: <b>${mesYYYYMM_a_label(f.mes)}</b> · View: <b>${filtrosTxt}</b> · Currency: <b>${monedaTxt}</b>`;
+
+  // ----- Bloque 1: tabla por pais del mes seleccionado
+  const paises = f.pais === "Global" ? ["Colombia", "Mexico"] : [f.pais];
+  let filasPais = "";
+  let totNids = 0, totBud = 0, totGmv = 0, totGmvBud = 0;
+  for(const p of paises){
+    const rows = delMes.filter(r => r.pais === p);
+    if(!rows.length) continue;
+    const n   = rows.reduce((a,r) => a + ((r.actuals && r.actuals[elim]) || 0), 0);
+    const nB  = rows.reduce((a,r) => a + ((r.budget  && r.budget[elim])  || 0), 0);
+    const g   = rows.reduce((a,r) => a + (convertir((r.gmv_actuals && r.gmv_actuals[elim]) || 0, p) || 0), 0);
+    const gB  = rows.reduce((a,r) => a + (convertir((r.gmv_budget  && r.gmv_budget[elim])  || 0, p) || 0), 0);
+    const pct = nB !== 0 ? (n - nB) / Math.abs(nB) : null;
+    const mon = f.moneda === "USD" ? "USD" : monedaDePais(p);
+    filasPais += `<tr>
+      <td><b>${p}</b></td>
+      <td class="num">${Math.round(n).toLocaleString()}</td>
+      <td class="num">${Math.round(nB).toLocaleString()}</td>
+      <td class="num">${pct != null ? fmtDelta(pct, false, true) : "—"}</td>
+      <td class="num">${fmtMoneda(g, mon)}</td>
+      <td class="num">${fmtMoneda(gB, mon)}</td>
+    </tr>`;
+    totNids += n; totBud += nB; totGmv += g; totGmvBud += gB;
+  }
+  const pctTot = totBud !== 0 ? (totNids - totBud) / Math.abs(totBud) : null;
+  const monTot = f.moneda === "USD" ? "USD" : (paises.length === 1 ? monedaDePais(paises[0]) : "USD");
+  const totRow = `<tr class="total-row">
+    <td><b>Total</b></td>
+    <td class="num"><b>${Math.round(totNids).toLocaleString()}</b></td>
+    <td class="num">${Math.round(totBud).toLocaleString()}</td>
+    <td class="num">${pctTot != null ? fmtDelta(pctTot, false, true) : "—"}</td>
+    <td class="num">${fmtMoneda(totGmv, monTot)}</td>
+    <td class="num">${fmtMoneda(totGmvBud, monTot)}</td>
+  </tr>`;
+
+  let html = `<div class="drill-block">
+    <h3>By country · ${mesYYYYMM_a_label(f.mes)}</h3>
+    <table class="drill-table">
+      <thead><tr>
+        <th>Country</th>
+        <th style="text-align:right">NIDs actual</th>
+        <th style="text-align:right">NIDs budget</th>
+        <th style="text-align:right">Δ vs bud</th>
+        <th style="text-align:right">GMV actual</th>
+        <th style="text-align:right">GMV budget</th>
+      </tr></thead>
+      <tbody>${filasPais || `<tr><td colspan="6" class="drill-empty">No data for this month.</td></tr>`}${filasPais ? totRow : ""}</tbody>
+    </table>
+  </div>`;
+
+  // ----- Bloque 2: serie mensual (ultimos 13 meses)
+  const monHist = f.moneda === "USD"
+    ? "USD"
+    : (paises.length === 1 ? monedaDePais(paises[0]) : "USD");
+  let filasHist = "";
+  for(let i = 0; i < serie.length; i++){
+    const r = serie[i];
+    const prev = i > 0 ? serie[i-1] : null;
+    const mom = (prev && prev.actuals !== 0) ? (r.actuals - prev.actuals) / Math.abs(prev.actuals) : null;
+    const cls = r.mes === f.mes ? "highlight-row" : "";
+    filasHist += `<tr class="${cls}">
+      <td>${mesYYYYMM_a_label(r.mes)}</td>
+      <td class="num">${Math.round(r.actuals).toLocaleString()}</td>
+      <td class="num">${Math.round(r.budget).toLocaleString()}</td>
+      <td class="num">${mom != null ? fmtDelta(mom, false, true) : "—"}</td>
+      <td class="num">${fmtMoneda(r.gmv_actuals, monHist)}</td>
+      <td class="num">${fmtMoneda(r.gmv_budget,  monHist)}</td>
+    </tr>`;
+  }
+  html += `<div class="drill-block">
+    <h3>Monthly history</h3>
+    <div class="drill-table-scroll">
+      <table class="drill-table drill-table-compact">
+        <thead><tr>
+          <th>Month</th>
+          <th style="text-align:right">NIDs</th>
+          <th style="text-align:right">Budget</th>
+          <th style="text-align:right">MoM</th>
+          <th style="text-align:right">GMV</th>
+          <th style="text-align:right">GMV budget</th>
+        </tr></thead>
+        <tbody>${filasHist || `<tr><td colspan="6" class="drill-empty">No history.</td></tr>`}</tbody>
+      </table>
+    </div>
+  </div>`;
+
+  // ----- Bloque 3: detalle por submetrica del mes seleccionado
+  const bySub = new Map();
+  for(const r of delMes){
+    const key = r.cuenta_desc || r.tipo_transaccion || "(sin submetrica)";
+    const ex = bySub.get(key) || {sub: key, nids: 0, gmv: 0, ajuste: false};
+    ex.nids += (r.actuals && r.actuals[elim]) || 0;
+    ex.gmv  += convertir((r.gmv_actuals && r.gmv_actuals[elim]) || 0, r.pais) || 0;
+    if(r.es_ajuste) ex.ajuste = true;
+    bySub.set(key, ex);
+  }
+  const subRows = [...bySub.values()].sort((a,b) => b.nids - a.nids);
+  let filasSub = "";
+  for(const r of subRows){
+    filasSub += `<tr>
+      <td>${r.sub}${r.ajuste ? ' <span class="tag ajuste">Adj</span>' : ''}</td>
+      <td class="num">${Math.round(r.nids).toLocaleString()}</td>
+      <td class="num">${fmtMoneda(r.gmv, monTot)}</td>
+    </tr>`;
+  }
+  html += `<div class="drill-block">
+    <h3>By sub-metric · ${mesYYYYMM_a_label(f.mes)}</h3>
+    <table class="drill-table drill-table-compact">
+      <thead><tr>
+        <th>Sub-metric</th>
+        <th style="text-align:right">NIDs</th>
+        <th style="text-align:right">GMV</th>
+      </tr></thead>
+      <tbody>${filasSub || `<tr><td colspan="3" class="drill-empty">No detail.</td></tr>`}</tbody>
+    </table>
+  </div>`;
+
+  html += `<div class="drill-block drill-note">
+    <b>Source:</b> ${data.fuente || "—"}<br>
+    NIDs = number of transactions in the month · GMV = monetary value (buyer or seller price depending on stream).
+  </div>`;
+
+  document.getElementById("drillBody").innerHTML = html;
+  document.getElementById("drillModal").hidden = false;
+}
+window.abrirDrillGrowth = abrirDrillGrowth;
+
 function renderMTD(){
   const grid = document.getElementById("gridMTD");
   if(!grid) return;
@@ -2508,12 +2778,15 @@ function render(){
   renderSnapshot();
   document.getElementById("grid41").innerHTML = KPIS_41.map(renderCard).join("");
   document.getElementById("grid42").innerHTML = KPIS_42.map(renderCard).join("");
+  renderGrowth();
   renderMTD();
 
   // Si el drill esta abierto, re-renderizar con los filtros nuevos
   if(STATE.currentDrillKpi && !document.getElementById("drillModal").hidden){
     if(STATE.currentDrillKpi.startsWith("__mtd__")){
       abrirDrillMTD(STATE.currentDrillKpi.slice("__mtd__".length));
+    } else if(STATE.currentDrillKpi.startsWith("growth_")){
+      abrirDrillGrowth(STATE.currentDrillKpi);
     } else {
       abrirDrill(STATE.currentDrillKpi);
     }

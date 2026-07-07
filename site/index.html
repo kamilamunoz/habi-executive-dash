@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/styles.css?v=2026-07-07-tabs-reorg">
+<link rel="stylesheet" href="css/styles.css?v=2026-07-07-growth-cards">
 </head>
 <body>
 
@@ -155,19 +155,13 @@
         <div class="kpi-grid" id="grid42"></div>
       </div>
 
-      <!-- Sub-pane: Growth (nuevo — cards land in next commit) -->
+      <!-- Sub-pane: Growth — cards se pintan desde JS (renderGrowth) -->
       <div class="hist-pane" data-subhist="growth">
         <div class="sec-band">
           <span class="stitle">Growth · Monthly evolution</span>
-          <span class="ssub" id="ctxGrowth">Placeholder — cards arrive with builder commit.</span>
+          <span class="ssub" id="ctxGrowth">—</span>
         </div>
-        <div class="kpi-grid" id="gridGrowth">
-          <div class="card pendiente">
-            <div class="kpi-name"><span class="nm">Growth historical cards</span></div>
-            <div class="val">—</div>
-            <div class="adj-line">Serie mensual 12M de los 8 streams (PSAs / Deeds MM + Subscribed / Sales / Deeds BR Used) desde <code>bet_data_p2</code>. Aterriza en el siguiente commit.</div>
-          </div>
-        </div>
+        <div class="kpi-grid" id="gridGrowth"></div>
       </div>
     </section>
 

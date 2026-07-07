@@ -137,6 +137,12 @@ html,body{background:var(--bg);color:var(--txt);font-family:'IBM Plex Sans',sans
 .tag.parcial{background:var(--amber-bg);color:var(--amber-tx)}
 .tag.ejemplo{background:var(--purple-soft);color:var(--purple)}
 .tag.pendiente{background:var(--line2);color:var(--txt3)}
+.tag.ajuste{background:var(--amber-bg);color:var(--amber-tx)}
+/* Growth drill: fila del mes seleccionado + fila total */
+.drill-table tr.highlight-row td{background:var(--purple-soft);font-weight:600}
+.drill-table tr.total-row td{border-top:2px solid var(--txt);font-weight:700;background:var(--panel2)}
+/* Growth card: unidad NIDs en pequeño despues del numero */
+.val-unit{font-size:14px;font-weight:500;color:var(--txt2);margin-left:4px;letter-spacing:.02em}
 .val{font-size:26px;font-weight:700;letter-spacing:-.015em;line-height:1.1;margin:6px 0 2px;color:var(--txt)}
 .card.pendiente .val{color:var(--txt3);font-size:15px;font-style:italic;font-weight:400}
 .budget-line{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--txt2);margin-top:2px}
