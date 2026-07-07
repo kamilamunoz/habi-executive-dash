@@ -673,8 +673,13 @@ function mtdForecastChartSVG(agg, dia, diasMes){
   const yoyCurve  = (my && my.curva) ? my.curva : [];
   const prevD = acumuladoAlDia(prevCurve, dia, "nids_cum");
   const yoyD  = acumuladoAlDia(yoyCurve,  dia, "nids_cum");
-  const factorPrev = prevD > 0 ? mp.nids_total / prevD : null;
-  const factorYoy  = yoyD  > 0 ? my.nids_total / yoyD  : null;
+  // Total del mes ref = ultimo punto de la curva del tape (mismo denominador
+  // que la tabla y que la extension punteada; NO usar mp.nids_total del bet
+  // porque puede diverger — la leyenda debe cuadrar con el forecast dibujado).
+  const prevTotal = prevCurve.length ? (prevCurve[prevCurve.length - 1].nids_cum || 0) : 0;
+  const yoyTotal  = yoyCurve.length  ? (yoyCurve[yoyCurve.length - 1].nids_cum  || 0) : 0;
+  const factorPrev = prevD > 0 ? prevTotal / prevD : null;
+  const factorYoy  = yoyD  > 0 ? yoyTotal  / yoyD  : null;
 
   const mtdSerie = [];   // dia 1..D
   for(let d = 1; d <= dia; d++){
