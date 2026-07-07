@@ -22,13 +22,50 @@ from typing import Any
 import pandas as pd
 
 from scripts._bq import run_query
-from scripts._common import MONEDA_POR_PAIS, PAIS_LABEL
+from scripts._common import MONEDA_POR_PAIS, PAIS_LABEL, REPO_ROOT
 
 log = logging.getLogger(__name__)
 
 HISTORY_MONTHS = 13
 
 TAPE_TABLE = "clients-domain-data-master.finance_wh_bi.finance_tapes_global"
+
+# CSV exportado del Google Sheet de metas (columnas: mes, Colombia, Mexico).
+# Kamila lo re-exporta a mano cuando cambian los targets. Formato de mes
+# esperado: YYYY-MM. Si el CSV no existe o falta el mes, el target queda
+# en None y la card no muestra la barra de cumplimiento.
+BUDGET_CSV = REPO_ROOT / "data" / "budgets_ciclo.csv"
+
+
+def _cargar_targets() -> dict[str, dict[str, float]]:
+    """Lee budgets_ciclo.csv y devuelve {mes_YYYY-MM: {pais_label: target_dias}}.
+
+    Los headers del CSV ('Colombia', 'Mexico') se mapean directo a los
+    labels de PAIS_LABEL usados por el resto del payload. Si el archivo
+    no existe, devuelve dict vacio y sigue (target = None en el payload).
+    """
+    if not BUDGET_CSV.exists():
+        log.warning("Ciclo: no encontre %s — target sin dato", BUDGET_CSV)
+        return {}
+    df = pd.read_csv(BUDGET_CSV)
+    # Normalizar: 'mes' como str YYYY-MM
+    df["mes"] = df["mes"].astype(str).str.strip()
+    out: dict[str, dict[str, float]] = {}
+    for _, r in df.iterrows():
+        mes = r["mes"]
+        # Aceptar formatos comunes: YYYY-MM o M/D/YYYY (por si Kamila re-exporta directo)
+        if "/" in mes:
+            try:
+                mes = pd.to_datetime(mes, format="%m/%d/%Y").strftime("%Y-%m")
+            except ValueError:
+                log.warning("Ciclo: mes '%s' con formato desconocido — skip", r["mes"])
+                continue
+        out[mes] = {
+            "Colombia": float(r["Colombia"]) if pd.notna(r.get("Colombia")) else None,
+            "Mexico":   float(r["Mexico"])   if pd.notna(r.get("Mexico"))   else None,
+        }
+    log.info("Ciclo: cargados %d meses de targets desde %s", len(out), BUDGET_CSV.name)
+    return out
 
 
 def _sql_serie(mes_inicio: dt.date, mes_corte: dt.date) -> str:
@@ -89,26 +126,35 @@ WHERE v_fecha_escritura IS NOT NULL
 """.strip()
 
 
-def _facts(df: pd.DataFrame) -> list[dict[str, Any]]:
+def _facts(df: pd.DataFrame, targets: dict[str, dict[str, float]]) -> list[dict[str, Any]]:
     rows = []
     for _, r in df.iterrows():
         p50 = float(r["p50_dias"]) if pd.notna(r["p50_dias"]) else None
         avg = float(r["avg_dias"]) if pd.notna(r["avg_dias"]) else None
+        mes_key = r["mes"].strftime("%Y-%m")
+        pais_lbl = r["pais_label"]
+        # Target del mes/pais desde el CSV. Si no hay dato, budget queda en 0
+        # (el front sabe que 0/None -> no muestra barra de cumplimiento).
+        target = None
+        if mes_key in targets:
+            target = targets[mes_key].get(pais_lbl)
+        bud = float(target) if target is not None else 0.0
         rows.append({
-            "mes": r["mes"].strftime("%Y-%m"),
-            "pais": r["pais_label"],
+            "mes": mes_key,
+            "pais": pais_lbl,
             "subsidiaria": None,
             "linea": None,
             "cuenta": None,
             "cuenta_desc": None,
             "es_ajuste": False,
-            # actuals = p50 (la metrica principal) para que el sparkline funcione
+            # actuals = p50 (metrica principal) para que el sparkline funcione
             "actuals": {"sin_elim": p50 or 0, "con_elim": p50 or 0, "solo_elim": 0.0},
-            "budget":  {"sin_elim": 0.0, "con_elim": 0.0, "solo_elim": 0.0},
+            "budget":  {"sin_elim": bud, "con_elim": bud, "solo_elim": 0.0},
             "nids": int(r["nids"]) if pd.notna(r["nids"]) else 0,
             "avg_dias": avg,
             "p50_dias": p50,
             "p90_dias": float(r["p90_dias"]) if pd.notna(r["p90_dias"]) else None,
+            "target_dias": target,   # duplicado explicito para claridad del front
         })
     return rows
 
@@ -131,7 +177,8 @@ def build(mes_corte: dt.date, mes_max: dt.date | None = None) -> dict[str, Any]:
     df_det["pais_label"] = df_det["m_pais"].map(PAIS_LABEL).fillna("(sin pais)")
 
     meses_disponibles = sorted(df["mes"].dt.strftime("%Y-%m").unique().tolist())
-    facts = _facts(df)
+    targets = _cargar_targets()
+    facts = _facts(df, targets)
 
     detalle_por_mes: dict[str, list[dict[str, Any]]] = {}
     for _, r in df_det.iterrows():
@@ -177,5 +224,9 @@ def build(mes_corte: dt.date, mes_max: dt.date | None = None) -> dict[str, Any]:
         "detalle_nids": {
             "por_mes": detalle_por_mes,
         },
+        # Metas por (mes, pais) para lookup directo en el front — el CSV
+        # data/budgets_ciclo.csv es la fuente editable por Kamila.
+        "targets_por_mes": targets,
+        "budget_source": f"data/{BUDGET_CSV.name}",
     }
     return payload

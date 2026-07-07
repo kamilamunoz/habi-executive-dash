@@ -19,6 +19,9 @@ venv/
 site/data/*.backup.json
 site/data/*.raw.json
 *.csv
+# Excepcion: CSVs curados en /data/ SON inputs del builder (targets, budgets
+# manuales exportados desde Google Sheets). Estos si se versionan.
+!/data/*.csv
 
 # Credenciales — NUNCA committear
 .env

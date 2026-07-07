@@ -1071,16 +1071,22 @@ function renderCardCiclo(kpiDef, data){
   const filtered = filtrarFacts(data.facts, f);
   // Cuando filter pais especifico, los facts del pais; cuando Global, ponderamos por NIDs
   function agregarMes(facts){
-    // Devuelve {avg, p50, nids} promediados ponderados por nids
-    if(!facts.length) return {avg: null, p50: null, nids: 0};
-    let wAvg = 0, wP50 = 0, w = 0;
+    // Devuelve {avg, p50, nids, target} ponderados por nids
+    if(!facts.length) return {avg: null, p50: null, nids: 0, target: null};
+    let wAvg = 0, wP50 = 0, wTgt = 0, w = 0, wT = 0;
     for(const r of facts){
       const n = r.nids || 0;
       if(r.avg_dias != null) wAvg += r.avg_dias * n;
       if(r.p50_dias != null) wP50 += r.p50_dias * n;
+      if(r.target_dias != null){ wTgt += r.target_dias * n; wT += n; }
       w += n;
     }
-    return {avg: w > 0 ? wAvg/w : null, p50: w > 0 ? wP50/w : null, nids: w};
+    return {
+      avg: w > 0 ? wAvg/w : null,
+      p50: w > 0 ? wP50/w : null,
+      nids: w,
+      target: wT > 0 ? wTgt/wT : null,
+    };
   }
   const delMes = filtered.filter(r => r.mes === f.mes);
   const cur = agregarMes(delMes);
@@ -1099,16 +1105,37 @@ function renderCardCiclo(kpiDef, data){
   const delta = (last && prev && prev.actuals != null && last.actuals != null) ? (last.actuals - prev.actuals) : null;
 
   const color = SPARK_COLOR[data.estado] || SPARK_COLOR.ejemplo;
-  const valorTxt = cur.p50 != null ? `${Math.round(cur.p50)} days` : "—";
+  const valorTxt = cur.p50 != null ? `${Math.round(cur.p50)} <span class="val-unit">days</span>` : "—";
   const avgTxt = cur.avg != null ? `Avg <b>${Math.round(cur.avg)}d</b>` : "";
   const nidsTxt = cur.nids ? `<span class="vs">${cur.nids.toLocaleString()} cycles closed in month</span>` : "";
 
-  // Color de card: ▲ días = peor (rojo)
+  // Cumplimiento del target: para ciclo, MENOS dias = MEJOR (inverso a revenue).
+  // Verde si <=95% del target, amber si <=105%, rojo si >105%.
   let perfCls = "perf-gray";
-  if(delta != null){
-    if(delta <= 7) perfCls = "perf-green";       // <= +7 días
-    else if(delta <= 30) perfCls = "perf-amber"; // +7 a +30
-    else perfCls = "perf-red";                   // > +30
+  let progressHTML = "";
+  let budgetBig = "";
+  if(cur.target != null && cur.p50 != null){
+    const pct = cur.p50 / cur.target;
+    const diffDays = cur.p50 - cur.target;
+    if(pct <= 0.95) perfCls = "perf-green";
+    else if(pct <= 1.05) perfCls = "perf-amber";
+    else perfCls = "perf-red";
+    const cappedPct = Math.min(pct, 1) * 100;
+    // Etiqueta explicita: dias por debajo/encima del target (menos = mejor).
+    let statusTxt;
+    if(diffDays <= -1)     statusTxt = `${Math.abs(diffDays).toFixed(0)}d below target — good`;
+    else if(diffDays >= 1) statusTxt = `${diffDays.toFixed(0)}d above target — worse`;
+    else                   statusTxt = "on target";
+    progressHTML = `<div class="progress-wrap">
+      <div class="progress-bar"><div class="progress-fill ${perfCls}" style="width:${cappedPct.toFixed(1)}%"></div></div>
+      <div class="progress-label">${(pct*100).toFixed(0)}% of target · ${statusTxt}</div>
+    </div>`;
+    budgetBig = `<div class="val-budget"><span class="sep">/</span> ${Math.round(cur.target)} <span class="val-unit">days target (lower = better)</span></div>`;
+  } else if(delta != null){
+    // Fallback al color por delta MoM cuando no hay target (Global sin datos ponderables)
+    if(delta <= 7) perfCls = "perf-green";
+    else if(delta <= 30) perfCls = "perf-amber";
+    else perfCls = "perf-red";
   }
   const deltaTxt = delta != null
     ? `<span class="${delta > 0 ? 'down' : 'up'}">${delta > 0 ? '▲' : '▼'} ${Math.abs(delta).toFixed(0)}d</span> <span class="vs">vs prev. month (median)</span>`
@@ -1116,7 +1143,11 @@ function renderCardCiclo(kpiDef, data){
 
   return `<div class="card ${perfCls}" onclick="abrirDrill('${kpiDef.id}')">
     <div class="kpi-name"><span class="nm">${kpiDef.nombre}</span><span class="tag ${data.estado}">${TAG_LABEL[data.estado]}</span></div>
-    <div class="val">${valorTxt}</div>
+    <div class="val-row">
+      <div class="val">${valorTxt}</div>
+      ${budgetBig}
+    </div>
+    ${progressHTML}
     <div class="ratio-line">${avgTxt} ${nidsTxt}</div>
     <div class="delta">${deltaTxt}</div>
     ${sparkSVG(serie, color)}
@@ -1616,12 +1647,24 @@ function abrirDrill(kpiId){
     for(const p of paises){
       const row = delMes.find(r => r.pais === p);
       if(!row) continue;
+      const tgt = row.target_dias;
+      let vsTargetHTML = "—";
+      if(tgt != null && row.p50_dias != null){
+        const d = row.p50_dias - tgt;      // negativo = mejor (menos dias)
+        const pct = (row.p50_dias / tgt) * 100;
+        // Ciclo: menos dias = mejor. cls="up" (verde) cuando d < 0.
+        const cls = d <= -tgt*0.05 ? "up" : (d <= tgt*0.05 ? "flat" : "down");
+        const suffix = d < 0 ? " below" : (d > 0 ? " above" : "");
+        vsTargetHTML = `<span class="delta-pill ${cls}">${d >= 0 ? "+" : ""}${d.toFixed(0)}d${suffix} · ${pct.toFixed(0)}%</span>`;
+      }
       recoRows += `<tr>
         <td><b>${p}</b></td>
         <td class="num">${row.nids.toLocaleString()}</td>
         <td class="num">${row.avg_dias != null ? Math.round(row.avg_dias) + "d" : "—"}</td>
         <td class="num">${row.p50_dias != null ? Math.round(row.p50_dias) + "d" : "—"}</td>
         <td class="num">${row.p90_dias != null ? Math.round(row.p90_dias) + "d" : "—"}</td>
+        <td class="num">${tgt != null ? Math.round(tgt) + "d" : "—"}</td>
+        <td class="num">${vsTargetHTML}</td>
       </tr>`;
     }
     html += `<div class="drill-block">
@@ -1633,8 +1676,10 @@ function abrirDrill(kpiId){
           <th style="text-align:right">Avg days</th>
           <th style="text-align:right">Median (p50)</th>
           <th style="text-align:right">p90 (tail)</th>
+          <th style="text-align:right">Target</th>
+          <th style="text-align:right">Median vs target</th>
         </tr></thead>
-        <tbody>${recoRows || `<tr><td colspan="5" class="drill-empty">No data.</td></tr>`}</tbody>
+        <tbody>${recoRows || `<tr><td colspan="7" class="drill-empty">No data.</td></tr>`}</tbody>
       </table>
     </div>`;
 
@@ -1709,7 +1754,8 @@ function abrirDrill(kpiId){
     }
 
     html += `<div class="drill-note">
-      <b>How cycle is built</b>: For each NID with a complete cycle (both <code>v_fecha_escritura</code> and <code>c_fecha_desembolso</code> populated, not desisted), days = <code>c_fecha_desembolso</code> − <code>v_fecha_escritura</code>. Each NID is bucketed in the month of <code>c_fecha_desembolso</code> (cycle close). The card shows the median for the period and avg below; sparkline tracks median over time.
+      <b>How cycle is built</b>: For each NID with a complete cycle (both <code>v_fecha_escritura</code> and <code>c_fecha_desembolso</code> populated, not desisted), days = <code>c_fecha_desembolso</code> − <code>v_fecha_escritura</code>. Each NID is bucketed in the month of <code>c_fecha_desembolso</code> (cycle close). The card shows the median for the period and avg below; sparkline tracks median over time.<br>
+      <b>Target</b>: monthly goal per country from <code>${data.budget_source || "data/budgets_ciclo.csv"}</code> (exported from the finance planning Sheet). Fewer days than target = better; the card colors green if ≤ 95% of target, amber ≤ 105%, red above.
     </div>`;
     document.getElementById("drillBody").innerHTML = html;
     document.getElementById("drillModal").hidden = false;
