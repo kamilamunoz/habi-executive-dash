@@ -2374,22 +2374,34 @@ function agregarStream(stream){
   return out;
 }
 
-/* Calcula forecast {nids, gmv} usando una ventana de referencia. */
+/* Calcula forecast {nids, gmv} usando una ventana de referencia.
+ *
+ * Fuente del denominador: la curva del tape (ultimo valor acumulado del mes
+ * ref). NO usamos `ref.nids_total` del bet porque puede diverger del tape
+ * (ej. jul-2025 CO PSA compra: bet=333, tape=392 = 59 NIDs de diferencia).
+ * Usar tape mantiene consistencia con la curva diaria dibujada en la
+ * gráfica de forecast — asi ambos comparten factor y no se contradicen. */
 function forecastDesde(agregado, refKey){
   const ma = agregado.mes_actual;
   const ref = agregado[refKey];
   if(!ref || !ref.curva.length) return null;
   const D = STATE.mtd.hoy_dia_del_mes;
-  const refNidsAlD = acumuladoAlDia(ref.curva, D, "nids_cum");
-  const refGmvAlD  = acumuladoAlDia(ref.curva, D, "gmv_cum");
+  const refNidsAlD  = acumuladoAlDia(ref.curva, D, "nids_cum");
+  const refGmvAlD   = acumuladoAlDia(ref.curva, D, "gmv_cum");
+  // Total del mes ref = ultimo punto de la curva (el tape ya cerro ese mes).
+  const last = ref.curva[ref.curva.length - 1];
+  const refNidsFinal = last.nids_cum || 0;
+  const refGmvFinal  = last.gmv_cum  || 0;
   if(refNidsAlD <= 0 || ma.nids_total <= 0) return null;
-  const factorN = ref.nids_total / refNidsAlD;
-  const factorG = refGmvAlD > 0 ? ref.gmv_total / refGmvAlD : factorN;
+  const factorN = refNidsFinal / refNidsAlD;
+  const factorG = refGmvAlD > 0 ? refGmvFinal / refGmvAlD : factorN;
   return {
     nids: ma.nids_total * factorN,
     gmv:  ma.gmv_total  * factorG,
     factor_nids: factorN,
     ref_mes: ref.mes,
+    ref_nids_final: refNidsFinal,
+    ref_gmv_final:  refGmvFinal,
   };
 }
 
@@ -2845,13 +2857,19 @@ function abrirDrillMTD(streamId){
 
   // Numeros clave que alimentan el forecast: referencia acumulada al dia D
   // + factor por el que se multiplica el MTD para proyectar el cierre.
+  // Totales del mes ref = ultimo punto de la curva del tape (NO ref.nids_total
+  // del bet — puede diverger, ver nota al pie del drill).
   const budN = ma.nids_budget || 0;
   const prevD_nids = acumuladoAlDia(agg.mes_anterior.curva, dia, "nids_cum");
   const yoyD_nids  = acumuladoAlDia(agg.mes_yoy.curva,      dia, "nids_cum");
-  const prevD_gmv  = acumuladoAlDia(agg.mes_anterior.curva, dia, "gmv_cum");
-  const yoyD_gmv   = acumuladoAlDia(agg.mes_yoy.curva,      dia, "gmv_cum");
-  const factorPrev = prevD_nids > 0 ? agg.mes_anterior.nids_total / prevD_nids : null;
-  const factorYoy  = yoyD_nids  > 0 ? agg.mes_yoy.nids_total       / yoyD_nids  : null;
+  const prevLast = agg.mes_anterior.curva.length ? agg.mes_anterior.curva[agg.mes_anterior.curva.length - 1] : {};
+  const yoyLast  = agg.mes_yoy.curva.length      ? agg.mes_yoy.curva[agg.mes_yoy.curva.length - 1]           : {};
+  const prevTotal_nids = prevLast.nids_cum || 0;
+  const yoyTotal_nids  = yoyLast.nids_cum  || 0;
+  const prevTotal_gmv  = prevLast.gmv_cum  || 0;
+  const yoyTotal_gmv   = yoyLast.gmv_cum   || 0;
+  const factorPrev = prevD_nids > 0 ? prevTotal_nids / prevD_nids : null;
+  const factorYoy  = yoyD_nids  > 0 ? yoyTotal_nids  / yoyD_nids  : null;
 
   const fmtNids = (v) => (v == null || isNaN(v)) ? "—" : Math.round(v).toLocaleString();
   const fmtG    = (v) => (v == null || isNaN(v)) ? "—" : fmtMoneda(v, mon, {compact: true});
@@ -2884,20 +2902,20 @@ function abrirDrillMTD(streamId){
       <tr class="row-prev">
         <td><span class="dot-prev"></span> <b>Prev</b> · ${agg.mes_anterior.mes}</td>
         <td class="num">${fmtNids(prevD_nids)}</td>
-        <td class="num">${fmtNids(agg.mes_anterior.nids_total)}</td>
+        <td class="num">${fmtNids(prevTotal_nids)}</td>
         <td class="num"><b>${fmtFac(factorPrev)}</b></td>
         <td class="num"><b>${fcPrev ? fmtNids(fcPrev.nids) : "—"}</b></td>
-        <td class="num">${fmtG(agg.mes_anterior.gmv_total)}</td>
+        <td class="num">${fmtG(prevTotal_gmv)}</td>
         <td class="num">${fcPrev ? fmtG(fcPrev.gmv) : "—"}</td>
         <td class="num">${(budN && fcPrev) ? fmtPct(fcPrev.nids/budN) : "—"}</td>
       </tr>
       <tr class="row-yoy">
         <td><span class="dot-yoy"></span> <b>YoY</b> · ${agg.mes_yoy.mes}</td>
         <td class="num">${fmtNids(yoyD_nids)}</td>
-        <td class="num">${fmtNids(agg.mes_yoy.nids_total)}</td>
+        <td class="num">${fmtNids(yoyTotal_nids)}</td>
         <td class="num"><b>${fmtFac(factorYoy)}</b></td>
         <td class="num"><b>${fcYoy ? fmtNids(fcYoy.nids) : "—"}</b></td>
-        <td class="num">${fmtG(agg.mes_yoy.gmv_total)}</td>
+        <td class="num">${fmtG(yoyTotal_gmv)}</td>
         <td class="num">${fcYoy ? fmtG(fcYoy.gmv) : "—"}</td>
         <td class="num">${(budN && fcYoy) ? fmtPct(fcYoy.nids/budN) : "—"}</td>
       </tr>
@@ -2924,7 +2942,7 @@ function abrirDrillMTD(streamId){
     ${mtdForecastChartSVG(agg, dia, diasMes)}
   </div>
   <div class="drill-note">
-    <b>How the forecast is built</b>: at day D (today = day ${dia}/${diasMes}) we take how many NIDs the reference month had closed <i>at that same day D</i> and its full-month total. The factor <code>(× total / at_day_D)</code> is what turns your MTD into the projected close: <code>Forecast = MTD × factor</code>. Solid purple line is what we've actually done so far. Dashed lines project the rest of the month by scaling each reference's curve so that its day D matches today's MTD. NIDs come from <code>finance_tapes_global</code> (<code>desistimientos='No desistidos'</code>); budget from <code>bet_data_p2 budget_1</code>.
+    <b>How the forecast is built</b>: at day D (today = day ${dia}/${diasMes}) we take how many NIDs the reference month had closed <i>at that same day D</i> and its full-month total. The factor <code>(× total / at_day_D)</code> is what turns your MTD into the projected close: <code>Forecast = MTD × factor</code>. Solid purple line is what we've actually done so far. Dashed lines project the rest of the month by scaling each reference's curve so that its day D matches today's MTD. Both NIDs @ day D and the full-month total come from <code>finance_tapes_global</code> (<code>desistimientos='No desistidos'</code>) so the chart and the table share the same denominator; budget from <code>bet_data_p2 budget_1</code>. <br><b>Nota</b>: para algunos meses, el total de <code>bet_data_p2</code> difiere del acumulado del tape (ej. PSA compra CO jul-2025: bet 333 vs tape 392). Pendiente aclarar con el owner de bet_data_p2. El drill usa el tape para mantener consistencia interna con la curva diaria.
   </div>`;
 
   document.getElementById("drillBody").innerHTML = html;
