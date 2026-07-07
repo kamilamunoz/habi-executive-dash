@@ -128,6 +128,12 @@ STREAMS = [
     # ===== BROKERAGE USED HOMES =====
     # Cuadre validado 2026-07-06 CO jun-26: bet 348/79/67 vs tape 348/77/67
     # (Sales off-by-2). Tape usa inmobiliaria_tapes_global (papyrus).
+    # Ojo submetricas BR Used: CO tiene una submetrica agregada (`01. Subscribed`),
+    # pero MX solo tiene desagregadas por canal (`01. Subscribed (Inmo 100)` +
+    # `02. Subscribed (Inmo Tradicional)`). Poner bet_submetrica=None hace que
+    # sumemos TODAS las submetricas — CO no doble-cuenta porque no tiene
+    # desagregadas, y MX suma sus dos canales para dar el total real.
+    # Validado 2026-07-07 con datos jun-26: CO 348 (agregada) · MX 234+85=319.
     {
         "id": "br_used_subscribed",
         "nombre": "BR Used · Subscribed",
@@ -136,7 +142,7 @@ STREAMS = [
         "tabla_tape": TAPE_INMO,
         "bet_categoria": "02. Brokerage (Used Homes)",
         "bet_metrica": "01. Subscribed",
-        "bet_submetrica": "01. Subscribed",    # Solo el total, no desglosar Inmo 100/Tradicional
+        "bet_submetrica": None,
         "fecha_field": "v_fecha_captacion",
         "precio_field": "v_precio",
         "gmv_tipo_precio": None,               # BR Used no usa m_tipo_precio en bet
@@ -151,7 +157,7 @@ STREAMS = [
         "tabla_tape": TAPE_INMO,
         "bet_categoria": "02. Brokerage (Used Homes)",
         "bet_metrica": "03. Sales",
-        "bet_submetrica": "01. Sales",
+        "bet_submetrica": None,
         "fecha_field": "c_fecha_promesa",
         "precio_field": "c_precio",
         "gmv_tipo_precio": None,
@@ -165,7 +171,7 @@ STREAMS = [
         "tabla_tape": TAPE_INMO,
         "bet_categoria": "02. Brokerage (Used Homes)",
         "bet_metrica": "05. Deeds",
-        "bet_submetrica": "01. Deeds",
+        "bet_submetrica": None,
         "fecha_field": "c_fecha_escritura",
         "precio_field": "c_precio",
         "gmv_tipo_precio": None,

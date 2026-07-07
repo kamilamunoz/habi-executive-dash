@@ -26,7 +26,7 @@
             "mes": "2026-07",
             "dias_en_mes": 31,
             "nids_total": 15.0,
-            "gmv_total": 2185165262.1299996,
+            "gmv_total": 2185165262.13,
             "curva": [
               {
                 "dia": 1,
@@ -79,7 +79,7 @@
             "mes": "2026-06",
             "dias_en_mes": 30,
             "nids_total": 198.0,
-            "gmv_total": 30848903866.19,
+            "gmv_total": 30848903866.190006,
             "curva": [
               {
                 "dia": 1,
@@ -911,7 +911,7 @@
             "mes": "2026-06",
             "dias_en_mes": 30,
             "nids_total": 146.0,
-            "gmv_total": 23088245821.45999,
+            "gmv_total": 23088245821.459995,
             "curva": [
               {
                 "dia": 3,
@@ -2062,7 +2062,7 @@
             "mes": "2026-06",
             "dias_en_mes": 30,
             "nids_total": 162.0,
-            "gmv_total": 169615847.46999997,
+            "gmv_total": 169615847.47,
             "curva": [
               {
                 "dia": 2,
@@ -3149,8 +3149,8 @@
             "ventana": "mes_actual",
             "mes": "2026-07",
             "dias_en_mes": 31,
-            "nids_total": 62.0,
-            "gmv_total": 19687050000.0,
+            "nids_total": 69.0,
+            "gmv_total": 21443350000.0,
             "curva": [
               {
                 "dia": 1,
@@ -3601,8 +3601,8 @@
             "ventana": "mes_actual",
             "mes": "2026-07",
             "dias_en_mes": 31,
-            "nids_total": 0.0,
-            "gmv_total": 0.0,
+            "nids_total": 43.0,
+            "gmv_total": 32007532.0,
             "curva": [
               {
                 "dia": 1,
@@ -3640,15 +3640,15 @@
                 "gmv_cum": 51795214.0
               }
             ],
-            "nids_budget": 0.0,
-            "gmv_budget": 0.0
+            "nids_budget": 453.63054187192114,
+            "gmv_budget": 571579118.4215844
           },
           "mes_anterior": {
             "ventana": "mes_anterior",
             "mes": "2026-06",
             "dias_en_mes": 30,
-            "nids_total": 0.0,
-            "gmv_total": 0.0,
+            "nids_total": 319.0,
+            "gmv_total": 250424884.0,
             "curva": [
               {
                 "dia": 1,
@@ -3866,8 +3866,8 @@
             "ventana": "mes_yoy",
             "mes": "2025-07",
             "dias_en_mes": 31,
-            "nids_total": 0.0,
-            "gmv_total": 0.0,
+            "nids_total": 212.0,
+            "gmv_total": 134773515.82,
             "curva": [
               {
                 "dia": 1,
@@ -4079,8 +4079,8 @@
             "ventana": "mes_actual",
             "mes": "2026-07",
             "dias_en_mes": 31,
-            "nids_total": 12.0,
-            "gmv_total": 2987300000.0,
+            "nids_total": 14.0,
+            "gmv_total": 3332300000.0,
             "curva": [
               {
                 "dia": 1,
@@ -4126,7 +4126,7 @@
             "mes": "2026-06",
             "dias_en_mes": 30,
             "nids_total": 79.0,
-            "gmv_total": 18306219000.0,
+            "gmv_total": 18344219000.0,
             "curva": [
               {
                 "dia": 1,
@@ -4615,8 +4615,8 @@
             "ventana": "mes_actual",
             "mes": "2026-07",
             "dias_en_mes": 31,
-            "nids_total": 0.0,
-            "gmv_total": 0.0,
+            "nids_total": 10.0,
+            "gmv_total": 9341122.0,
             "curva": [
               {
                 "dia": 3,
@@ -4689,15 +4689,15 @@
                 "gmv_cum": 9341122.0
               }
             ],
-            "nids_budget": 0.0,
-            "gmv_budget": 0.0
+            "nids_budget": 82.0,
+            "gmv_budget": 103869537.4084428
           },
           "mes_anterior": {
             "ventana": "mes_anterior",
             "mes": "2026-06",
             "dias_en_mes": 30,
-            "nids_total": 0.0,
-            "gmv_total": 0.0,
+            "nids_total": 87.0,
+            "gmv_total": 112155489.0,
             "curva": [
               {
                 "dia": 2,
@@ -5307,8 +5307,8 @@
             "ventana": "mes_yoy",
             "mes": "2025-07",
             "dias_en_mes": 31,
-            "nids_total": 0.0,
-            "gmv_total": 0.0,
+            "nids_total": 27.0,
+            "gmv_total": 30203000.0,
             "curva": [
               {
                 "dia": 2,
@@ -5471,8 +5471,8 @@
             "ventana": "mes_actual",
             "mes": "2026-07",
             "dias_en_mes": 31,
-            "nids_total": 7.0,
-            "gmv_total": 1587000000.0,
+            "nids_total": 8.0,
+            "gmv_total": 1692000000.0,
             "curva": [
               {
                 "dia": 1,
@@ -5818,8 +5818,8 @@
             "ventana": "mes_actual",
             "mes": "2026-07",
             "dias_en_mes": 31,
-            "nids_total": 0.0,
-            "gmv_total": 0.0,
+            "nids_total": 2.0,
+            "gmv_total": 2620000.0,
             "curva": [
               {
                 "dia": 3,
@@ -5829,15 +5829,15 @@
                 "gmv_cum": 2620000.0
               }
             ],
-            "nids_budget": 0.0,
-            "gmv_budget": 0.0
+            "nids_budget": 41.0,
+            "gmv_budget": 52282380.02307263
           },
           "mes_anterior": {
             "ventana": "mes_anterior",
             "mes": "2026-06",
             "dias_en_mes": 30,
-            "nids_total": 0.0,
-            "gmv_total": 0.0,
+            "nids_total": 28.0,
+            "gmv_total": 30502100.0,
             "curva": [
               {
                 "dia": 5,
@@ -5936,8 +5936,8 @@
             "ventana": "mes_yoy",
             "mes": "2025-07",
             "dias_en_mes": 31,
-            "nids_total": 0.0,
-            "gmv_total": 0.0,
+            "nids_total": 31.0,
+            "gmv_total": 26587900.0,
             "curva": [
               {
                 "dia": 1,
