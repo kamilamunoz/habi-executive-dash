@@ -2631,11 +2631,68 @@ function abrirDrillGrowth(streamId){
 }
 window.abrirDrillGrowth = abrirDrillGrowth;
 
+/* Tabla resumen del sub-tab MTD activo. Una fila por stream `tipo=count`
+ * (Gross Margin y otros ratios quedan fuera — sus forecasts son %,
+ * no comparables con budget de NIDs). Reusa agregarStream + forecastDesde.
+ *
+ * Columnas: KPI, MTD, Forecast · prev, % of budget (fc prev),
+ * Forecast · YoY, % of budget (fc YoY). Cada porcentaje pinta un
+ * delta-pill segun cumplimiento (perfMTD). */
+function renderMTDSummaryTable(streams){
+  const countStreams = streams.filter(s => s.tipo === "count");
+  if(!countStreams.length) return "";
+  const dia = STATE.mtd.hoy_dia_del_mes;
+  const dias = STATE.mtd.days_in_month_actual;
+  const mesA = STATE.mtd.mes_actual;
+  const mesP = STATE.mtd.mes_anterior;
+  const mesY = STATE.mtd.mes_yoy;
+  const fmt = (v) => v != null ? Math.round(v).toLocaleString() : "—";
+  const pctPill = (fc, bud) => {
+    if(fc == null || !bud) return "—";
+    const p = fc / bud;
+    const cls = perfMTD(fc, bud).replace("perf-","");   // green/amber/red
+    return `<span class="delta-pill ${cls}">${(p*100).toFixed(0)}%</span>`;
+  };
+  let filas = "";
+  for(const s of countStreams){
+    const agg = agregarStream(s);
+    const ma = agg.mes_actual;
+    const fcPrev = forecastDesde(agg, "mes_anterior");
+    const fcYoy  = forecastDesde(agg, "mes_yoy");
+    const bud = ma.nids_budget || 0;
+    filas += `<tr onclick="abrirDrillMTD('${s.id}')" class="clickable-row">
+      <td><b>${s.nombre}</b><br><span class="sub-txt">Budget: ${fmt(bud)} NIDs</span></td>
+      <td class="num">${fmt(ma.nids_total)}<br><span class="sub-txt">day ${dia}/${dias}</span></td>
+      <td class="num">${fcPrev ? fmt(fcPrev.nids) : "—"}<br><span class="sub-txt">vs ${mesP}</span></td>
+      <td class="num">${pctPill(fcPrev ? fcPrev.nids : null, bud)}</td>
+      <td class="num">${fcYoy ? fmt(fcYoy.nids) : "—"}<br><span class="sub-txt">vs ${mesY}</span></td>
+      <td class="num">${pctPill(fcYoy ? fcYoy.nids : null, bud)}</td>
+    </tr>`;
+  }
+  return `<div class="mtd-summary-wrap">
+    <div class="mtd-summary-title">Summary · ${STATE.mtdSubtab || "Market Maker"} · ${mesA} (day ${dia} of ${dias})</div>
+    <table class="mtd-summary-table">
+      <thead><tr>
+        <th>KPI</th>
+        <th style="text-align:right">MTD actual (NIDs)</th>
+        <th style="text-align:right">Forecast · prev</th>
+        <th style="text-align:right">% of budget<br><span class="sub-txt">(fc prev)</span></th>
+        <th style="text-align:right">Forecast · YoY</th>
+        <th style="text-align:right">% of budget<br><span class="sub-txt">(fc YoY)</span></th>
+      </tr></thead>
+      <tbody>${filas}</tbody>
+    </table>
+    <div class="mtd-summary-note">Click on any row to open its drill-down.</div>
+  </div>`;
+}
+
 function renderMTD(){
   const grid = document.getElementById("gridMTD");
+  const summary = document.getElementById("mtdSummary");
   if(!grid) return;
   if(!STATE.mtd || !STATE.mtd.streams){
     grid.innerHTML = `<div class="card pendiente"><div class="kpi-name"><span class="nm">MTD data unavailable</span></div></div>`;
+    if(summary) summary.innerHTML = "";
     return;
   }
   // Filtrar por sub-tab activo (linea_negocio). Default: Market Maker.
@@ -2644,7 +2701,9 @@ function renderMTD(){
   if(streams.length === 0){
     // Placeholder para lineas sin data aun (BR Used, BR New, HC — Fase 2)
     grid.innerHTML = `<div class="card pendiente"><div class="kpi-name"><span class="nm">${subtab} · Fase 2 pendiente</span></div><div class="val">—</div><div class="adj-line">Data streams a incluir cuando lleguen del builder.</div></div>`;
+    if(summary) summary.innerHTML = "";
   } else {
+    if(summary) summary.innerHTML = renderMTDSummaryTable(streams);
     grid.innerHTML = streams.map(renderMTDCard).join("");
   }
   const ctx = `${STATE.filters.pais}${STATE.filters.moneda === "USD" ? " · USD" : " · Local"} · ${STATE.mtd.mes_actual} · day ${STATE.mtd.hoy_dia_del_mes} of ${STATE.mtd.days_in_month_actual}`;
