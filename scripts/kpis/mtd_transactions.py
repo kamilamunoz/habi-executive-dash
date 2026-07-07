@@ -51,17 +51,22 @@ from scripts._common import MONEDA_POR_PAIS, PAIS_LABEL
 log = logging.getLogger(__name__)
 
 TAPE = "clients-domain-data-master.finance_wh_bi.finance_tapes_global"
+TAPE_INMO = "papyrus-delivery-data.corp_gov_global.inmobiliaria_tapes_global"
 
 # Para Sale Deeds bet expone GMV en Purchase price Y Selling price; el
 # tab muestra Selling price (lo que vendimos). Para Purchase Deeds solo
 # existe Purchase price.
 STREAMS = [
+    # ===== MARKET MAKER =====
     {
         "id": "mm_psa_compra",
         "nombre": "MM · PSA compra",
         "linea_negocio": "Market Maker",
         "tipo": "count",
+        "tabla_tape": TAPE,
+        "bet_categoria": "01. Market Maker",
         "bet_metrica": "01. Gross Purchase PSAs",
+        "bet_submetrica": None,   # None = sumar todas las submetricas
         "fecha_field": "v_fecha_promesa",
         "precio_field": "v_precio",
         "gmv_tipo_precio": "Purchase price",
@@ -73,7 +78,10 @@ STREAMS = [
         "nombre": "MM · Compras (escrituras)",
         "linea_negocio": "Market Maker",
         "tipo": "count",
+        "tabla_tape": TAPE,
+        "bet_categoria": "01. Market Maker",
         "bet_metrica": "03. Purchase Deeds",
+        "bet_submetrica": None,
         "fecha_field": "v_fecha_escritura",
         "precio_field": "v_precio",
         "gmv_tipo_precio": "Purchase price",
@@ -84,7 +92,10 @@ STREAMS = [
         "nombre": "MM · PSA venta",
         "linea_negocio": "Market Maker",
         "tipo": "count",
+        "tabla_tape": TAPE,
+        "bet_categoria": "01. Market Maker",
         "bet_metrica": "05. Sale PSAs",
+        "bet_submetrica": None,
         "fecha_field": "c_fecha_promesa",
         "precio_field": "c_precio",
         "gmv_tipo_precio": "Selling price",
@@ -95,7 +106,10 @@ STREAMS = [
         "nombre": "MM · Ventas (escrituras)",
         "linea_negocio": "Market Maker",
         "tipo": "count",
+        "tabla_tape": TAPE,
+        "bet_categoria": "01. Market Maker",
         "bet_metrica": "07. Sale Deeds",
+        "bet_submetrica": None,
         "fecha_field": "c_fecha_escritura",
         "precio_field": "c_precio",
         "gmv_tipo_precio": "Selling price",
@@ -106,9 +120,56 @@ STREAMS = [
         "nombre": "MM · Gross Margin (proxy tape)",
         "linea_negocio": "Market Maker",
         "tipo": "ratio",
+        "tabla_tape": TAPE,
         # No hay bet_metrica: se calcula del tape.
         # Revenue = SUM(c_precio); Cost = SUM(v_precio) sobre los mismos NIDs.
         "fecha_field": "c_fecha_factura",
+    },
+    # ===== BROKERAGE USED HOMES =====
+    # Cuadre validado 2026-07-06 CO jun-26: bet 348/79/67 vs tape 348/77/67
+    # (Sales off-by-2). Tape usa inmobiliaria_tapes_global (papyrus).
+    {
+        "id": "br_used_subscribed",
+        "nombre": "BR Used · Subscribed",
+        "linea_negocio": "Brokerage Used",
+        "tipo": "count",
+        "tabla_tape": TAPE_INMO,
+        "bet_categoria": "02. Brokerage (Used Homes)",
+        "bet_metrica": "01. Subscribed",
+        "bet_submetrica": "01. Subscribed",    # Solo el total, no desglosar Inmo 100/Tradicional
+        "fecha_field": "v_fecha_captacion",
+        "precio_field": "v_precio",
+        "gmv_tipo_precio": None,               # BR Used no usa m_tipo_precio en bet
+        "filtrar_desistidos": False,
+        "filtro_tipo_captacion": "primera captación",
+    },
+    {
+        "id": "br_used_sales",
+        "nombre": "BR Used · Sales",
+        "linea_negocio": "Brokerage Used",
+        "tipo": "count",
+        "tabla_tape": TAPE_INMO,
+        "bet_categoria": "02. Brokerage (Used Homes)",
+        "bet_metrica": "03. Sales",
+        "bet_submetrica": "01. Sales",
+        "fecha_field": "c_fecha_promesa",
+        "precio_field": "c_precio",
+        "gmv_tipo_precio": None,
+        "filtrar_desistidos": False,
+    },
+    {
+        "id": "br_used_deeds",
+        "nombre": "BR Used · Deeds (escrituras)",
+        "linea_negocio": "Brokerage Used",
+        "tipo": "count",
+        "tabla_tape": TAPE_INMO,
+        "bet_categoria": "02. Brokerage (Used Homes)",
+        "bet_metrica": "05. Deeds",
+        "bet_submetrica": "01. Deeds",
+        "fecha_field": "c_fecha_escritura",
+        "precio_field": "c_precio",
+        "gmv_tipo_precio": None,
+        "filtrar_desistidos": False,
     },
 ]
 
@@ -151,43 +212,52 @@ def _ventanas(mes_max: dt.date) -> dict[str, tuple[dt.date, dt.date]]:
 
 
 def _sql_bet(meses: list[dt.date]) -> str:
-    """Totales mensuales y budget_1 por (mes, pais, metrica, unidad, precio).
+    """Totales mensuales y budget_1 por (mes, pais, categoria, metrica, submetrica, unidad, precio).
 
-    Solo streams `tipo='count'` — los ratio (Gross Margin) no vienen del bet.
+    Trae todas las categorias que aparezcan en STREAMS_COUNT. Luego cada stream
+    filtra por su (categoria, metrica, submetrica) en _ventana_payload.
     """
     fechas = ",".join(f"'{m.isoformat()}'" for m in meses)
-    metricas = ",".join(f"'{s['bet_metrica']}'" for s in STREAMS_COUNT)
+    categorias = sorted(set(s["bet_categoria"] for s in STREAMS_COUNT))
+    metricas = sorted(set(s["bet_metrica"] for s in STREAMS_COUNT))
+    cats_sql = ",".join(f"'{c}'" for c in categorias)
+    mets_sql = ",".join(f"'{m}'" for m in metricas)
     return f"""
 SELECT
-  mes, m_pais, m_metrica, m_unidad, m_tipo_precio,
+  mes, m_pais, m_categoria, m_metrica, m_submetrica, m_unidad, m_tipo_precio,
   SUM(actuals_accounting) AS actuals,
   SUM(budget_1)           AS budget
 FROM `{TABLE_BET}`
 WHERE m_tipo = '2. Transactions'
-  AND m_categoria = '01. Market Maker'
-  AND m_metrica IN ({metricas})
+  AND m_categoria IN ({cats_sql})
+  AND m_metrica IN ({mets_sql})
   AND mes IN ({fechas})
-GROUP BY 1, 2, 3, 4, 5
+GROUP BY 1, 2, 3, 4, 5, 6, 7
 """.strip()
 
 
-def _sql_tape_daily(fecha_field: str, precio_field: str,
+def _sql_tape_daily(tabla: str, fecha_field: str, precio_field: str,
                     rangos: list[tuple[dt.date, dt.date]],
-                    filtrar_desistidos: bool = True) -> str:
-    """Curva diaria de NIDs + GMV en el tape para una fecha-field (v/c).
+                    filtrar_desistidos: bool = True,
+                    filtro_tipo_captacion: str | None = None) -> str:
+    """Curva diaria de NIDs + GMV en el tape (finance o inmobiliaria).
 
-    `rangos` es la lista de 3 ventanas (actual / anterior / yoy). Hacemos
-    OR de los rangos para mandar UN solo query en vez de 3.
+    - `tabla`: TAPE (Market Maker) o TAPE_INMO (Brokerage Used).
+    - `filtrar_desistidos=True` aplica `desistimientos='No desistidos'` (solo
+      existe en finance_tapes_global; correcto para Deeds MM).
+    - `filtro_tipo_captacion`: si se pasa, agrega `tipo_captacion='...'`
+      (solo aplica al tape de inmobiliaria; usado para Subscribed BR Used).
+    - `rangos` = 3 ventanas (actual / anterior / yoy) en un solo query.
 
-    `filtrar_desistidos=True` aplica el filtro `desistimientos='No desistidos'`
-    (correcto para Deeds — una escritura no se desiste). Para PSAs debe ser
-    False, porque el bet cuenta todas las promesas (incluidas desistidas).
+    `pais` en inmobiliaria_tapes_global es 'Colombia' / 'México' igual que en
+    finance_tapes_global — el CASE de normalizacion aplica a ambas.
     """
     or_clauses = " OR ".join(
         f"({fecha_field} BETWEEN '{a.isoformat()}' AND '{b.isoformat()}')"
         for a, b in rangos
     )
     desist_clause = "  AND desistimientos = 'No desistidos'\n" if filtrar_desistidos else ""
+    tipo_cap_clause = f"  AND tipo_captacion = '{filtro_tipo_captacion}'\n" if filtro_tipo_captacion else ""
     return f"""
 SELECT
   {fecha_field}                              AS fecha,
@@ -197,9 +267,9 @@ SELECT
   END                                        AS m_pais,
   COUNT(*)                                   AS nids,
   SUM({precio_field})                        AS gmv
-FROM `{TAPE}`
+FROM `{tabla}`
 WHERE pais IN ('Colombia','México')
-{desist_clause}  AND {fecha_field} IS NOT NULL
+{desist_clause}{tipo_cap_clause}  AND {fecha_field} IS NOT NULL
   AND ({or_clauses})
 GROUP BY 1, 2
 """.strip()
@@ -345,18 +415,33 @@ def _ventana_payload(df_bet: pd.DataFrame, df_dia: pd.DataFrame,
                      ventana_inicio: dt.date, ventana_fin: dt.date,
                      incluir_budget: bool) -> dict[str, Any]:
     """Arma el bloque {nids_total, gmv_total, [budget...], curva} para una
-    (stream, pais, ventana). Budget solo se incluye en mes_actual."""
-    metrica = stream["bet_metrica"]
-    precio  = stream["gmv_tipo_precio"]
+    (stream, pais, ventana). Budget solo se incluye en mes_actual.
+
+    Filtra bet por (categoria, metrica, submetrica). Si stream tiene
+    `bet_submetrica=None`, suma TODAS las submetricas (patron MM). Si tiene
+    submetrica explicita, solo esa (patron BR Used, para no doble-contar).
+    """
+    categoria = stream["bet_categoria"]
+    metrica   = stream["bet_metrica"]
+    submet    = stream.get("bet_submetrica")
+    precio    = stream.get("gmv_tipo_precio")
 
     # bet: totales y budget de esta ventana
     bet_mes = df_bet[
         (df_bet["m_pais"] == pais)
+        & (df_bet["m_categoria"] == categoria)
         & (df_bet["m_metrica"] == metrica)
         & (df_bet["mes"] == pd.Timestamp(ventana_inicio))
     ]
+    if submet is not None:
+        bet_mes = bet_mes[bet_mes["m_submetrica"] == submet]
+
     nids_row = bet_mes[bet_mes["m_unidad"] == "NIDS"]
-    gmv_row  = bet_mes[(bet_mes["m_unidad"] == "GMV") & (bet_mes["m_tipo_precio"] == precio)]
+    if precio is None:
+        # BR Used no usa m_tipo_precio (todos con NULL) — solo filtrar por unidad
+        gmv_row = bet_mes[bet_mes["m_unidad"] == "GMV"]
+    else:
+        gmv_row = bet_mes[(bet_mes["m_unidad"] == "GMV") & (bet_mes["m_tipo_precio"] == precio)]
 
     nids_total = float(nids_row["actuals"].sum()) if not nids_row.empty else 0.0
     gmv_total  = float(gmv_row["actuals"].sum())  if not gmv_row.empty  else 0.0
@@ -394,12 +479,17 @@ def build(mes_corte: dt.date, mes_max: dt.date | None = None) -> dict[str, Any]:
     df_dia_por_stream: dict[str, pd.DataFrame] = {}
     rangos = list(ventanas.values())
     for s in STREAMS_COUNT:
-        log.info("MTD: tape daily %s (%s, filtrar_desistidos=%s)",
-                 s["id"], s["fecha_field"], s.get("filtrar_desistidos", True))
+        log.info("MTD: tape daily %s (%s, tabla=%s, filtrar_desistidos=%s, tipo_captacion=%s)",
+                 s["id"], s["fecha_field"],
+                 s.get("tabla_tape", TAPE).split(".")[-1],
+                 s.get("filtrar_desistidos", True),
+                 s.get("filtro_tipo_captacion") or "-")
         df = run_query(
             _sql_tape_daily(
+                s.get("tabla_tape", TAPE),
                 s["fecha_field"], s["precio_field"], rangos,
                 filtrar_desistidos=s.get("filtrar_desistidos", True),
+                filtro_tipo_captacion=s.get("filtro_tipo_captacion"),
             ),
             label=f"mtd_tape_{s['id']}",
         )

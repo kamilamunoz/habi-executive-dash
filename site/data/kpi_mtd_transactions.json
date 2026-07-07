@@ -1,8 +1,8 @@
 {
   "id": "mtd_transactions",
-  "nombre": "MTD · Transactions",
+  "nombre": "MTD \u00b7 Transactions",
   "fase": 1,
-  "fuente": "bet_data_p2 m_tipo='2. Transactions' (totales+budget) · clients-domain-data-master.finance_wh_bi.finance_tapes_global (curva diaria, desistimientos='No desistidos')",
+  "fuente": "bet_data_p2 m_tipo='2. Transactions' (totales+budget) \u00b7 clients-domain-data-master.finance_wh_bi.finance_tapes_global (curva diaria, desistimientos='No desistidos')",
   "hoy_dia_del_mes": 6,
   "mes_actual": "2026-07",
   "mes_anterior": "2026-06",
@@ -11,7 +11,7 @@
   "streams": [
     {
       "id": "mm_psa_compra",
-      "nombre": "MM · PSA compra",
+      "nombre": "MM \u00b7 PSA compra",
       "linea_negocio": "Market Maker",
       "tipo": "count",
       "bet_metrica": "01. Gross Purchase PSAs",
@@ -79,7 +79,7 @@
             "mes": "2026-06",
             "dias_en_mes": 30,
             "nids_total": 198.0,
-            "gmv_total": 30848903866.190006,
+            "gmv_total": 30848903866.190002,
             "curva": [
               {
                 "dia": 1,
@@ -857,7 +857,7 @@
     },
     {
       "id": "mm_compras_escritura",
-      "nombre": "MM · Compras (escrituras)",
+      "nombre": "MM \u00b7 Compras (escrituras)",
       "linea_negocio": "Market Maker",
       "tipo": "count",
       "bet_metrica": "03. Purchase Deeds",
@@ -1514,7 +1514,7 @@
     },
     {
       "id": "mm_psa_venta",
-      "nombre": "MM · PSA venta",
+      "nombre": "MM \u00b7 PSA venta",
       "linea_negocio": "Market Maker",
       "tipo": "count",
       "bet_metrica": "05. Sale PSAs",
@@ -2353,7 +2353,7 @@
     },
     {
       "id": "mm_ventas_escritura",
-      "nombre": "MM · Ventas (escrituras)",
+      "nombre": "MM \u00b7 Ventas (escrituras)",
       "linea_negocio": "Market Maker",
       "tipo": "count",
       "bet_metrica": "07. Sale Deeds",
@@ -3099,8 +3099,2875 @@
       }
     },
     {
+      "id": "br_used_subscribed",
+      "nombre": "BR Used \u00b7 Subscribed",
+      "linea_negocio": "Brokerage Used",
+      "tipo": "count",
+      "bet_metrica": "01. Subscribed",
+      "fecha_field": "v_fecha_captacion",
+      "gmv_tipo_precio": null,
+      "granularidad": "diaria",
+      "por_pais": {
+        "Colombia": {
+          "moneda": "COP",
+          "mes_actual": {
+            "ventana": "mes_actual",
+            "mes": "2026-07",
+            "dias_en_mes": 31,
+            "nids_total": 49.0,
+            "gmv_total": 14893050000.0,
+            "curva": [
+              {
+                "dia": 1,
+                "nids": 9.0,
+                "gmv": 3688600000.0,
+                "nids_cum": 9.0,
+                "gmv_cum": 3688600000.0
+              },
+              {
+                "dia": 2,
+                "nids": 12.0,
+                "gmv": 2797700000.0,
+                "nids_cum": 21.0,
+                "gmv_cum": 6486300000.0
+              },
+              {
+                "dia": 3,
+                "nids": 18.0,
+                "gmv": 4478550000.0,
+                "nids_cum": 39.0,
+                "gmv_cum": 10964850000.0
+              },
+              {
+                "dia": 4,
+                "nids": 7.0,
+                "gmv": 3028200000.0,
+                "nids_cum": 46.0,
+                "gmv_cum": 13993050000.0
+              },
+              {
+                "dia": 6,
+                "nids": 7.0,
+                "gmv": 2643000000.0,
+                "nids_cum": 53.0,
+                "gmv_cum": 16636050000.0
+              }
+            ],
+            "nids_budget": 513.0,
+            "gmv_budget": 108127198140.98804
+          },
+          "mes_anterior": {
+            "ventana": "mes_anterior",
+            "mes": "2026-06",
+            "dias_en_mes": 30,
+            "nids_total": 348.0,
+            "gmv_total": 92492088950.0,
+            "curva": [
+              {
+                "dia": 1,
+                "nids": 16.0,
+                "gmv": 4671085950.0,
+                "nids_cum": 16.0,
+                "gmv_cum": 4671085950.0
+              },
+              {
+                "dia": 2,
+                "nids": 15.0,
+                "gmv": 4597060000.0,
+                "nids_cum": 31.0,
+                "gmv_cum": 9268145950.0
+              },
+              {
+                "dia": 3,
+                "nids": 13.0,
+                "gmv": 2729590000.0,
+                "nids_cum": 44.0,
+                "gmv_cum": 11997735950.0
+              },
+              {
+                "dia": 4,
+                "nids": 10.0,
+                "gmv": 2432100000.0,
+                "nids_cum": 54.0,
+                "gmv_cum": 14429835950.0
+              },
+              {
+                "dia": 5,
+                "nids": 16.0,
+                "gmv": 4829600000.0,
+                "nids_cum": 70.0,
+                "gmv_cum": 19259435950.0
+              },
+              {
+                "dia": 6,
+                "nids": 8.0,
+                "gmv": 1972100000.0,
+                "nids_cum": 78.0,
+                "gmv_cum": 21231535950.0
+              },
+              {
+                "dia": 8,
+                "nids": 1.0,
+                "gmv": 200000000.0,
+                "nids_cum": 79.0,
+                "gmv_cum": 21431535950.0
+              },
+              {
+                "dia": 9,
+                "nids": 23.0,
+                "gmv": 6270750000.0,
+                "nids_cum": 102.0,
+                "gmv_cum": 27702285950.0
+              },
+              {
+                "dia": 10,
+                "nids": 12.0,
+                "gmv": 3083390000.0,
+                "nids_cum": 114.0,
+                "gmv_cum": 30785675950.0
+              },
+              {
+                "dia": 11,
+                "nids": 10.0,
+                "gmv": 2097450000.0,
+                "nids_cum": 124.0,
+                "gmv_cum": 32883125950.0
+              },
+              {
+                "dia": 12,
+                "nids": 17.0,
+                "gmv": 3708420000.0,
+                "nids_cum": 141.0,
+                "gmv_cum": 36591545950.0
+              },
+              {
+                "dia": 13,
+                "nids": 6.0,
+                "gmv": 1513100000.0,
+                "nids_cum": 147.0,
+                "gmv_cum": 38104645950.0
+              },
+              {
+                "dia": 14,
+                "nids": 1.0,
+                "gmv": 200000000.0,
+                "nids_cum": 148.0,
+                "gmv_cum": 38304645950.0
+              },
+              {
+                "dia": 16,
+                "nids": 10.0,
+                "gmv": 1909200000.0,
+                "nids_cum": 158.0,
+                "gmv_cum": 40213845950.0
+              },
+              {
+                "dia": 17,
+                "nids": 10.0,
+                "gmv": 2574000000.0,
+                "nids_cum": 168.0,
+                "gmv_cum": 42787845950.0
+              },
+              {
+                "dia": 18,
+                "nids": 18.0,
+                "gmv": 4967590000.0,
+                "nids_cum": 186.0,
+                "gmv_cum": 47755435950.0
+              },
+              {
+                "dia": 19,
+                "nids": 12.0,
+                "gmv": 2991970000.0,
+                "nids_cum": 198.0,
+                "gmv_cum": 50747405950.0
+              },
+              {
+                "dia": 20,
+                "nids": 8.0,
+                "gmv": 2087000000.0,
+                "nids_cum": 206.0,
+                "gmv_cum": 52834405950.0
+              },
+              {
+                "dia": 21,
+                "nids": 1.0,
+                "gmv": 221889000.0,
+                "nids_cum": 207.0,
+                "gmv_cum": 53056294950.0
+              },
+              {
+                "dia": 22,
+                "nids": 28.0,
+                "gmv": 7413250000.0,
+                "nids_cum": 235.0,
+                "gmv_cum": 60469544950.0
+              },
+              {
+                "dia": 23,
+                "nids": 21.0,
+                "gmv": 4858484000.0,
+                "nids_cum": 256.0,
+                "gmv_cum": 65328028950.0
+              },
+              {
+                "dia": 24,
+                "nids": 23.0,
+                "gmv": 6987700000.0,
+                "nids_cum": 279.0,
+                "gmv_cum": 72315728950.0
+              },
+              {
+                "dia": 25,
+                "nids": 20.0,
+                "gmv": 5772600000.0,
+                "nids_cum": 299.0,
+                "gmv_cum": 78088328950.0
+              },
+              {
+                "dia": 26,
+                "nids": 20.0,
+                "gmv": 6422300000.0,
+                "nids_cum": 319.0,
+                "gmv_cum": 84510628950.0
+              },
+              {
+                "dia": 27,
+                "nids": 3.0,
+                "gmv": 636700000.0,
+                "nids_cum": 322.0,
+                "gmv_cum": 85147328950.0
+              },
+              {
+                "dia": 29,
+                "nids": 1.0,
+                "gmv": 172800000.0,
+                "nids_cum": 323.0,
+                "gmv_cum": 85320128950.0
+              },
+              {
+                "dia": 30,
+                "nids": 25.0,
+                "gmv": 7016960000.0,
+                "nids_cum": 348.0,
+                "gmv_cum": 92337088950.0
+              }
+            ]
+          },
+          "mes_yoy": {
+            "ventana": "mes_yoy",
+            "mes": "2025-07",
+            "dias_en_mes": 31,
+            "nids_total": 255.0,
+            "gmv_total": 56612471172.0,
+            "curva": [
+              {
+                "dia": 1,
+                "nids": 4.0,
+                "gmv": 1329376091.0,
+                "nids_cum": 4.0,
+                "gmv_cum": 1329376091.0
+              },
+              {
+                "dia": 2,
+                "nids": 4.0,
+                "gmv": 701145143.0,
+                "nids_cum": 8.0,
+                "gmv_cum": 2030521234.0
+              },
+              {
+                "dia": 3,
+                "nids": 5.0,
+                "gmv": 818586181.0,
+                "nids_cum": 13.0,
+                "gmv_cum": 2849107415.0
+              },
+              {
+                "dia": 4,
+                "nids": 4.0,
+                "gmv": 1120484365.0,
+                "nids_cum": 17.0,
+                "gmv_cum": 3969591780.0
+              },
+              {
+                "dia": 5,
+                "nids": 2.0,
+                "gmv": 674169308.0,
+                "nids_cum": 19.0,
+                "gmv_cum": 4643761088.0
+              },
+              {
+                "dia": 7,
+                "nids": 5.0,
+                "gmv": 928624976.0,
+                "nids_cum": 24.0,
+                "gmv_cum": 5572386064.0
+              },
+              {
+                "dia": 8,
+                "nids": 5.0,
+                "gmv": 1348868329.0,
+                "nids_cum": 29.0,
+                "gmv_cum": 6921254393.0
+              },
+              {
+                "dia": 9,
+                "nids": 12.0,
+                "gmv": 2693780653.0,
+                "nids_cum": 41.0,
+                "gmv_cum": 9615035046.0
+              },
+              {
+                "dia": 10,
+                "nids": 2.0,
+                "gmv": 375000000.0,
+                "nids_cum": 43.0,
+                "gmv_cum": 9990035046.0
+              },
+              {
+                "dia": 11,
+                "nids": 4.0,
+                "gmv": 1236200000.0,
+                "nids_cum": 47.0,
+                "gmv_cum": 11226235046.0
+              },
+              {
+                "dia": 12,
+                "nids": 2.0,
+                "gmv": 275000000.0,
+                "nids_cum": 49.0,
+                "gmv_cum": 11501235046.0
+              },
+              {
+                "dia": 14,
+                "nids": 9.0,
+                "gmv": 2017546429.0,
+                "nids_cum": 58.0,
+                "gmv_cum": 13518781475.0
+              },
+              {
+                "dia": 15,
+                "nids": 10.0,
+                "gmv": 2190934145.0,
+                "nids_cum": 68.0,
+                "gmv_cum": 15709715620.0
+              },
+              {
+                "dia": 16,
+                "nids": 13.0,
+                "gmv": 3846187685.0,
+                "nids_cum": 81.0,
+                "gmv_cum": 19555903305.0
+              },
+              {
+                "dia": 17,
+                "nids": 13.0,
+                "gmv": 3068821617.0,
+                "nids_cum": 94.0,
+                "gmv_cum": 22624724922.0
+              },
+              {
+                "dia": 18,
+                "nids": 7.0,
+                "gmv": 1519927306.0,
+                "nids_cum": 101.0,
+                "gmv_cum": 24144652228.0
+              },
+              {
+                "dia": 19,
+                "nids": 4.0,
+                "gmv": 836877778.0,
+                "nids_cum": 105.0,
+                "gmv_cum": 24981530006.0
+              },
+              {
+                "dia": 21,
+                "nids": 12.0,
+                "gmv": 2906150625.0,
+                "nids_cum": 117.0,
+                "gmv_cum": 27887680631.0
+              },
+              {
+                "dia": 22,
+                "nids": 11.0,
+                "gmv": 2468082343.0,
+                "nids_cum": 128.0,
+                "gmv_cum": 30355762974.0
+              },
+              {
+                "dia": 23,
+                "nids": 9.0,
+                "gmv": 1572407862.0,
+                "nids_cum": 137.0,
+                "gmv_cum": 31928170836.0
+              },
+              {
+                "dia": 24,
+                "nids": 15.0,
+                "gmv": 3537540624.0,
+                "nids_cum": 152.0,
+                "gmv_cum": 35465711460.0
+              },
+              {
+                "dia": 25,
+                "nids": 12.0,
+                "gmv": 2525886027.0,
+                "nids_cum": 164.0,
+                "gmv_cum": 37991597487.0
+              },
+              {
+                "dia": 26,
+                "nids": 6.0,
+                "gmv": 1131300000.0,
+                "nids_cum": 170.0,
+                "gmv_cum": 39122897487.0
+              },
+              {
+                "dia": 27,
+                "nids": 4.0,
+                "gmv": 1070000000.0,
+                "nids_cum": 174.0,
+                "gmv_cum": 40192897487.0
+              },
+              {
+                "dia": 28,
+                "nids": 6.0,
+                "gmv": 1171133165.0,
+                "nids_cum": 180.0,
+                "gmv_cum": 41364030652.0
+              },
+              {
+                "dia": 29,
+                "nids": 19.0,
+                "gmv": 3653400000.0,
+                "nids_cum": 199.0,
+                "gmv_cum": 45017430652.0
+              },
+              {
+                "dia": 30,
+                "nids": 25.0,
+                "gmv": 5382532223.0,
+                "nids_cum": 224.0,
+                "gmv_cum": 50399962875.0
+              },
+              {
+                "dia": 31,
+                "nids": 34.0,
+                "gmv": 7033508297.0,
+                "nids_cum": 258.0,
+                "gmv_cum": 57433471172.0
+              }
+            ]
+          }
+        },
+        "Mexico": {
+          "moneda": "MXN",
+          "mes_actual": {
+            "ventana": "mes_actual",
+            "mes": "2026-07",
+            "dias_en_mes": 31,
+            "nids_total": 0.0,
+            "gmv_total": 0.0,
+            "curva": [
+              {
+                "dia": 1,
+                "nids": 4.0,
+                "gmv": 7402714.0,
+                "nids_cum": 4.0,
+                "gmv_cum": 7402714.0
+              },
+              {
+                "dia": 2,
+                "nids": 8.0,
+                "gmv": 8412000.0,
+                "nids_cum": 12.0,
+                "gmv_cum": 15814714.0
+              },
+              {
+                "dia": 3,
+                "nids": 5.0,
+                "gmv": 11051818.0,
+                "nids_cum": 17.0,
+                "gmv_cum": 26866532.0
+              },
+              {
+                "dia": 4,
+                "nids": 2.0,
+                "gmv": 3105000.0,
+                "nids_cum": 19.0,
+                "gmv_cum": 29971532.0
+              }
+            ],
+            "nids_budget": 0.0,
+            "gmv_budget": 0.0
+          },
+          "mes_anterior": {
+            "ventana": "mes_anterior",
+            "mes": "2026-06",
+            "dias_en_mes": 30,
+            "nids_total": 0.0,
+            "gmv_total": 0.0,
+            "curva": [
+              {
+                "dia": 1,
+                "nids": 18.0,
+                "gmv": 28775991.0,
+                "nids_cum": 18.0,
+                "gmv_cum": 28775991.0
+              },
+              {
+                "dia": 2,
+                "nids": 23.0,
+                "gmv": 40843255.0,
+                "nids_cum": 41.0,
+                "gmv_cum": 69619246.0
+              },
+              {
+                "dia": 3,
+                "nids": 8.0,
+                "gmv": 16448814.0,
+                "nids_cum": 49.0,
+                "gmv_cum": 86068060.0
+              },
+              {
+                "dia": 4,
+                "nids": 4.0,
+                "gmv": 5441932.0,
+                "nids_cum": 53.0,
+                "gmv_cum": 91509992.0
+              },
+              {
+                "dia": 5,
+                "nids": 6.0,
+                "gmv": 7524712.0,
+                "nids_cum": 59.0,
+                "gmv_cum": 99034704.0
+              },
+              {
+                "dia": 6,
+                "nids": 2.0,
+                "gmv": 2379258.0,
+                "nids_cum": 61.0,
+                "gmv_cum": 101413962.0
+              },
+              {
+                "dia": 7,
+                "nids": 2.0,
+                "gmv": 7270000.0,
+                "nids_cum": 63.0,
+                "gmv_cum": 108683962.0
+              },
+              {
+                "dia": 8,
+                "nids": 10.0,
+                "gmv": 13439050.0,
+                "nids_cum": 73.0,
+                "gmv_cum": 122123012.0
+              },
+              {
+                "dia": 9,
+                "nids": 18.0,
+                "gmv": 20574654.0,
+                "nids_cum": 91.0,
+                "gmv_cum": 142697666.0
+              },
+              {
+                "dia": 10,
+                "nids": 16.0,
+                "gmv": 24472276.0,
+                "nids_cum": 107.0,
+                "gmv_cum": 167169942.0
+              },
+              {
+                "dia": 11,
+                "nids": 8.0,
+                "gmv": 19305486.0,
+                "nids_cum": 115.0,
+                "gmv_cum": 186475428.0
+              },
+              {
+                "dia": 12,
+                "nids": 10.0,
+                "gmv": 20762265.0,
+                "nids_cum": 125.0,
+                "gmv_cum": 207237693.0
+              },
+              {
+                "dia": 13,
+                "nids": 8.0,
+                "gmv": 8050000.0,
+                "nids_cum": 133.0,
+                "gmv_cum": 215287693.0
+              },
+              {
+                "dia": 14,
+                "nids": 2.0,
+                "gmv": 1440000.0,
+                "nids_cum": 135.0,
+                "gmv_cum": 216727693.0
+              },
+              {
+                "dia": 15,
+                "nids": 12.0,
+                "gmv": 18668955.0,
+                "nids_cum": 147.0,
+                "gmv_cum": 235396648.0
+              },
+              {
+                "dia": 16,
+                "nids": 14.0,
+                "gmv": 18912026.0,
+                "nids_cum": 161.0,
+                "gmv_cum": 254308674.0
+              },
+              {
+                "dia": 17,
+                "nids": 12.0,
+                "gmv": 21566276.0,
+                "nids_cum": 173.0,
+                "gmv_cum": 275874950.0
+              },
+              {
+                "dia": 18,
+                "nids": 12.0,
+                "gmv": 24182596.0,
+                "nids_cum": 185.0,
+                "gmv_cum": 300057546.0
+              },
+              {
+                "dia": 19,
+                "nids": 9.0,
+                "gmv": 18080955.0,
+                "nids_cum": 194.0,
+                "gmv_cum": 318138501.0
+              },
+              {
+                "dia": 20,
+                "nids": 5.0,
+                "gmv": 8880000.0,
+                "nids_cum": 199.0,
+                "gmv_cum": 327018501.0
+              },
+              {
+                "dia": 21,
+                "nids": 2.0,
+                "gmv": 7000000.0,
+                "nids_cum": 201.0,
+                "gmv_cum": 334018501.0
+              },
+              {
+                "dia": 22,
+                "nids": 13.0,
+                "gmv": 20458697.0,
+                "nids_cum": 214.0,
+                "gmv_cum": 354477198.0
+              },
+              {
+                "dia": 23,
+                "nids": 20.0,
+                "gmv": 31162701.0,
+                "nids_cum": 234.0,
+                "gmv_cum": 385639899.0
+              },
+              {
+                "dia": 24,
+                "nids": 15.0,
+                "gmv": 21998343.0,
+                "nids_cum": 249.0,
+                "gmv_cum": 407638242.0
+              },
+              {
+                "dia": 25,
+                "nids": 13.0,
+                "gmv": 21921329.0,
+                "nids_cum": 262.0,
+                "gmv_cum": 429559571.0
+              },
+              {
+                "dia": 26,
+                "nids": 14.0,
+                "gmv": 22717026.0,
+                "nids_cum": 276.0,
+                "gmv_cum": 452276597.0
+              },
+              {
+                "dia": 27,
+                "nids": 8.0,
+                "gmv": 14881561.0,
+                "nids_cum": 284.0,
+                "gmv_cum": 467158158.0
+              },
+              {
+                "dia": 28,
+                "nids": 1.0,
+                "gmv": 659400.0,
+                "nids_cum": 285.0,
+                "gmv_cum": 467817558.0
+              },
+              {
+                "dia": 29,
+                "nids": 14.0,
+                "gmv": 20478086.0,
+                "nids_cum": 299.0,
+                "gmv_cum": 488295644.0
+              },
+              {
+                "dia": 30,
+                "nids": 11.0,
+                "gmv": 23922456.0,
+                "nids_cum": 310.0,
+                "gmv_cum": 512218100.0
+              }
+            ]
+          },
+          "mes_yoy": {
+            "ventana": "mes_yoy",
+            "mes": "2025-07",
+            "dias_en_mes": 31,
+            "nids_total": 0.0,
+            "gmv_total": 0.0,
+            "curva": [
+              {
+                "dia": 1,
+                "nids": 5.0,
+                "gmv": 4716597.0,
+                "nids_cum": 5.0,
+                "gmv_cum": 4716597.0
+              },
+              {
+                "dia": 2,
+                "nids": 4.0,
+                "gmv": 3778945.0,
+                "nids_cum": 9.0,
+                "gmv_cum": 8495542.0
+              },
+              {
+                "dia": 3,
+                "nids": 6.0,
+                "gmv": 16579014.0,
+                "nids_cum": 15.0,
+                "gmv_cum": 25074556.0
+              },
+              {
+                "dia": 4,
+                "nids": 9.0,
+                "gmv": 15781275.0,
+                "nids_cum": 24.0,
+                "gmv_cum": 40855831.0
+              },
+              {
+                "dia": 5,
+                "nids": 2.0,
+                "gmv": 2731828.0,
+                "nids_cum": 26.0,
+                "gmv_cum": 43587659.0
+              },
+              {
+                "dia": 7,
+                "nids": 2.0,
+                "gmv": 4046796.0,
+                "nids_cum": 28.0,
+                "gmv_cum": 47634455.0
+              },
+              {
+                "dia": 8,
+                "nids": 6.0,
+                "gmv": 10907562.6,
+                "nids_cum": 34.0,
+                "gmv_cum": 58542017.6
+              },
+              {
+                "dia": 9,
+                "nids": 6.0,
+                "gmv": 6435537.0,
+                "nids_cum": 40.0,
+                "gmv_cum": 64977554.6
+              },
+              {
+                "dia": 10,
+                "nids": 13.0,
+                "gmv": 17362058.0,
+                "nids_cum": 53.0,
+                "gmv_cum": 82339612.6
+              },
+              {
+                "dia": 11,
+                "nids": 9.0,
+                "gmv": 8223504.0,
+                "nids_cum": 62.0,
+                "gmv_cum": 90563116.6
+              },
+              {
+                "dia": 14,
+                "nids": 6.0,
+                "gmv": 5699929.0,
+                "nids_cum": 68.0,
+                "gmv_cum": 96263045.6
+              },
+              {
+                "dia": 15,
+                "nids": 10.0,
+                "gmv": 17430495.0,
+                "nids_cum": 78.0,
+                "gmv_cum": 113693540.6
+              },
+              {
+                "dia": 16,
+                "nids": 10.0,
+                "gmv": 16481196.0,
+                "nids_cum": 88.0,
+                "gmv_cum": 130174736.6
+              },
+              {
+                "dia": 17,
+                "nids": 12.0,
+                "gmv": 17730592.0,
+                "nids_cum": 100.0,
+                "gmv_cum": 147905328.6
+              },
+              {
+                "dia": 18,
+                "nids": 10.0,
+                "gmv": 10886378.68,
+                "nids_cum": 110.0,
+                "gmv_cum": 158791707.28
+              },
+              {
+                "dia": 19,
+                "nids": 1.0,
+                "gmv": 3355140.0,
+                "nids_cum": 111.0,
+                "gmv_cum": 162146847.28
+              },
+              {
+                "dia": 20,
+                "nids": 1.0,
+                "gmv": 548817.0,
+                "nids_cum": 112.0,
+                "gmv_cum": 162695664.28
+              },
+              {
+                "dia": 21,
+                "nids": 8.0,
+                "gmv": 13602499.0,
+                "nids_cum": 120.0,
+                "gmv_cum": 176298163.28
+              },
+              {
+                "dia": 22,
+                "nids": 2.0,
+                "gmv": 3404795.0,
+                "nids_cum": 122.0,
+                "gmv_cum": 179702958.28
+              },
+              {
+                "dia": 23,
+                "nids": 11.0,
+                "gmv": 11852482.0,
+                "nids_cum": 133.0,
+                "gmv_cum": 191555440.28
+              },
+              {
+                "dia": 24,
+                "nids": 9.0,
+                "gmv": 9481959.0,
+                "nids_cum": 142.0,
+                "gmv_cum": 201037399.28
+              },
+              {
+                "dia": 25,
+                "nids": 8.0,
+                "gmv": 10158145.0,
+                "nids_cum": 150.0,
+                "gmv_cum": 211195544.28
+              },
+              {
+                "dia": 26,
+                "nids": 5.0,
+                "gmv": 10440874.0,
+                "nids_cum": 155.0,
+                "gmv_cum": 221636418.28
+              },
+              {
+                "dia": 28,
+                "nids": 11.0,
+                "gmv": 19039280.0,
+                "nids_cum": 166.0,
+                "gmv_cum": 240675698.28
+              },
+              {
+                "dia": 29,
+                "nids": 10.0,
+                "gmv": 12177905.0,
+                "nids_cum": 176.0,
+                "gmv_cum": 252853603.28
+              },
+              {
+                "dia": 30,
+                "nids": 14.0,
+                "gmv": 12769311.0,
+                "nids_cum": 190.0,
+                "gmv_cum": 265622914.28
+              },
+              {
+                "dia": 31,
+                "nids": 17.0,
+                "gmv": 28450878.0,
+                "nids_cum": 207.0,
+                "gmv_cum": 294073792.28
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "br_used_sales",
+      "nombre": "BR Used \u00b7 Sales",
+      "linea_negocio": "Brokerage Used",
+      "tipo": "count",
+      "bet_metrica": "03. Sales",
+      "fecha_field": "c_fecha_promesa",
+      "gmv_tipo_precio": null,
+      "granularidad": "diaria",
+      "por_pais": {
+        "Colombia": {
+          "moneda": "COP",
+          "mes_actual": {
+            "ventana": "mes_actual",
+            "mes": "2026-07",
+            "dias_en_mes": 31,
+            "nids_total": 11.0,
+            "gmv_total": 2512300000.0,
+            "curva": [
+              {
+                "dia": 1,
+                "nids": 2.0,
+                "gmv": 517000000.0,
+                "nids_cum": 2.0,
+                "gmv_cum": 517000000.0
+              },
+              {
+                "dia": 2,
+                "nids": 5.0,
+                "gmv": 1074000000.0,
+                "nids_cum": 7.0,
+                "gmv_cum": 1591000000.0
+              },
+              {
+                "dia": 3,
+                "nids": 3.0,
+                "gmv": 671300000.0,
+                "nids_cum": 10.0,
+                "gmv_cum": 2262300000.0
+              },
+              {
+                "dia": 5,
+                "nids": 1.0,
+                "gmv": 250000000.0,
+                "nids_cum": 11.0,
+                "gmv_cum": 2512300000.0
+              }
+            ],
+            "nids_budget": 108.58481085053161,
+            "gmv_budget": 22886883738.668888
+          },
+          "mes_anterior": {
+            "ventana": "mes_anterior",
+            "mes": "2026-06",
+            "dias_en_mes": 30,
+            "nids_total": 79.0,
+            "gmv_total": 18306219000.0,
+            "curva": [
+              {
+                "dia": 1,
+                "nids": 5.0,
+                "gmv": 1177000000.0,
+                "nids_cum": 5.0,
+                "gmv_cum": 1177000000.0
+              },
+              {
+                "dia": 1,
+                "nids": 1.0,
+                "gmv": 125000000.0,
+                "nids_cum": 6.0,
+                "gmv_cum": 1302000000.0
+              },
+              {
+                "dia": 1,
+                "nids": 1.0,
+                "gmv": 200000000.0,
+                "nids_cum": 7.0,
+                "gmv_cum": 1502000000.0
+              },
+              {
+                "dia": 2,
+                "nids": 3.0,
+                "gmv": 700000000.0,
+                "nids_cum": 10.0,
+                "gmv_cum": 2202000000.0
+              },
+              {
+                "dia": 3,
+                "nids": 1.0,
+                "gmv": 330000000.0,
+                "nids_cum": 11.0,
+                "gmv_cum": 2532000000.0
+              },
+              {
+                "dia": 4,
+                "nids": 1.0,
+                "gmv": 399000000.0,
+                "nids_cum": 12.0,
+                "gmv_cum": 2931000000.0
+              },
+              {
+                "dia": 5,
+                "nids": 1.0,
+                "gmv": 240219000.0,
+                "nids_cum": 13.0,
+                "gmv_cum": 3171219000.0
+              },
+              {
+                "dia": 6,
+                "nids": 1.0,
+                "gmv": 120000000.0,
+                "nids_cum": 14.0,
+                "gmv_cum": 3291219000.0
+              },
+              {
+                "dia": 6,
+                "nids": 1.0,
+                "gmv": 200000000.0,
+                "nids_cum": 15.0,
+                "gmv_cum": 3491219000.0
+              },
+              {
+                "dia": 8,
+                "nids": 5.0,
+                "gmv": 784000000.0,
+                "nids_cum": 20.0,
+                "gmv_cum": 4275219000.0
+              },
+              {
+                "dia": 9,
+                "nids": 1.0,
+                "gmv": 250000000.0,
+                "nids_cum": 21.0,
+                "gmv_cum": 4525219000.0
+              },
+              {
+                "dia": 9,
+                "nids": 4.0,
+                "gmv": 871000000.0,
+                "nids_cum": 25.0,
+                "gmv_cum": 5396219000.0
+              },
+              {
+                "dia": 10,
+                "nids": 4.0,
+                "gmv": 1075500000.0,
+                "nids_cum": 29.0,
+                "gmv_cum": 6471719000.0
+              },
+              {
+                "dia": 11,
+                "nids": 3.0,
+                "gmv": 1140000000.0,
+                "nids_cum": 32.0,
+                "gmv_cum": 7611719000.0
+              },
+              {
+                "dia": 13,
+                "nids": 1.0,
+                "gmv": 630000000.0,
+                "nids_cum": 33.0,
+                "gmv_cum": 8241719000.0
+              },
+              {
+                "dia": 14,
+                "nids": 1.0,
+                "gmv": 250000000.0,
+                "nids_cum": 34.0,
+                "gmv_cum": 8491719000.0
+              },
+              {
+                "dia": 15,
+                "nids": 3.0,
+                "gmv": 675000000.0,
+                "nids_cum": 37.0,
+                "gmv_cum": 9166719000.0
+              },
+              {
+                "dia": 16,
+                "nids": 3.0,
+                "gmv": 878000000.0,
+                "nids_cum": 40.0,
+                "gmv_cum": 10044719000.0
+              },
+              {
+                "dia": 17,
+                "nids": 7.0,
+                "gmv": 1363000000.0,
+                "nids_cum": 47.0,
+                "gmv_cum": 11407719000.0
+              },
+              {
+                "dia": 18,
+                "nids": 1.0,
+                "gmv": 165000000.0,
+                "nids_cum": 48.0,
+                "gmv_cum": 11572719000.0
+              },
+              {
+                "dia": 19,
+                "nids": 1.0,
+                "gmv": 435000000.0,
+                "nids_cum": 49.0,
+                "gmv_cum": 12007719000.0
+              },
+              {
+                "dia": 19,
+                "nids": 1.0,
+                "gmv": 160000000.0,
+                "nids_cum": 50.0,
+                "gmv_cum": 12167719000.0
+              },
+              {
+                "dia": 19,
+                "nids": 2.0,
+                "gmv": 273000000.0,
+                "nids_cum": 52.0,
+                "gmv_cum": 12440719000.0
+              },
+              {
+                "dia": 20,
+                "nids": 1.0,
+                "gmv": 215000000.0,
+                "nids_cum": 53.0,
+                "gmv_cum": 12655719000.0
+              },
+              {
+                "dia": 20,
+                "nids": 1.0,
+                "gmv": 170000000.0,
+                "nids_cum": 54.0,
+                "gmv_cum": 12825719000.0
+              },
+              {
+                "dia": 21,
+                "nids": 3.0,
+                "gmv": 554000000.0,
+                "nids_cum": 57.0,
+                "gmv_cum": 13379719000.0
+              },
+              {
+                "dia": 23,
+                "nids": 1.0,
+                "gmv": 242000000.0,
+                "nids_cum": 58.0,
+                "gmv_cum": 13621719000.0
+              },
+              {
+                "dia": 23,
+                "nids": 4.0,
+                "gmv": 918000000.0,
+                "nids_cum": 62.0,
+                "gmv_cum": 14539719000.0
+              },
+              {
+                "dia": 24,
+                "nids": 2.0,
+                "gmv": 283000000.0,
+                "nids_cum": 64.0,
+                "gmv_cum": 14822719000.0
+              },
+              {
+                "dia": 25,
+                "nids": 4.0,
+                "gmv": 1128000000.0,
+                "nids_cum": 68.0,
+                "gmv_cum": 15950719000.0
+              },
+              {
+                "dia": 27,
+                "nids": 1.0,
+                "gmv": 272000000.0,
+                "nids_cum": 69.0,
+                "gmv_cum": 16222719000.0
+              },
+              {
+                "dia": 27,
+                "nids": 1.0,
+                "gmv": 205000000.0,
+                "nids_cum": 70.0,
+                "gmv_cum": 16427719000.0
+              },
+              {
+                "dia": 27,
+                "nids": 1.0,
+                "gmv": 129000000.0,
+                "nids_cum": 71.0,
+                "gmv_cum": 16556719000.0
+              },
+              {
+                "dia": 28,
+                "nids": 1.0,
+                "gmv": 170000000.0,
+                "nids_cum": 72.0,
+                "gmv_cum": 16726719000.0
+              },
+              {
+                "dia": 29,
+                "nids": 5.0,
+                "gmv": 1225500000.0,
+                "nids_cum": 77.0,
+                "gmv_cum": 17952219000.0
+              }
+            ]
+          },
+          "mes_yoy": {
+            "ventana": "mes_yoy",
+            "mes": "2025-07",
+            "dias_en_mes": 31,
+            "nids_total": 59.0,
+            "gmv_total": 9451886733.0,
+            "curva": [
+              {
+                "dia": 2,
+                "nids": 3.0,
+                "gmv": 748400000.0,
+                "nids_cum": 3.0,
+                "gmv_cum": 748400000.0
+              },
+              {
+                "dia": 3,
+                "nids": 1.0,
+                "gmv": 187500000.0,
+                "nids_cum": 4.0,
+                "gmv_cum": 935900000.0
+              },
+              {
+                "dia": 4,
+                "nids": 2.0,
+                "gmv": 318000000.0,
+                "nids_cum": 6.0,
+                "gmv_cum": 1253900000.0
+              },
+              {
+                "dia": 6,
+                "nids": 2.0,
+                "gmv": 263000000.0,
+                "nids_cum": 8.0,
+                "gmv_cum": 1516900000.0
+              },
+              {
+                "dia": 8,
+                "nids": 1.0,
+                "gmv": 149000000.0,
+                "nids_cum": 9.0,
+                "gmv_cum": 1665900000.0
+              },
+              {
+                "dia": 8,
+                "nids": 3.0,
+                "gmv": 757000000.0,
+                "nids_cum": 12.0,
+                "gmv_cum": 2422900000.0
+              },
+              {
+                "dia": 9,
+                "nids": 1.0,
+                "gmv": 259047000.0,
+                "nids_cum": 13.0,
+                "gmv_cum": 2681947000.0
+              },
+              {
+                "dia": 9,
+                "nids": 1.0,
+                "gmv": 115000000.0,
+                "nids_cum": 14.0,
+                "gmv_cum": 2796947000.0
+              },
+              {
+                "dia": 11,
+                "nids": 1.0,
+                "gmv": 111500000.0,
+                "nids_cum": 15.0,
+                "gmv_cum": 2908447000.0
+              },
+              {
+                "dia": 11,
+                "nids": 1.0,
+                "gmv": 135000000.0,
+                "nids_cum": 16.0,
+                "gmv_cum": 3043447000.0
+              },
+              {
+                "dia": 13,
+                "nids": 1.0,
+                "gmv": 173000000.0,
+                "nids_cum": 17.0,
+                "gmv_cum": 3216447000.0
+              },
+              {
+                "dia": 15,
+                "nids": 1.0,
+                "gmv": 113600000.0,
+                "nids_cum": 18.0,
+                "gmv_cum": 3330047000.0
+              },
+              {
+                "dia": 15,
+                "nids": 1.0,
+                "gmv": 121000000.0,
+                "nids_cum": 19.0,
+                "gmv_cum": 3451047000.0
+              },
+              {
+                "dia": 16,
+                "nids": 1.0,
+                "gmv": 115000000.0,
+                "nids_cum": 20.0,
+                "gmv_cum": 3566047000.0
+              },
+              {
+                "dia": 17,
+                "nids": 1.0,
+                "gmv": 142000000.0,
+                "nids_cum": 21.0,
+                "gmv_cum": 3708047000.0
+              },
+              {
+                "dia": 18,
+                "nids": 1.0,
+                "gmv": 100000000.0,
+                "nids_cum": 22.0,
+                "gmv_cum": 3808047000.0
+              },
+              {
+                "dia": 19,
+                "nids": 1.0,
+                "gmv": 158000000.0,
+                "nids_cum": 23.0,
+                "gmv_cum": 3966047000.0
+              },
+              {
+                "dia": 20,
+                "nids": 1.0,
+                "gmv": 175000000.0,
+                "nids_cum": 24.0,
+                "gmv_cum": 4141047000.0
+              },
+              {
+                "dia": 21,
+                "nids": 1.0,
+                "gmv": 157000000.0,
+                "nids_cum": 25.0,
+                "gmv_cum": 4298047000.0
+              },
+              {
+                "dia": 21,
+                "nids": 2.0,
+                "gmv": 239419733.0,
+                "nids_cum": 27.0,
+                "gmv_cum": 4537466733.0
+              },
+              {
+                "dia": 22,
+                "nids": 5.0,
+                "gmv": 932000000.0,
+                "nids_cum": 32.0,
+                "gmv_cum": 5469466733.0
+              },
+              {
+                "dia": 23,
+                "nids": 3.0,
+                "gmv": 476920000.0,
+                "nids_cum": 35.0,
+                "gmv_cum": 5946386733.0
+              },
+              {
+                "dia": 24,
+                "nids": 4.0,
+                "gmv": 938000000.0,
+                "nids_cum": 39.0,
+                "gmv_cum": 6884386733.0
+              },
+              {
+                "dia": 25,
+                "nids": 1.0,
+                "gmv": 185000000.0,
+                "nids_cum": 40.0,
+                "gmv_cum": 7069386733.0
+              },
+              {
+                "dia": 27,
+                "nids": 3.0,
+                "gmv": 440000000.0,
+                "nids_cum": 43.0,
+                "gmv_cum": 7509386733.0
+              },
+              {
+                "dia": 28,
+                "nids": 1.0,
+                "gmv": 440000000.0,
+                "nids_cum": 44.0,
+                "gmv_cum": 7949386733.0
+              },
+              {
+                "dia": 28,
+                "nids": 1.0,
+                "gmv": 140000000.0,
+                "nids_cum": 45.0,
+                "gmv_cum": 8089386733.0
+              },
+              {
+                "dia": 28,
+                "nids": 4.0,
+                "gmv": 764000000.0,
+                "nids_cum": 49.0,
+                "gmv_cum": 8853386733.0
+              },
+              {
+                "dia": 29,
+                "nids": 2.0,
+                "gmv": 350000000.0,
+                "nids_cum": 51.0,
+                "gmv_cum": 9203386733.0
+              },
+              {
+                "dia": 30,
+                "nids": 5.0,
+                "gmv": 793500000.0,
+                "nids_cum": 56.0,
+                "gmv_cum": 9996886733.0
+              },
+              {
+                "dia": 30,
+                "nids": 1.0,
+                "gmv": 110000000.0,
+                "nids_cum": 57.0,
+                "gmv_cum": 10106886733.0
+              },
+              {
+                "dia": 31,
+                "nids": 1.0,
+                "gmv": 110000000.0,
+                "nids_cum": 58.0,
+                "gmv_cum": 10216886733.0
+              }
+            ]
+          }
+        },
+        "Mexico": {
+          "moneda": "MXN",
+          "mes_actual": {
+            "ventana": "mes_actual",
+            "mes": "2026-07",
+            "dias_en_mes": 31,
+            "nids_total": 0.0,
+            "gmv_total": 0.0,
+            "curva": [
+              {
+                "dia": 3,
+                "nids": 1.0,
+                "gmv": 1191082.0,
+                "nids_cum": 1.0,
+                "gmv_cum": 1191082.0
+              },
+              {
+                "dia": 3,
+                "nids": 1.0,
+                "gmv": 1300000.0,
+                "nids_cum": 2.0,
+                "gmv_cum": 2491082.0
+              },
+              {
+                "dia": 3,
+                "nids": 1.0,
+                "gmv": 722000.0,
+                "nids_cum": 3.0,
+                "gmv_cum": 3213082.0
+              },
+              {
+                "dia": 3,
+                "nids": 1.0,
+                "gmv": 717000.0,
+                "nids_cum": 4.0,
+                "gmv_cum": 3930082.0
+              },
+              {
+                "dia": 3,
+                "nids": 1.0,
+                "gmv": 1038000.0,
+                "nids_cum": 5.0,
+                "gmv_cum": 4968082.0
+              },
+              {
+                "dia": 3,
+                "nids": 1.0,
+                "gmv": 1287000.0,
+                "nids_cum": 6.0,
+                "gmv_cum": 6255082.0
+              }
+            ],
+            "nids_budget": 0.0,
+            "gmv_budget": 0.0
+          },
+          "mes_anterior": {
+            "ventana": "mes_anterior",
+            "mes": "2026-06",
+            "dias_en_mes": 30,
+            "nids_total": 0.0,
+            "gmv_total": 0.0,
+            "curva": [
+              {
+                "dia": 2,
+                "nids": 2.0,
+                "gmv": 3614000.0,
+                "nids_cum": 2.0,
+                "gmv_cum": 3614000.0
+              },
+              {
+                "dia": 2,
+                "nids": 1.0,
+                "gmv": 750000.0,
+                "nids_cum": 3.0,
+                "gmv_cum": 4364000.0
+              },
+              {
+                "dia": 2,
+                "nids": 1.0,
+                "gmv": 2026944.0,
+                "nids_cum": 4.0,
+                "gmv_cum": 6390944.0
+              },
+              {
+                "dia": 3,
+                "nids": 1.0,
+                "gmv": 801000.0,
+                "nids_cum": 5.0,
+                "gmv_cum": 7191944.0
+              },
+              {
+                "dia": 3,
+                "nids": 1.0,
+                "gmv": 1267000.0,
+                "nids_cum": 6.0,
+                "gmv_cum": 8458944.0
+              },
+              {
+                "dia": 3,
+                "nids": 1.0,
+                "gmv": 1340000.0,
+                "nids_cum": 7.0,
+                "gmv_cum": 9798944.0
+              },
+              {
+                "dia": 3,
+                "nids": 1.0,
+                "gmv": 1100000.0,
+                "nids_cum": 8.0,
+                "gmv_cum": 10898944.0
+              },
+              {
+                "dia": 3,
+                "nids": 1.0,
+                "gmv": 1598000.0,
+                "nids_cum": 9.0,
+                "gmv_cum": 12496944.0
+              },
+              {
+                "dia": 3,
+                "nids": 1.0,
+                "gmv": 872000.0,
+                "nids_cum": 10.0,
+                "gmv_cum": 13368944.0
+              },
+              {
+                "dia": 4,
+                "nids": 3.0,
+                "gmv": 3510000.0,
+                "nids_cum": 13.0,
+                "gmv_cum": 16878944.0
+              },
+              {
+                "dia": 4,
+                "nids": 1.0,
+                "gmv": 1725000.0,
+                "nids_cum": 14.0,
+                "gmv_cum": 18603944.0
+              },
+              {
+                "dia": 4,
+                "nids": 1.0,
+                "gmv": 736000.0,
+                "nids_cum": 15.0,
+                "gmv_cum": 19339944.0
+              },
+              {
+                "dia": 4,
+                "nids": 1.0,
+                "gmv": 1417000.0,
+                "nids_cum": 16.0,
+                "gmv_cum": 20756944.0
+              },
+              {
+                "dia": 4,
+                "nids": 1.0,
+                "gmv": 816000.0,
+                "nids_cum": 17.0,
+                "gmv_cum": 21572944.0
+              },
+              {
+                "dia": 4,
+                "nids": 1.0,
+                "gmv": 570000.0,
+                "nids_cum": 18.0,
+                "gmv_cum": 22142944.0
+              },
+              {
+                "dia": 5,
+                "nids": 1.0,
+                "gmv": 702000.0,
+                "nids_cum": 19.0,
+                "gmv_cum": 22844944.0
+              },
+              {
+                "dia": 5,
+                "nids": 1.0,
+                "gmv": 1091000.0,
+                "nids_cum": 20.0,
+                "gmv_cum": 23935944.0
+              },
+              {
+                "dia": 5,
+                "nids": 1.0,
+                "gmv": 3240000.0,
+                "nids_cum": 21.0,
+                "gmv_cum": 27175944.0
+              },
+              {
+                "dia": 5,
+                "nids": 1.0,
+                "gmv": 866242.0,
+                "nids_cum": 22.0,
+                "gmv_cum": 28042186.0
+              },
+              {
+                "dia": 5,
+                "nids": 1.0,
+                "gmv": 1227000.0,
+                "nids_cum": 23.0,
+                "gmv_cum": 29269186.0
+              },
+              {
+                "dia": 5,
+                "nids": 1.0,
+                "gmv": 1050000.0,
+                "nids_cum": 24.0,
+                "gmv_cum": 30319186.0
+              },
+              {
+                "dia": 8,
+                "nids": 3.0,
+                "gmv": 4629000.0,
+                "nids_cum": 27.0,
+                "gmv_cum": 34948186.0
+              },
+              {
+                "dia": 8,
+                "nids": 1.0,
+                "gmv": 705000.0,
+                "nids_cum": 28.0,
+                "gmv_cum": 35653186.0
+              },
+              {
+                "dia": 8,
+                "nids": 1.0,
+                "gmv": 973000.0,
+                "nids_cum": 29.0,
+                "gmv_cum": 36626186.0
+              },
+              {
+                "dia": 8,
+                "nids": 2.0,
+                "gmv": 1990000.0,
+                "nids_cum": 31.0,
+                "gmv_cum": 38616186.0
+              },
+              {
+                "dia": 8,
+                "nids": 1.0,
+                "gmv": 1157000.0,
+                "nids_cum": 32.0,
+                "gmv_cum": 39773186.0
+              },
+              {
+                "dia": 9,
+                "nids": 1.0,
+                "gmv": 649200.0,
+                "nids_cum": 33.0,
+                "gmv_cum": 40422386.0
+              },
+              {
+                "dia": 9,
+                "nids": 1.0,
+                "gmv": 1900000.0,
+                "nids_cum": 34.0,
+                "gmv_cum": 42322386.0
+              },
+              {
+                "dia": 9,
+                "nids": 1.0,
+                "gmv": 2652865.0,
+                "nids_cum": 35.0,
+                "gmv_cum": 44975251.0
+              },
+              {
+                "dia": 11,
+                "nids": 1.0,
+                "gmv": 720000.0,
+                "nids_cum": 36.0,
+                "gmv_cum": 45695251.0
+              },
+              {
+                "dia": 11,
+                "nids": 1.0,
+                "gmv": 1165500.0,
+                "nids_cum": 37.0,
+                "gmv_cum": 46860751.0
+              },
+              {
+                "dia": 11,
+                "nids": 1.0,
+                "gmv": 623000.0,
+                "nids_cum": 38.0,
+                "gmv_cum": 47483751.0
+              },
+              {
+                "dia": 11,
+                "nids": 1.0,
+                "gmv": 702000.0,
+                "nids_cum": 39.0,
+                "gmv_cum": 48185751.0
+              },
+              {
+                "dia": 11,
+                "nids": 1.0,
+                "gmv": 886000.0,
+                "nids_cum": 40.0,
+                "gmv_cum": 49071751.0
+              },
+              {
+                "dia": 12,
+                "nids": 1.0,
+                "gmv": 1091000.0,
+                "nids_cum": 41.0,
+                "gmv_cum": 50162751.0
+              },
+              {
+                "dia": 12,
+                "nids": 1.0,
+                "gmv": 2790000.0,
+                "nids_cum": 42.0,
+                "gmv_cum": 52952751.0
+              },
+              {
+                "dia": 12,
+                "nids": 1.0,
+                "gmv": 2040000.0,
+                "nids_cum": 43.0,
+                "gmv_cum": 54992751.0
+              },
+              {
+                "dia": 12,
+                "nids": 1.0,
+                "gmv": 682500.0,
+                "nids_cum": 44.0,
+                "gmv_cum": 55675251.0
+              },
+              {
+                "dia": 12,
+                "nids": 1.0,
+                "gmv": 824000.0,
+                "nids_cum": 45.0,
+                "gmv_cum": 56499251.0
+              },
+              {
+                "dia": 12,
+                "nids": 1.0,
+                "gmv": 744000.0,
+                "nids_cum": 46.0,
+                "gmv_cum": 57243251.0
+              },
+              {
+                "dia": 15,
+                "nids": 2.0,
+                "gmv": 1534000.0,
+                "nids_cum": 48.0,
+                "gmv_cum": 58777251.0
+              },
+              {
+                "dia": 15,
+                "nids": 1.0,
+                "gmv": 850000.0,
+                "nids_cum": 49.0,
+                "gmv_cum": 59627251.0
+              },
+              {
+                "dia": 15,
+                "nids": 1.0,
+                "gmv": 850000.0,
+                "nids_cum": 50.0,
+                "gmv_cum": 60477251.0
+              },
+              {
+                "dia": 15,
+                "nids": 1.0,
+                "gmv": 1267000.0,
+                "nids_cum": 51.0,
+                "gmv_cum": 61744251.0
+              },
+              {
+                "dia": 15,
+                "nids": 1.0,
+                "gmv": 1053000.0,
+                "nids_cum": 52.0,
+                "gmv_cum": 62797251.0
+              },
+              {
+                "dia": 15,
+                "nids": 1.0,
+                "gmv": 1340000.0,
+                "nids_cum": 53.0,
+                "gmv_cum": 64137251.0
+              },
+              {
+                "dia": 15,
+                "nids": 2.0,
+                "gmv": 2280000.0,
+                "nids_cum": 55.0,
+                "gmv_cum": 66417251.0
+              },
+              {
+                "dia": 15,
+                "nids": 1.0,
+                "gmv": 689000.0,
+                "nids_cum": 56.0,
+                "gmv_cum": 67106251.0
+              },
+              {
+                "dia": 16,
+                "nids": 1.0,
+                "gmv": 645000.0,
+                "nids_cum": 57.0,
+                "gmv_cum": 67751251.0
+              },
+              {
+                "dia": 16,
+                "nids": 1.0,
+                "gmv": 1191082.0,
+                "nids_cum": 58.0,
+                "gmv_cum": 68942333.0
+              },
+              {
+                "dia": 16,
+                "nids": 1.0,
+                "gmv": 1400000.0,
+                "nids_cum": 59.0,
+                "gmv_cum": 70342333.0
+              },
+              {
+                "dia": 16,
+                "nids": 1.0,
+                "gmv": 1157000.0,
+                "nids_cum": 60.0,
+                "gmv_cum": 71499333.0
+              },
+              {
+                "dia": 16,
+                "nids": 1.0,
+                "gmv": 1340000.0,
+                "nids_cum": 61.0,
+                "gmv_cum": 72839333.0
+              },
+              {
+                "dia": 17,
+                "nids": 1.0,
+                "gmv": 872000.0,
+                "nids_cum": 62.0,
+                "gmv_cum": 73711333.0
+              },
+              {
+                "dia": 17,
+                "nids": 1.0,
+                "gmv": 1310000.0,
+                "nids_cum": 63.0,
+                "gmv_cum": 75021333.0
+              },
+              {
+                "dia": 17,
+                "nids": 1.0,
+                "gmv": 904000.0,
+                "nids_cum": 64.0,
+                "gmv_cum": 75925333.0
+              },
+              {
+                "dia": 18,
+                "nids": 1.0,
+                "gmv": 813000.0,
+                "nids_cum": 65.0,
+                "gmv_cum": 76738333.0
+              },
+              {
+                "dia": 18,
+                "nids": 1.0,
+                "gmv": 2160000.0,
+                "nids_cum": 66.0,
+                "gmv_cum": 78898333.0
+              },
+              {
+                "dia": 19,
+                "nids": 1.0,
+                "gmv": 992000.0,
+                "nids_cum": 67.0,
+                "gmv_cum": 79890333.0
+              },
+              {
+                "dia": 19,
+                "nids": 1.0,
+                "gmv": 669000.0,
+                "nids_cum": 68.0,
+                "gmv_cum": 80559333.0
+              },
+              {
+                "dia": 23,
+                "nids": 2.0,
+                "gmv": 8500000.0,
+                "nids_cum": 70.0,
+                "gmv_cum": 89059333.0
+              },
+              {
+                "dia": 23,
+                "nids": 1.0,
+                "gmv": 750000.0,
+                "nids_cum": 71.0,
+                "gmv_cum": 89809333.0
+              },
+              {
+                "dia": 23,
+                "nids": 1.0,
+                "gmv": 2000000.0,
+                "nids_cum": 72.0,
+                "gmv_cum": 91809333.0
+              },
+              {
+                "dia": 24,
+                "nids": 1.0,
+                "gmv": 1130000.0,
+                "nids_cum": 73.0,
+                "gmv_cum": 92939333.0
+              },
+              {
+                "dia": 24,
+                "nids": 1.0,
+                "gmv": 813000.0,
+                "nids_cum": 74.0,
+                "gmv_cum": 93752333.0
+              },
+              {
+                "dia": 24,
+                "nids": 2.0,
+                "gmv": 1460000.0,
+                "nids_cum": 76.0,
+                "gmv_cum": 95212333.0
+              },
+              {
+                "dia": 24,
+                "nids": 1.0,
+                "gmv": 737000.0,
+                "nids_cum": 77.0,
+                "gmv_cum": 95949333.0
+              },
+              {
+                "dia": 24,
+                "nids": 1.0,
+                "gmv": 2800500.0,
+                "nids_cum": 78.0,
+                "gmv_cum": 98749833.0
+              },
+              {
+                "dia": 24,
+                "nids": 1.0,
+                "gmv": 1170000.0,
+                "nids_cum": 79.0,
+                "gmv_cum": 99919833.0
+              },
+              {
+                "dia": 25,
+                "nids": 3.0,
+                "gmv": 3045600.0,
+                "nids_cum": 82.0,
+                "gmv_cum": 102965433.0
+              },
+              {
+                "dia": 25,
+                "nids": 1.0,
+                "gmv": 1410000.0,
+                "nids_cum": 83.0,
+                "gmv_cum": 104375433.0
+              },
+              {
+                "dia": 25,
+                "nids": 1.0,
+                "gmv": 898875.0,
+                "nids_cum": 84.0,
+                "gmv_cum": 105274308.0
+              },
+              {
+                "dia": 25,
+                "nids": 1.0,
+                "gmv": 1397000.0,
+                "nids_cum": 85.0,
+                "gmv_cum": 106671308.0
+              },
+              {
+                "dia": 26,
+                "nids": 1.0,
+                "gmv": 1267000.0,
+                "nids_cum": 86.0,
+                "gmv_cum": 107938308.0
+              },
+              {
+                "dia": 26,
+                "nids": 1.0,
+                "gmv": 1100000.0,
+                "nids_cum": 87.0,
+                "gmv_cum": 109038308.0
+              },
+              {
+                "dia": 26,
+                "nids": 1.0,
+                "gmv": 1488000.0,
+                "nids_cum": 88.0,
+                "gmv_cum": 110526308.0
+              },
+              {
+                "dia": 26,
+                "nids": 1.0,
+                "gmv": 1228000.0,
+                "nids_cum": 89.0,
+                "gmv_cum": 111754308.0
+              },
+              {
+                "dia": 29,
+                "nids": 3.0,
+                "gmv": 4629000.0,
+                "nids_cum": 92.0,
+                "gmv_cum": 116383308.0
+              },
+              {
+                "dia": 29,
+                "nids": 1.0,
+                "gmv": 826200.0,
+                "nids_cum": 93.0,
+                "gmv_cum": 117209508.0
+              },
+              {
+                "dia": 29,
+                "nids": 1.0,
+                "gmv": 2800000.0,
+                "nids_cum": 94.0,
+                "gmv_cum": 120009508.0
+              },
+              {
+                "dia": 29,
+                "nids": 1.0,
+                "gmv": 920381.0,
+                "nids_cum": 95.0,
+                "gmv_cum": 120929889.0
+              },
+              {
+                "dia": 29,
+                "nids": 1.0,
+                "gmv": 904000.0,
+                "nids_cum": 96.0,
+                "gmv_cum": 121833889.0
+              },
+              {
+                "dia": 29,
+                "nids": 3.0,
+                "gmv": 4080000.0,
+                "nids_cum": 99.0,
+                "gmv_cum": 125913889.0
+              },
+              {
+                "dia": 29,
+                "nids": 1.0,
+                "gmv": 1027000.0,
+                "nids_cum": 100.0,
+                "gmv_cum": 126940889.0
+              },
+              {
+                "dia": 29,
+                "nids": 1.0,
+                "gmv": 1880000.0,
+                "nids_cum": 101.0,
+                "gmv_cum": 128820889.0
+              },
+              {
+                "dia": 29,
+                "nids": 1.0,
+                "gmv": 480000.0,
+                "nids_cum": 102.0,
+                "gmv_cum": 129300889.0
+              }
+            ]
+          },
+          "mes_yoy": {
+            "ventana": "mes_yoy",
+            "mes": "2025-07",
+            "dias_en_mes": 31,
+            "nids_total": 0.0,
+            "gmv_total": 0.0,
+            "curva": [
+              {
+                "dia": 2,
+                "nids": 1.0,
+                "gmv": 535000.0,
+                "nids_cum": 1.0,
+                "gmv_cum": 535000.0
+              },
+              {
+                "dia": 7,
+                "nids": 1.0,
+                "gmv": 1129000.0,
+                "nids_cum": 2.0,
+                "gmv_cum": 1664000.0
+              },
+              {
+                "dia": 9,
+                "nids": 1.0,
+                "gmv": 722000.0,
+                "nids_cum": 3.0,
+                "gmv_cum": 2386000.0
+              },
+              {
+                "dia": 9,
+                "nids": 1.0,
+                "gmv": 970000.0,
+                "nids_cum": 4.0,
+                "gmv_cum": 3356000.0
+              },
+              {
+                "dia": 10,
+                "nids": 1.0,
+                "gmv": 423000.0,
+                "nids_cum": 5.0,
+                "gmv_cum": 3779000.0
+              },
+              {
+                "dia": 10,
+                "nids": 1.0,
+                "gmv": 1251000.0,
+                "nids_cum": 6.0,
+                "gmv_cum": 5030000.0
+              },
+              {
+                "dia": 11,
+                "nids": 1.0,
+                "gmv": 1300000.0,
+                "nids_cum": 7.0,
+                "gmv_cum": 6330000.0
+              },
+              {
+                "dia": 11,
+                "nids": 1.0,
+                "gmv": 987000.0,
+                "nids_cum": 8.0,
+                "gmv_cum": 7317000.0
+              },
+              {
+                "dia": 14,
+                "nids": 1.0,
+                "gmv": 1411000.0,
+                "nids_cum": 9.0,
+                "gmv_cum": 8728000.0
+              },
+              {
+                "dia": 16,
+                "nids": 1.0,
+                "gmv": 600000.0,
+                "nids_cum": 10.0,
+                "gmv_cum": 9328000.0
+              },
+              {
+                "dia": 17,
+                "nids": 1.0,
+                "gmv": 650000.0,
+                "nids_cum": 11.0,
+                "gmv_cum": 9978000.0
+              },
+              {
+                "dia": 18,
+                "nids": 1.0,
+                "gmv": 591000.0,
+                "nids_cum": 12.0,
+                "gmv_cum": 10569000.0
+              },
+              {
+                "dia": 21,
+                "nids": 1.0,
+                "gmv": 578000.0,
+                "nids_cum": 13.0,
+                "gmv_cum": 11147000.0
+              },
+              {
+                "dia": 21,
+                "nids": 1.0,
+                "gmv": 575000.0,
+                "nids_cum": 14.0,
+                "gmv_cum": 11722000.0
+              },
+              {
+                "dia": 22,
+                "nids": 1.0,
+                "gmv": 671000.0,
+                "nids_cum": 15.0,
+                "gmv_cum": 12393000.0
+              },
+              {
+                "dia": 24,
+                "nids": 1.0,
+                "gmv": 727000.0,
+                "nids_cum": 16.0,
+                "gmv_cum": 13120000.0
+              },
+              {
+                "dia": 28,
+                "nids": 1.0,
+                "gmv": 830000.0,
+                "nids_cum": 17.0,
+                "gmv_cum": 13950000.0
+              },
+              {
+                "dia": 28,
+                "nids": 1.0,
+                "gmv": 830000.0,
+                "nids_cum": 18.0,
+                "gmv_cum": 14780000.0
+              },
+              {
+                "dia": 29,
+                "nids": 1.0,
+                "gmv": 1261000.0,
+                "nids_cum": 19.0,
+                "gmv_cum": 16041000.0
+              },
+              {
+                "dia": 29,
+                "nids": 1.0,
+                "gmv": 816000.0,
+                "nids_cum": 20.0,
+                "gmv_cum": 16857000.0
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "br_used_deeds",
+      "nombre": "BR Used \u00b7 Deeds (escrituras)",
+      "linea_negocio": "Brokerage Used",
+      "tipo": "count",
+      "bet_metrica": "05. Deeds",
+      "fecha_field": "c_fecha_escritura",
+      "gmv_tipo_precio": null,
+      "granularidad": "diaria",
+      "por_pais": {
+        "Colombia": {
+          "moneda": "COP",
+          "mes_actual": {
+            "ventana": "mes_actual",
+            "mes": "2026-07",
+            "dias_en_mes": 31,
+            "nids_total": 6.0,
+            "gmv_total": 1460000000.0,
+            "curva": [
+              {
+                "dia": 1,
+                "nids": 1.0,
+                "gmv": 160000000.0,
+                "nids_cum": 1.0,
+                "gmv_cum": 160000000.0
+              },
+              {
+                "dia": 2,
+                "nids": 1.0,
+                "gmv": 318000000.0,
+                "nids_cum": 2.0,
+                "gmv_cum": 478000000.0
+              },
+              {
+                "dia": 3,
+                "nids": 4.0,
+                "gmv": 982000000.0,
+                "nids_cum": 6.0,
+                "gmv_cum": 1460000000.0
+              }
+            ],
+            "nids_budget": 82.82080775118884,
+            "gmv_budget": 17456494912.104237
+          },
+          "mes_anterior": {
+            "ventana": "mes_anterior",
+            "mes": "2026-06",
+            "dias_en_mes": 30,
+            "nids_total": 67.0,
+            "gmv_total": 15177769000.0,
+            "curva": [
+              {
+                "dia": 2,
+                "nids": 2.0,
+                "gmv": 323600000.0,
+                "nids_cum": 2.0,
+                "gmv_cum": 323600000.0
+              },
+              {
+                "dia": 4,
+                "nids": 5.0,
+                "gmv": 904000000.0,
+                "nids_cum": 7.0,
+                "gmv_cum": 1227600000.0
+              },
+              {
+                "dia": 5,
+                "nids": 2.0,
+                "gmv": 339500000.0,
+                "nids_cum": 9.0,
+                "gmv_cum": 1567100000.0
+              },
+              {
+                "dia": 9,
+                "nids": 3.0,
+                "gmv": 985000000.0,
+                "nids_cum": 12.0,
+                "gmv_cum": 2552100000.0
+              },
+              {
+                "dia": 10,
+                "nids": 1.0,
+                "gmv": 180000000.0,
+                "nids_cum": 13.0,
+                "gmv_cum": 2732100000.0
+              },
+              {
+                "dia": 11,
+                "nids": 2.0,
+                "gmv": 613000000.0,
+                "nids_cum": 15.0,
+                "gmv_cum": 3345100000.0
+              },
+              {
+                "dia": 12,
+                "nids": 5.0,
+                "gmv": 1037500000.0,
+                "nids_cum": 20.0,
+                "gmv_cum": 4382600000.0
+              },
+              {
+                "dia": 16,
+                "nids": 1.0,
+                "gmv": 155000000.0,
+                "nids_cum": 21.0,
+                "gmv_cum": 4537600000.0
+              },
+              {
+                "dia": 17,
+                "nids": 1.0,
+                "gmv": 195000000.0,
+                "nids_cum": 22.0,
+                "gmv_cum": 4732600000.0
+              },
+              {
+                "dia": 18,
+                "nids": 2.0,
+                "gmv": 600000000.0,
+                "nids_cum": 24.0,
+                "gmv_cum": 5332600000.0
+              },
+              {
+                "dia": 19,
+                "nids": 8.0,
+                "gmv": 1578150000.0,
+                "nids_cum": 32.0,
+                "gmv_cum": 6910750000.0
+              },
+              {
+                "dia": 20,
+                "nids": 1.0,
+                "gmv": 189000000.0,
+                "nids_cum": 33.0,
+                "gmv_cum": 7099750000.0
+              },
+              {
+                "dia": 22,
+                "nids": 3.0,
+                "gmv": 713000000.0,
+                "nids_cum": 36.0,
+                "gmv_cum": 7812750000.0
+              },
+              {
+                "dia": 23,
+                "nids": 3.0,
+                "gmv": 825000000.0,
+                "nids_cum": 39.0,
+                "gmv_cum": 8637750000.0
+              },
+              {
+                "dia": 24,
+                "nids": 3.0,
+                "gmv": 497000000.0,
+                "nids_cum": 42.0,
+                "gmv_cum": 9134750000.0
+              },
+              {
+                "dia": 25,
+                "nids": 7.0,
+                "gmv": 1433000000.0,
+                "nids_cum": 49.0,
+                "gmv_cum": 10567750000.0
+              },
+              {
+                "dia": 26,
+                "nids": 4.0,
+                "gmv": 1014000000.0,
+                "nids_cum": 53.0,
+                "gmv_cum": 11581750000.0
+              },
+              {
+                "dia": 27,
+                "nids": 1.0,
+                "gmv": 135019000.0,
+                "nids_cum": 54.0,
+                "gmv_cum": 11716769000.0
+              },
+              {
+                "dia": 30,
+                "nids": 13.0,
+                "gmv": 3461000000.0,
+                "nids_cum": 67.0,
+                "gmv_cum": 15177769000.0
+              }
+            ]
+          },
+          "mes_yoy": {
+            "ventana": "mes_yoy",
+            "mes": "2025-07",
+            "dias_en_mes": 31,
+            "nids_total": 59.0,
+            "gmv_total": 12552835979.0,
+            "curva": [
+              {
+                "dia": 1,
+                "nids": 3.0,
+                "gmv": 530000000.0,
+                "nids_cum": 3.0,
+                "gmv_cum": 530000000.0
+              },
+              {
+                "dia": 2,
+                "nids": 2.0,
+                "gmv": 625000000.0,
+                "nids_cum": 5.0,
+                "gmv_cum": 1155000000.0
+              },
+              {
+                "dia": 4,
+                "nids": 2.0,
+                "gmv": 313000000.0,
+                "nids_cum": 7.0,
+                "gmv_cum": 1468000000.0
+              },
+              {
+                "dia": 5,
+                "nids": 1.0,
+                "gmv": 195000000.0,
+                "nids_cum": 8.0,
+                "gmv_cum": 1663000000.0
+              },
+              {
+                "dia": 7,
+                "nids": 3.0,
+                "gmv": 546835979.0,
+                "nids_cum": 11.0,
+                "gmv_cum": 2209835979.0
+              },
+              {
+                "dia": 9,
+                "nids": 2.0,
+                "gmv": 260000000.0,
+                "nids_cum": 13.0,
+                "gmv_cum": 2469835979.0
+              },
+              {
+                "dia": 11,
+                "nids": 2.0,
+                "gmv": 278000000.0,
+                "nids_cum": 15.0,
+                "gmv_cum": 2747835979.0
+              },
+              {
+                "dia": 12,
+                "nids": 2.0,
+                "gmv": 510000000.0,
+                "nids_cum": 17.0,
+                "gmv_cum": 3257835979.0
+              },
+              {
+                "dia": 14,
+                "nids": 3.0,
+                "gmv": 468000000.0,
+                "nids_cum": 20.0,
+                "gmv_cum": 3725835979.0
+              },
+              {
+                "dia": 15,
+                "nids": 2.0,
+                "gmv": 769000000.0,
+                "nids_cum": 22.0,
+                "gmv_cum": 4494835979.0
+              },
+              {
+                "dia": 16,
+                "nids": 2.0,
+                "gmv": 463000000.0,
+                "nids_cum": 24.0,
+                "gmv_cum": 4957835979.0
+              },
+              {
+                "dia": 17,
+                "nids": 5.0,
+                "gmv": 957000000.0,
+                "nids_cum": 29.0,
+                "gmv_cum": 5914835979.0
+              },
+              {
+                "dia": 18,
+                "nids": 5.0,
+                "gmv": 1144000000.0,
+                "nids_cum": 34.0,
+                "gmv_cum": 7058835979.0
+              },
+              {
+                "dia": 19,
+                "nids": 3.0,
+                "gmv": 610000000.0,
+                "nids_cum": 37.0,
+                "gmv_cum": 7668835979.0
+              },
+              {
+                "dia": 21,
+                "nids": 3.0,
+                "gmv": 596000000.0,
+                "nids_cum": 40.0,
+                "gmv_cum": 8264835979.0
+              },
+              {
+                "dia": 22,
+                "nids": 2.0,
+                "gmv": 437000000.0,
+                "nids_cum": 42.0,
+                "gmv_cum": 8701835979.0
+              },
+              {
+                "dia": 23,
+                "nids": 4.0,
+                "gmv": 730000000.0,
+                "nids_cum": 46.0,
+                "gmv_cum": 9431835979.0
+              },
+              {
+                "dia": 24,
+                "nids": 2.0,
+                "gmv": 580000000.0,
+                "nids_cum": 48.0,
+                "gmv_cum": 10011835979.0
+              },
+              {
+                "dia": 25,
+                "nids": 1.0,
+                "gmv": 170000000.0,
+                "nids_cum": 49.0,
+                "gmv_cum": 10181835979.0
+              },
+              {
+                "dia": 28,
+                "nids": 4.0,
+                "gmv": 1159000000.0,
+                "nids_cum": 53.0,
+                "gmv_cum": 11340835979.0
+              },
+              {
+                "dia": 29,
+                "nids": 2.0,
+                "gmv": 360000000.0,
+                "nids_cum": 55.0,
+                "gmv_cum": 11700835979.0
+              },
+              {
+                "dia": 31,
+                "nids": 4.0,
+                "gmv": 852000000.0,
+                "nids_cum": 59.0,
+                "gmv_cum": 12552835979.0
+              }
+            ]
+          }
+        },
+        "Mexico": {
+          "moneda": "MXN",
+          "mes_actual": {
+            "ventana": "mes_actual",
+            "mes": "2026-07",
+            "dias_en_mes": 31,
+            "nids_total": 0.0,
+            "gmv_total": 0.0,
+            "curva": [
+              {
+                "dia": 3,
+                "nids": 1.0,
+                "gmv": 1200000.0,
+                "nids_cum": 1.0,
+                "gmv_cum": 1200000.0
+              }
+            ],
+            "nids_budget": 0.0,
+            "gmv_budget": 0.0
+          },
+          "mes_anterior": {
+            "ventana": "mes_anterior",
+            "mes": "2026-06",
+            "dias_en_mes": 30,
+            "nids_total": 0.0,
+            "gmv_total": 0.0,
+            "curva": [
+              {
+                "dia": 5,
+                "nids": 1.0,
+                "gmv": 610000.0,
+                "nids_cum": 1.0,
+                "gmv_cum": 610000.0
+              },
+              {
+                "dia": 9,
+                "nids": 6.0,
+                "gmv": 4690000.0,
+                "nids_cum": 7.0,
+                "gmv_cum": 5300000.0
+              },
+              {
+                "dia": 10,
+                "nids": 3.0,
+                "gmv": 4679000.0,
+                "nids_cum": 10.0,
+                "gmv_cum": 9979000.0
+              },
+              {
+                "dia": 12,
+                "nids": 4.0,
+                "gmv": 3256000.0,
+                "nids_cum": 14.0,
+                "gmv_cum": 13235000.0
+              },
+              {
+                "dia": 16,
+                "nids": 1.0,
+                "gmv": 573000.0,
+                "nids_cum": 15.0,
+                "gmv_cum": 13808000.0
+              },
+              {
+                "dia": 18,
+                "nids": 3.0,
+                "gmv": 2573000.0,
+                "nids_cum": 18.0,
+                "gmv_cum": 16381000.0
+              },
+              {
+                "dia": 19,
+                "nids": 5.0,
+                "gmv": 4271000.0,
+                "nids_cum": 23.0,
+                "gmv_cum": 20652000.0
+              },
+              {
+                "dia": 22,
+                "nids": 3.0,
+                "gmv": 2413200.0,
+                "nids_cum": 26.0,
+                "gmv_cum": 23065200.0
+              },
+              {
+                "dia": 23,
+                "nids": 1.0,
+                "gmv": 667000.0,
+                "nids_cum": 27.0,
+                "gmv_cum": 23732200.0
+              },
+              {
+                "dia": 25,
+                "nids": 2.0,
+                "gmv": 2959000.0,
+                "nids_cum": 29.0,
+                "gmv_cum": 26691200.0
+              },
+              {
+                "dia": 26,
+                "nids": 2.0,
+                "gmv": 4919700.0,
+                "nids_cum": 31.0,
+                "gmv_cum": 31610900.0
+              },
+              {
+                "dia": 29,
+                "nids": 2.0,
+                "gmv": 3202800.0,
+                "nids_cum": 33.0,
+                "gmv_cum": 34813700.0
+              },
+              {
+                "dia": 30,
+                "nids": 1.0,
+                "gmv": 584000.0,
+                "nids_cum": 34.0,
+                "gmv_cum": 35397700.0
+              }
+            ]
+          },
+          "mes_yoy": {
+            "ventana": "mes_yoy",
+            "mes": "2025-07",
+            "dias_en_mes": 31,
+            "nids_total": 0.0,
+            "gmv_total": 0.0,
+            "curva": [
+              {
+                "dia": 1,
+                "nids": 1.0,
+                "gmv": 1415000.0,
+                "nids_cum": 1.0,
+                "gmv_cum": 1415000.0
+              },
+              {
+                "dia": 4,
+                "nids": 1.0,
+                "gmv": 679000.0,
+                "nids_cum": 2.0,
+                "gmv_cum": 2094000.0
+              },
+              {
+                "dia": 11,
+                "nids": 1.0,
+                "gmv": 601000.0,
+                "nids_cum": 3.0,
+                "gmv_cum": 2695000.0
+              },
+              {
+                "dia": 15,
+                "nids": 1.0,
+                "gmv": 578000.0,
+                "nids_cum": 4.0,
+                "gmv_cum": 3273000.0
+              },
+              {
+                "dia": 16,
+                "nids": 1.0,
+                "gmv": 2133000.0,
+                "nids_cum": 5.0,
+                "gmv_cum": 5406000.0
+              },
+              {
+                "dia": 17,
+                "nids": 4.0,
+                "gmv": 2831000.0,
+                "nids_cum": 9.0,
+                "gmv_cum": 8237000.0
+              },
+              {
+                "dia": 18,
+                "nids": 1.0,
+                "gmv": 615000.0,
+                "nids_cum": 10.0,
+                "gmv_cum": 8852000.0
+              },
+              {
+                "dia": 21,
+                "nids": 3.0,
+                "gmv": 2576000.0,
+                "nids_cum": 13.0,
+                "gmv_cum": 11428000.0
+              },
+              {
+                "dia": 22,
+                "nids": 1.0,
+                "gmv": 679000.0,
+                "nids_cum": 14.0,
+                "gmv_cum": 12107000.0
+              },
+              {
+                "dia": 24,
+                "nids": 1.0,
+                "gmv": 1464000.0,
+                "nids_cum": 15.0,
+                "gmv_cum": 13571000.0
+              },
+              {
+                "dia": 25,
+                "nids": 2.0,
+                "gmv": 2711900.0,
+                "nids_cum": 17.0,
+                "gmv_cum": 16282900.0
+              },
+              {
+                "dia": 28,
+                "nids": 2.0,
+                "gmv": 1504000.0,
+                "nids_cum": 19.0,
+                "gmv_cum": 17786900.0
+              },
+              {
+                "dia": 29,
+                "nids": 3.0,
+                "gmv": 1654000.0,
+                "nids_cum": 22.0,
+                "gmv_cum": 19440900.0
+              },
+              {
+                "dia": 30,
+                "nids": 2.0,
+                "gmv": 1357000.0,
+                "nids_cum": 24.0,
+                "gmv_cum": 20797900.0
+              },
+              {
+                "dia": 31,
+                "nids": 7.0,
+                "gmv": 5790000.0,
+                "nids_cum": 31.0,
+                "gmv_cum": 26587900.0
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
       "id": "mm_gross_margin",
-      "nombre": "MM · Gross Margin (proxy tape)",
+      "nombre": "MM \u00b7 Gross Margin (proxy tape)",
       "linea_negocio": "Market Maker",
       "tipo": "ratio",
       "fecha_field": "c_fecha_factura",

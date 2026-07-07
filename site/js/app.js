@@ -2194,10 +2194,11 @@ function renderMTDCardCount(stream){
     ? `Budget: <b>${Math.round(ma.nids_budget).toLocaleString()} NIDs</b> · ${fmtMoneda(ma.gmv_budget, mon, {compact: true})}`
     : "Budget: —";
 
+  const gmvSub = stream.gmv_tipo_precio ? ` <span class="vs">${stream.gmv_tipo_precio}</span>` : "";
   return `<div class="card mtd-card ${cls}" onclick="abrirDrillMTD('${stream.id}')">
     <div class="kpi-name"><span class="nm">${stream.nombre}</span><span class="tag real">MTD</span></div>
     <div class="val">${Math.round(ma.nids_total).toLocaleString()} <span class="mtd-unit">NIDs</span></div>
-    <div class="adj-line">${fmtMoneda(ma.gmv_total, mon, {compact: true})} <span class="vs">${stream.gmv_tipo_precio}</span></div>
+    <div class="adj-line">${fmtMoneda(ma.gmv_total, mon, {compact: true})}${gmvSub}</div>
     ${fcPrevHTML}
     ${fcYoyHTML}
     <div class="budget-line">${budgetTxt}</div>
@@ -2410,7 +2411,7 @@ function abrirDrillMTD(streamId){
   }
   const budN = ma.nids_budget || 0;
   let tabla = `<table class="drill-table">
-    <thead><tr><th></th><th style="text-align:right">NIDs</th><th style="text-align:right">${stream.gmv_tipo_precio}</th><th style="text-align:right">% of budget</th></tr></thead>
+    <thead><tr><th></th><th style="text-align:right">NIDs</th><th style="text-align:right">${stream.gmv_tipo_precio || "GMV"}</th><th style="text-align:right">% of budget</th></tr></thead>
     <tbody>
       ${row(`MTD (day ${dia}/${diasMes})`, ma.nids_total, ma.gmv_total, budN ? ma.nids_total/budN : null)}
       ${fcPrev ? row(`Forecast vs ${fcPrev.ref_mes}`, fcPrev.nids, fcPrev.gmv, budN ? fcPrev.nids/budN : null) : ""}
