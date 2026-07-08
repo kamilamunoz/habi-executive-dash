@@ -979,9 +979,9 @@
       "es_ajuste": false,
       "es_tape_adjustment": false,
       "actuals": {
-        "sin_elim": 184829.69999999998,
+        "sin_elim": 184829.7,
         "solo_elim": 0.0,
-        "con_elim": 184829.69999999998
+        "con_elim": 184829.7
       },
       "budget": {
         "sin_elim": 0.0,
@@ -2491,9 +2491,9 @@
       "es_ajuste": false,
       "es_tape_adjustment": false,
       "actuals": {
-        "sin_elim": 1797818.2099999997,
+        "sin_elim": 1797818.21,
         "solo_elim": 0.0,
-        "con_elim": 1797818.2099999997
+        "con_elim": 1797818.21
       },
       "budget": {
         "sin_elim": 2085517.24,
@@ -6251,8 +6251,8 @@
       "es_tape_adjustment": false,
       "actuals": {
         "sin_elim": 0.0,
-        "solo_elim": 1008107.58,
-        "con_elim": 1008107.58
+        "solo_elim": 1008107.5800000001,
+        "con_elim": 1008107.5800000001
       },
       "budget": {
         "sin_elim": 0.0,
@@ -7804,9 +7804,9 @@
       "es_ajuste": false,
       "es_tape_adjustment": false,
       "actuals": {
-        "sin_elim": 1900441.3,
+        "sin_elim": 1900441.3000000003,
         "solo_elim": 0.0,
-        "con_elim": 1900441.3
+        "con_elim": 1900441.3000000003
       },
       "budget": {
         "sin_elim": 2085517.24,
@@ -7930,9 +7930,9 @@
       "es_ajuste": false,
       "es_tape_adjustment": false,
       "actuals": {
-        "sin_elim": 6297010.700000001,
+        "sin_elim": 6297010.700000002,
         "solo_elim": 0.0,
-        "con_elim": 6297010.700000001
+        "con_elim": 6297010.700000002
       },
       "budget": {
         "sin_elim": 8968906.74,
@@ -9022,9 +9022,9 @@
       "es_ajuste": false,
       "es_tape_adjustment": false,
       "actuals": {
-        "sin_elim": 1507018185.3999999,
+        "sin_elim": 1507018185.4,
         "solo_elim": 0.0,
-        "con_elim": 1507018185.3999999
+        "con_elim": 1507018185.4
       },
       "budget": {
         "sin_elim": 0.0,
@@ -9715,9 +9715,9 @@
       "es_ajuste": false,
       "es_tape_adjustment": false,
       "actuals": {
-        "sin_elim": 3968263.28,
+        "sin_elim": 3968263.2800000007,
         "solo_elim": 0.0,
-        "con_elim": 3968263.28
+        "con_elim": 3968263.2800000007
       },
       "budget": {
         "sin_elim": 9023930.5,
@@ -10807,9 +10807,9 @@
       "es_ajuste": false,
       "es_tape_adjustment": false,
       "actuals": {
-        "sin_elim": 7012236810.06,
+        "sin_elim": 7012236810.059999,
         "solo_elim": 0.0,
-        "con_elim": 7012236810.06
+        "con_elim": 7012236810.059999
       },
       "budget": {
         "sin_elim": 0.0,
@@ -11374,9 +11374,9 @@
       "es_ajuste": false,
       "es_tape_adjustment": false,
       "actuals": {
-        "sin_elim": 1824564.5099999998,
+        "sin_elim": 1824564.51,
         "solo_elim": 0.0,
-        "con_elim": 1824564.5099999998
+        "con_elim": 1824564.51
       },
       "budget": {
         "sin_elim": 2085517.24,
@@ -11479,9 +11479,9 @@
       "es_ajuste": false,
       "es_tape_adjustment": false,
       "actuals": {
-        "sin_elim": 6118915.619999998,
+        "sin_elim": 6118915.619999999,
         "solo_elim": 0.0,
-        "con_elim": 6118915.619999998
+        "con_elim": 6118915.619999999
       },
       "budget": {
         "sin_elim": 0.0,
@@ -11500,9 +11500,9 @@
       "es_ajuste": false,
       "es_tape_adjustment": false,
       "actuals": {
-        "sin_elim": 2188227.9700000007,
+        "sin_elim": 2188227.97,
         "solo_elim": 0.0,
-        "con_elim": 2188227.9700000007
+        "con_elim": 2188227.97
       },
       "budget": {
         "sin_elim": 9153277.39,
@@ -11690,8 +11690,8 @@
       "es_tape_adjustment": false,
       "actuals": {
         "sin_elim": 0.0,
-        "solo_elim": -5073552.120000001,
-        "con_elim": -5073552.120000001
+        "solo_elim": -5073552.119999999,
+        "con_elim": -5073552.119999999
       },
       "budget": {
         "sin_elim": 0.0,
@@ -14335,14 +14335,14 @@
       "es_ajuste": false,
       "es_tape_adjustment": false,
       "actuals": {
-        "sin_elim": 56590420.999999985,
+        "sin_elim": 56590420.99999999,
         "solo_elim": 0.0,
-        "con_elim": 56590420.999999985
+        "con_elim": 56590420.99999999
       },
       "budget": {
-        "sin_elim": 56590420.999999985,
+        "sin_elim": 56590420.99999999,
         "solo_elim": 0.0,
-        "con_elim": 56590420.999999985
+        "con_elim": 56590420.99999999
       }
     },
     {
@@ -14902,14 +14902,14 @@
       "es_ajuste": false,
       "es_tape_adjustment": false,
       "actuals": {
-        "sin_elim": 1550311.8699999999,
+        "sin_elim": 1550311.87,
         "solo_elim": 0.0,
-        "con_elim": 1550311.8699999999
+        "con_elim": 1550311.87
       },
       "budget": {
-        "sin_elim": 1550311.8699999999,
+        "sin_elim": 1550311.87,
         "solo_elim": 0.0,
-        "con_elim": 1550311.8699999999
+        "con_elim": 1550311.87
       }
     },
     {
@@ -16666,9 +16666,9 @@
       "es_ajuste": false,
       "es_tape_adjustment": false,
       "actuals": {
-        "sin_elim": 1828634.6099999999,
+        "sin_elim": 1828634.61,
         "solo_elim": 0.0,
-        "con_elim": 1828634.6099999999
+        "con_elim": 1828634.61
       },
       "budget": {
         "sin_elim": 1759654.9512,
@@ -18556,9 +18556,9 @@
       "es_ajuste": false,
       "es_tape_adjustment": false,
       "actuals": {
-        "sin_elim": 3898818.7799999993,
+        "sin_elim": 3898818.78,
         "solo_elim": 0.0,
-        "con_elim": 3898818.7799999993
+        "con_elim": 3898818.78
       },
       "budget": {
         "sin_elim": 0.0,
@@ -20215,9 +20215,9 @@
       "es_ajuste": false,
       "es_tape_adjustment": false,
       "actuals": {
-        "sin_elim": 2777187.56,
+        "sin_elim": 2777187.5600000005,
         "solo_elim": 0.0,
-        "con_elim": 2777187.56
+        "con_elim": 2777187.5600000005
       },
       "budget": {
         "sin_elim": 1890000.0000000002,
@@ -21391,9 +21391,9 @@
       "es_ajuste": false,
       "es_tape_adjustment": false,
       "actuals": {
-        "sin_elim": 536628907.46000004,
+        "sin_elim": 536628907.4600006,
         "solo_elim": 0.0,
-        "con_elim": 536628907.46000004
+        "con_elim": 536628907.4600006
       },
       "budget": {
         "sin_elim": 656880821.1,
@@ -21412,9 +21412,9 @@
       "es_ajuste": false,
       "es_tape_adjustment": false,
       "actuals": {
-        "sin_elim": 239056863.30000004,
+        "sin_elim": 239056863.3,
         "solo_elim": 0.0,
-        "con_elim": 239056863.30000004
+        "con_elim": 239056863.3
       },
       "budget": {
         "sin_elim": 2435379478.7614713,
@@ -21433,9 +21433,9 @@
       "es_ajuste": false,
       "es_tape_adjustment": false,
       "actuals": {
-        "sin_elim": 2811482189.6300006,
+        "sin_elim": 2811482189.63,
         "solo_elim": 0.0,
-        "con_elim": 2811482189.6300006
+        "con_elim": 2811482189.63
       },
       "budget": {
         "sin_elim": 0.0,
@@ -21454,9 +21454,9 @@
       "es_ajuste": false,
       "es_tape_adjustment": false,
       "actuals": {
-        "sin_elim": 6137415.04,
+        "sin_elim": 6137415.039999999,
         "solo_elim": 0.0,
-        "con_elim": 6137415.04
+        "con_elim": 6137415.039999999
       },
       "budget": {
         "sin_elim": 0.0,
@@ -21601,9 +21601,9 @@
       "es_ajuste": false,
       "es_tape_adjustment": false,
       "actuals": {
-        "sin_elim": 117728975.38999997,
+        "sin_elim": 117728975.38999999,
         "solo_elim": 0.0,
-        "con_elim": 117728975.38999997
+        "con_elim": 117728975.38999999
       },
       "budget": {
         "sin_elim": 0.0,
@@ -21958,9 +21958,9 @@
       "es_ajuste": false,
       "es_tape_adjustment": false,
       "actuals": {
-        "sin_elim": 2665575.0,
+        "sin_elim": 2718375.0,
         "solo_elim": 0.0,
-        "con_elim": 2665575.0
+        "con_elim": 2718375.0
       },
       "budget": {
         "sin_elim": 3770692.468400278,
@@ -21979,9 +21979,9 @@
       "es_ajuste": false,
       "es_tape_adjustment": false,
       "actuals": {
-        "sin_elim": 987447.8699999999,
+        "sin_elim": 987447.87,
         "solo_elim": 0.0,
-        "con_elim": 987447.8699999999
+        "con_elim": 987447.87
       },
       "budget": {
         "sin_elim": 1890000.0000000002,
@@ -22063,9 +22063,9 @@
       "es_ajuste": false,
       "es_tape_adjustment": false,
       "actuals": {
-        "sin_elim": 987138.2400000002,
+        "sin_elim": 876515.0000000002,
         "solo_elim": 0.0,
-        "con_elim": 987138.2400000002
+        "con_elim": 876515.0000000002
       },
       "budget": {
         "sin_elim": 826971.933718511,
@@ -22126,9 +22126,9 @@
       "es_ajuste": false,
       "es_tape_adjustment": false,
       "actuals": {
-        "sin_elim": 1264531.95,
+        "sin_elim": 976531.9499999998,
         "solo_elim": 0.0,
-        "con_elim": 1264531.95
+        "con_elim": 976531.9499999998
       },
       "budget": {
         "sin_elim": 0.0,
@@ -23072,8 +23072,8 @@
       "es_tape_adjustment": false,
       "actuals": {
         "sin_elim": 0.0,
-        "solo_elim": 0.0,
-        "con_elim": 0.0
+        "solo_elim": 151489.0,
+        "con_elim": 151489.0
       },
       "budget": {
         "sin_elim": 0.0,
@@ -23155,9 +23155,9 @@
       "es_ajuste": false,
       "es_tape_adjustment": false,
       "actuals": {
-        "sin_elim": -3237563.0100000002,
+        "sin_elim": 15201344.540000003,
         "solo_elim": 0.0,
-        "con_elim": -3237563.0100000002
+        "con_elim": 15201344.540000003
       },
       "budget": {
         "sin_elim": 622550681.1,
@@ -23176,9 +23176,9 @@
       "es_ajuste": false,
       "es_tape_adjustment": false,
       "actuals": {
-        "sin_elim": 3408600.0,
+        "sin_elim": 15287982.850000001,
         "solo_elim": 0.0,
-        "con_elim": 3408600.0
+        "con_elim": 15287982.850000001
       },
       "budget": {
         "sin_elim": 2160023046.0959835,
@@ -23218,9 +23218,9 @@
       "es_ajuste": false,
       "es_tape_adjustment": false,
       "actuals": {
-        "sin_elim": 0.0,
+        "sin_elim": 300000.0,
         "solo_elim": 0.0,
-        "con_elim": 0.0
+        "con_elim": 300000.0
       },
       "budget": {
         "sin_elim": 0.0,
@@ -23722,9 +23722,9 @@
       "es_ajuste": false,
       "es_tape_adjustment": false,
       "actuals": {
-        "sin_elim": 112800.0,
+        "sin_elim": 185315.0,
         "solo_elim": 0.0,
-        "con_elim": 112800.0
+        "con_elim": 185315.0
       },
       "budget": {
         "sin_elim": 4118733.8734408584,
@@ -23743,9 +23743,9 @@
       "es_ajuste": false,
       "es_tape_adjustment": false,
       "actuals": {
-        "sin_elim": 0.0,
+        "sin_elim": 281509.88,
         "solo_elim": 0.0,
-        "con_elim": 0.0
+        "con_elim": 281509.88
       },
       "budget": {
         "sin_elim": 1890000.0000000002,
@@ -23848,9 +23848,9 @@
       "es_ajuste": false,
       "es_tape_adjustment": false,
       "actuals": {
-        "sin_elim": 0.0,
+        "sin_elim": 280373.06,
         "solo_elim": 0.0,
-        "con_elim": 0.0
+        "con_elim": 280373.06
       },
       "budget": {
         "sin_elim": 0.0,
@@ -23869,9 +23869,9 @@
       "es_ajuste": false,
       "es_tape_adjustment": false,
       "actuals": {
-        "sin_elim": 0.0,
+        "sin_elim": 80034.83,
         "solo_elim": 0.0,
-        "con_elim": 0.0
+        "con_elim": 80034.83
       },
       "budget": {
         "sin_elim": 0.0,
@@ -23890,9 +23890,9 @@
       "es_ajuste": false,
       "es_tape_adjustment": false,
       "actuals": {
-        "sin_elim": 0.0,
+        "sin_elim": 46750.0,
         "solo_elim": 0.0,
-        "con_elim": 0.0
+        "con_elim": 46750.0
       },
       "budget": {
         "sin_elim": 0.0,
@@ -23911,9 +23911,9 @@
       "es_ajuste": false,
       "es_tape_adjustment": false,
       "actuals": {
-        "sin_elim": 0.0,
+        "sin_elim": 18273.15,
         "solo_elim": 0.0,
-        "con_elim": 0.0
+        "con_elim": 18273.15
       },
       "budget": {
         "sin_elim": 0.0,
@@ -23953,9 +23953,9 @@
       "es_ajuste": false,
       "es_tape_adjustment": false,
       "actuals": {
-        "sin_elim": 96971.11,
+        "sin_elim": 98768.52,
         "solo_elim": 0.0,
-        "con_elim": 96971.11
+        "con_elim": 98768.52
       },
       "budget": {
         "sin_elim": 710500.0,
@@ -23995,9 +23995,9 @@
       "es_ajuste": false,
       "es_tape_adjustment": false,
       "actuals": {
-        "sin_elim": 168276.24000000002,
+        "sin_elim": 168276.24,
         "solo_elim": 0.0,
-        "con_elim": 168276.24000000002
+        "con_elim": 168276.24
       },
       "budget": {
         "sin_elim": 0.0,
@@ -24846,258 +24846,6 @@
       }
     },
     {
-      "mes": "2025-08",
-      "pais": "Mexico",
-      "subsidiaria": "Corporativo",
-      "linea": "Market Maker",
-      "submetrica": "Tape Adjustment",
-      "cuenta": null,
-      "cuenta_desc": "Tape Adjustment (c_precio − BET MM)",
-      "es_ajuste": false,
-      "es_tape_adjustment": true,
-      "actuals": {
-        "sin_elim": 89478801.51,
-        "con_elim": 89478801.51,
-        "solo_elim": 0.0
-      },
-      "budget": {
-        "sin_elim": 0.0,
-        "con_elim": 0.0,
-        "solo_elim": 0.0
-      }
-    },
-    {
-      "mes": "2025-10",
-      "pais": "Colombia",
-      "subsidiaria": "Habi",
-      "linea": "Market Maker",
-      "submetrica": "Tape Adjustment",
-      "cuenta": null,
-      "cuenta_desc": "Tape Adjustment (c_precio − BET MM)",
-      "es_ajuste": false,
-      "es_tape_adjustment": true,
-      "actuals": {
-        "sin_elim": 6430016254.549999,
-        "con_elim": 6430016254.549999,
-        "solo_elim": 0.0
-      },
-      "budget": {
-        "sin_elim": 0.0,
-        "con_elim": 0.0,
-        "solo_elim": 0.0
-      }
-    },
-    {
-      "mes": "2025-11",
-      "pais": "Colombia",
-      "subsidiaria": "Habi",
-      "linea": "Market Maker",
-      "submetrica": "Tape Adjustment",
-      "cuenta": null,
-      "cuenta_desc": "Tape Adjustment (c_precio − BET MM)",
-      "es_ajuste": false,
-      "es_tape_adjustment": true,
-      "actuals": {
-        "sin_elim": 6693088644.189972,
-        "con_elim": 6693088644.189972,
-        "solo_elim": 0.0
-      },
-      "budget": {
-        "sin_elim": 0.0,
-        "con_elim": 0.0,
-        "solo_elim": 0.0
-      }
-    },
-    {
-      "mes": "2026-02",
-      "pais": "Mexico",
-      "subsidiaria": "Corporativo",
-      "linea": "Market Maker",
-      "submetrica": "Tape Adjustment",
-      "cuenta": null,
-      "cuenta_desc": "Tape Adjustment (c_precio − BET MM)",
-      "es_ajuste": false,
-      "es_tape_adjustment": true,
-      "actuals": {
-        "sin_elim": 103226141.46999997,
-        "con_elim": 103226141.46999997,
-        "solo_elim": 0.0
-      },
-      "budget": {
-        "sin_elim": 0.0,
-        "con_elim": 0.0,
-        "solo_elim": 0.0
-      }
-    },
-    {
-      "mes": "2025-08",
-      "pais": "Colombia",
-      "subsidiaria": "Habi",
-      "linea": "Market Maker",
-      "submetrica": "Tape Adjustment",
-      "cuenta": null,
-      "cuenta_desc": "Tape Adjustment (c_precio − BET MM)",
-      "es_ajuste": false,
-      "es_tape_adjustment": true,
-      "actuals": {
-        "sin_elim": 4573063112.210007,
-        "con_elim": 4573063112.210007,
-        "solo_elim": 0.0
-      },
-      "budget": {
-        "sin_elim": 0.0,
-        "con_elim": 0.0,
-        "solo_elim": 0.0
-      }
-    },
-    {
-      "mes": "2025-10",
-      "pais": "Mexico",
-      "subsidiaria": "Corporativo",
-      "linea": "Market Maker",
-      "submetrica": "Tape Adjustment",
-      "cuenta": null,
-      "cuenta_desc": "Tape Adjustment (c_precio − BET MM)",
-      "es_ajuste": false,
-      "es_tape_adjustment": true,
-      "actuals": {
-        "sin_elim": 109191651.54999998,
-        "con_elim": 109191651.54999998,
-        "solo_elim": 0.0
-      },
-      "budget": {
-        "sin_elim": 0.0,
-        "con_elim": 0.0,
-        "solo_elim": 0.0
-      }
-    },
-    {
-      "mes": "2026-01",
-      "pais": "Colombia",
-      "subsidiaria": "Habi",
-      "linea": "Market Maker",
-      "submetrica": "Tape Adjustment",
-      "cuenta": null,
-      "cuenta_desc": "Tape Adjustment (c_precio − BET MM)",
-      "es_ajuste": false,
-      "es_tape_adjustment": true,
-      "actuals": {
-        "sin_elim": 2898324237.76,
-        "con_elim": 2898324237.76,
-        "solo_elim": 0.0
-      },
-      "budget": {
-        "sin_elim": 0.0,
-        "con_elim": 0.0,
-        "solo_elim": 0.0
-      }
-    },
-    {
-      "mes": "2025-12",
-      "pais": "Mexico",
-      "subsidiaria": "Corporativo",
-      "linea": "Market Maker",
-      "submetrica": "Tape Adjustment",
-      "cuenta": null,
-      "cuenta_desc": "Tape Adjustment (c_precio − BET MM)",
-      "es_ajuste": false,
-      "es_tape_adjustment": true,
-      "actuals": {
-        "sin_elim": 90829134.06,
-        "con_elim": 90829134.06,
-        "solo_elim": 0.0
-      },
-      "budget": {
-        "sin_elim": 0.0,
-        "con_elim": 0.0,
-        "solo_elim": 0.0
-      }
-    },
-    {
-      "mes": "2025-06",
-      "pais": "Colombia",
-      "subsidiaria": "Habi",
-      "linea": "Market Maker",
-      "submetrica": "Tape Adjustment",
-      "cuenta": null,
-      "cuenta_desc": "Tape Adjustment (c_precio − BET MM)",
-      "es_ajuste": false,
-      "es_tape_adjustment": true,
-      "actuals": {
-        "sin_elim": 4467657827.130005,
-        "con_elim": 4467657827.130005,
-        "solo_elim": 0.0
-      },
-      "budget": {
-        "sin_elim": 0.0,
-        "con_elim": 0.0,
-        "solo_elim": 0.0
-      }
-    },
-    {
-      "mes": "2025-07",
-      "pais": "Colombia",
-      "subsidiaria": "Habi",
-      "linea": "Market Maker",
-      "submetrica": "Tape Adjustment",
-      "cuenta": null,
-      "cuenta_desc": "Tape Adjustment (c_precio − BET MM)",
-      "es_ajuste": false,
-      "es_tape_adjustment": true,
-      "actuals": {
-        "sin_elim": 5066261241.750008,
-        "con_elim": 5066261241.750008,
-        "solo_elim": 0.0
-      },
-      "budget": {
-        "sin_elim": 0.0,
-        "con_elim": 0.0,
-        "solo_elim": 0.0
-      }
-    },
-    {
-      "mes": "2026-01",
-      "pais": "Mexico",
-      "subsidiaria": "Corporativo",
-      "linea": "Market Maker",
-      "submetrica": "Tape Adjustment",
-      "cuenta": null,
-      "cuenta_desc": "Tape Adjustment (c_precio − BET MM)",
-      "es_ajuste": false,
-      "es_tape_adjustment": true,
-      "actuals": {
-        "sin_elim": 45984759.55000002,
-        "con_elim": 45984759.55000002,
-        "solo_elim": 0.0
-      },
-      "budget": {
-        "sin_elim": 0.0,
-        "con_elim": 0.0,
-        "solo_elim": 0.0
-      }
-    },
-    {
-      "mes": "2025-11",
-      "pais": "Mexico",
-      "subsidiaria": "Corporativo",
-      "linea": "Market Maker",
-      "submetrica": "Tape Adjustment",
-      "cuenta": null,
-      "cuenta_desc": "Tape Adjustment (c_precio − BET MM)",
-      "es_ajuste": false,
-      "es_tape_adjustment": true,
-      "actuals": {
-        "sin_elim": 89308573.17,
-        "con_elim": 89308573.17,
-        "solo_elim": 0.0
-      },
-      "budget": {
-        "sin_elim": 0.0,
-        "con_elim": 0.0,
-        "solo_elim": 0.0
-      }
-    },
-    {
       "mes": "2026-04",
       "pais": "Colombia",
       "subsidiaria": "Habi",
@@ -25110,153 +24858,6 @@
       "actuals": {
         "sin_elim": 5974006443.07999,
         "con_elim": 5974006443.07999,
-        "solo_elim": 0.0
-      },
-      "budget": {
-        "sin_elim": 0.0,
-        "con_elim": 0.0,
-        "solo_elim": 0.0
-      }
-    },
-    {
-      "mes": "2026-06",
-      "pais": "Mexico",
-      "subsidiaria": "Corporativo",
-      "linea": "Market Maker",
-      "submetrica": "Tape Adjustment",
-      "cuenta": null,
-      "cuenta_desc": "Tape Adjustment (c_precio − BET MM)",
-      "es_ajuste": false,
-      "es_tape_adjustment": true,
-      "actuals": {
-        "sin_elim": 66798718.17999999,
-        "con_elim": 66798718.17999999,
-        "solo_elim": 0.0
-      },
-      "budget": {
-        "sin_elim": 0.0,
-        "con_elim": 0.0,
-        "solo_elim": 0.0
-      }
-    },
-    {
-      "mes": "2026-05",
-      "pais": "Mexico",
-      "subsidiaria": "Corporativo",
-      "linea": "Market Maker",
-      "submetrica": "Tape Adjustment",
-      "cuenta": null,
-      "cuenta_desc": "Tape Adjustment (c_precio − BET MM)",
-      "es_ajuste": false,
-      "es_tape_adjustment": true,
-      "actuals": {
-        "sin_elim": 110823140.2,
-        "con_elim": 110823140.2,
-        "solo_elim": 0.0
-      },
-      "budget": {
-        "sin_elim": 0.0,
-        "con_elim": 0.0,
-        "solo_elim": 0.0
-      }
-    },
-    {
-      "mes": "2026-05",
-      "pais": "Colombia",
-      "subsidiaria": "Habi",
-      "linea": "Market Maker",
-      "submetrica": "Tape Adjustment",
-      "cuenta": null,
-      "cuenta_desc": "Tape Adjustment (c_precio − BET MM)",
-      "es_ajuste": false,
-      "es_tape_adjustment": true,
-      "actuals": {
-        "sin_elim": 8493891151.650017,
-        "con_elim": 8493891151.650017,
-        "solo_elim": 0.0
-      },
-      "budget": {
-        "sin_elim": 0.0,
-        "con_elim": 0.0,
-        "solo_elim": 0.0
-      }
-    },
-    {
-      "mes": "2026-06",
-      "pais": "Colombia",
-      "subsidiaria": "Habi",
-      "linea": "Market Maker",
-      "submetrica": "Tape Adjustment",
-      "cuenta": null,
-      "cuenta_desc": "Tape Adjustment (c_precio − BET MM)",
-      "es_ajuste": false,
-      "es_tape_adjustment": true,
-      "actuals": {
-        "sin_elim": 6621135427.700001,
-        "con_elim": 6621135427.700001,
-        "solo_elim": 0.0
-      },
-      "budget": {
-        "sin_elim": 0.0,
-        "con_elim": 0.0,
-        "solo_elim": 0.0
-      }
-    },
-    {
-      "mes": "2026-02",
-      "pais": "Colombia",
-      "subsidiaria": "Habi",
-      "linea": "Market Maker",
-      "submetrica": "Tape Adjustment",
-      "cuenta": null,
-      "cuenta_desc": "Tape Adjustment (c_precio − BET MM)",
-      "es_ajuste": false,
-      "es_tape_adjustment": true,
-      "actuals": {
-        "sin_elim": 7509529048.869991,
-        "con_elim": 7509529048.869991,
-        "solo_elim": 0.0
-      },
-      "budget": {
-        "sin_elim": 0.0,
-        "con_elim": 0.0,
-        "solo_elim": 0.0
-      }
-    },
-    {
-      "mes": "2025-09",
-      "pais": "Colombia",
-      "subsidiaria": "Habi",
-      "linea": "Market Maker",
-      "submetrica": "Tape Adjustment",
-      "cuenta": null,
-      "cuenta_desc": "Tape Adjustment (c_precio − BET MM)",
-      "es_ajuste": false,
-      "es_tape_adjustment": true,
-      "actuals": {
-        "sin_elim": 6022548895.580009,
-        "con_elim": 6022548895.580009,
-        "solo_elim": 0.0
-      },
-      "budget": {
-        "sin_elim": 0.0,
-        "con_elim": 0.0,
-        "solo_elim": 0.0
-      }
-    },
-    {
-      "mes": "2026-04",
-      "pais": "Mexico",
-      "subsidiaria": "Corporativo",
-      "linea": "Market Maker",
-      "submetrica": "Tape Adjustment",
-      "cuenta": null,
-      "cuenta_desc": "Tape Adjustment (c_precio − BET MM)",
-      "es_ajuste": false,
-      "es_tape_adjustment": true,
-      "actuals": {
-        "sin_elim": 130137903.33999997,
-        "con_elim": 130137903.33999997,
         "solo_elim": 0.0
       },
       "budget": {
@@ -25287,9 +24888,9 @@
       }
     },
     {
-      "mes": "2026-03",
-      "pais": "Mexico",
-      "subsidiaria": "Corporativo",
+      "mes": "2026-06",
+      "pais": "Colombia",
+      "subsidiaria": "Habi",
       "linea": "Market Maker",
       "submetrica": "Tape Adjustment",
       "cuenta": null,
@@ -25297,8 +24898,8 @@
       "es_ajuste": false,
       "es_tape_adjustment": true,
       "actuals": {
-        "sin_elim": 65130829.400000006,
-        "con_elim": 65130829.400000006,
+        "sin_elim": 6621135427.6999855,
+        "con_elim": 6621135427.6999855,
         "solo_elim": 0.0
       },
       "budget": {
@@ -25309,8 +24910,8 @@
     },
     {
       "mes": "2025-07",
-      "pais": "Mexico",
-      "subsidiaria": "Corporativo",
+      "pais": "Colombia",
+      "subsidiaria": "Habi",
       "linea": "Market Maker",
       "submetrica": "Tape Adjustment",
       "cuenta": null,
@@ -25318,8 +24919,8 @@
       "es_ajuste": false,
       "es_tape_adjustment": true,
       "actuals": {
-        "sin_elim": 123654952.78,
-        "con_elim": 123654952.78,
+        "sin_elim": 5066261241.750008,
+        "con_elim": 5066261241.750008,
         "solo_elim": 0.0
       },
       "budget": {
@@ -25339,8 +24940,239 @@
       "es_ajuste": false,
       "es_tape_adjustment": true,
       "actuals": {
-        "sin_elim": -12931.03,
-        "con_elim": -12931.03,
+        "sin_elim": 824527.9299999999,
+        "con_elim": 824527.9299999999,
+        "solo_elim": 0.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "con_elim": 0.0,
+        "solo_elim": 0.0
+      }
+    },
+    {
+      "mes": "2025-09",
+      "pais": "Mexico",
+      "subsidiaria": "Corporativo",
+      "linea": "Market Maker",
+      "submetrica": "Tape Adjustment",
+      "cuenta": null,
+      "cuenta_desc": "Tape Adjustment (c_precio − BET MM)",
+      "es_ajuste": false,
+      "es_tape_adjustment": true,
+      "actuals": {
+        "sin_elim": 95071676.78000002,
+        "con_elim": 95071676.78000002,
+        "solo_elim": 0.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "con_elim": 0.0,
+        "solo_elim": 0.0
+      }
+    },
+    {
+      "mes": "2025-12",
+      "pais": "Colombia",
+      "subsidiaria": "Habi",
+      "linea": "Market Maker",
+      "submetrica": "Tape Adjustment",
+      "cuenta": null,
+      "cuenta_desc": "Tape Adjustment (c_precio − BET MM)",
+      "es_ajuste": false,
+      "es_tape_adjustment": true,
+      "actuals": {
+        "sin_elim": 6458222508.789978,
+        "con_elim": 6458222508.789978,
+        "solo_elim": 0.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "con_elim": 0.0,
+        "solo_elim": 0.0
+      }
+    },
+    {
+      "mes": "2026-05",
+      "pais": "Colombia",
+      "subsidiaria": "Habi",
+      "linea": "Market Maker",
+      "submetrica": "Tape Adjustment",
+      "cuenta": null,
+      "cuenta_desc": "Tape Adjustment (c_precio − BET MM)",
+      "es_ajuste": false,
+      "es_tape_adjustment": true,
+      "actuals": {
+        "sin_elim": 8493891151.650009,
+        "con_elim": 8493891151.650009,
+        "solo_elim": 0.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "con_elim": 0.0,
+        "solo_elim": 0.0
+      }
+    },
+    {
+      "mes": "2025-06",
+      "pais": "Colombia",
+      "subsidiaria": "Habi",
+      "linea": "Market Maker",
+      "submetrica": "Tape Adjustment",
+      "cuenta": null,
+      "cuenta_desc": "Tape Adjustment (c_precio − BET MM)",
+      "es_ajuste": false,
+      "es_tape_adjustment": true,
+      "actuals": {
+        "sin_elim": 4467657827.130005,
+        "con_elim": 4467657827.130005,
+        "solo_elim": 0.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "con_elim": 0.0,
+        "solo_elim": 0.0
+      }
+    },
+    {
+      "mes": "2025-12",
+      "pais": "Mexico",
+      "subsidiaria": "Corporativo",
+      "linea": "Market Maker",
+      "submetrica": "Tape Adjustment",
+      "cuenta": null,
+      "cuenta_desc": "Tape Adjustment (c_precio − BET MM)",
+      "es_ajuste": false,
+      "es_tape_adjustment": true,
+      "actuals": {
+        "sin_elim": 90829134.05999997,
+        "con_elim": 90829134.05999997,
+        "solo_elim": 0.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "con_elim": 0.0,
+        "solo_elim": 0.0
+      }
+    },
+    {
+      "mes": "2026-06",
+      "pais": "Mexico",
+      "subsidiaria": "Corporativo",
+      "linea": "Market Maker",
+      "submetrica": "Tape Adjustment",
+      "cuenta": null,
+      "cuenta_desc": "Tape Adjustment (c_precio − BET MM)",
+      "es_ajuste": false,
+      "es_tape_adjustment": true,
+      "actuals": {
+        "sin_elim": 67197341.42,
+        "con_elim": 67197341.42,
+        "solo_elim": 0.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "con_elim": 0.0,
+        "solo_elim": 0.0
+      }
+    },
+    {
+      "mes": "2025-08",
+      "pais": "Mexico",
+      "subsidiaria": "Corporativo",
+      "linea": "Market Maker",
+      "submetrica": "Tape Adjustment",
+      "cuenta": null,
+      "cuenta_desc": "Tape Adjustment (c_precio − BET MM)",
+      "es_ajuste": false,
+      "es_tape_adjustment": true,
+      "actuals": {
+        "sin_elim": 89478801.50999999,
+        "con_elim": 89478801.50999999,
+        "solo_elim": 0.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "con_elim": 0.0,
+        "solo_elim": 0.0
+      }
+    },
+    {
+      "mes": "2026-01",
+      "pais": "Colombia",
+      "subsidiaria": "Habi",
+      "linea": "Market Maker",
+      "submetrica": "Tape Adjustment",
+      "cuenta": null,
+      "cuenta_desc": "Tape Adjustment (c_precio − BET MM)",
+      "es_ajuste": false,
+      "es_tape_adjustment": true,
+      "actuals": {
+        "sin_elim": 2898324237.76,
+        "con_elim": 2898324237.76,
+        "solo_elim": 0.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "con_elim": 0.0,
+        "solo_elim": 0.0
+      }
+    },
+    {
+      "mes": "2025-10",
+      "pais": "Mexico",
+      "subsidiaria": "Corporativo",
+      "linea": "Market Maker",
+      "submetrica": "Tape Adjustment",
+      "cuenta": null,
+      "cuenta_desc": "Tape Adjustment (c_precio − BET MM)",
+      "es_ajuste": false,
+      "es_tape_adjustment": true,
+      "actuals": {
+        "sin_elim": 109191651.54999998,
+        "con_elim": 109191651.54999998,
+        "solo_elim": 0.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "con_elim": 0.0,
+        "solo_elim": 0.0
+      }
+    },
+    {
+      "mes": "2026-04",
+      "pais": "Mexico",
+      "subsidiaria": "Corporativo",
+      "linea": "Market Maker",
+      "submetrica": "Tape Adjustment",
+      "cuenta": null,
+      "cuenta_desc": "Tape Adjustment (c_precio − BET MM)",
+      "es_ajuste": false,
+      "es_tape_adjustment": true,
+      "actuals": {
+        "sin_elim": 130137903.33999997,
+        "con_elim": 130137903.33999997,
+        "solo_elim": 0.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "con_elim": 0.0,
+        "solo_elim": 0.0
+      }
+    },
+    {
+      "mes": "2026-02",
+      "pais": "Mexico",
+      "subsidiaria": "Corporativo",
+      "linea": "Market Maker",
+      "submetrica": "Tape Adjustment",
+      "cuenta": null,
+      "cuenta_desc": "Tape Adjustment (c_precio − BET MM)",
+      "es_ajuste": false,
+      "es_tape_adjustment": true,
+      "actuals": {
+        "sin_elim": 103225671.46999997,
+        "con_elim": 103225671.46999997,
         "solo_elim": 0.0
       },
       "budget": {
@@ -25381,8 +25213,8 @@
       "es_ajuste": false,
       "es_tape_adjustment": true,
       "actuals": {
-        "sin_elim": 31937419.0,
-        "con_elim": 31937419.0,
+        "sin_elim": 498058036.1500001,
+        "con_elim": 498058036.1500001,
         "solo_elim": 0.0
       },
       "budget": {
@@ -25392,7 +25224,28 @@
       }
     },
     {
-      "mes": "2025-12",
+      "mes": "2026-01",
+      "pais": "Mexico",
+      "subsidiaria": "Corporativo",
+      "linea": "Market Maker",
+      "submetrica": "Tape Adjustment",
+      "cuenta": null,
+      "cuenta_desc": "Tape Adjustment (c_precio − BET MM)",
+      "es_ajuste": false,
+      "es_tape_adjustment": true,
+      "actuals": {
+        "sin_elim": 45984759.55000002,
+        "con_elim": 45984759.55000002,
+        "solo_elim": 0.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "con_elim": 0.0,
+        "solo_elim": 0.0
+      }
+    },
+    {
+      "mes": "2025-11",
       "pais": "Colombia",
       "subsidiaria": "Habi",
       "linea": "Market Maker",
@@ -25402,8 +25255,134 @@
       "es_ajuste": false,
       "es_tape_adjustment": true,
       "actuals": {
-        "sin_elim": 6458222508.789993,
-        "con_elim": 6458222508.789993,
+        "sin_elim": 6693088644.189972,
+        "con_elim": 6693088644.189972,
+        "solo_elim": 0.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "con_elim": 0.0,
+        "solo_elim": 0.0
+      }
+    },
+    {
+      "mes": "2025-10",
+      "pais": "Colombia",
+      "subsidiaria": "Habi",
+      "linea": "Market Maker",
+      "submetrica": "Tape Adjustment",
+      "cuenta": null,
+      "cuenta_desc": "Tape Adjustment (c_precio − BET MM)",
+      "es_ajuste": false,
+      "es_tape_adjustment": true,
+      "actuals": {
+        "sin_elim": 6430016254.549999,
+        "con_elim": 6430016254.549999,
+        "solo_elim": 0.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "con_elim": 0.0,
+        "solo_elim": 0.0
+      }
+    },
+    {
+      "mes": "2026-05",
+      "pais": "Mexico",
+      "subsidiaria": "Corporativo",
+      "linea": "Market Maker",
+      "submetrica": "Tape Adjustment",
+      "cuenta": null,
+      "cuenta_desc": "Tape Adjustment (c_precio − BET MM)",
+      "es_ajuste": false,
+      "es_tape_adjustment": true,
+      "actuals": {
+        "sin_elim": 110823140.2,
+        "con_elim": 110823140.2,
+        "solo_elim": 0.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "con_elim": 0.0,
+        "solo_elim": 0.0
+      }
+    },
+    {
+      "mes": "2025-11",
+      "pais": "Mexico",
+      "subsidiaria": "Corporativo",
+      "linea": "Market Maker",
+      "submetrica": "Tape Adjustment",
+      "cuenta": null,
+      "cuenta_desc": "Tape Adjustment (c_precio − BET MM)",
+      "es_ajuste": false,
+      "es_tape_adjustment": true,
+      "actuals": {
+        "sin_elim": 89308573.17,
+        "con_elim": 89308573.17,
+        "solo_elim": 0.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "con_elim": 0.0,
+        "solo_elim": 0.0
+      }
+    },
+    {
+      "mes": "2026-02",
+      "pais": "Colombia",
+      "subsidiaria": "Habi",
+      "linea": "Market Maker",
+      "submetrica": "Tape Adjustment",
+      "cuenta": null,
+      "cuenta_desc": "Tape Adjustment (c_precio − BET MM)",
+      "es_ajuste": false,
+      "es_tape_adjustment": true,
+      "actuals": {
+        "sin_elim": 7509529048.869991,
+        "con_elim": 7509529048.869991,
+        "solo_elim": 0.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "con_elim": 0.0,
+        "solo_elim": 0.0
+      }
+    },
+    {
+      "mes": "2025-08",
+      "pais": "Colombia",
+      "subsidiaria": "Habi",
+      "linea": "Market Maker",
+      "submetrica": "Tape Adjustment",
+      "cuenta": null,
+      "cuenta_desc": "Tape Adjustment (c_precio − BET MM)",
+      "es_ajuste": false,
+      "es_tape_adjustment": true,
+      "actuals": {
+        "sin_elim": 4573063112.210007,
+        "con_elim": 4573063112.210007,
+        "solo_elim": 0.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "con_elim": 0.0,
+        "solo_elim": 0.0
+      }
+    },
+    {
+      "mes": "2026-03",
+      "pais": "Mexico",
+      "subsidiaria": "Corporativo",
+      "linea": "Market Maker",
+      "submetrica": "Tape Adjustment",
+      "cuenta": null,
+      "cuenta_desc": "Tape Adjustment (c_precio − BET MM)",
+      "es_ajuste": false,
+      "es_tape_adjustment": true,
+      "actuals": {
+        "sin_elim": 65130829.400000006,
+        "con_elim": 65130829.400000006,
         "solo_elim": 0.0
       },
       "budget": {
@@ -25414,6 +25393,27 @@
     },
     {
       "mes": "2025-09",
+      "pais": "Colombia",
+      "subsidiaria": "Habi",
+      "linea": "Market Maker",
+      "submetrica": "Tape Adjustment",
+      "cuenta": null,
+      "cuenta_desc": "Tape Adjustment (c_precio − BET MM)",
+      "es_ajuste": false,
+      "es_tape_adjustment": true,
+      "actuals": {
+        "sin_elim": 6022548895.580009,
+        "con_elim": 6022548895.580009,
+        "solo_elim": 0.0
+      },
+      "budget": {
+        "sin_elim": 0.0,
+        "con_elim": 0.0,
+        "solo_elim": 0.0
+      }
+    },
+    {
+      "mes": "2025-07",
       "pais": "Mexico",
       "subsidiaria": "Corporativo",
       "linea": "Market Maker",
@@ -25423,8 +25423,8 @@
       "es_ajuste": false,
       "es_tape_adjustment": true,
       "actuals": {
-        "sin_elim": 95071676.78,
-        "con_elim": 95071676.78,
+        "sin_elim": 123654952.78,
+        "con_elim": 123654952.78,
         "solo_elim": 0.0
       },
       "budget": {
