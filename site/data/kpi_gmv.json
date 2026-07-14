@@ -49,9 +49,9 @@
       {
         "mes": "2025-06",
         "actuals": {
-          "sin_elim": 165548401711.5,
+          "sin_elim": 165548849651.5,
           "solo_elim": 0.0,
-          "con_elim": 165548401711.5
+          "con_elim": 165548849651.5
         },
         "budget": {
           "sin_elim": 142453022119.2,
@@ -62,22 +62,22 @@
       {
         "mes": "2025-07",
         "actuals": {
-          "sin_elim": 214528011294.42,
+          "sin_elim": 214528011295.42,
           "solo_elim": 0.0,
-          "con_elim": 214528011294.42
+          "con_elim": 214528011295.42
         },
         "budget": {
-          "sin_elim": 171645699479.40997,
+          "sin_elim": 171645699479.41003,
           "solo_elim": 0.0,
-          "con_elim": 171645699479.40997
+          "con_elim": 171645699479.41003
         }
       },
       {
         "mes": "2025-08",
         "actuals": {
-          "sin_elim": 176554907782.96,
+          "sin_elim": 176555355721.96002,
           "solo_elim": 0.0,
-          "con_elim": 176554907782.96
+          "con_elim": 176555355721.96002
         },
         "budget": {
           "sin_elim": 146290533467.97,
@@ -88,9 +88,9 @@
       {
         "mes": "2025-09",
         "actuals": {
-          "sin_elim": 197032023945.08002,
+          "sin_elim": 197032023945.08,
           "solo_elim": 0.0,
-          "con_elim": 197032023945.08002
+          "con_elim": 197032023945.08
         },
         "budget": {
           "sin_elim": 183582190139.28,
@@ -101,27 +101,27 @@
       {
         "mes": "2025-10",
         "actuals": {
-          "sin_elim": 183512662238.43,
+          "sin_elim": 183512662238.43002,
           "solo_elim": 0.0,
-          "con_elim": 183512662238.43
+          "con_elim": 183512662238.43002
         },
         "budget": {
-          "sin_elim": 199060498259.01,
+          "sin_elim": 199060498259.00998,
           "solo_elim": 0.0,
-          "con_elim": 199060498259.01
+          "con_elim": 199060498259.00998
         }
       },
       {
         "mes": "2025-11",
         "actuals": {
-          "sin_elim": 194980614670.22998,
+          "sin_elim": 194980614670.23,
           "solo_elim": 0.0,
-          "con_elim": 194980614670.22998
+          "con_elim": 194980614670.23
         },
         "budget": {
-          "sin_elim": 198074366746.13998,
+          "sin_elim": 198074366746.14,
           "solo_elim": 0.0,
-          "con_elim": 198074366746.13998
+          "con_elim": 198074366746.14
         }
       },
       {
@@ -166,22 +166,22 @@
       {
         "mes": "2026-03",
         "actuals": {
-          "sin_elim": 222318266686.59,
+          "sin_elim": 222318266686.59003,
           "solo_elim": 0.0,
-          "con_elim": 222318266686.59
+          "con_elim": 222318266686.59003
         },
         "budget": {
-          "sin_elim": 224179179648.5868,
+          "sin_elim": 224179179648.58676,
           "solo_elim": 0.0,
-          "con_elim": 224179179648.5868
+          "con_elim": 224179179648.58676
         }
       },
       {
         "mes": "2026-04",
         "actuals": {
-          "sin_elim": 191786333590.21,
+          "sin_elim": 191786333591.21,
           "solo_elim": 0.0,
-          "con_elim": 191786333590.21
+          "con_elim": 191786333591.21
         },
         "budget": {
           "sin_elim": 197420869731.20026,
@@ -192,35 +192,35 @@
       {
         "mes": "2026-05",
         "actuals": {
-          "sin_elim": 189227073335.47,
+          "sin_elim": 189228073336.47,
           "solo_elim": 0.0,
-          "con_elim": 189227073335.47
+          "con_elim": 189228073336.47
         },
         "budget": {
-          "sin_elim": 206769810119.90616,
+          "sin_elim": 206769810119.90613,
           "solo_elim": 0.0,
-          "con_elim": 206769810119.90616
+          "con_elim": 206769810119.90613
         }
       },
       {
         "mes": "2026-06",
         "actuals": {
-          "sin_elim": 158601638304.47192,
+          "sin_elim": 158602141530.4719,
           "solo_elim": 0.0,
-          "con_elim": 158601638304.47192
+          "con_elim": 158602141530.4719
         },
         "budget": {
-          "sin_elim": 219133294873.83304,
+          "sin_elim": 219133294873.83307,
           "solo_elim": 0.0,
-          "con_elim": 219133294873.83304
+          "con_elim": 219133294873.83307
         }
       },
       {
         "mes": "2026-07",
         "actuals": {
-          "sin_elim": 4723162806.66,
+          "sin_elim": 12276749912.28,
           "solo_elim": 0.0,
-          "con_elim": 4723162806.66
+          "con_elim": 12276749912.28
         },
         "budget": {
           "sin_elim": 208320200661.5667,
@@ -356,9 +356,9 @@
             "con_elim": 222104962009.57
           },
           "budget": {
-            "sin_elim": 223959892629.81,
+            "sin_elim": 223959892629.80997,
             "solo_elim": 0.0,
-            "con_elim": 223959892629.81
+            "con_elim": 223959892629.80997
           }
         },
         {
@@ -369,9 +369,9 @@
             "con_elim": 191453589609.85
           },
           "budget": {
-            "sin_elim": 197121233916.85043,
+            "sin_elim": 197121233916.8504,
             "solo_elim": 0.0,
-            "con_elim": 197121233916.85043
+            "con_elim": 197121233916.8504
           }
         },
         {
@@ -403,9 +403,9 @@
         {
           "mes": "2026-07",
           "actuals": {
-            "sin_elim": 4670232644.66,
+            "sin_elim": 12207821478.28,
             "solo_elim": 0.0,
-            "con_elim": 4670232644.66
+            "con_elim": 12207821478.28
           },
           "budget": {
             "sin_elim": 207998138194.60504,
@@ -418,35 +418,35 @@
         {
           "mes": "2025-06",
           "actuals": {
-            "sin_elim": 342665118.05,
+            "sin_elim": 343113058.04999995,
             "solo_elim": 0.0,
-            "con_elim": 342665118.05
+            "con_elim": 343113058.04999995
           },
           "budget": {
-            "sin_elim": 426266826.20000005,
+            "sin_elim": 426266826.2,
             "solo_elim": 0.0,
-            "con_elim": 426266826.20000005
+            "con_elim": 426266826.2
           }
         },
         {
           "mes": "2025-07",
           "actuals": {
-            "sin_elim": 356853849.18,
+            "sin_elim": 356853850.18,
             "solo_elim": 0.0,
-            "con_elim": 356853849.18
+            "con_elim": 356853850.18
           },
           "budget": {
-            "sin_elim": 439576933.72,
+            "sin_elim": 439576933.71999997,
             "solo_elim": 0.0,
-            "con_elim": 439576933.72
+            "con_elim": 439576933.71999997
           }
         },
         {
           "mes": "2025-08",
           "actuals": {
-            "sin_elim": 299858975.18,
+            "sin_elim": 300306914.18,
             "solo_elim": 0.0,
-            "con_elim": 299858975.18
+            "con_elim": 300306914.18
           },
           "budget": {
             "sin_elim": 454631164.4,
@@ -501,9 +501,9 @@
             "con_elim": 319236698.27
           },
           "budget": {
-            "sin_elim": 414751810.22,
+            "sin_elim": 414751810.21999997,
             "solo_elim": 0.0,
-            "con_elim": 414751810.22
+            "con_elim": 414751810.21999997
           }
         },
         {
@@ -548,9 +548,9 @@
         {
           "mes": "2026-04",
           "actuals": {
-            "sin_elim": 332743980.36,
+            "sin_elim": 332743981.36,
             "solo_elim": 0.0,
-            "con_elim": 332743980.36
+            "con_elim": 332743981.36
           },
           "budget": {
             "sin_elim": 299635814.3498595,
@@ -561,9 +561,9 @@
         {
           "mes": "2026-05",
           "actuals": {
-            "sin_elim": 312299301.14,
+            "sin_elim": 313299302.14,
             "solo_elim": 0.0,
-            "con_elim": 312299301.14
+            "con_elim": 313299302.14
           },
           "budget": {
             "sin_elim": 303030121.0679002,
@@ -574,9 +574,9 @@
         {
           "mes": "2026-06",
           "actuals": {
-            "sin_elim": 218499205.9519,
+            "sin_elim": 219002431.9519,
             "solo_elim": 0.0,
-            "con_elim": 218499205.9519
+            "con_elim": 219002431.9519
           },
           "budget": {
             "sin_elim": 299731896.2534224,
@@ -587,9 +587,9 @@
         {
           "mes": "2026-07",
           "actuals": {
-            "sin_elim": 52930162.0,
+            "sin_elim": 68928434.0,
             "solo_elim": 0.0,
-            "con_elim": 52930162.0
+            "con_elim": 68928434.0
           },
           "budget": {
             "sin_elim": 322062466.9616563,
@@ -604,9 +604,9 @@
         {
           "mes": "2025-06",
           "actuals": {
-            "sin_elim": 165548401711.5,
+            "sin_elim": 165548849651.5,
             "solo_elim": 0.0,
-            "con_elim": 165548401711.5
+            "con_elim": 165548849651.5
           },
           "budget": {
             "sin_elim": 142453022119.2,
@@ -617,22 +617,22 @@
         {
           "mes": "2025-07",
           "actuals": {
-            "sin_elim": 214528011294.42,
+            "sin_elim": 214528011295.42,
             "solo_elim": 0.0,
-            "con_elim": 214528011294.42
+            "con_elim": 214528011295.42
           },
           "budget": {
-            "sin_elim": 171645699479.40997,
+            "sin_elim": 171645699479.41003,
             "solo_elim": 0.0,
-            "con_elim": 171645699479.40997
+            "con_elim": 171645699479.41003
           }
         },
         {
           "mes": "2025-08",
           "actuals": {
-            "sin_elim": 176554907782.96,
+            "sin_elim": 176555355721.96002,
             "solo_elim": 0.0,
-            "con_elim": 176554907782.96
+            "con_elim": 176555355721.96002
           },
           "budget": {
             "sin_elim": 146290533467.97,
@@ -643,9 +643,9 @@
         {
           "mes": "2025-09",
           "actuals": {
-            "sin_elim": 197032023945.08002,
+            "sin_elim": 197032023945.08,
             "solo_elim": 0.0,
-            "con_elim": 197032023945.08002
+            "con_elim": 197032023945.08
           },
           "budget": {
             "sin_elim": 183582190139.28,
@@ -656,27 +656,27 @@
         {
           "mes": "2025-10",
           "actuals": {
-            "sin_elim": 183512662238.43,
+            "sin_elim": 183512662238.43002,
             "solo_elim": 0.0,
-            "con_elim": 183512662238.43
+            "con_elim": 183512662238.43002
           },
           "budget": {
-            "sin_elim": 199060498259.01,
+            "sin_elim": 199060498259.00998,
             "solo_elim": 0.0,
-            "con_elim": 199060498259.01
+            "con_elim": 199060498259.00998
           }
         },
         {
           "mes": "2025-11",
           "actuals": {
-            "sin_elim": 194980614670.22998,
+            "sin_elim": 194980614670.23,
             "solo_elim": 0.0,
-            "con_elim": 194980614670.22998
+            "con_elim": 194980614670.23
           },
           "budget": {
-            "sin_elim": 198074366746.13998,
+            "sin_elim": 198074366746.14,
             "solo_elim": 0.0,
-            "con_elim": 198074366746.13998
+            "con_elim": 198074366746.14
           }
         },
         {
@@ -721,22 +721,22 @@
         {
           "mes": "2026-03",
           "actuals": {
-            "sin_elim": 222318266686.59,
+            "sin_elim": 222318266686.59003,
             "solo_elim": 0.0,
-            "con_elim": 222318266686.59
+            "con_elim": 222318266686.59003
           },
           "budget": {
-            "sin_elim": 224179179648.5868,
+            "sin_elim": 224179179648.58676,
             "solo_elim": 0.0,
-            "con_elim": 224179179648.5868
+            "con_elim": 224179179648.58676
           }
         },
         {
           "mes": "2026-04",
           "actuals": {
-            "sin_elim": 191786333590.21,
+            "sin_elim": 191786333591.21,
             "solo_elim": 0.0,
-            "con_elim": 191786333590.21
+            "con_elim": 191786333591.21
           },
           "budget": {
             "sin_elim": 197420869731.20026,
@@ -747,35 +747,35 @@
         {
           "mes": "2026-05",
           "actuals": {
-            "sin_elim": 189227073335.47,
+            "sin_elim": 189228073336.47,
             "solo_elim": 0.0,
-            "con_elim": 189227073335.47
+            "con_elim": 189228073336.47
           },
           "budget": {
-            "sin_elim": 206769810119.90616,
+            "sin_elim": 206769810119.90613,
             "solo_elim": 0.0,
-            "con_elim": 206769810119.90616
+            "con_elim": 206769810119.90613
           }
         },
         {
           "mes": "2026-06",
           "actuals": {
-            "sin_elim": 158601638304.47192,
+            "sin_elim": 158602141530.4719,
             "solo_elim": 0.0,
-            "con_elim": 158601638304.47192
+            "con_elim": 158602141530.4719
           },
           "budget": {
-            "sin_elim": 219133294873.83304,
+            "sin_elim": 219133294873.83307,
             "solo_elim": 0.0,
-            "con_elim": 219133294873.83304
+            "con_elim": 219133294873.83307
           }
         },
         {
           "mes": "2026-07",
           "actuals": {
-            "sin_elim": 4723162806.66,
+            "sin_elim": 12276749912.28,
             "solo_elim": 0.0,
-            "con_elim": 4723162806.66
+            "con_elim": 12276749912.28
           },
           "budget": {
             "sin_elim": 208320200661.5667,
@@ -959,9 +959,9 @@
         {
           "mes": "2026-07",
           "actuals": {
-            "sin_elim": 1724964396.0,
+            "sin_elim": 3873901464.0,
             "solo_elim": 0.0,
-            "con_elim": 1724964396.0
+            "con_elim": 3873901464.0
           },
           "budget": {
             "sin_elim": 17563114026.245617,
@@ -987,9 +987,9 @@
         {
           "mes": "2025-07",
           "actuals": {
-            "sin_elim": 123966665353.0,
+            "sin_elim": 123966665354.0,
             "solo_elim": 0.0,
-            "con_elim": 123966665353.0
+            "con_elim": 123966665354.0
           },
           "budget": {
             "sin_elim": 72206241860.57,
@@ -1104,9 +1104,9 @@
         {
           "mes": "2026-04",
           "actuals": {
-            "sin_elim": 116052507359.0,
+            "sin_elim": 116052507360.0,
             "solo_elim": 0.0,
-            "con_elim": 116052507359.0
+            "con_elim": 116052507360.0
           },
           "budget": {
             "sin_elim": 118320000552.5,
@@ -1143,9 +1143,9 @@
         {
           "mes": "2026-07",
           "actuals": {
-            "sin_elim": 6.0,
+            "sin_elim": 19.0,
             "solo_elim": 0.0,
-            "con_elim": 6.0
+            "con_elim": 19.0
           },
           "budget": {
             "sin_elim": 131240000612.68,
@@ -1158,9 +1158,9 @@
         {
           "mes": "2025-06",
           "actuals": {
-            "sin_elim": 60174291844.75,
+            "sin_elim": 60174739784.75,
             "solo_elim": 0.0,
-            "con_elim": 60174291844.75
+            "con_elim": 60174739784.75
           },
           "budget": {
             "sin_elim": 63392878367.34,
@@ -1184,9 +1184,9 @@
         {
           "mes": "2025-08",
           "actuals": {
-            "sin_elim": 66825234892.96,
+            "sin_elim": 66825682831.95999,
             "solo_elim": 0.0,
-            "con_elim": 66825234892.96
+            "con_elim": 66825682831.95999
           },
           "budget": {
             "sin_elim": 65881931421.4,
@@ -1223,9 +1223,9 @@
         {
           "mes": "2025-11",
           "actuals": {
-            "sin_elim": 75702505783.23,
+            "sin_elim": 75702505783.23001,
             "solo_elim": 0.0,
-            "con_elim": 75702505783.23
+            "con_elim": 75702505783.23001
           },
           "budget": {
             "sin_elim": 79820620185.85,
@@ -1249,27 +1249,27 @@
         {
           "mes": "2026-01",
           "actuals": {
-            "sin_elim": 17082019826.679998,
+            "sin_elim": 17082019826.68,
             "solo_elim": 0.0,
-            "con_elim": 17082019826.679998
+            "con_elim": 17082019826.68
           },
           "budget": {
-            "sin_elim": 17082019826.679998,
+            "sin_elim": 17082019826.68,
             "solo_elim": 0.0,
-            "con_elim": 17082019826.679998
+            "con_elim": 17082019826.68
           }
         },
         {
           "mes": "2026-02",
           "actuals": {
-            "sin_elim": 52533066063.32,
+            "sin_elim": 52533066063.32001,
             "solo_elim": 0.0,
-            "con_elim": 52533066063.32
+            "con_elim": 52533066063.32001
           },
           "budget": {
-            "sin_elim": 52533066063.32,
+            "sin_elim": 52533066063.32001,
             "solo_elim": 0.0,
-            "con_elim": 52533066063.32
+            "con_elim": 52533066063.32001
           }
         },
         {
@@ -1280,9 +1280,9 @@
             "con_elim": 72702369327.59
           },
           "budget": {
-            "sin_elim": 72396573652.58676,
+            "sin_elim": 72396573652.58678,
             "solo_elim": 0.0,
-            "con_elim": 72396573652.58676
+            "con_elim": 72396573652.58678
           }
         },
         {
@@ -1301,9 +1301,9 @@
         {
           "mes": "2026-05",
           "actuals": {
-            "sin_elim": 61570258864.33,
+            "sin_elim": 61571258865.329994,
             "solo_elim": 0.0,
-            "con_elim": 61570258864.33
+            "con_elim": 61571258865.329994
           },
           "budget": {
             "sin_elim": 60417079785.80249,
@@ -1314,22 +1314,22 @@
         {
           "mes": "2026-06",
           "actuals": {
-            "sin_elim": 48456008184.770004,
+            "sin_elim": 48456511410.770004,
             "solo_elim": 0.0,
-            "con_elim": 48456008184.770004
+            "con_elim": 48456511410.770004
           },
           "budget": {
-            "sin_elim": 56033374963.86108,
+            "sin_elim": 56033374963.861084,
             "solo_elim": 0.0,
-            "con_elim": 56033374963.86108
+            "con_elim": 56033374963.861084
           }
         },
         {
           "mes": "2026-07",
           "actuals": {
-            "sin_elim": 2998198404.66,
+            "sin_elim": 8402848429.280001,
             "solo_elim": 0.0,
-            "con_elim": 2998198404.66
+            "con_elim": 8402848429.280001
           },
           "budget": {
             "sin_elim": 59517086022.64108,
@@ -1531,9 +1531,9 @@
       "tipo_transaccion": "02. Deeds (Brokerage New)",
       "es_ajuste": false,
       "actuals": {
-        "sin_elim": 90417068.75,
+        "sin_elim": 90417068.74999999,
         "solo_elim": 0.0,
-        "con_elim": 90417068.75
+        "con_elim": 90417068.74999999
       },
       "budget": {
         "sin_elim": 69120096.0,
@@ -1611,9 +1611,9 @@
       "tipo_transaccion": "03. Purchase Deeds (MM)",
       "es_ajuste": false,
       "actuals": {
-        "sin_elim": 56202000.0,
+        "sin_elim": 56649940.0,
         "solo_elim": 0.0,
-        "con_elim": 56202000.0
+        "con_elim": 56649940.0
       },
       "budget": {
         "sin_elim": 53296010.55,
@@ -1851,9 +1851,9 @@
       "tipo_transaccion": "02. Deeds (Brokerage New)",
       "es_ajuste": false,
       "actuals": {
-        "sin_elim": 88215496.24,
+        "sin_elim": 88215496.24000001,
         "solo_elim": 0.0,
-        "con_elim": 88215496.24
+        "con_elim": 88215496.24000001
       },
       "budget": {
         "sin_elim": 69120096.0,
@@ -1871,9 +1871,9 @@
       "tipo_transaccion": "03. Loans Disbursed (HC)",
       "es_ajuste": false,
       "actuals": {
-        "sin_elim": 105.0,
+        "sin_elim": 106.0,
         "solo_elim": 0.0,
-        "con_elim": 105.0
+        "con_elim": 106.0
       },
       "budget": {
         "sin_elim": 0.0,
@@ -2271,9 +2271,9 @@
       "tipo_transaccion": "07. Sale Deeds (MM)",
       "es_ajuste": false,
       "actuals": {
-        "sin_elim": 48682195.3,
+        "sin_elim": 49130134.3,
         "solo_elim": 0.0,
-        "con_elim": 48682195.3
+        "con_elim": 49130134.3
       },
       "budget": {
         "sin_elim": 103401111.44,
@@ -2291,9 +2291,9 @@
       "tipo_transaccion": "07. Sale Deeds (MM)",
       "es_ajuste": false,
       "actuals": {
-        "sin_elim": 58740451.88,
+        "sin_elim": 58740451.879999995,
         "solo_elim": 0.0,
-        "con_elim": 58740451.88
+        "con_elim": 58740451.879999995
       },
       "budget": {
         "sin_elim": 73093889.12,
@@ -2411,9 +2411,9 @@
       "tipo_transaccion": "07. Sale Deeds (MM)",
       "es_ajuste": false,
       "actuals": {
-        "sin_elim": 29550717788.44,
+        "sin_elim": 29550717788.440002,
         "solo_elim": 0.0,
-        "con_elim": 29550717788.44
+        "con_elim": 29550717788.440002
       },
       "budget": {
         "sin_elim": 33050307100.78,
@@ -2811,9 +2811,9 @@
       "tipo_transaccion": "02. Deeds (Brokerage New)",
       "es_ajuste": false,
       "actuals": {
-        "sin_elim": 66203879.73,
+        "sin_elim": 66203879.730000004,
         "solo_elim": 0.0,
-        "con_elim": 66203879.73
+        "con_elim": 66203879.730000004
       },
       "budget": {
         "sin_elim": 69120096.0,
@@ -3551,9 +3551,9 @@
       "tipo_transaccion": "07. Sale Deeds (MM)",
       "es_ajuste": false,
       "actuals": {
-        "sin_elim": 42734189.269999996,
+        "sin_elim": 42734189.27,
         "solo_elim": 0.0,
-        "con_elim": 42734189.269999996
+        "con_elim": 42734189.27
       },
       "budget": {
         "sin_elim": 105690182.89,
@@ -3651,14 +3651,14 @@
       "tipo_transaccion": "03. Purchase Deeds (MM)",
       "es_ajuste": false,
       "actuals": {
-        "sin_elim": 9027923666.679998,
+        "sin_elim": 9027923666.68,
         "solo_elim": 0.0,
-        "con_elim": 9027923666.679998
+        "con_elim": 9027923666.68
       },
       "budget": {
-        "sin_elim": 9027923666.679998,
+        "sin_elim": 9027923666.68,
         "solo_elim": 0.0,
-        "con_elim": 9027923666.679998
+        "con_elim": 9027923666.68
       }
     },
     {
@@ -3971,14 +3971,14 @@
       "tipo_transaccion": "03. Purchase Deeds (MM)",
       "es_ajuste": false,
       "actuals": {
-        "sin_elim": 26294926920.47,
+        "sin_elim": 26294926920.469997,
         "solo_elim": 0.0,
-        "con_elim": 26294926920.47
+        "con_elim": 26294926920.469997
       },
       "budget": {
-        "sin_elim": 26294926920.47,
+        "sin_elim": 26294926920.469997,
         "solo_elim": 0.0,
-        "con_elim": 26294926920.47
+        "con_elim": 26294926920.469997
       }
     },
     {
@@ -4031,14 +4031,14 @@
       "tipo_transaccion": "07. Sale Deeds (MM)",
       "es_ajuste": false,
       "actuals": {
-        "sin_elim": 6225187320.19,
+        "sin_elim": 6225187320.190001,
         "solo_elim": 0.0,
-        "con_elim": 6225187320.19
+        "con_elim": 6225187320.190001
       },
       "budget": {
-        "sin_elim": 6225187320.19,
+        "sin_elim": 6225187320.190001,
         "solo_elim": 0.0,
-        "con_elim": 6225187320.19
+        "con_elim": 6225187320.190001
       }
     },
     {
@@ -4291,9 +4291,9 @@
       "tipo_transaccion": "03. Purchase Deeds (MM)",
       "es_ajuste": false,
       "actuals": {
-        "sin_elim": 28552379272.13,
+        "sin_elim": 28552379272.129997,
         "solo_elim": 0.0,
-        "con_elim": 28552379272.13
+        "con_elim": 28552379272.129997
       },
       "budget": {
         "sin_elim": 28331923084.370003,
@@ -4311,9 +4311,9 @@
       "tipo_transaccion": "03. Purchase Deeds (MM)",
       "es_ajuste": false,
       "actuals": {
-        "sin_elim": 4427914048.44,
+        "sin_elim": 4427914048.440001,
         "solo_elim": 0.0,
-        "con_elim": 4427914048.44
+        "con_elim": 4427914048.440001
       },
       "budget": {
         "sin_elim": 4427030049.440001,
@@ -4611,9 +4611,9 @@
       "tipo_transaccion": "03. Purchase Deeds (MM)",
       "es_ajuste": false,
       "actuals": {
-        "sin_elim": 22625605213.91,
+        "sin_elim": 22625605213.910004,
         "solo_elim": 0.0,
-        "con_elim": 22625605213.91
+        "con_elim": 22625605213.910004
       },
       "budget": {
         "sin_elim": 27001135383.999996,
@@ -4631,9 +4631,9 @@
       "tipo_transaccion": "03. Purchase Deeds (MM)",
       "es_ajuste": false,
       "actuals": {
-        "sin_elim": 5756249216.260001,
+        "sin_elim": 5756249216.259998,
         "solo_elim": 0.0,
-        "con_elim": 5756249216.260001
+        "con_elim": 5756249216.259998
       },
       "budget": {
         "sin_elim": 7606170054.999999,
@@ -4751,9 +4751,9 @@
       "tipo_transaccion": "03. Loans Disbursed (HC)",
       "es_ajuste": false,
       "actuals": {
-        "sin_elim": 39.0,
+        "sin_elim": 40.0,
         "solo_elim": 0.0,
-        "con_elim": 39.0
+        "con_elim": 40.0
       },
       "budget": {
         "sin_elim": 0.0,
@@ -4931,9 +4931,9 @@
       "tipo_transaccion": "03. Purchase Deeds (MM)",
       "es_ajuste": false,
       "actuals": {
-        "sin_elim": 20878996393.02,
+        "sin_elim": 20878996393.019997,
         "solo_elim": 0.0,
-        "con_elim": 20878996393.02
+        "con_elim": 20878996393.019997
       },
       "budget": {
         "sin_elim": 21743769747.0,
@@ -4951,9 +4951,9 @@
       "tipo_transaccion": "03. Purchase Deeds (MM)",
       "es_ajuste": false,
       "actuals": {
-        "sin_elim": 7960259654.31,
+        "sin_elim": 7960259654.3099985,
         "solo_elim": 0.0,
-        "con_elim": 7960259654.31
+        "con_elim": 7960259654.3099985
       },
       "budget": {
         "sin_elim": 9013680065.0,
@@ -5131,9 +5131,9 @@
       "tipo_transaccion": "03. Purchase Deeds (MM)",
       "es_ajuste": false,
       "actuals": {
-        "sin_elim": 68625385.0,
+        "sin_elim": 69625386.0,
         "solo_elim": 0.0,
-        "con_elim": 68625385.0
+        "con_elim": 69625386.0
       },
       "budget": {
         "sin_elim": 71703503.00565408,
@@ -5271,9 +5271,9 @@
       "tipo_transaccion": "03. Purchase Deeds (MM)",
       "es_ajuste": false,
       "actuals": {
-        "sin_elim": 3512297697.1800003,
+        "sin_elim": 3512297697.18,
         "solo_elim": 0.0,
-        "con_elim": 3512297697.1800003
+        "con_elim": 3512297697.18
       },
       "budget": {
         "sin_elim": 9316350066.999998,
@@ -5491,9 +5491,9 @@
       "tipo_transaccion": "07. Sale Deeds (MM)",
       "es_ajuste": false,
       "actuals": {
-        "sin_elim": 25584861.0,
+        "sin_elim": 26088087.0,
         "solo_elim": 0.0,
-        "con_elim": 25584861.0
+        "con_elim": 26088087.0
       },
       "budget": {
         "sin_elim": 31083548.703304987,
@@ -5511,9 +5511,9 @@
       "tipo_transaccion": "05. Deeds (Brokerage Used)",
       "es_ajuste": false,
       "actuals": {
-        "sin_elim": 1692000008.0,
+        "sin_elim": 3833180017.0,
         "solo_elim": 0.0,
-        "con_elim": 1692000008.0
+        "con_elim": 3833180017.0
       },
       "budget": {
         "sin_elim": 17456494994.925045,
@@ -5571,9 +5571,9 @@
       "tipo_transaccion": "03. Purchase Deeds (MM)",
       "es_ajuste": false,
       "actuals": {
-        "sin_elim": 729465538.4200001,
+        "sin_elim": 2375917837.92,
         "solo_elim": 0.0,
-        "con_elim": 729465538.4200001
+        "con_elim": 2375917837.92
       },
       "budget": {
         "sin_elim": 15551785704.0,
@@ -5591,9 +5591,9 @@
       "tipo_transaccion": "03. Purchase Deeds (MM)",
       "es_ajuste": false,
       "actuals": {
-        "sin_elim": 793126702.24,
+        "sin_elim": 1592416540.3600001,
         "solo_elim": 0.0,
-        "con_elim": 793126702.24
+        "con_elim": 1592416540.3600001
       },
       "budget": {
         "sin_elim": 11575512083.0,
@@ -5611,9 +5611,9 @@
       "tipo_transaccion": "07. Sale Deeds (MM)",
       "es_ajuste": false,
       "actuals": {
-        "sin_elim": 1351140396.0,
+        "sin_elim": 3936080944.0,
         "solo_elim": 0.0,
-        "con_elim": 1351140396.0
+        "con_elim": 3936080944.0
       },
       "budget": {
         "sin_elim": 24224896800.0,
@@ -5631,9 +5631,9 @@
       "tipo_transaccion": "07. Sale Deeds (MM)",
       "es_ajuste": false,
       "actuals": {
-        "sin_elim": 104500000.0,
+        "sin_elim": 470226139.0,
         "solo_elim": 0.0,
-        "con_elim": 104500000.0
+        "con_elim": 470226139.0
       },
       "budget": {
         "sin_elim": 7949448000.0,
@@ -5671,9 +5671,9 @@
       "tipo_transaccion": "05. Deeds (Brokerage Used)",
       "es_ajuste": false,
       "actuals": {
-        "sin_elim": 3706303.0,
+        "sin_elim": 8374359.0,
         "solo_elim": 0.0,
-        "con_elim": 3706303.0
+        "con_elim": 8374359.0
       },
       "budget": {
         "sin_elim": 24262147.594501205,
@@ -5691,9 +5691,9 @@
       "tipo_transaccion": "02. Deeds (Brokerage New)",
       "es_ajuste": false,
       "actuals": {
-        "sin_elim": 29258085.0,
+        "sin_elim": 32347088.0,
         "solo_elim": 0.0,
-        "con_elim": 29258085.0
+        "con_elim": 32347088.0
       },
       "budget": {
         "sin_elim": 54336610.2975,
@@ -5711,9 +5711,9 @@
       "tipo_transaccion": "03. Loans Disbursed (HC)",
       "es_ajuste": false,
       "actuals": {
-        "sin_elim": 3.0,
+        "sin_elim": 15.0,
         "solo_elim": 0.0,
-        "con_elim": 3.0
+        "con_elim": 15.0
       },
       "budget": {
         "sin_elim": 0.0,
@@ -5731,9 +5731,9 @@
       "tipo_transaccion": "03. Loans Disbursed (HC)",
       "es_ajuste": false,
       "actuals": {
-        "sin_elim": 3.0,
+        "sin_elim": 4.0,
         "solo_elim": 0.0,
-        "con_elim": 3.0
+        "con_elim": 4.0
       },
       "budget": {
         "sin_elim": 0.0,
@@ -5771,9 +5771,9 @@
       "tipo_transaccion": "03. Purchase Deeds (MM)",
       "es_ajuste": false,
       "actuals": {
-        "sin_elim": 7741588.0,
+        "sin_elim": 11239590.0,
         "solo_elim": 0.0,
-        "con_elim": 7741588.0
+        "con_elim": 11239590.0
       },
       "budget": {
         "sin_elim": 66290325.73571804,
@@ -5791,9 +5791,9 @@
       "tipo_transaccion": "07. Sale Deeds (MM)",
       "es_ajuste": false,
       "actuals": {
-        "sin_elim": 850000.0,
+        "sin_elim": 3454257.0,
         "solo_elim": 0.0,
-        "con_elim": 850000.0
+        "con_elim": 3454257.0
       },
       "budget": {
         "sin_elim": 79180025.295441,
@@ -5811,9 +5811,9 @@
       "tipo_transaccion": "07. Sale Deeds (MM)",
       "es_ajuste": false,
       "actuals": {
-        "sin_elim": 0.0,
+        "sin_elim": 2138941.0,
         "solo_elim": 0.0,
-        "con_elim": 0.0
+        "con_elim": 2138941.0
       },
       "budget": {
         "sin_elim": 34065824.83641066,
