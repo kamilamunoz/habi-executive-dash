@@ -192,6 +192,10 @@ html,body{background:var(--bg);color:var(--txt);font-family:'IBM Plex Sans',sans
 .drill-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-bottom:22px}
 @media (max-width:760px){.drill-grid{grid-template-columns:1fr}}
 .drill-block h3{font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--txt2);margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--line)}
+/* Sub-secciones dentro de un drill-block (usadas en EBITDA By metric por linea de negocio) */
+.drill-subsection{margin-top:14px}
+.drill-subsection:first-child{margin-top:0}
+.drill-subsection-label{font-size:10.5px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--txt3);margin-bottom:4px;padding:2px 0}
 .drill-list{display:flex;flex-direction:column}
 .drill-row{display:grid;grid-template-columns:minmax(160px,2fr) 110px 110px 90px 80px;align-items:center;column-gap:10px;padding:9px 4px;border-bottom:1px solid var(--line2);font-size:13px}
 .drill-list.with-ratio .drill-row{grid-template-columns:minmax(140px,2fr) 110px 70px 110px 90px 80px}
@@ -246,10 +250,14 @@ html,body{background:var(--bg);color:var(--txt);font-family:'IBM Plex Sans',sans
 /* Leyenda MTD drill: extension forecast (azul prev + naranja yoy) punteada */
 .lg-line.lg-fc-prev{background:transparent;border-top:2.5px dashed #2D6FD4;height:0}
 .lg-line.lg-fc-yoy{background:transparent;border-top:2.5px dashed #EA580C;height:0}
+.lg-line.lg-fc-team{background:transparent;border-top:2.5px dotted #C026D3;height:0}
+/* Leyenda de meta (rojo dashed) — usada en Cash Conversion Cycle */
+.lg-line.lg-target{background:transparent;border-top:2.5px dashed #DC2626;height:0}
 /* Dots inline en la tabla del drill MTD (referencia visual con leyenda) */
-.dot-prev,.dot-yoy{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:4px;vertical-align:middle}
+.dot-prev,.dot-yoy,.dot-team{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:4px;vertical-align:middle}
 .dot-prev{background:#2D6FD4}
 .dot-yoy{background:#EA580C}
+.dot-team{background:#C026D3}
 /* Filas destacadas en la tabla del drill MTD */
 .mtd-drill-table tr.row-mtd td{background:var(--purple-soft)}
 .mtd-drill-table tr.row-budget td{background:var(--panel2);font-weight:600;border-top:2px solid var(--line)}

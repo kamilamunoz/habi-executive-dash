@@ -41,6 +41,7 @@ from __future__ import annotations
 
 import datetime as dt
 import logging
+from pathlib import Path
 from typing import Any
 
 import pandas as pd
@@ -50,8 +51,20 @@ from scripts._common import MONEDA_POR_PAIS, PAIS_LABEL
 
 log = logging.getLogger(__name__)
 
+REPO_ROOT = Path(__file__).resolve().parent.parent.parent
+TEAM_FORECAST_CSV = REPO_ROOT / "data" / "mtd_forecast_manual.csv"
+
 TAPE = "clients-domain-data-master.finance_wh_bi.finance_tapes_global"
 TAPE_INMO = "papyrus-delivery-data.corp_gov_global.inmobiliaria_tapes_global"
+CORPFIN = "papyrus-delivery-data.corp_gov_global.habicredit_corpfin"
+
+# habicredit_corpfin.producto que suma exactamente el bet 04. Habicredit
+# (jun-26 CO cuadra 0% diff en NIDs+GMV para radicados/aprobados/desembolsados).
+CORPFIN_PRODUCTOS = ("ibuyer", "externo", "inmobiliaria", "brokerage")
+
+# Intercompany terceros excluidos del ajuste MM tape (mismo filtro que el
+# KPI Historical `ingresos_ajustados`).
+INTERCO_TERCEROS = ("MCN INVESTMENTS CORP", "CORPORATIVO MCNEMEXICO", "MERBOS")
 
 # Para Sale Deeds bet expone GMV en Purchase price Y Selling price; el
 # tab muestra Selling price (lo que vendimos). Para Purchase Deeds solo
@@ -117,8 +130,8 @@ STREAMS = [
     },
     {
         "id": "mm_gross_margin",
-        "nombre": "MM · Gross Margin (proxy tape)",
-        "linea_negocio": "Market Maker",
+        "nombre": "Gross Margin · MM proxy tape",
+        "linea_negocio": "P&L Forecast",
         "tipo": "ratio",
         "tabla_tape": TAPE,
         # No hay bet_metrica: se calcula del tape.
@@ -177,11 +190,68 @@ STREAMS = [
         "gmv_tipo_precio": None,
         "filtrar_desistidos": False,
     },
+    # ===== HABICREDIT =====
+    # Bet mensual (totales+budget) + habicredit_corpfin daily (curva).
+    # Cross-check jun-26 CO cuadra 100% MM+NonMM x NIDs+GMV bet vs corpfin
+    # (mapeo: producto='ibuyer'=MM Mortgages; producto IN ('externo',
+    # 'inmobiliaria','brokerage')=Non-MM Mortgages; ambas categorias
+    # 'Bancario' y 'Habicredit 100' entran). bet_submetrica=None suma ambos
+    # buckets. m_tipo_precio no aplica (Habicredit no lo usa en bet).
+    {
+        "id": "hc_loans_pre_approved",
+        "nombre": "HC · Loans Pre-Approved",
+        "linea_negocio": "Habicredit",
+        "tipo": "count",
+        "fuente_daily": "corpfin",
+        "corpfin_kpi_nids": "Creditos radicados",
+        "corpfin_kpi_gmv":  "Creditos radicados ($)",
+        "bet_categoria": "04. Habicredit",
+        "bet_metrica": "01. Loans Pre-Approved",
+        "bet_submetrica": None,
+        "gmv_tipo_precio": None,
+    },
+    {
+        "id": "hc_loans_approved",
+        "nombre": "HC · Loans Approved",
+        "linea_negocio": "Habicredit",
+        "tipo": "count",
+        "fuente_daily": "corpfin",
+        "corpfin_kpi_nids": "Creditos aprobados",
+        "corpfin_kpi_gmv":  "Creditos aprobados ($)",
+        "bet_categoria": "04. Habicredit",
+        "bet_metrica": "02. Loans Approved",
+        "bet_submetrica": None,
+        "gmv_tipo_precio": None,
+    },
+    {
+        "id": "hc_loans_disbursed",
+        "nombre": "HC · Loans Disbursed",
+        "linea_negocio": "Habicredit",
+        "tipo": "count",
+        "fuente_daily": "corpfin",
+        "corpfin_kpi_nids": "Creditos desembolsados",
+        "corpfin_kpi_gmv":  "Creditos desembolsados ($)",
+        "bet_categoria": "04. Habicredit",
+        "bet_metrica": "03. Loans Disbursed",
+        "bet_submetrica": None,
+        "gmv_tipo_precio": None,
+    },
+    # ===== P&L FORECAST (monthly, no daily curve) =====
+    # Adjusted Revenue: bet Revenue completo (todas las lineas) + ajuste MM
+    # del tape (Sigma c_precio sobre NIDs invoiced con c_fecha_factura del mes).
+    # Sin curva daily (bet mensual). Forecast del mes en curso = MTD × (dias_mes/dia_hoy).
+    {
+        "id": "pl_adj_revenue",
+        "nombre": "Adjusted Revenue (forecast)",
+        "linea_negocio": "P&L Forecast",
+        "tipo": "monthly_forecast",
+    },
 ]
 
 # Solo los streams con `tipo='count'` van al bet (para budget + total mensual).
 STREAMS_COUNT = [s for s in STREAMS if s["tipo"] == "count"]
 STREAMS_RATIO = [s for s in STREAMS if s["tipo"] == "ratio"]
+STREAMS_PL    = [s for s in STREAMS if s["tipo"] == "monthly_forecast"]
 
 
 def _ventanas(mes_max: dt.date) -> dict[str, tuple[dt.date, dt.date]]:
@@ -281,6 +351,37 @@ GROUP BY 1, 2
 """.strip()
 
 
+def _sql_corpfin_daily(kpi_nids: str, kpi_gmv: str,
+                       rangos: list[tuple[dt.date, dt.date]]) -> str:
+    """Curva diaria NIDs + GMV desde habicredit_corpfin.
+
+    Mismo shape que _sql_tape_daily (fecha, m_pais, nids, gmv) para que la
+    curva se arme igual. Sin filtro de desistimientos (no aplica a loans).
+    """
+    or_clauses = " OR ".join(
+        f"(fecha BETWEEN '{a.isoformat()}' AND '{b.isoformat()}')"
+        for a, b in rangos
+    )
+    productos_sql = ",".join(f"'{p}'" for p in CORPFIN_PRODUCTOS)
+    return f"""
+SELECT
+  fecha,
+  CASE pais
+    WHEN 'Colombia' THEN '1. Colombia'
+    WHEN 'México'   THEN '2. Mexico'
+  END                                        AS m_pais,
+  SUM(IF(kpi = '{kpi_nids}', valor, 0))      AS nids,
+  SUM(IF(kpi = '{kpi_gmv}',  valor, 0))      AS gmv
+FROM `{CORPFIN}`
+WHERE pais IN ('Colombia','México')
+  AND producto IN ({productos_sql})
+  AND kpi IN ('{kpi_nids}','{kpi_gmv}')
+  AND fecha IS NOT NULL
+  AND ({or_clauses})
+GROUP BY 1, 2
+""".strip()
+
+
 def _curva_dia_a_dia(df_dia: pd.DataFrame, pais: str,
                      ventana_inicio: dt.date, ventana_fin: dt.date) -> list[dict[str, Any]]:
     """Toma rows diarias del tape filtradas a un pais y construye curva
@@ -343,6 +444,63 @@ WHERE pais IN ('Colombia','México')
   AND desistimientos = 'No desistidos'
   AND c_fecha_factura IS NOT NULL
   AND v_precio IS NOT NULL
+  AND ({or_clauses})
+GROUP BY 1, 2
+""".strip()
+
+
+def _sql_adj_revenue_bet(meses: list[dt.date]) -> str:
+    """Revenue mensual bet por (mes, pais), separando MM (para restar) y no-MM.
+    Suma actuals_accounting y budget_1. Excluye eliminaciones (1, -1) para
+    replicar la formula de kpi_ingresos_ajustados.
+    """
+    fechas = ",".join(f"'{m.isoformat()}'" for m in meses)
+    return f"""
+SELECT
+  mes,
+  m_pais,
+  IF(m_negocio = '01. Market Maker', 'mm', 'other') AS bucket,
+  SUM(IF(dummie_eliminaciones IS NULL OR dummie_eliminaciones NOT IN (1, -1),
+         actuals_accounting, 0)) AS actuals,
+  SUM(IF(dummie_eliminaciones IS NULL OR dummie_eliminaciones NOT IN (1, -1),
+         budget_1, 0))            AS budget
+FROM `{TABLE_BET}`
+WHERE m_categoria = '01. Total Revenue'
+  AND m_tipo      = '1. Financials'
+  AND m_metrica  != '01. Total Revenue'
+  AND mes IN ({fechas})
+GROUP BY 1, 2, 3
+""".strip()
+
+
+def _sql_adj_revenue_tape_delta(rangos: list[tuple[dt.date, dt.date]]) -> str:
+    """Sigma c_precio del tape sobre NIDs invoiced en las 3 ventanas."""
+    or_clauses = " OR ".join(
+        f"(t.c_fecha_factura BETWEEN '{a.isoformat()}' AND '{b.isoformat()}')"
+        for a, b in rangos
+    )
+    interco = ", ".join(f"'{t}'" for t in INTERCO_TERCEROS)
+    return f"""
+WITH bet_mm_nids AS (
+  SELECT DISTINCT CAST(nid AS STRING) AS nid_str
+  FROM `{TABLE_BET}`
+  WHERE m_categoria = '01. Total Revenue'
+    AND m_tipo = '1. Financials'
+    AND m_negocio = '01. Market Maker'
+    AND m_metrica != '01. Total Revenue'
+    AND nid IS NOT NULL
+    AND UPPER(COALESCE(c_tercero, '')) NOT IN ({interco})
+)
+SELECT
+  DATE_TRUNC(t.c_fecha_factura, MONTH) AS mes,
+  CASE t.pais
+    WHEN 'Colombia' THEN '1. Colombia'
+    WHEN 'México'   THEN '2. Mexico'
+  END                                  AS m_pais,
+  SUM(t.c_precio)                      AS tape_sum
+FROM `{TAPE}` t
+INNER JOIN bet_mm_nids n ON CAST(t.nid AS STRING) = n.nid_str
+WHERE t.c_fecha_factura IS NOT NULL
   AND ({or_clauses})
 GROUP BY 1, 2
 """.strip()
@@ -466,6 +624,62 @@ def _ventana_payload(df_bet: pd.DataFrame, df_dia: pd.DataFrame,
     return bloque
 
 
+def _cargar_team_forecast(mes_actual: dt.date) -> dict[tuple[str, str], float]:
+    """Lee data/mtd_forecast_manual.csv y devuelve {(stream_id, pais_label): forecast_nids}.
+
+    CSV editable por Kamila. Formato: stream_id, pais, mes, forecast_nids, nota.
+    Solo filas con `mes` == mes_actual (YYYY-MM) y `forecast_nids` no-vacio entran.
+    Si el archivo no existe o esta vacio, devuelve {} (feature apagada).
+
+    Robusto contra las 3 cosas que se rompen con Excel latino:
+      - separador auto (',' o ';'; el "CSV" europeo usa ';')
+      - encoding auto (utf-8 fallback latin-1 para "México")
+      - pais normalizado ("México" → "Mexico", quita tildes)
+
+    Warns si un stream_id no matchea ningun STREAMS_COUNT id (typo en el CSV).
+    """
+    if not TEAM_FORECAST_CSV.exists():
+        return {}
+    # Auto separator + encoding fallback
+    for encoding in ("utf-8", "latin-1"):
+        try:
+            df = pd.read_csv(
+                TEAM_FORECAST_CSV,
+                sep=None, engine="python", encoding=encoding,
+                dtype={"stream_id": str, "pais": str, "mes": str},
+            )
+            break
+        except (UnicodeDecodeError, pd.errors.ParserError):
+            df = None
+            continue
+    if df is None or df.empty:
+        return {}
+
+    # Normalizar pais: "México" → "Mexico"; strip espacios
+    df["pais"] = df["pais"].fillna("").str.strip().replace({"México": "Mexico", "Mexico": "Mexico"})
+    df["stream_id"] = df["stream_id"].fillna("").str.strip()
+    df["mes"] = df["mes"].fillna("").str.strip()
+
+    mes_str = mes_actual.strftime("%Y-%m")
+    df = df[df["mes"] == mes_str].copy()
+    df = df[df["forecast_nids"].notna()]
+
+    # Warn typos: stream_ids que no matchean con ningun stream conocido
+    known_ids = {s["id"] for s in STREAMS_COUNT}
+    unknown = set(df["stream_id"]) - known_ids
+    if unknown:
+        log.warning("Team forecast: stream_ids desconocidos ignorados: %s. Validos: %s",
+                    sorted(unknown), sorted(known_ids))
+        df = df[df["stream_id"].isin(known_ids)]
+
+    out: dict[tuple[str, str], float] = {}
+    for _, r in df.iterrows():
+        out[(r["stream_id"], r["pais"])] = float(r["forecast_nids"])
+    if out:
+        log.info("Team forecast: %d entries cargadas para %s", len(out), mes_str)
+    return out
+
+
 def build(mes_corte: dt.date, mes_max: dt.date | None = None) -> dict[str, Any]:
     """Construye el payload del tab MTD · Transactions (Fase 1)."""
     if mes_max is None:
@@ -485,20 +699,28 @@ def build(mes_corte: dt.date, mes_max: dt.date | None = None) -> dict[str, Any]:
     df_dia_por_stream: dict[str, pd.DataFrame] = {}
     rangos = list(ventanas.values())
     for s in STREAMS_COUNT:
-        log.info("MTD: tape daily %s (%s, tabla=%s, filtrar_desistidos=%s, tipo_captacion=%s)",
-                 s["id"], s["fecha_field"],
-                 s.get("tabla_tape", TAPE).split(".")[-1],
-                 s.get("filtrar_desistidos", True),
-                 s.get("filtro_tipo_captacion") or "-")
-        df = run_query(
-            _sql_tape_daily(
-                s.get("tabla_tape", TAPE),
-                s["fecha_field"], s["precio_field"], rangos,
-                filtrar_desistidos=s.get("filtrar_desistidos", True),
-                filtro_tipo_captacion=s.get("filtro_tipo_captacion"),
-            ),
-            label=f"mtd_tape_{s['id']}",
-        )
+        if s.get("fuente_daily") == "corpfin":
+            log.info("MTD: corpfin daily %s (kpi=%s / %s)",
+                     s["id"], s["corpfin_kpi_nids"], s["corpfin_kpi_gmv"])
+            df = run_query(
+                _sql_corpfin_daily(s["corpfin_kpi_nids"], s["corpfin_kpi_gmv"], rangos),
+                label=f"mtd_corpfin_{s['id']}",
+            )
+        else:
+            log.info("MTD: tape daily %s (%s, tabla=%s, filtrar_desistidos=%s, tipo_captacion=%s)",
+                     s["id"], s["fecha_field"],
+                     s.get("tabla_tape", TAPE).split(".")[-1],
+                     s.get("filtrar_desistidos", True),
+                     s.get("filtro_tipo_captacion") or "-")
+            df = run_query(
+                _sql_tape_daily(
+                    s.get("tabla_tape", TAPE),
+                    s["fecha_field"], s["precio_field"], rangos,
+                    filtrar_desistidos=s.get("filtrar_desistidos", True),
+                    filtro_tipo_captacion=s.get("filtro_tipo_captacion"),
+                ),
+                label=f"mtd_tape_{s['id']}",
+            )
         df["fecha"] = pd.to_datetime(df["fecha"])
         df_dia_por_stream[s["id"]] = df
 
@@ -529,15 +751,24 @@ def build(mes_corte: dt.date, mes_max: dt.date | None = None) -> dict[str, Any]:
 
     # Construir streams
     paises = ["1. Colombia", "2. Mexico"]
+    team_forecast = _cargar_team_forecast(actual_a)
     streams_payload = []
     for s in STREAMS_COUNT:
         df_dia = df_dia_por_stream[s["id"]]
         por_pais = {}
         for pais in paises:
-            por_pais[PAIS_LABEL[pais]] = {
+            pais_label = PAIS_LABEL[pais]
+            ma = _ventana_payload(df_bet, df_dia, s, pais, "mes_actual",
+                                  *ventanas["mes_actual"], incluir_budget=True)
+            # Team forecast (manual, opcional). GMV derivado del ratio MTD.
+            team_nids = team_forecast.get((s["id"], pais_label))
+            if team_nids is not None:
+                ratio = (ma["gmv_total"] / ma["nids_total"]) if ma["nids_total"] > 0 else None
+                ma["team_nids"] = team_nids
+                ma["team_gmv"] = team_nids * ratio if ratio is not None else None
+            por_pais[pais_label] = {
                 "moneda": MONEDA_POR_PAIS.get(pais, "USD"),
-                "mes_actual":   _ventana_payload(df_bet, df_dia, s, pais, "mes_actual",
-                                                 *ventanas["mes_actual"], incluir_budget=True),
+                "mes_actual":   ma,
                 "mes_anterior": _ventana_payload(df_bet, df_dia, s, pais, "mes_anterior",
                                                  *ventanas["mes_anterior"], incluir_budget=False),
                 "mes_yoy":      _ventana_payload(df_bet, df_dia, s, pais, "mes_yoy",
@@ -549,8 +780,8 @@ def build(mes_corte: dt.date, mes_max: dt.date | None = None) -> dict[str, Any]:
             "linea_negocio": s["linea_negocio"],
             "tipo": s["tipo"],
             "bet_metrica": s["bet_metrica"],
-            "fecha_field": s["fecha_field"],
-            "gmv_tipo_precio": s["gmv_tipo_precio"],
+            "fecha_field": s.get("fecha_field"),
+            "gmv_tipo_precio": s.get("gmv_tipo_precio"),
             "granularidad": "diaria",
             "por_pais": por_pais,
         })
@@ -575,6 +806,52 @@ def build(mes_corte: dt.date, mes_max: dt.date | None = None) -> dict[str, Any]:
             "granularidad": "diaria",
             "por_pais": por_pais,
         })
+
+    # ===== P&L Forecast streams (monthly, no daily curve) =====
+    if STREAMS_PL:
+        meses_pl = [a for (a, _) in ventanas.values()]
+        log.info("MTD: pl bet revenue (3 ventanas mensuales)")
+        df_pl_bet = run_query(_sql_adj_revenue_bet(meses_pl), label="mtd_pl_bet_revenue")
+        df_pl_bet["mes"] = pd.to_datetime(df_pl_bet["mes"])
+        log.info("MTD: pl tape delta (Sigma c_precio sobre NIDs bet MM)")
+        df_pl_tape = run_query(_sql_adj_revenue_tape_delta(rangos), label="mtd_pl_tape_delta")
+        df_pl_tape["mes"] = pd.to_datetime(df_pl_tape["mes"])
+
+        def _pl_ventana(pais: str, ventana_inicio: dt.date) -> dict[str, Any]:
+            mes_ts = pd.Timestamp(ventana_inicio)
+            sub_bet = df_pl_bet[(df_pl_bet["m_pais"] == pais) & (df_pl_bet["mes"] == mes_ts)]
+            rev_bet_total  = float(sub_bet["actuals"].sum())
+            rev_bet_budget = float(sub_bet["budget"].sum())
+            mm_bet         = float(sub_bet[sub_bet["bucket"] == "mm"]["actuals"].sum())
+            sub_tape = df_pl_tape[(df_pl_tape["m_pais"] == pais) & (df_pl_tape["mes"] == mes_ts)]
+            tape_sum = float(sub_tape["tape_sum"].sum())
+            adj_revenue = rev_bet_total - mm_bet + tape_sum
+            return {
+                "mes": ventana_inicio.strftime("%Y-%m"),
+                "revenue_bet": rev_bet_total,
+                "mm_revenue_bet": mm_bet,
+                "tape_sum": tape_sum,
+                "adj_revenue": adj_revenue,
+                "adj_revenue_budget": rev_bet_budget,
+            }
+
+        for s in STREAMS_PL:
+            por_pais = {}
+            for pais in paises:
+                por_pais[PAIS_LABEL[pais]] = {
+                    "moneda":       MONEDA_POR_PAIS.get(pais, "USD"),
+                    "mes_actual":   _pl_ventana(pais, ventanas["mes_actual"][0]),
+                    "mes_anterior": _pl_ventana(pais, ventanas["mes_anterior"][0]),
+                    "mes_yoy":      _pl_ventana(pais, ventanas["mes_yoy"][0]),
+                }
+            streams_payload.append({
+                "id": s["id"],
+                "nombre": s["nombre"],
+                "linea_negocio": s["linea_negocio"],
+                "tipo": s["tipo"],
+                "granularidad": "mensual",
+                "por_pais": por_pais,
+            })
 
     payload: dict[str, Any] = {
         "id": "mtd_transactions",

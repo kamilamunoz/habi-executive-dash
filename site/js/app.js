@@ -302,6 +302,52 @@ function filtrosDegradados(kpiData, filters){
 const LINEA_ORDER = ["Market Maker", "Brokerage", "HabiCredit", "Other"];
 const PAIS_ORDER  = ["Global", "Colombia", "Mexico", "Offshore"];
 
+/* Bucket por linea de negocio para bloques de drill agrupados por
+ * metrica/submetrica/tipo_transaccion. Reconoce nombres completos
+ * ("Market Maker", "Brokerage", "HabiCredit") y siglas entre parentesis
+ * ("(MM)", "(HC)") que usa GMV. Costos unitarios ibuyer (Remodeling,
+ * Holding, Transaction, Commercial Costs) tambien caen en MM porque
+ * conceptualmente son costos del negocio Market Maker. Devuelve 0=MM,
+ * 1=Inmo/Brokerage, 2=Habicredit, 3=Other Products, 4=otros. */
+function bucketRevenueDetail(key){
+  const k = String(key || "").toLowerCase();
+  if(k.includes("market maker") || k.includes("(mm)")
+     || k.includes("remodeling") || k.includes("holding cost")
+     || k.includes("transaction cost") || k.includes("commercial cost")) return 0;
+  if(k.includes("brokerage") || k.includes("inmo")) return 1;
+  if(k.includes("habicredit") || k.includes("(hc)")) return 2;
+  if(k.includes("other products")) return 3;
+  return 4;
+}
+
+/* Comparator: primero por bucket de linea, luego por prefijo numerico
+ * ("01.", "02.", "99.") dentro de cada bucket. Se usa en el bloque
+ * "By revenue detail" (ingresos) y "By transaction type" (GMV). */
+function compararRevenueDetail(a, b){
+  const ba = bucketRevenueDetail(a.key);
+  const bb = bucketRevenueDetail(b.key);
+  if(ba !== bb) return ba - bb;
+  return compararDrillRows(a, b);
+}
+
+/* Sub-orden dentro de un bucket de linea: Sales/Selling (revenue-like) primero,
+ * Cost/Costs despues. Usado en EBITDA By metric para que MM Sales aparezca
+ * antes que MM Cost of sales / Remodeling / Transaction / Holding Costs. */
+function subBucketSalesCost(key){
+  const k = String(key || "").toLowerCase();
+  if(k.includes("cost")) return 1;
+  return 0;
+}
+function compararEbitdaMetric(a, b){
+  const ba = bucketRevenueDetail(a.key);
+  const bb = bucketRevenueDetail(b.key);
+  if(ba !== bb) return ba - bb;
+  const sa = subBucketSalesCost(a.key);
+  const sb = subBucketSalesCost(b.key);
+  if(sa !== sb) return sa - sb;
+  return compararDrillRows(a, b);
+}
+
 /* Comparator para drill rows. Prioridad:
  *   1. Si AMBOS keys tienen prefijo "NN.", ordenar por ese numero
  *   2. Si AMBOS son business lines (LINEA_ORDER), seguir ese orden
@@ -517,15 +563,19 @@ function fmtChartValue(v, unit, moneda){
   return fmtMoneda(v, moneda, {compact: true});
 }
 
-function lineChartSVG(serie, moneda, unit, labels, extra){
+function lineChartSVG(serie, moneda, unit, labels, extra, target){
   unit = unit || "MONEY";
   labels = labels || {actuals: "Actuals", budget: "Budget"};
   // extra: opcional, {serie:[{mes, actuals}], label, color}. Pinta una tercera
   // linea (ej. Adj EBITDA en azul) alineada por indice de mes con serie.
+  // target: opcional, {serie:[{mes, valor}], label}. Pinta una linea de meta
+  // (rojo dashed) — usado en el drill de ciclo para mostrar el umbral maximo
+  // aceptable por mes.
   // Recorte a ventana movil de 13m terminando en el mes seleccionado.
   const mesFinal = STATE.filters && STATE.filters.mes;
   serie = recortarVentana(serie, mesFinal);
   if(extra && extra.serie){ extra = Object.assign({}, extra, {serie: recortarVentana(extra.serie, mesFinal)}); }
+  if(target && target.serie){ target = Object.assign({}, target, {serie: recortarVentana(target.serie, mesFinal)}); }
   if(!serie || serie.length === 0) return "<div class='chart-empty'>No data</div>";
   const W = 1200, H = 460, pad = {l: 78, r: 28, t: 30, b: 58};
   const cw = W - pad.l - pad.r, ch = H - pad.t - pad.b;
@@ -533,7 +583,10 @@ function lineChartSVG(serie, moneda, unit, labels, extra){
   const extraVals = (extra && extra.serie)
     ? extra.serie.flatMap(r => [r.actuals]).filter(v => v != null && !isNaN(v))
     : [];
-  const vals = serie.flatMap(r => [r.actuals, r.budget]).concat(extraVals).filter(v => v != null && !isNaN(v));
+  const targetVals = (target && target.serie)
+    ? target.serie.map(r => r.valor).filter(v => v != null && !isNaN(v))
+    : [];
+  const vals = serie.flatMap(r => [r.actuals, r.budget]).concat(extraVals).concat(targetVals).filter(v => v != null && !isNaN(v));
   if(vals.length === 0) return "<div class='chart-empty'>No data</div>";
   const max = Math.max(...vals), min = Math.min(...vals);
   const yMin = Math.min(0, min);
@@ -611,6 +664,23 @@ function lineChartSVG(serie, moneda, unit, labels, extra){
       <title>${mes} · ${extraLabel}: ${fmtChartValue(p.v, unit, moneda)}</title></circle>`;
   });
 
+  // Target (linea roja dashed). Solo tooltip por punto, sin dot/label para
+  // no saturar. Alineado por indice de mes con serie.
+  const targetColor = "#DC2626";
+  const targetLabel = (target && target.label) || "Target";
+  const pointsT = (target && target.serie)
+    ? target.serie.map((r,i) => (r.valor == null || isNaN(r.valor))
+        ? null
+        : {x: xAt(i), y: yAt(r.valor), v: r.valor, i}).filter(Boolean)
+    : [];
+  const dT = pointsT.map((p,i) => (i?"L":"M") + p.x.toFixed(1) + " " + p.y.toFixed(1)).join(" ");
+  let dotsT = "";
+  pointsT.forEach(p => {
+    const mes = (target.serie[p.i] || {}).mes || "";
+    dotsT += `<circle cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="3" fill="${targetColor}" opacity="0.7">
+      <title>${mes} · ${targetLabel}: ${fmtChartValue(p.v, unit, moneda)}</title></circle>`;
+  });
+
   // Eje X — formato YYYY-MM (mes/anyo) o numerico (dia del mes en MTD)
   const esYYYYMM = /^\d{4}-\d{2}$/.test(String(serie[0].mes));
   let xLabels = "";
@@ -633,14 +703,19 @@ function lineChartSVG(serie, moneda, unit, labels, extra){
   const legendExtra = (extra && extra.serie && extra.serie.length)
     ? `<span><span class="lg-line lg-adj" style="background:${extraColor}"></span>${extraLabel}</span>`
     : "";
+  const legendTarget = (target && target.serie && pointsT.length)
+    ? `<span><span class="lg-line lg-target"></span>${targetLabel}</span>`
+    : "";
   return `<div class="chart-wrap">
     <svg viewBox="0 0 ${W} ${H}" class="chart" preserveAspectRatio="xMidYMid meet">
       ${yAxis}
+      ${dT ? `<path d="${dT}" fill="none" stroke="${targetColor}" stroke-width="2.2" stroke-dasharray="8 5" stroke-linejoin="round" stroke-linecap="round" opacity="0.85"/>` : ""}
       ${dB ? `<path d="${dB}" fill="none" stroke="#8B4FE8" stroke-width="2.4" stroke-dasharray="6 4" stroke-linejoin="round" stroke-linecap="round" opacity="0.85"/>` : ""}
       ${dE ? `<path d="${dE}" fill="none" stroke="${extraColor}" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round" opacity="0.95"/>` : ""}
       ${dA ? `<path d="${dA}" fill="none" stroke="#6B2FD4" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>` : ""}
       ${dotsB}
       ${dotsE}
+      ${dotsT}
       ${dotsA}
       ${labelsB}
       ${labelsA}
@@ -651,6 +726,7 @@ function lineChartSVG(serie, moneda, unit, labels, extra){
     <span><span class="lg-line lg-actuals"></span>${labels.actuals}</span>
     ${legendExtra}
     <span><span class="lg-line lg-budget"></span>${labels.budget}</span>
+    ${legendTarget}
   </div>`;
 }
 
@@ -667,6 +743,7 @@ function mtdForecastChartSVG(agg, dia, diasMes){
   if(!agg || !agg.mes_actual) return "<div class='chart-empty'>No data</div>";
   const ma = agg.mes_actual, mp = agg.mes_anterior, my = agg.mes_yoy;
   const mtdD = ma.nids_total || 0;
+  const teamTotal = ma.team_nids;  // may be null/undefined si no hay entry manual
 
   // Series (indice por dia 1..diasMes; null si fuera de rango)
   const prevCurve = (mp && mp.curva) ? mp.curva : [];
@@ -687,16 +764,24 @@ function mtdForecastChartSVG(agg, dia, diasMes){
   }
   const extPrev = [];    // dia D..diasMes
   const extYoy  = [];
+  const extTeam = [];    // linea recta MTD_D → team_nids en diasMes
   for(let d = dia; d <= diasMes; d++){
     const rp = acumuladoAlDia(prevCurve, d, "nids_cum");
     const ry = acumuladoAlDia(yoyCurve,  d, "nids_cum");
     extPrev.push({d, v: (prevD > 0) ? mtdD * (rp / prevD) : null});
     extYoy.push({d,  v: (yoyD  > 0) ? mtdD * (ry / yoyD)  : null});
+    if(teamTotal != null && diasMes > dia){
+      // Interpolacion lineal: en dia D = mtdD, en diasMes = team_nids.
+      const t = (d - dia) / (diasMes - dia);
+      extTeam.push({d, v: mtdD + (teamTotal - mtdD) * t});
+    } else if(teamTotal != null){
+      extTeam.push({d, v: teamTotal});
+    }
   }
 
   // Rango Y
   const vals = mtdSerie.map(p => p.v)
-    .concat(extPrev.map(p => p.v)).concat(extYoy.map(p => p.v))
+    .concat(extPrev.map(p => p.v)).concat(extYoy.map(p => p.v)).concat(extTeam.map(p => p.v))
     .filter(v => v != null && !isNaN(v));
   if(!vals.length) return "<div class='chart-empty'>No data</div>";
   const yMax = Math.max(...vals) * 1.18;
@@ -735,11 +820,13 @@ function mtdForecastChartSVG(agg, dia, diasMes){
   const dMTD  = path(mtdSerie);
   const dPrev = path(extPrev);
   const dYoy  = path(extYoy);
+  const dTeam = path(extTeam);
 
-  // Labels de valores clave: MTD_D + forecast prev final + forecast yoy final
+  // Labels de valores clave: MTD_D + forecast prev/yoy/team finales
   const mtdLast = mtdSerie[mtdSerie.length - 1];
   const prevLast = extPrev[extPrev.length - 1];
   const yoyLast  = extYoy[extYoy.length - 1];
+  const teamLast = extTeam.length ? extTeam[extTeam.length - 1] : null;
   function labelAt(p, txt, color, weight){
     if(!p || p.v == null) return "";
     const x = xAt(p.d).toFixed(1), y = (yAt(p.v) - 12).toFixed(1);
@@ -752,13 +839,16 @@ function mtdForecastChartSVG(agg, dia, diasMes){
       ${vLine}
       ${dPrev ? `<path d="${dPrev}" fill="none" stroke="#2D6FD4" stroke-width="2.6" stroke-dasharray="6 4" stroke-linejoin="round" stroke-linecap="round" opacity="0.9"/>` : ""}
       ${dYoy  ? `<path d="${dYoy}"  fill="none" stroke="#EA580C" stroke-width="2.6" stroke-dasharray="6 4" stroke-linejoin="round" stroke-linecap="round" opacity="0.9"/>` : ""}
+      ${dTeam ? `<path d="${dTeam}" fill="none" stroke="#C026D3" stroke-width="2.6" stroke-dasharray="2 5" stroke-linejoin="round" stroke-linecap="round" opacity="0.95"/>` : ""}
       ${dMTD  ? `<path d="${dMTD}"  fill="none" stroke="#6B2FD4" stroke-width="3.2" stroke-linejoin="round" stroke-linecap="round"/>` : ""}
       <circle cx="${xAt(dia).toFixed(1)}" cy="${yAt(mtdD).toFixed(1)}" r="5.5" fill="#6B2FD4"/>
       ${prevLast && prevLast.v != null ? `<circle cx="${xAt(prevLast.d).toFixed(1)}" cy="${yAt(prevLast.v).toFixed(1)}" r="5" fill="#FFFFFF" stroke="#2D6FD4" stroke-width="2.4"/>` : ""}
       ${yoyLast  && yoyLast.v  != null ? `<circle cx="${xAt(yoyLast.d).toFixed(1)}"  cy="${yAt(yoyLast.v).toFixed(1)}"  r="5" fill="#FFFFFF" stroke="#EA580C" stroke-width="2.4"/>` : ""}
+      ${teamLast && teamLast.v != null ? `<circle cx="${xAt(teamLast.d).toFixed(1)}" cy="${yAt(teamLast.v).toFixed(1)}" r="5" fill="#FFFFFF" stroke="#C026D3" stroke-width="2.4"/>` : ""}
       ${labelAt(mtdLast,  "#3A1980", 700)}
       ${labelAt(prevLast, "#1E4E9D", 700)}
       ${labelAt(yoyLast,  "#9C3A08", 700)}
+      ${labelAt(teamLast, "#86198F", 700)}
       ${xLabels}
     </svg>
   </div>
@@ -766,6 +856,7 @@ function mtdForecastChartSVG(agg, dia, diasMes){
     <span><span class="lg-line lg-actuals"></span>MTD actual (day 1–${dia})</span>
     <span><span class="lg-line lg-fc-prev"></span>Forecast · scaled by ${mp ? mp.mes : "prev"} ${factorPrev ? `(×${factorPrev.toFixed(2)})` : ""}</span>
     <span><span class="lg-line lg-fc-yoy"></span>Forecast · scaled by ${my ? my.mes : "yoy"} ${factorYoy ? `(×${factorYoy.toFixed(2)})` : ""}</span>
+    ${teamTotal != null ? `<span><span class="lg-line lg-fc-team"></span>Team forecast (manual) · ${Math.round(teamTotal).toLocaleString()} NIDs</span>` : ""}
   </div>`;
 }
 
@@ -1456,84 +1547,113 @@ function abrirDrill(kpiId){
   document.getElementById("drillSub").innerHTML =
     `Period: <b>${mesYYYYMM_a_label(f.mes)}</b> · View: <b>${filtrosTxt}</b> · Currency: <b>${monedaTxt}</b> · Eliminations: <b>${elimLabel}</b> · Adjustments: <b>${ajLabel}</b>`;
 
-  // Drill especial para Debt in Homes con Adj EBITDA leverage
+  // Drill especial para Debt (Homes + Corporate) con Adj EBITDA leverage
   if(data.unidad === "MONEDA_DEBT_HOMES"){
     let html = "";
     const paises = f.pais === "Global" ? ["Colombia", "Mexico", "Offshore"] : [f.pais];
-    let totRows = "";
-    for(const p of paises){
-      const row = delMes.find(r => r.pais === p);
-      if(!row) continue;
-      const mon = f.moneda === "USD" ? "USD" : monedaDePais(p);
-      const debt = f.moneda === "USD" ? convertir(row.actuals[elim], p) : row.actuals[elim];
-      const eb   = row.ebitda_ltm    != null ? (f.moneda === "USD" ? convertir(row.ebitda_ltm,    p) : row.ebitda_ltm)    : null;
-      const cap  = row.capitalized_payroll_ltm!= null ? (f.moneda === "USD" ? convertir(row.capitalized_payroll_ltm,p) : row.capitalized_payroll_ltm): null;
-      const adj  = row.adj_ebitda_ltm!= null ? (f.moneda === "USD" ? convertir(row.adj_ebitda_ltm,p) : row.adj_ebitda_ltm): null;
-      const lev  = row.leverage;
-      const intLtm  = row.net_interest_ltm != null ? (f.moneda === "USD" ? convertir(row.net_interest_ltm, p) : row.net_interest_ltm) : null;
-      const avgDebt = row.debt_avg_ltm != null ? (f.moneda === "USD" ? convertir(row.debt_avg_ltm, p) : row.debt_avg_ltm) : null;
-      const coc = row.cost_of_capital;
-      totRows += `<tr>
-        <td><b>${p}</b></td>
-        <td class="num">${fmtMoneda(debt, mon)}</td>
-        <td class="num">${eb  != null ? fmtMoneda(eb, mon)  : "—"}</td>
-        <td class="num">${cap != null ? fmtMoneda(cap, mon) : "—"}</td>
-        <td class="num"><b>${adj != null ? fmtMoneda(adj, mon) : "—"}</b></td>
-        <td class="num">${(lev != null && isFinite(lev)) ? lev.toFixed(2)+"x" : "—"}</td>
-        <td class="num">${intLtm  != null ? fmtMoneda(intLtm, mon)  : "—"}</td>
-        <td class="num">${avgDebt != null ? fmtMoneda(avgDebt, mon) : "—"}</td>
-        <td class="num"><b>${(coc != null && isFinite(coc)) ? (coc*100).toFixed(1)+"%" : "—"}</b></td>
-      </tr>`;
-    }
-    html += `<div class="drill-block">
-      <h3>Debt, leverage &amp; cost of capital · ${mesYYYYMM_a_label(f.mes)}</h3>
-      <div class="drill-table-scroll">
-      <table class="drill-table drill-table-compact">
-        <thead><tr>
-          <th>Country</th>
-          <th style="text-align:right">Debt in Homes</th>
-          <th style="text-align:right">EBITDA LTM</th>
-          <th style="text-align:right">Cap. Payroll LTM</th>
-          <th style="text-align:right">Adj EBITDA LTM</th>
-          <th style="text-align:right">Leverage</th>
-          <th style="text-align:right">Net Interest LTM</th>
-          <th style="text-align:right">Avg Debt LTM</th>
-          <th style="text-align:right">Cost of Capital</th>
-        </tr></thead>
-        <tbody>${totRows || `<tr><td colspan="9" class="drill-empty">No data.</td></tr>`}</tbody>
-      </table>
-      </div>
-    </div>`;
-
-    // Chart historico debt
-    function agrDebt(facts){
-      let d = 0;
-      for(const r of facts){ d += convertir((r.actuals && r.actuals[elim]) || 0, r.pais) || 0; }
-      return d;
-    }
-    const porMesSerie = {};
-    for(const r of filtered){
-      porMesSerie[r.mes] = porMesSerie[r.mes] || [];
-      porMesSerie[r.mes].push(r);
-    }
-    const serieDebt = Object.keys(porMesSerie).sort().map(m => ({
-      mes: m, actuals: agrDebt(porMesSerie[m]), budget: null,
-    }));
     const monedaSerie = f.moneda === "USD" ? "USD" : (
       f.pais !== "Global" ? monedaDePais(f.pais) : "COP"
     );
+
+    // Vistas del toggle. Cada una decide de que campo del fact sale el saldo,
+    // el promedio LTM, el leverage y el cost of capital.
+    const views = [
+      {key: "total",     label: "Total (Homes + Corp)", debtF: "actuals",           avgF: "debt_avg_ltm",           levF: "leverage",           cocF: "cost_of_capital",           debtLabel: "Total Debt"},
+      {key: "homes",     label: "Homes",                debtF: "actuals_homes",     avgF: "debt_homes_avg_ltm",     levF: "leverage_homes",     cocF: "cost_of_capital_homes",     debtLabel: "Debt in Homes"},
+      {key: "corporate", label: "Corporate",            debtF: "actuals_corporate", avgF: "debt_corporate_avg_ltm", levF: "leverage_corporate", cocF: "cost_of_capital_corporate", debtLabel: "Corporate Debt"},
+    ];
+
+    // Helper para renderear una vista (tabla + chart)
+    function renderDebtView(v){
+      let totRows = "";
+      for(const p of paises){
+        const row = delMes.find(r => r.pais === p);
+        if(!row) continue;
+        const mon = f.moneda === "USD" ? "USD" : monedaDePais(p);
+        const debtBucket = row[v.debtF] || {};
+        const debtRaw = debtBucket[elim];
+        const debt = f.moneda === "USD" ? convertir(debtRaw, p) : debtRaw;
+        const eb   = row.ebitda_ltm    != null ? (f.moneda === "USD" ? convertir(row.ebitda_ltm,    p) : row.ebitda_ltm)    : null;
+        const cap  = row.capitalized_payroll_ltm != null ? (f.moneda === "USD" ? convertir(row.capitalized_payroll_ltm, p) : row.capitalized_payroll_ltm) : null;
+        const adj  = row.adj_ebitda_ltm != null ? (f.moneda === "USD" ? convertir(row.adj_ebitda_ltm, p) : row.adj_ebitda_ltm) : null;
+        const lev  = row[v.levF];
+        const intLtm  = row.net_interest_ltm != null ? (f.moneda === "USD" ? convertir(row.net_interest_ltm, p) : row.net_interest_ltm) : null;
+        const avgDebtRaw = row[v.avgF];
+        const avgDebt = avgDebtRaw != null ? (f.moneda === "USD" ? convertir(avgDebtRaw, p) : avgDebtRaw) : null;
+        const coc = row[v.cocF];
+        totRows += `<tr>
+          <td><b>${p}</b></td>
+          <td class="num">${fmtMoneda(debt, mon)}</td>
+          <td class="num">${eb  != null ? fmtMoneda(eb, mon)  : "—"}</td>
+          <td class="num">${cap != null ? fmtMoneda(cap, mon) : "—"}</td>
+          <td class="num"><b>${adj != null ? fmtMoneda(adj, mon) : "—"}</b></td>
+          <td class="num">${(lev != null && isFinite(lev)) ? lev.toFixed(2)+"x" : "—"}</td>
+          <td class="num">${intLtm  != null ? fmtMoneda(intLtm, mon)  : "—"}</td>
+          <td class="num">${avgDebt != null ? fmtMoneda(avgDebt, mon) : "—"}</td>
+          <td class="num"><b>${(coc != null && isFinite(coc)) ? (coc*100).toFixed(1)+"%" : "—"}</b></td>
+        </tr>`;
+      }
+      // Serie mensual del debt para la vista
+      function agrDebtView(facts){
+        let d = 0;
+        for(const r of facts){
+          const bucket = r[v.debtF] || {};
+          d += convertir((bucket[elim]) || 0, r.pais) || 0;
+        }
+        return d;
+      }
+      const porMesSerie = {};
+      for(const r of filtered){
+        porMesSerie[r.mes] = porMesSerie[r.mes] || [];
+        porMesSerie[r.mes].push(r);
+      }
+      const serieDebt = Object.keys(porMesSerie).sort().map(m => ({
+        mes: m, actuals: agrDebtView(porMesSerie[m]), budget: null,
+      }));
+      return `<div class="drill-table-scroll">
+        <table class="drill-table drill-table-compact">
+          <thead><tr>
+            <th>Country</th>
+            <th style="text-align:right">${v.debtLabel}</th>
+            <th style="text-align:right">EBITDA LTM</th>
+            <th style="text-align:right">Cap. Payroll LTM</th>
+            <th style="text-align:right">Adj EBITDA LTM</th>
+            <th style="text-align:right">Leverage</th>
+            <th style="text-align:right">Net Interest LTM</th>
+            <th style="text-align:right">Avg Debt LTM</th>
+            <th style="text-align:right">Cost of Capital</th>
+          </tr></thead>
+          <tbody>${totRows || `<tr><td colspan="9" class="drill-empty">No data.</td></tr>`}</tbody>
+        </table>
+      </div>
+      <div class="chart-unit-label" style="margin-top:12px">${v.debtLabel} · ${monedaSerie}</div>
+      ${lineChartSVG(serieDebt, monedaSerie, "MONEY", {actuals: v.debtLabel, budget: ""})}`;
+    }
+
+    // Un solo chart-block con tab bar Total / Homes / Corporate. switchChartTab
+    // activa el pane correcto (mismo mecanismo que usa el toggle $ Amount / % Ratio
+    // del drill de EBITDA).
+    const tabs = views.map((v, i) =>
+      `<button class="chart-tab ${i === 0 ? "on" : ""}" onclick="switchChartTab(this,'${v.key}')">${v.label}</button>`
+    ).join("");
+    const panes = views.map((v, i) =>
+      `<div class="chart-pane ${i === 0 ? "on" : ""}" data-pane="${v.key}">${renderDebtView(v)}</div>`
+    ).join("");
     html += `<div class="drill-block chart-block">
-      <h3>Monthly Debt in Homes</h3>
-      ${lineChartSVG(serieDebt, monedaSerie, "MONEY", {actuals: "Debt", budget: ""})}
+      <div class="chart-tab-bar">
+        <h3>Debt, leverage &amp; cost of capital · ${mesYYYYMM_a_label(f.mes)}</h3>
+        <div class="chart-tabs">${tabs}</div>
+      </div>
+      ${panes}
     </div>`;
 
     html += `<div class="drill-note">
-      <b>How metrics are built</b>: Debt = BET drivers <code>m_metrica='05. Debt in Homes'</code>.<br>
+      <b>How metrics are built</b>: Debt = BET drivers <code>m_metrica IN ('05. Debt in Homes','04. Corporate Debt')</code>. Total = sum of both.<br>
       EBITDA LTM = sum of last 12 months EBITDA (BET Financials: Gross Profit + Other Costs + OpEx).<br>
       Cap. Payroll LTM = sum of last 12 months payroll capitalized as non-current asset (BET <code>m_categoria='05. Capitalized Payroll'</code>, sign inverted).<br>
-      Adj EBITDA LTM = EBITDA LTM + Cap. Payroll LTM. <b>Leverage</b> = Debt ÷ Adj EBITDA LTM.<br>
-      Net Interest LTM = sum of last 12 months of <code>m_categoria='06. Net financing costs'</code> (Interest Expense + Interest Income, sign inverted to positive cost). Avg Debt LTM = average of monthly debt balances over 12 months. <b>Cost of Capital</b> = |Net Interest LTM| ÷ Avg Debt LTM (annualized).<br>
-      <b>Note</b>: Corporate Debt is empty in BET — this only covers home financing debt. Reported to the data owner as pending.
+      Adj EBITDA LTM = EBITDA LTM + Cap. Payroll LTM. <b>Leverage</b> = Debt (bucket) ÷ Adj EBITDA LTM.<br>
+      Net Interest LTM = sum of last 12 months of <code>m_categoria='06. Net financing costs'</code> (Interest Expense + Interest Income, sign inverted to positive cost). Avg Debt LTM = average of monthly debt balances over 12 months <i>for the selected bucket</i>. <b>Cost of Capital</b> = |Net Interest LTM| ÷ Avg Debt LTM (annualized).<br>
+      <b>Note</b>: Net Interest is not split by bucket in BET — Homes-only and Corporate-only Cost of Capital use the same numerator (proxy). The <b>Total</b> view is the financially clean one; the other two help see how each bucket contributes.
     </div>`;
     document.getElementById("drillBody").innerHTML = html;
     document.getElementById("drillModal").hidden = false;
@@ -1690,28 +1810,41 @@ function abrirDrill(kpiId){
 
     // Chart historico mensual: dos lineas (avg y p50), ponderadas por nids cuando Global
     function agregarMesParaSerie(facts){
-      let wAvg = 0, wP50 = 0, w = 0;
+      let wAvg = 0, wP50 = 0, wT = 0, w = 0, wt = 0;
       for(const r of facts){
         const n = r.nids || 0;
         if(r.avg_dias != null) wAvg += r.avg_dias * n;
         if(r.p50_dias != null) wP50 += r.p50_dias * n;
         w += n;
+        if(r.target_dias != null){
+          wT += r.target_dias * n;
+          wt += n;
+        }
       }
-      return {avg: w > 0 ? wAvg/w : null, p50: w > 0 ? wP50/w : null};
+      return {
+        avg: w > 0 ? wAvg/w : null,
+        p50: w > 0 ? wP50/w : null,
+        target: wt > 0 ? wT/wt : null,
+      };
     }
     const porMesSerie = {};
     for(const r of filtered){
       porMesSerie[r.mes] = porMesSerie[r.mes] || [];
       porMesSerie[r.mes].push(r);
     }
-    const serieDias = Object.keys(porMesSerie).sort().map(m => {
+    const mesesOrd = Object.keys(porMesSerie).sort();
+    const serieDias = mesesOrd.map(m => {
       const a = agregarMesParaSerie(porMesSerie[m]);
       return {mes: m, actuals: a.p50, budget: a.avg};
     });
+    const serieTarget = mesesOrd.map(m => {
+      const a = agregarMesParaSerie(porMesSerie[m]);
+      return {mes: m, valor: a.target};
+    });
     html += `<div class="drill-block chart-block">
       <h3>Monthly cycle · Median vs Average</h3>
-      <div class="chart-unit-label">days</div>
-      ${lineChartSVG(serieDias, "DAYS", "DAYS", {actuals: "Median", budget: "Average"})}
+      <div class="chart-unit-label">days · red dashed = target (max acceptable)</div>
+      ${lineChartSVG(serieDias, "DAYS", "DAYS", {actuals: "Median", budget: "Average"}, undefined, {serie: serieTarget, label: "Target (max)"})}
     </div>`;
 
     // Detalle por NID
@@ -1831,8 +1964,9 @@ function abrirDrill(kpiId){
       ${pintarLista(porPais)}
     </div>`;
   }
-  // Por subsidiaria SOLO si el KPI la tiene Y el filtro esta en Todas
-  if(tieneSubsidiaria && f.subsidiaria === "All"){
+  // Por subsidiaria SOLO si el KPI la tiene Y el filtro esta en Todas.
+  // Gross Margin (margen_bruto) muestra solo country + linea + chart.
+  if(tieneSubsidiaria && f.subsidiaria === "All" && kpiId !== "margen_bruto"){
     const porSub = agrupar(delMes, r => r.subsidiaria || "(unassigned)", elim);
     html += `<div class="drill-block">
       <h3>By subsidiary${f.pais !== "Global" ? " · " + f.pais : ""}</h3>
@@ -1847,14 +1981,21 @@ function abrirDrill(kpiId){
       ${pintarLista(porLinea)}
     </div>`;
   }
-  // Si el KPI trae categoria_gasto (OpEx), mostrar un bloque dedicado
+  // Si el KPI trae categoria_gasto (OpEx), mostrar un bloque dedicado.
+  // OpEx (opex_ingreso) lo muestra DESPUES del chart (insertado mas abajo).
   const tieneCategoriaGasto = delMes.some(r => r.categoria_gasto != null);
+  let expenseCategoryHTML = "";
   if(tieneCategoriaGasto){
     const porCategoria = agrupar(delMes, r => r.categoria_gasto || "(unassigned)", elim);
-    html += `<div class="drill-block">
+    const blockHTML = `<div class="drill-block">
       <h3>By expense category</h3>
       ${pintarLista(porCategoria)}
     </div>`;
+    if(kpiId === "opex_ingreso"){
+      expenseCategoryHTML = blockHTML;
+    } else {
+      html += blockHTML;
+    }
   }
   // Si el KPI trae categoria_cf (Burn), mostrar el desglose del cash flow
   const tieneCategoriaCF = delMes.some(r => r.categoria_cf != null);
@@ -1865,27 +2006,29 @@ function abrirDrill(kpiId){
       ${pintarLista(porCF)}
     </div>`;
   }
-  // Si el KPI trae bloque_pyl (EBITDA, Contribution), mostrar el desglose
+  // Si el KPI trae bloque_pyl (EBITDA, Contribution), mostrar el desglose.
+  // Gross Margin lo trae pero no lo mostramos (queda solo country+linea+chart).
+  // Contribution Margin lo muestra DESPUES del chart (insertado mas abajo).
   const tieneBloquePyL = delMes.some(r => r.bloque_pyl != null);
-  if(tieneBloquePyL){
+  let contribComponentsHTML = "";
+  if(tieneBloquePyL && kpiId !== "margen_bruto"){
     const porBloque = agrupar(delMes, r => r.bloque_pyl || "(unassigned)", elim);
     const tituloBloque = kpiId === "contribution_margin"
       ? "Contribution components"
       : "By P&amp;L block";
-    html += `<div class="drill-block">
+    const blockHTML = `<div class="drill-block">
       <h3>${tituloBloque}</h3>
       ${pintarLista(porBloque)}
     </div>`;
+    if(kpiId === "contribution_margin"){
+      contribComponentsHTML = blockHTML;
+    } else {
+      html += blockHTML;
+    }
   }
-  // Si el KPI trae tipo_transaccion (GMV), mostrar el desglose por tipo
+  // "By transaction type" se renderea al final del drill (mas abajo). Solo
+  // pre-detectamos para saber si aplica luego.
   const tieneTipoTx = delMes.some(r => r.tipo_transaccion != null);
-  if(tieneTipoTx){
-    const porTipo = agrupar(delMes, r => r.tipo_transaccion || "(unassigned)", elim);
-    html += `<div class="drill-block">
-      <h3>By transaction type</h3>
-      ${pintarLista(porTipo)}
-    </div>`;
-  }
   // Si el KPI trae bucket (aging), tabla por bucket con # NIDs, %, valor compra y avg dias
   const tieneBucket = delMes.some(r => r.bucket != null);
   if(tieneBucket){
@@ -2036,6 +2179,11 @@ function abrirDrill(kpiId){
       ${lineChartSVG(serieMensual, monedaSerie, "MONEY")}
     </div>`;
   }
+
+  // Contribution components (movido despues del grafico en contribution_margin)
+  if(contribComponentsHTML) html += contribComponentsHTML;
+  // By expense category (movido despues del grafico en opex_ingreso)
+  if(expenseCategoryHTML) html += expenseCategoryHTML;
 
   // Bloque de reconciliacion Books vs Operativo (solo KPI inventario)
   if(kpiId === "inventario" && data.reconciliation){
@@ -2205,14 +2353,51 @@ function abrirDrill(kpiId){
   }
 
   // Bloque resumido por metrica/submetrica si el KPI define summary_field.
-  // Si no, fallback al Top 20 cuentas tradicional.
-  if(data.summary_field){
+  // Si no, fallback al Top 20 cuentas tradicional. GMV se salta ambos porque
+  // su desglose relevante es "By transaction type" (renderizado al final).
+  // Gross Margin (margen_bruto) tambien salta el Top 20 por decision de UX.
+  // Contribution Margin salta "By metric" — su Contribution components ya
+  // aparece arriba (justo despues del chart).
+  if(data.summary_field && kpiId !== "contribution_margin" && kpiId !== "opex_ingreso"){
     const porSummary = agrupar(delMes, r => r[data.summary_field] || "(unassigned)", elim);
-    html += `<div class="drill-block">
-      <h3>${data.summary_label || "Summary"}${filtrosTxt && filtrosTxt !== "Global · todas" ? " · " + filtrosTxt : ""}</h3>
-      ${pintarLista(porSummary)}
-    </div>`;
-  } else {
+    // Revenue drill: reordenar por bucket de linea (MM > Inmo > Habicredit >
+    // Other Products > otros), luego por prefijo numerico. Opex mantiene el
+    // orden por prefijo default aunque tambien use `submetrica`.
+    if(data.summary_label === "By revenue detail"){
+      porSummary.sort(compararRevenueDetail);
+    }
+    const tituloSummary = `${data.summary_label || "Summary"}${filtrosTxt && filtrosTxt !== "Global · todas" ? " · " + filtrosTxt : ""}`;
+    if(kpiId === "ebitda"){
+      // EBITDA: separar en sub-secciones por bucket de linea (MM > Inmo >
+      // Habicredit > Other Products > Otros/OpEx). Dentro de cada bucket,
+      // Sales/Selling van antes que Costs. Metricas OpEx puras (Payroll,
+      // Rent, Marketing, etc.) caen en "Other / OpEx".
+      porSummary.sort(compararEbitdaMetric);
+      const bucketLabels = ["Market Maker", "Inmo / Brokerage", "Habicredit", "Other Products", "Other / OpEx"];
+      const secciones = {};
+      for(const row of porSummary){
+        const b = bucketRevenueDetail(row.key);
+        (secciones[b] = secciones[b] || []).push(row);
+      }
+      let inner = "";
+      for(let b = 0; b < 5; b++){
+        if(!secciones[b] || !secciones[b].length) continue;
+        inner += `<div class="drill-subsection">
+          <div class="drill-subsection-label">${bucketLabels[b]}</div>
+          ${pintarLista(secciones[b])}
+        </div>`;
+      }
+      html += `<div class="drill-block">
+        <h3>${tituloSummary}</h3>
+        ${inner || `<div class="drill-empty">No data.</div>`}
+      </div>`;
+    } else {
+      html += `<div class="drill-block">
+        <h3>${tituloSummary}</h3>
+        ${pintarLista(porSummary)}
+      </div>`;
+    }
+  } else if(kpiId !== "gmv" && kpiId !== "margen_bruto" && kpiId !== "contribution_margin" && kpiId !== "opex_ingreso"){
     // Top 20 detalle tradicional — respeta TODOS los filtros activos.
     const porDetalle = (() => {
       const map = new Map();
@@ -2251,6 +2436,16 @@ function abrirDrill(kpiId){
       </tr>`;
     }
     html += `</tbody></table>
+    </div>`;
+  }
+  // "By transaction type" al final del drill (GMV lo tiene). Ordenado por
+  // bucket de linea (MM > Inmo > Habicredit > Otros), luego prefijo numerico.
+  if(tieneTipoTx){
+    const porTipo = agrupar(delMes, r => r.tipo_transaccion || "(unassigned)", elim);
+    porTipo.sort(compararRevenueDetail);
+    html += `<div class="drill-block">
+      <h3>By transaction type</h3>
+      ${pintarLista(porTipo)}
     </div>`;
   }
   // Solo mostrar la nota especifica de Ingresos cuando el KPI sea ingresos
@@ -2357,6 +2552,13 @@ function agregarStream(stream){
       if(ventana === "mes_actual"){
         out[ventana].nids_budget += w.nids_budget || 0;
         out[ventana].gmv_budget  += convertir(w.gmv_budget || 0, pais) || 0;
+        // Team forecast (opcional, viene del CSV mtd_forecast_manual). Solo
+        // agregamos si al menos un pais lo trae — si ninguno, team_nids
+        // queda undefined y el front lo trata como "no hay team forecast".
+        if(w.team_nids != null){
+          out[ventana].team_nids = (out[ventana].team_nids || 0) + w.team_nids;
+          out[ventana].team_gmv  = (out[ventana].team_gmv  || 0) + (convertir(w.team_gmv || 0, pais) || 0);
+        }
       }
       curvasParaSumar.push({pais, curva: densificarCurva(w.curva, w.dias_en_mes)});
     }
@@ -2410,6 +2612,19 @@ function forecastDesde(agregado, refKey){
   };
 }
 
+/* Team forecast (manual, viene de data/mtd_forecast_manual.csv). Solo aplica
+ * al mes actual y es opcional — si ningun pais activo tiene entry en el CSV,
+ * devuelve null. */
+function forecastTeam(agregado){
+  const ma = agregado.mes_actual;
+  if(ma.team_nids == null) return null;
+  return {
+    nids: ma.team_nids,
+    gmv:  ma.team_gmv || 0,
+    ref_mes: "team",
+  };
+}
+
 /* Color de performance del card MTD: forecast_nids vs budget_nids.
  * Para Sale/Purchase Deeds asumimos "mas = mejor" (sobre-cumplir budget). */
 function perfMTD(fcast_nids, budget_nids){
@@ -2421,7 +2636,11 @@ function perfMTD(fcast_nids, budget_nids){
 }
 
 function renderMTDCard(stream){
-  // Bifurcar por tipo: 'ratio' (Gross Margin) tiene shape distinto.
+  // Bifurcar por tipo:
+  //   'count' (MM, BR Used, HC) → tabla + curva daily + forecast Prev/YoY/Team.
+  //   'ratio' (Gross Margin)     → margen % + comparativos.
+  //   'monthly_forecast' (Adj Revenue) → mensual, sin curva daily, forecast lineal.
+  if(stream.tipo === "monthly_forecast") return renderMTDCardMonthlyForecast(stream);
   if(stream.tipo === "ratio") return renderMTDCardRatio(stream);
   return renderMTDCardCount(stream);
 }
@@ -2431,27 +2650,17 @@ function renderMTDCardCount(stream){
   const ma = agg.mes_actual;
   const fcPrev = forecastDesde(agg, "mes_anterior");
   const fcYoy  = forecastDesde(agg, "mes_yoy");
+  const fcTeam = forecastTeam(agg);
 
-  // Promedio de los 2 estimados (si ambos existen) para el color/progress
-  const fcastNidsAvg = (fcPrev && fcYoy) ? (fcPrev.nids + fcYoy.nids) / 2
-                     : (fcPrev ? fcPrev.nids : (fcYoy ? fcYoy.nids : null));
+  // Forecast avg alimenta el color de la card y el % de la barrita — se
+  // calcula igual pero no se muestran los estimados individuales (viven
+  // en el drill: tabla + chart con dashed projections). Team entra al
+  // promedio con el mismo peso que Prev/YoY cuando existe.
+  const fcs = [fcPrev, fcYoy, fcTeam].filter(x => x && x.nids != null);
+  const fcastNidsAvg = fcs.length ? fcs.reduce((a, f) => a + f.nids, 0) / fcs.length : null;
   const cls = perfMTD(fcastNidsAvg, ma.nids_budget);
-
   const mon = agg.moneda;
   const dia = STATE.mtd.hoy_dia_del_mes;
-  const diasMes = STATE.mtd.days_in_month_actual;
-
-  function pctOfBudget(v){
-    if(!ma.nids_budget) return "";
-    return `<span class="vs">${Math.round((v/ma.nids_budget)*100)}% of budget</span>`;
-  }
-
-  const fcPrevHTML = fcPrev
-    ? `<div class="mtd-forecast"><span class="lbl">Forecast (vs ${fcPrev.ref_mes}):</span> <b>${Math.round(fcPrev.nids).toLocaleString()} NIDs</b> · ${fmtMoneda(fcPrev.gmv, mon, {compact: true})} ${pctOfBudget(fcPrev.nids)}</div>`
-    : "";
-  const fcYoyHTML = fcYoy
-    ? `<div class="mtd-forecast"><span class="lbl">Forecast (vs ${fcYoy.ref_mes} · YoY):</span> <b>${Math.round(fcYoy.nids).toLocaleString()} NIDs</b> · ${fmtMoneda(fcYoy.gmv, mon, {compact: true})} ${pctOfBudget(fcYoy.nids)}</div>`
-    : "";
 
   // Progress bar: avg forecast vs budget (capped a 100% visualmente)
   let progressHTML = "";
@@ -2466,15 +2675,13 @@ function renderMTDCardCount(stream){
 
   // Sparkline: curva acumulada de NIDs del mes actual
   const sparkSerie = ma.curva.slice(0, dia).map(p => ({mes: String(p.dia), actuals: p.nids_cum}));
-  const color = "#6B2FD4";
-  // sparkSVG es generico — recorta por STATE.filters.mes que aqui no aplica.
-  // Para evitar el recorte, llamamos directo a una mini-version inline.
-  const spark = miniSparkSVG(sparkSerie, color);
+  const spark = miniSparkSVG(sparkSerie, "#6B2FD4");
 
-  const gmvSub = stream.gmv_tipo_precio ? ` <span class="vs">${stream.gmv_tipo_precio}</span>` : "";
   const budgetBigHTML = ma.nids_budget
     ? `<div class="val-budget"><span class="sep">/</span> ${Math.round(ma.nids_budget).toLocaleString()} <span class="mtd-unit">NIDs budget</span></div>`
     : "";
+  const gmvSub = stream.gmv_tipo_precio ? ` <span class="vs">${stream.gmv_tipo_precio}</span>` : "";
+  const gmvHTML = `<div class="adj-line">MTD ${stream.gmv_tipo_precio || "GMV"}: <b>${fmtMoneda(ma.gmv_total, mon, {compact: true})}</b>${gmvSub}</div>`;
   const budgetGmvHTML = ma.nids_budget
     ? `<div class="budget-line">Budget ${stream.gmv_tipo_precio || "GMV"}: <b>${fmtMoneda(ma.gmv_budget, mon, {compact: true})}</b></div>`
     : "";
@@ -2485,14 +2692,9 @@ function renderMTDCardCount(stream){
       ${budgetBigHTML}
     </div>
     ${progressHTML}
-    <div class="adj-line">MTD ${stream.gmv_tipo_precio || "GMV"}: <b>${fmtMoneda(ma.gmv_total, mon, {compact: true})}</b>${gmvSub}</div>
-    ${fcPrevHTML}
-    ${fcYoyHTML}
+    ${gmvHTML}
     ${budgetGmvHTML}
-    <div class="delta"><span class="vs">Day ${dia} of ${diasMes}</span></div>
     ${spark}
-    <div class="src">◷ ${STATE.mtd.fuente || ""}</div>
-    <div class="card-cta">Click for drill-down →</div>
   </div>`;
 }
 
@@ -2623,6 +2825,80 @@ function renderMTDCardRatio(stream){
   </div>`;
 }
 
+/* Agrega un stream monthly_forecast (Adj Revenue) sobre paises seleccionados.
+ * Suma los adj_revenue de las 3 ventanas con FX a la moneda display. */
+function agregarStreamMonthly(stream){
+  const f = STATE.filters;
+  const paisesAUsar = f.pais === "Global" ? ["Colombia", "Mexico"] : [f.pais];
+  function ventanaVacia(mes){
+    return {mes, revenue_bet:0, mm_revenue_bet:0, tape_sum:0, adj_revenue:0, adj_revenue_budget:0};
+  }
+  const out = {
+    mes_actual: ventanaVacia(""), mes_anterior: ventanaVacia(""), mes_yoy: ventanaVacia(""),
+    moneda: f.moneda === "USD" ? "USD" : (f.pais === "Global" ? "COP" : monedaDePais(f.pais)),
+    paisLocal: paisesAUsar.length === 1 ? paisesAUsar[0] : null,
+  };
+  for(const ventana of ["mes_actual","mes_anterior","mes_yoy"]){
+    for(const pais of paisesAUsar){
+      const d = stream.por_pais[pais];
+      if(!d) continue;
+      const w = d[ventana];
+      if(!w) continue;
+      out[ventana].mes = w.mes || out[ventana].mes;
+      out[ventana].revenue_bet        += convertir(w.revenue_bet || 0, pais) || 0;
+      out[ventana].mm_revenue_bet     += convertir(w.mm_revenue_bet || 0, pais) || 0;
+      out[ventana].tape_sum           += convertir(w.tape_sum || 0, pais) || 0;
+      out[ventana].adj_revenue        += convertir(w.adj_revenue || 0, pais) || 0;
+      out[ventana].adj_revenue_budget += convertir(w.adj_revenue_budget || 0, pais) || 0;
+    }
+  }
+  return out;
+}
+
+function renderMTDCardMonthlyForecast(stream){
+  const agg = agregarStreamMonthly(stream);
+  const ma = agg.mes_actual, mp = agg.mes_anterior, my = agg.mes_yoy;
+  const dia = STATE.mtd.hoy_dia_del_mes;
+  const diasMes = STATE.mtd.days_in_month_actual;
+  const mon = agg.moneda;
+  // Forecast lineal por dia del mes (bet no tiene curva diaria).
+  const forecast = (dia > 0) ? ma.adj_revenue * (diasMes / dia) : ma.adj_revenue;
+  const budget = ma.adj_revenue_budget;
+  const pctBudget = (budget > 0) ? forecast / budget : null;
+
+  function fmtDelta(a, b){
+    if(!b || b === 0) return "";
+    const d = (a - b) / Math.abs(b);
+    const sign = d >= 0 ? "+" : "";
+    const cls = d >= 0 ? "up" : "down";
+    return ` <span class="${cls}">(${sign}${(d*100).toFixed(0)}%)</span>`;
+  }
+  // Color por forecast vs budget: >=95% verde, >=85% amber, <85% rojo. Sin budget = gris.
+  let cls = "";
+  if(pctBudget != null){
+    cls = pctBudget >= 0.95 ? "perf-green" : (pctBudget >= 0.85 ? "perf-amber" : "perf-red");
+  }
+  const progressHTML = pctBudget != null
+    ? `<div class="progress-wrap">
+        <div class="progress-bar"><div class="progress-fill ${cls}" style="width:${Math.min(pctBudget,1)*100}%"></div></div>
+        <div class="progress-label">${Math.round(pctBudget*100)}% of budget (forecast, linear pace)</div>
+      </div>`
+    : "";
+
+  return `<div class="card mtd-card ${cls}" onclick="abrirDrillMTD('${stream.id}')">
+    <div class="kpi-name"><span class="nm">${stream.nombre}</span><span class="tag real">MTD $</span></div>
+    <div class="val-row">
+      <div class="val">${fmtMoneda(forecast, mon, {compact: true})} <span class="mtd-unit">forecast</span></div>
+      ${budget ? `<div class="val-budget"><span class="sep">/</span> ${fmtMoneda(budget, mon, {compact: true})} <span class="mtd-unit">budget</span></div>` : ""}
+    </div>
+    ${progressHTML}
+    <div class="adj-line">MTD (bet + tape adj): <b>${fmtMoneda(ma.adj_revenue, mon, {compact: true})}</b> · day ${dia}/${diasMes}</div>
+    <div class="mtd-forecast"><span class="lbl">Prev month (${mp.mes}):</span> <b>${fmtMoneda(mp.adj_revenue, mon, {compact: true})}</b>${fmtDelta(forecast, mp.adj_revenue)}</div>
+    <div class="mtd-forecast"><span class="lbl">YoY (${my.mes}):</span> <b>${fmtMoneda(my.adj_revenue, mon, {compact: true})}</b>${fmtDelta(forecast, my.adj_revenue)}</div>
+    <div class="delta"><span class="vs">Forecast = MTD × (days/day). No daily curve (bet is monthly).</span></div>
+  </div>`;
+}
+
 /* Sparkline minimo sin el recorte de ventana (la curva MTD es por dia, no
  * por mes; no le aplica STATE.filters.mes). */
 function miniSparkSVG(serie, color){
@@ -2660,9 +2936,15 @@ function renderGrowth(){
     </div>`;
     return;
   }
-  grid.innerHTML = STATE.growth.streams
-    .map(s => renderCard({id: s.id, nombre: s.nombre}))
-    .join("");
+  // Filtrar por sub-tab activo (linea_negocio). Default: Market Maker.
+  const subtab = STATE.growthSubtab || "Market Maker";
+  const streams = STATE.growth.streams.filter(s => s.linea_negocio === subtab);
+  if(streams.length === 0){
+    // Placeholder para lineas sin data historica aun (BR New, Habicredit)
+    grid.innerHTML = `<div class="card pendiente"><div class="kpi-name"><span class="nm">${subtab} · Fase 2 pendiente</span></div><div class="val">—</div><div class="adj-line">Data streams a incluir cuando lleguen del builder.</div></div>`;
+  } else {
+    grid.innerHTML = streams.map(s => renderCard({id: s.id, nombre: s.nombre})).join("");
+  }
   const ctxG = `${STATE.filters.pais}${STATE.filters.moneda === "USD" ? " · USD" : " · Local"} · ${STATE.filters.mes}`;
   const el = document.getElementById("ctxGrowth");
   if(el) el.textContent = ctxG;
@@ -2841,14 +3123,127 @@ function renderMTD(){
 
 /* Drill: chart con 3 curvas acumuladas (NIDs o GMV toggle) y tabla
  * comparativa. */
+/* Drill del stream monthly_forecast (Adj Revenue): sin curva daily. Tabla
+ * comparativa MTD / Forecast / Prev / YoY / Budget, breakdown de componentes
+ * (revenue bet, MM revenue bet, tape sum → adj revenue), y chart historico
+ * mensual (13m adj revenue por pais activo).
+ */
+function abrirDrillMTDMonthly(stream){
+  const agg = agregarStreamMonthly(stream);
+  const ma = agg.mes_actual, mp = agg.mes_anterior, my = agg.mes_yoy;
+  const mon = agg.moneda;
+  const dia = STATE.mtd.hoy_dia_del_mes;
+  const diasMes = STATE.mtd.days_in_month_actual;
+  const forecast = (dia > 0) ? ma.adj_revenue * (diasMes / dia) : ma.adj_revenue;
+  const budget = ma.adj_revenue_budget;
+
+  document.getElementById("drillEyebrow").textContent = "MTD · P&L FORECAST";
+  document.getElementById("drillTitle").textContent = stream.nombre;
+  const monedaTxt = STATE.filters.moneda === "USD" ? "USD" : "local currency";
+  const filtroPais = STATE.filters.pais === "Global" ? "Colombia + Mexico" : STATE.filters.pais;
+  document.getElementById("drillSub").innerHTML =
+    `Period: <b>${ma.mes}</b> · Day <b>${dia}/${diasMes}</b> · View: <b>${filtroPais}</b> · Currency: <b>${monedaTxt}</b>`;
+
+  const fmtG = (v) => fmtMoneda(v, mon, {compact: true});
+  const fmtPct = (v) => v == null ? "—" : `${(v*100).toFixed(0)}%`;
+
+  const pctBudMTD = budget > 0 ? ma.adj_revenue / budget : null;
+  const pctBudFC  = budget > 0 ? forecast       / budget : null;
+  const pctBudPrev = budget > 0 ? mp.adj_revenue / budget : null;
+  const pctBudYoy  = budget > 0 ? my.adj_revenue / budget : null;
+
+  const tabla = `<table class="drill-table drill-table-compact mtd-drill-table">
+    <thead><tr>
+      <th>Reference</th>
+      <th style="text-align:right">Adj Revenue</th>
+      <th style="text-align:right">vs Budget</th>
+    </tr></thead>
+    <tbody>
+      <tr class="row-mtd">
+        <td><b>MTD</b> · ${ma.mes} (day ${dia}/${diasMes})</td>
+        <td class="num"><b>${fmtG(ma.adj_revenue)}</b></td>
+        <td class="num">${fmtPct(pctBudMTD)}</td>
+      </tr>
+      <tr class="row-team">
+        <td><b>Forecast</b> · linear pace (MTD × ${diasMes}/${dia})</td>
+        <td class="num"><b>${fmtG(forecast)}</b></td>
+        <td class="num"><b>${fmtPct(pctBudFC)}</b></td>
+      </tr>
+      <tr class="row-prev">
+        <td><span class="dot-prev"></span> <b>Prev</b> · ${mp.mes}</td>
+        <td class="num">${fmtG(mp.adj_revenue)}</td>
+        <td class="num">${fmtPct(pctBudPrev)}</td>
+      </tr>
+      <tr class="row-yoy">
+        <td><span class="dot-yoy"></span> <b>YoY</b> · ${my.mes}</td>
+        <td class="num">${fmtG(my.adj_revenue)}</td>
+        <td class="num">${fmtPct(pctBudYoy)}</td>
+      </tr>
+      <tr class="row-budget">
+        <td><b>Budget</b> · full month</td>
+        <td class="num"><b>${fmtG(budget)}</b></td>
+        <td class="num">100%</td>
+      </tr>
+    </tbody>
+  </table>`;
+
+  // Breakdown de componentes MTD: revenue bet + tape adjustment
+  const compTabla = `<table class="drill-table drill-table-compact">
+    <thead><tr>
+      <th>Component (${ma.mes} MTD)</th>
+      <th style="text-align:right">Amount</th>
+    </tr></thead>
+    <tbody>
+      <tr><td>Revenue bet (all lines)</td><td class="num">${fmtG(ma.revenue_bet)}</td></tr>
+      <tr><td>− MM Revenue bet</td><td class="num">−${fmtG(ma.mm_revenue_bet)}</td></tr>
+      <tr><td>+ Σ c_precio tape (MM invoiced NIDs)</td><td class="num">+${fmtG(ma.tape_sum)}</td></tr>
+      <tr class="row-mtd"><td><b>= Adj Revenue MTD</b></td><td class="num"><b>${fmtG(ma.adj_revenue)}</b></td></tr>
+    </tbody>
+  </table>`;
+
+  // Chart historico: usar la serie de kpi_ingresos_ajustados si existe
+  let chartHTML = "";
+  if(STATE.kpis && STATE.kpis.ingresos_ajustados){
+    const kpi = STATE.kpis.ingresos_ajustados;
+    const filtered = filtrarFacts(kpi.facts, STATE.filters);
+    const serieMensual = serieMensualFiltrada(filtered, STATE.filters.elim);
+    chartHTML = `<div class="drill-block chart-block">
+      <h3>Historical Adj Revenue (from bet_data_p2 monthly)</h3>
+      <div class="chart-unit-label">${mon}</div>
+      ${lineChartSVG(serieMensual, mon, "MONEY", {actuals: "Adj Revenue", budget: "Budget"})}
+    </div>`;
+  }
+
+  const html = `<div class="drill-block">
+    <h3>Adj Revenue forecast · ${ma.mes}</h3>
+    ${tabla}
+  </div>
+  <div class="drill-block">
+    <h3>MTD components breakdown</h3>
+    ${compTabla}
+  </div>
+  ${chartHTML}
+  <div class="drill-note">
+    <b>How the forecast is built</b>: The bet has no daily curve for revenue, so the forecast is a <i>linear pace</i>: <code>Forecast = MTD × (days_in_month / current_day)</code>. This assumes revenue accrues uniformly across the month — noisy at the day level but reasonable at monthly aggregate. Prev month and YoY are shown as benchmarks. <br>
+    <b>Adj Revenue formula</b> (same as Historical KPI Adjusted Revenue): <code>Adj Rev = Revenue bet − MM Revenue bet + Σ c_precio(tape)</code> over NIDs invoiced in bet MM (excluding intercompany terceros MCN / Merbos / MCNEmexico). <br>
+    <b>Budget</b>: pulled from <code>bet_data_p2 budget_1</code> at the total revenue level (not adjusted by tape — same convention as the Historical KPI).
+  </div>`;
+
+  document.getElementById("drillBody").innerHTML = html;
+  document.getElementById("drillModal").hidden = false;
+}
+
 function abrirDrillMTD(streamId){
   const stream = STATE.mtd.streams.find(s => s.id === streamId);
   if(!stream) return;
-  STATE.currentDrillKpi = "__mtd__" + streamId;  // marker para no chocar con KPIs
+  STATE.currentDrillKpi = "__mtd__" + streamId;
+  // Drill especial para monthly_forecast (Adj Revenue). Sin curva daily.
+  if(stream.tipo === "monthly_forecast") return abrirDrillMTDMonthly(stream);
   const agg = agregarStream(stream);
   const ma = agg.mes_actual;
   const fcPrev = forecastDesde(agg, "mes_anterior");
   const fcYoy  = forecastDesde(agg, "mes_yoy");
+  const fcTeam = forecastTeam(agg);
   const mon = agg.moneda;
   const dia = STATE.mtd.hoy_dia_del_mes;
   const diasMes = STATE.mtd.days_in_month_actual;
@@ -2924,6 +3319,16 @@ function abrirDrillMTD(streamId){
         <td class="num">${fcYoy ? fmtG(fcYoy.gmv) : "—"}</td>
         <td class="num">${(budN && fcYoy) ? fmtPct(fcYoy.nids/budN) : "—"}</td>
       </tr>
+      ${fcTeam ? `<tr class="row-team">
+        <td><span class="dot-team"></span> <b>Team</b> · ${ma.mes} (manual)</td>
+        <td class="num sub-txt">—</td>
+        <td class="num sub-txt">—</td>
+        <td class="num sub-txt">—</td>
+        <td class="num"><b>${fmtNids(fcTeam.nids)}</b></td>
+        <td class="num sub-txt">—</td>
+        <td class="num"><b>${fmtG(fcTeam.gmv)}</b></td>
+        <td class="num">${budN ? fmtPct(fcTeam.nids/budN) : "—"}</td>
+      </tr>` : ""}
       <tr class="row-budget">
         <td><b>Budget</b> · full month</td>
         <td class="num sub-txt">—</td>
@@ -3198,6 +3603,32 @@ window.filterAgingBucket = filterAgingBucket;
     if(typeof STATE !== "undefined") STATE.mtdSubtab = sub;
     bar.querySelectorAll(".subtab-btn").forEach(b => {
       const on = b.dataset.subtabMtd === sub;
+      b.classList.toggle("on", on);
+      b.setAttribute("aria-selected", on ? "true" : "false");
+    });
+  }
+})();
+
+(function initSubtabBarGrowth(){
+  const bar = document.getElementById("subtabBarGrowth");
+  if(!bar) return;
+  const KEY = "habi_dash_growth_subtab";
+  const saved = sessionStorage.getItem(KEY);
+  if(saved && bar.querySelector(`.subtab-btn[data-subtab-growth="${saved}"]`)){
+    activate(saved);
+  }
+  bar.addEventListener("click", (e) => {
+    const btn = e.target.closest(".subtab-btn");
+    if(!btn) return;
+    const sub = btn.dataset.subtabGrowth;
+    activate(sub);
+    sessionStorage.setItem(KEY, sub);
+    if(typeof renderGrowth === "function") renderGrowth();
+  });
+  function activate(sub){
+    if(typeof STATE !== "undefined") STATE.growthSubtab = sub;
+    bar.querySelectorAll(".subtab-btn").forEach(b => {
+      const on = b.dataset.subtabGrowth === sub;
       b.classList.toggle("on", on);
       b.setAttribute("aria-selected", on ? "true" : "false");
     });

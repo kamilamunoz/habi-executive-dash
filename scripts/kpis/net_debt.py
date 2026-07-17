@@ -1,26 +1,30 @@
 """KPI 4.2.6 — Net debt, leverage & cost of capital.
 
-Cifra principal del card: Debt in Homes (saldo de la deuda asociada a la
-financiacion de inmuebles, de los drivers de BET).
+Cifra principal del card: **Total Debt = Debt in Homes + Corporate Debt**
+(saldos de deuda de los drivers de BET).
 
-Metricas secundarias:
+Cada fact expone las 3 vistas:
+  - Homes  (m_metrica = '05. Debt in Homes')
+  - Corporate (m_metrica = '04. Corporate Debt')
+  - Total  (Homes + Corporate)
 
-  Leverage = Debt in Homes / Adjusted EBITDA LTM
+y los ratios calculados por vista:
+
+  Leverage[view] = Debt[view] / Adjusted EBITDA LTM
     - EBITDA LTM = suma 12 meses del EBITDA BET.
     - Capitalized Payroll LTM = suma 12 meses del payroll capitalizado
       (m_categoria='05. Capitalized Payroll'). En BET viene negativo (sale del
       P&L); aqui lo invertimos para sumarlo al EBITDA.
     - Adjusted EBITDA LTM = EBITDA LTM + Capitalized Payroll LTM.
 
-  Cost of capital = |Net Interest LTM| / Average Debt LTM
+  Cost of capital[view] = |Net Interest LTM| / Average Debt[view] LTM
     - Net Interest LTM = suma 12 meses de m_categoria='06. Net financing costs'
-      (Interest Expense + Interest Income, ambos con signo de BET). En BET viene
-      negativo neto; aqui lo invertimos para mostrar como costo positivo.
-    - Average Debt LTM = promedio de los saldos de Debt in Homes en los 12 meses.
-    - Resultado anualizado naturalmente (LTM / LTM).
-
-NO incluye deuda corporativa (04. Corporate Debt esta vacio en BET; pendiente
-reportar al owner).
+      (Interest Expense + Interest Income). NO hay split de intereses por
+      Homes vs Corporate en el bet; usamos el mismo Net Interest para las 3
+      vistas — es un proxy. Cost of Capital "Homes only" queda inflado, y
+      "Corporate only" queda muy alto. La vista Total es la financieramente
+      correcta.
+    - Average Debt[view] LTM = promedio de los saldos del bucket en 12 meses.
 """
 
 from __future__ import annotations
@@ -41,19 +45,26 @@ LTM_MONTHS = 12
 
 
 def _sql_debt(mes_inicio: dt.date, mes_corte: dt.date) -> str:
+    """Trae ambos saldos de deuda (Homes + Corporate) desde el bet, en
+    formato pivoteado por m_metrica: una columna `bucket` con {homes,
+    corporate}. Suma en Python."""
     return f"""
 SELECT
   mes,
   m_pais,
   dummie_eliminaciones,
   dummie_ajustes,
+  CASE m_metrica
+    WHEN '05. Debt in Homes'  THEN 'homes'
+    WHEN '04. Corporate Debt' THEN 'corporate'
+  END AS bucket,
   SUM(actuals_accounting) AS debt
 FROM `{TABLE_BET}`
 WHERE m_tipo = '3. Drivers'
   AND m_categoria = '03. Balance General'
-  AND m_metrica = '05. Debt in Homes'
+  AND m_metrica IN ('05. Debt in Homes', '04. Corporate Debt')
   AND mes BETWEEN DATE('{mes_inicio.isoformat()}') AND DATE('{mes_corte.isoformat()}')
-GROUP BY 1, 2, 3, 4
+GROUP BY 1, 2, 3, 4, 5
 """.strip()
 
 
@@ -185,33 +196,58 @@ def build(mes_corte: dt.date, mes_max: dt.date | None = None) -> dict[str, Any]:
     int_pivot = int_pivot[ebitda_pivot.columns]
     interest_ltm = int_pivot.rolling(window=LTM_MONTHS, min_periods=1).sum()
 
-    # Debt saldo mensual (snapshot) y promedio LTM
-    debt_snapshot = df_debt.pivot_table(
-        index="mes", columns="pais_label", values="debt", aggfunc="sum"
-    ).reindex(ebitda_pivot.index).fillna(0)
-    for col in ebitda_pivot.columns:
-        if col not in debt_snapshot.columns:
-            debt_snapshot[col] = 0.0
-    debt_snapshot = debt_snapshot[ebitda_pivot.columns]
-    debt_avg_ltm = debt_snapshot.rolling(window=LTM_MONTHS, min_periods=1).mean()
+    # Debt saldo mensual por bucket + total, y promedio LTM por bucket + total
+    def _pivot_debt(bucket_val: str | None) -> pd.DataFrame:
+        """Pivot saldo mensual por (mes, pais) filtrado a un bucket. Si
+        bucket_val is None, suma todos los buckets (= Total)."""
+        d = df_debt if bucket_val is None else df_debt[df_debt["bucket"] == bucket_val]
+        p = d.pivot_table(
+            index="mes", columns="pais_label", values="debt", aggfunc="sum"
+        ).reindex(ebitda_pivot.index).fillna(0)
+        for col in ebitda_pivot.columns:
+            if col not in p.columns:
+                p[col] = 0.0
+        return p[ebitda_pivot.columns]
+
+    debt_homes_snap     = _pivot_debt("homes")
+    debt_corporate_snap = _pivot_debt("corporate")
+    debt_total_snap     = debt_homes_snap + debt_corporate_snap
+    debt_homes_avg_ltm     = debt_homes_snap.rolling(window=LTM_MONTHS, min_periods=1).mean()
+    debt_corporate_avg_ltm = debt_corporate_snap.rolling(window=LTM_MONTHS, min_periods=1).mean()
+    debt_total_avg_ltm     = debt_total_snap.rolling(window=LTM_MONTHS, min_periods=1).mean()
 
     # Emitir facts solo del rango [mes_inicio, mes_corte] (no del rango LTM extendido)
     df_debt_emit = df_debt[df_debt["mes"] >= pd.Timestamp(mes_inicio)].copy()
     meses_disponibles = sorted({m.strftime("%Y-%m") for m in df_debt_emit["mes"].unique()})
 
+    def _lev(debt_val: float, adj: float | None) -> float | None:
+        return (debt_val / adj) if (adj is not None and adj != 0) else None
+
+    def _coc(interest: float | None, avg: float | None) -> float | None:
+        return (interest / avg) if (interest is not None and avg is not None and avg != 0) else None
+
+    def _snap(pivot: pd.DataFrame, mes_ts: pd.Timestamp, pais: str) -> float | None:
+        return float(pivot.loc[mes_ts, pais]) if pais in pivot.columns and mes_ts in pivot.index else None
+
     facts = []
     keys = ["mes", "m_pais", "dummie_ajustes"]
     for vals, g in df_debt_emit.groupby(keys, dropna=False):
         mes, pais, ajuste = vals
-        debt_buckets = _twin_sum(g, "debt")
+        # Twin (sin_elim / con_elim / solo_elim) sobre el TOTAL (homes+corporate)
+        actuals_total = _twin_sum(g, "debt")
+        # Buckets por m_metrica
+        actuals_homes     = _twin_sum(g[g["bucket"] == "homes"],     "debt")
+        actuals_corporate = _twin_sum(g[g["bucket"] == "corporate"], "debt")
+
         mes_ts = pd.Timestamp(mes) if not isinstance(mes, pd.Timestamp) else mes
-        ebitda_ltm_v = float(ebitda_ltm.loc[mes_ts, pais]) if pais in ebitda_ltm.columns and mes_ts in ebitda_ltm.index else None
-        cap_ltm_v    = float(cap_ltm.loc[mes_ts, pais])    if pais in cap_ltm.columns    and mes_ts in cap_ltm.index    else None
-        adj_ltm_v    = float(adj_ltm.loc[mes_ts, pais])    if pais in adj_ltm.columns    and mes_ts in adj_ltm.index    else None
-        interest_ltm_v = float(interest_ltm.loc[mes_ts, pais]) if pais in interest_ltm.columns and mes_ts in interest_ltm.index else None
-        debt_avg_v     = float(debt_avg_ltm.loc[mes_ts, pais]) if pais in debt_avg_ltm.columns and mes_ts in debt_avg_ltm.index else None
-        leverage     = (debt_buckets["sin_elim"] / adj_ltm_v) if (adj_ltm_v and adj_ltm_v != 0) else None
-        cost_of_capital = (interest_ltm_v / debt_avg_v) if (interest_ltm_v is not None and debt_avg_v and debt_avg_v != 0) else None
+        ebitda_ltm_v   = _snap(ebitda_ltm,   mes_ts, pais)
+        cap_ltm_v      = _snap(cap_ltm,      mes_ts, pais)
+        adj_ltm_v      = _snap(adj_ltm,      mes_ts, pais)
+        interest_ltm_v = _snap(interest_ltm, mes_ts, pais)
+        avg_homes     = _snap(debt_homes_avg_ltm,     mes_ts, pais)
+        avg_corporate = _snap(debt_corporate_avg_ltm, mes_ts, pais)
+        avg_total     = _snap(debt_total_avg_ltm,     mes_ts, pais)
+
         facts.append({
             "mes": mes_ts.strftime("%Y-%m"),
             "pais": pais if pd.notna(pais) else None,
@@ -220,15 +256,26 @@ def build(mes_corte: dt.date, mes_max: dt.date | None = None) -> dict[str, Any]:
             "cuenta": None,
             "cuenta_desc": None,
             "es_ajuste": bool(pd.notna(ajuste) and ajuste == 1),
-            "actuals": debt_buckets,
+            # `actuals` = TOTAL (homes + corporate) — cifra principal de la card.
+            "actuals": actuals_total,
+            "actuals_homes": actuals_homes,
+            "actuals_corporate": actuals_corporate,
             "budget":  {"sin_elim": 0.0, "con_elim": 0.0, "solo_elim": 0.0},
             "ebitda_ltm": ebitda_ltm_v,
             "capitalized_payroll_ltm": cap_ltm_v,
             "adj_ebitda_ltm": adj_ltm_v,
-            "leverage": leverage,
             "net_interest_ltm": interest_ltm_v,
-            "debt_avg_ltm": debt_avg_v,
-            "cost_of_capital": cost_of_capital,
+            # 3 vistas Homes / Corporate / Total. La card muestra Total; el
+            # drill tiene toggle para las otras 2.
+            "leverage":           _lev(actuals_total["sin_elim"],     adj_ltm_v),
+            "leverage_homes":     _lev(actuals_homes["sin_elim"],     adj_ltm_v),
+            "leverage_corporate": _lev(actuals_corporate["sin_elim"], adj_ltm_v),
+            "debt_avg_ltm":           avg_total,
+            "debt_homes_avg_ltm":     avg_homes,
+            "debt_corporate_avg_ltm": avg_corporate,
+            "cost_of_capital":           _coc(interest_ltm_v, avg_total),
+            "cost_of_capital_homes":     _coc(interest_ltm_v, avg_homes),
+            "cost_of_capital_corporate": _coc(interest_ltm_v, avg_corporate),
         })
 
     log.info("Debt in Homes: %d facts", len(facts))
@@ -241,7 +288,7 @@ def build(mes_corte: dt.date, mes_max: dt.date | None = None) -> dict[str, Any]:
         "estado": "real",
         "invertir_delta": True,  # mas deuda = peor
         "fuente": (
-            "bet_data_p2 · drivers Debt in Homes · "
+            "bet_data_p2 · drivers Homes + Corporate Debt · "
             "leverage = Debt / Adj EBITDA LTM · "
             "cost of capital = |Net Interest LTM| / Avg Debt LTM"
         ),
@@ -250,7 +297,8 @@ def build(mes_corte: dt.date, mes_max: dt.date | None = None) -> dict[str, Any]:
             "filtros_debt": [
                 "m_tipo = '3. Drivers'",
                 "m_categoria = '03. Balance General'",
-                "m_metrica = '05. Debt in Homes'",
+                "m_metrica IN ('05. Debt in Homes', '04. Corporate Debt')",
+                "total = homes + corporate",
             ],
             "filtros_ebitda": [
                 "m_tipo = '1. Financials'",
@@ -266,9 +314,13 @@ def build(mes_corte: dt.date, mes_max: dt.date | None = None) -> dict[str, Any]:
                 "incluye Interest Expense + Interest Income",
             ],
             "adj_ebitda_formula": "EBITDA BET + Capitalized Payroll (formula contable estandar)",
-            "cost_of_capital_formula": "|Net Interest LTM| / promedio(Debt LTM 12 meses)",
+            "cost_of_capital_formula": "|Net Interest LTM| / promedio(Debt LTM 12 meses) por bucket",
             "ltm_meses": LTM_MONTHS,
-            "nota": "Corporate Debt vacio en BET; pendiente reportar al owner.",
+            "nota": (
+                "Net Interest LTM no esta separado por bucket (el bet no lo splitea). "
+                "Cost of Capital 'Homes only' y 'Corporate only' usan el mismo numerador "
+                "= son proxys. La vista Total es la financieramente correcta."
+            ),
             "monedas": MONEDA_POR_PAIS,
         },
         "meses_disponibles": meses_disponibles,

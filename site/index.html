@@ -161,6 +161,13 @@
           <span class="stitle">Growth · Monthly evolution</span>
           <span class="ssub" id="ctxGrowth">—</span>
         </div>
+        <!-- Sub-tabs por linea de negocio (mismo patron que MTD) -->
+        <nav class="subtab-bar" id="subtabBarGrowth" role="tablist" aria-label="Business line">
+          <button class="subtab-btn on" data-subtab-growth="Market Maker"        role="tab" aria-selected="true">Market Maker</button>
+          <button class="subtab-btn"    data-subtab-growth="Brokerage Used"      role="tab" aria-selected="false">Brokerage Used</button>
+          <button class="subtab-btn"    data-subtab-growth="Brokerage New"       role="tab" aria-selected="false">Brokerage New</button>
+          <button class="subtab-btn"    data-subtab-growth="Habicredit"          role="tab" aria-selected="false">Habicredit</button>
+        </nav>
         <div class="kpi-grid" id="gridGrowth"></div>
       </div>
     </section>
@@ -177,6 +184,7 @@
         <button class="subtab-btn"    data-subtab-mtd="Brokerage Used"      role="tab" aria-selected="false">Brokerage Used</button>
         <button class="subtab-btn"    data-subtab-mtd="Brokerage New"       role="tab" aria-selected="false">Brokerage New</button>
         <button class="subtab-btn"    data-subtab-mtd="Habicredit"          role="tab" aria-selected="false">Habicredit</button>
+        <button class="subtab-btn"    data-subtab-mtd="P&amp;L Forecast"     role="tab" aria-selected="false">P&amp;L Forecast</button>
       </nav>
       <div class="kpi-grid" id="gridMTD"></div>
     </section>
