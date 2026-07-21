@@ -3,7 +3,7 @@
   "nombre": "MTD · Transactions",
   "fase": 1,
   "fuente": "bet_data_p2 m_tipo='2. Transactions' (totales+budget) · clients-domain-data-master.finance_wh_bi.finance_tapes_global (curva diaria, desistimientos='No desistidos')",
-  "hoy_dia_del_mes": 17,
+  "hoy_dia_del_mes": 21,
   "mes_actual": "2026-07",
   "mes_anterior": "2026-06",
   "mes_yoy": "2025-07",
@@ -25,8 +25,8 @@
             "ventana": "mes_actual",
             "mes": "2026-07",
             "dias_en_mes": 31,
-            "nids_total": 56.0,
-            "gmv_total": 8351257355.469999,
+            "nids_total": 72.0,
+            "gmv_total": 10861743192.49,
             "curva": [
               {
                 "dia": 1,
@@ -87,7 +87,7 @@
               {
                 "dia": 9,
                 "nids": 3.0,
-                "gmv": 682015992.2700001,
+                "gmv": 682015992.27,
                 "nids_cum": 23.0,
                 "gmv_cum": 3734700268.5
               },
@@ -135,10 +135,31 @@
               },
               {
                 "dia": 17,
+                "nids": 9.0,
+                "gmv": 1246431449.37,
+                "nids_cum": 64.0,
+                "gmv_cum": 9402688804.48
+              },
+              {
+                "dia": 18,
+                "nids": 5.0,
+                "gmv": 763025748.35,
+                "nids_cum": 69.0,
+                "gmv_cum": 10165714552.83
+              },
+              {
+                "dia": 20,
                 "nids": 1.0,
-                "gmv": 195000000.36,
-                "nids_cum": 56.0,
-                "gmv_cum": 8351257355.47
+                "gmv": 104000000.66,
+                "nids_cum": 70.0,
+                "gmv_cum": 10269714553.49
+              },
+              {
+                "dia": 21,
+                "nids": 2.0,
+                "gmv": 592028639.0,
+                "nids_cum": 72.0,
+                "gmv_cum": 10861743192.49
               }
             ],
             "nids_budget": 323.0,
@@ -149,7 +170,7 @@
             "mes": "2026-06",
             "dias_en_mes": 30,
             "nids_total": 199.0,
-            "gmv_total": 30856223866.190002,
+            "gmv_total": 30856223866.189995,
             "curva": [
               {
                 "dia": 1,
@@ -161,16 +182,16 @@
               {
                 "dia": 2,
                 "nids": 16.0,
-                "gmv": 2511300690.71,
+                "gmv": 2511300690.7099996,
                 "nids_cum": 24.0,
-                "gmv_cum": 3583488072.76
+                "gmv_cum": 3583488072.7599998
               },
               {
                 "dia": 3,
                 "nids": 2.0,
                 "gmv": 261744935.7,
                 "nids_cum": 26.0,
-                "gmv_cum": 3845233008.46
+                "gmv_cum": 3845233008.4599996
               },
               {
                 "dia": 4,
@@ -210,7 +231,7 @@
               {
                 "dia": 11,
                 "nids": 7.0,
-                "gmv": 1004401055.6700001,
+                "gmv": 1004401055.67,
                 "nids_cum": 55.0,
                 "gmv_cum": 8287925987.49
               },
@@ -308,30 +329,30 @@
               {
                 "dia": 27,
                 "nids": 7.0,
-                "gmv": 1153706463.24,
+                "gmv": 1153706463.2399998,
                 "nids_cum": 164.0,
-                "gmv_cum": 25630551228.3
+                "gmv_cum": 25630551228.299995
               },
               {
                 "dia": 28,
                 "nids": 2.0,
                 "gmv": 195705286.75,
                 "nids_cum": 166.0,
-                "gmv_cum": 25826256515.05
+                "gmv_cum": 25826256515.049995
               },
               {
                 "dia": 29,
                 "nids": 3.0,
                 "gmv": 486705168.13,
                 "nids_cum": 169.0,
-                "gmv_cum": 26312961683.18
+                "gmv_cum": 26312961683.179996
               },
               {
                 "dia": 30,
                 "nids": 31.0,
-                "gmv": 4543262183.01,
+                "gmv": 4543262183.009999,
                 "nids_cum": 200.0,
-                "gmv_cum": 30856223866.190002
+                "gmv_cum": 30856223866.189995
               }
             ]
           },
@@ -568,8 +589,8 @@
             "ventana": "mes_actual",
             "mes": "2026-07",
             "dias_en_mes": 31,
-            "nids_total": 44.0,
-            "gmv_total": 46409281.0,
+            "nids_total": 57.0,
+            "gmv_total": 59724406.0,
             "curva": [
               {
                 "dia": 1,
@@ -657,10 +678,17 @@
               },
               {
                 "dia": 17,
-                "nids": 1.0,
-                "gmv": 925613.0,
-                "nids_cum": 44.0,
-                "gmv_cum": 46409281.0
+                "nids": 10.0,
+                "gmv": 10433825.0,
+                "nids_cum": 53.0,
+                "gmv_cum": 55917493.0
+              },
+              {
+                "dia": 20,
+                "nids": 4.0,
+                "gmv": 3806913.0,
+                "nids_cum": 57.0,
+                "gmv_cum": 59724406.0
               }
             ],
             "nids_budget": 158.0,
@@ -1011,8 +1039,8 @@
             "ventana": "mes_actual",
             "mes": "2026-07",
             "dias_en_mes": 31,
-            "nids_total": 43.0,
-            "gmv_total": 6253465733.7300005,
+            "nids_total": 49.0,
+            "gmv_total": 7196278332.289999,
             "curva": [
               {
                 "dia": 1,
@@ -1045,7 +1073,7 @@
               {
                 "dia": 8,
                 "nids": 5.0,
-                "gmv": 770703671.57,
+                "gmv": 770703671.5699999,
                 "nids_cum": 18.0,
                 "gmv_cum": 2474739359.25
               },
@@ -1072,24 +1100,24 @@
               },
               {
                 "dia": 15,
-                "nids": 3.0,
-                "gmv": 534990088.73,
-                "nids_cum": 39.0,
-                "gmv_cum": 5734284631.940001
+                "nids": 4.0,
+                "gmv": 680398027.12,
+                "nids_cum": 40.0,
+                "gmv_cum": 5879692570.33
               },
               {
                 "dia": 16,
                 "nids": 3.0,
                 "gmv": 407604379.76,
-                "nids_cum": 42.0,
-                "gmv_cum": 6141889011.700001
+                "nids_cum": 43.0,
+                "gmv_cum": 6287296950.09
               },
               {
                 "dia": 17,
-                "nids": 1.0,
-                "gmv": 111576722.03,
-                "nids_cum": 43.0,
-                "gmv_cum": 6253465733.7300005
+                "nids": 6.0,
+                "gmv": 908981382.1999999,
+                "nids_cum": 49.0,
+                "gmv_cum": 7196278332.29
               }
             ],
             "nids_budget": 187.0,
@@ -1126,7 +1154,7 @@
               {
                 "dia": 9,
                 "nids": 7.0,
-                "gmv": 902038078.1899999,
+                "gmv": 902038078.19,
                 "nids_cum": 22.0,
                 "gmv_cum": 3056493056.7000003
               },
@@ -1217,7 +1245,7 @@
               {
                 "dia": 25,
                 "nids": 8.0,
-                "gmv": 1219840949.4699998,
+                "gmv": 1219840949.47,
                 "nids_cum": 109.0,
                 "gmv_cum": 17276452943.69
               },
@@ -1435,8 +1463,8 @@
             "ventana": "mes_actual",
             "mes": "2026-07",
             "dias_en_mes": 31,
-            "nids_total": 34.0,
-            "gmv_total": 26099065.0,
+            "nids_total": 42.0,
+            "gmv_total": 36626822.0,
             "curva": [
               {
                 "dia": 1,
@@ -1482,10 +1510,24 @@
               },
               {
                 "dia": 16,
-                "nids": 2.0,
-                "gmv": 1724552.0,
-                "nids_cum": 34.0,
-                "gmv_cum": 26099065.0
+                "nids": 3.0,
+                "gmv": 2565552.0,
+                "nids_cum": 35.0,
+                "gmv_cum": 26940065.0
+              },
+              {
+                "dia": 17,
+                "nids": 3.0,
+                "gmv": 4621145.0,
+                "nids_cum": 38.0,
+                "gmv_cum": 31561210.0
+              },
+              {
+                "dia": 20,
+                "nids": 4.0,
+                "gmv": 5065612.0,
+                "nids_cum": 42.0,
+                "gmv_cum": 36626822.0
               }
             ],
             "nids_budget": 111.0,
@@ -1759,8 +1801,8 @@
             "ventana": "mes_actual",
             "mes": "2026-07",
             "dias_en_mes": 31,
-            "nids_total": 116.0,
-            "gmv_total": 22134500000.0,
+            "nids_total": 135.0,
+            "gmv_total": 25787500000.0,
             "curva": [
               {
                 "dia": 1,
@@ -1828,58 +1870,86 @@
               {
                 "dia": 10,
                 "nids": 7.0,
-                "gmv": 1337000000.0,
+                "gmv": 1343000000.0,
                 "nids_cum": 78.0,
-                "gmv_cum": 14939000000.0
+                "gmv_cum": 14945000000.0
               },
               {
                 "dia": 11,
                 "nids": 8.0,
                 "gmv": 1393000000.0,
                 "nids_cum": 86.0,
-                "gmv_cum": 16332000000.0
+                "gmv_cum": 16338000000.0
               },
               {
                 "dia": 12,
                 "nids": 3.0,
                 "gmv": 436000000.0,
                 "nids_cum": 89.0,
-                "gmv_cum": 16768000000.0
+                "gmv_cum": 16774000000.0
               },
               {
                 "dia": 13,
                 "nids": 4.0,
                 "gmv": 776500000.0,
                 "nids_cum": 93.0,
-                "gmv_cum": 17544500000.0
+                "gmv_cum": 17550500000.0
               },
               {
                 "dia": 14,
-                "nids": 7.0,
-                "gmv": 1271000000.0,
-                "nids_cum": 100.0,
-                "gmv_cum": 18815500000.0
+                "nids": 9.0,
+                "gmv": 1749000000.0,
+                "nids_cum": 102.0,
+                "gmv_cum": 19299500000.0
               },
               {
                 "dia": 15,
                 "nids": 8.0,
                 "gmv": 1476000000.0,
-                "nids_cum": 108.0,
-                "gmv_cum": 20291500000.0
+                "nids_cum": 110.0,
+                "gmv_cum": 20775500000.0
               },
               {
                 "dia": 16,
-                "nids": 7.0,
-                "gmv": 1279000000.0,
-                "nids_cum": 115.0,
-                "gmv_cum": 21570500000.0
+                "nids": 8.0,
+                "gmv": 1486000000.0,
+                "nids_cum": 118.0,
+                "gmv_cum": 22261500000.0
               },
               {
                 "dia": 17,
+                "nids": 6.0,
+                "gmv": 1536000000.0,
+                "nids_cum": 124.0,
+                "gmv_cum": 23797500000.0
+              },
+              {
+                "dia": 18,
+                "nids": 3.0,
+                "gmv": 437000000.0,
+                "nids_cum": 127.0,
+                "gmv_cum": 24234500000.0
+              },
+              {
+                "dia": 19,
+                "nids": 5.0,
+                "gmv": 977000000.0,
+                "nids_cum": 132.0,
+                "gmv_cum": 25211500000.0
+              },
+              {
+                "dia": 20,
+                "nids": 2.0,
+                "gmv": 438000000.0,
+                "nids_cum": 134.0,
+                "gmv_cum": 25649500000.0
+              },
+              {
+                "dia": 21,
                 "nids": 1.0,
-                "gmv": 564000000.0,
-                "nids_cum": 116.0,
-                "gmv_cum": 22134500000.0
+                "gmv": 138000000.0,
+                "nids_cum": 135.0,
+                "gmv_cum": 25787500000.0
               }
             ],
             "nids_budget": 248.0,
@@ -2330,8 +2400,8 @@
             "ventana": "mes_actual",
             "mes": "2026-07",
             "dias_en_mes": 31,
-            "nids_total": 66.0,
-            "gmv_total": 74643975.0,
+            "nids_total": 75.0,
+            "gmv_total": 82476312.5,
             "curva": [
               {
                 "dia": 1,
@@ -2409,6 +2479,20 @@
                 "gmv": 6098970.0,
                 "nids_cum": 66.0,
                 "gmv_cum": 74643975.0
+              },
+              {
+                "dia": 17,
+                "nids": 3.0,
+                "gmv": 2717540.0,
+                "nids_cum": 69.0,
+                "gmv_cum": 77361515.0
+              },
+              {
+                "dia": 20,
+                "nids": 6.0,
+                "gmv": 5114797.5,
+                "nids_cum": 75.0,
+                "gmv_cum": 82476312.5
               }
             ],
             "nids_budget": 147.0,
@@ -2568,7 +2652,7 @@
             "mes": "2025-07",
             "dias_en_mes": 31,
             "nids_total": 160.0,
-            "gmv_total": 163960937.48,
+            "gmv_total": 163960937.48000002,
             "curva": [
               {
                 "dia": 2,
@@ -2745,8 +2829,8 @@
             "ventana": "mes_actual",
             "mes": "2026-07",
             "dias_en_mes": 31,
-            "nids_total": 49.0,
-            "gmv_total": 9186000000.0,
+            "nids_total": 56.0,
+            "gmv_total": 10385000000.0,
             "curva": [
               {
                 "dia": 1,
@@ -2820,24 +2904,31 @@
               },
               {
                 "dia": 14,
-                "nids": 4.0,
-                "gmv": 782000000.0,
-                "nids_cum": 42.0,
-                "gmv_cum": 7649000000.0
+                "nids": 5.0,
+                "gmv": 937000000.0,
+                "nids_cum": 43.0,
+                "gmv_cum": 7804000000.0
               },
               {
                 "dia": 15,
                 "nids": 5.0,
                 "gmv": 1090000000.0,
-                "nids_cum": 47.0,
-                "gmv_cum": 8739000000.0
+                "nids_cum": 48.0,
+                "gmv_cum": 8894000000.0
               },
               {
                 "dia": 16,
-                "nids": 2.0,
-                "gmv": 447000000.0,
-                "nids_cum": 49.0,
-                "gmv_cum": 9186000000.0
+                "nids": 3.0,
+                "gmv": 580000000.0,
+                "nids_cum": 51.0,
+                "gmv_cum": 9474000000.0
+              },
+              {
+                "dia": 17,
+                "nids": 5.0,
+                "gmv": 911000000.0,
+                "nids_cum": 56.0,
+                "gmv_cum": 10385000000.0
               }
             ],
             "nids_budget": 219.0,
@@ -3218,8 +3309,8 @@
             "ventana": "mes_actual",
             "mes": "2026-07",
             "dias_en_mes": 31,
-            "nids_total": 9.0,
-            "gmv_total": 14121512.5,
+            "nids_total": 19.0,
+            "gmv_total": 27913660.0,
             "curva": [
               {
                 "dia": 3,
@@ -3262,6 +3353,27 @@
                 "gmv": 3063822.5,
                 "nids_cum": 9.0,
                 "gmv_cum": 14121512.5
+              },
+              {
+                "dia": 16,
+                "nids": 2.0,
+                "gmv": 2302330.0,
+                "nids_cum": 11.0,
+                "gmv_cum": 16423842.5
+              },
+              {
+                "dia": 17,
+                "nids": 3.0,
+                "gmv": 4375330.0,
+                "nids_cum": 14.0,
+                "gmv_cum": 20799172.5
+              },
+              {
+                "dia": 20,
+                "nids": 5.0,
+                "gmv": 7114487.5,
+                "nids_cum": 19.0,
+                "gmv_cum": 27913660.0
               }
             ],
             "nids_budget": 123.0,
@@ -3598,8 +3710,8 @@
             "ventana": "mes_actual",
             "mes": "2026-07",
             "dias_en_mes": 31,
-            "nids_total": 174.0,
-            "gmv_total": 49573189356.0,
+            "nids_total": 200.0,
+            "gmv_total": 55717960356.0,
             "curva": [
               {
                 "dia": 1,
@@ -3701,10 +3813,38 @@
               },
               {
                 "dia": 17,
-                "nids": 12.0,
-                "gmv": 3698000000.0,
-                "nids_cum": 177.0,
-                "gmv_cum": 50282189356.0
+                "nids": 23.0,
+                "gmv": 5884331000.0,
+                "nids_cum": 188.0,
+                "gmv_cum": 52468520356.0
+              },
+              {
+                "dia": 18,
+                "nids": 7.0,
+                "gmv": 1340440000.0,
+                "nids_cum": 195.0,
+                "gmv_cum": 53808960356.0
+              },
+              {
+                "dia": 19,
+                "nids": 1.0,
+                "gmv": 190000000.0,
+                "nids_cum": 196.0,
+                "gmv_cum": 53998960356.0
+              },
+              {
+                "dia": 20,
+                "nids": 1.0,
+                "gmv": 132000000.0,
+                "nids_cum": 197.0,
+                "gmv_cum": 54130960356.0
+              },
+              {
+                "dia": 21,
+                "nids": 4.0,
+                "gmv": 1386000000.0,
+                "nids_cum": 201.0,
+                "gmv_cum": 55516960356.0
               }
             ],
             "nids_budget": 513.0,
@@ -3913,7 +4053,7 @@
             "mes": "2025-07",
             "dias_en_mes": 31,
             "nids_total": 255.0,
-            "gmv_total": 56612471172.0,
+            "gmv_total": 56631831186.0,
             "curva": [
               {
                 "dia": 1,
@@ -4120,8 +4260,8 @@
             "ventana": "mes_actual",
             "mes": "2026-07",
             "dias_en_mes": 31,
-            "nids_total": 181.0,
-            "gmv_total": 143564570.0,
+            "nids_total": 212.0,
+            "gmv_total": 169986310.0,
             "curva": [
               {
                 "dia": 1,
@@ -4181,59 +4321,87 @@
               },
               {
                 "dia": 10,
-                "nids": 13.0,
-                "gmv": 20795856.0,
-                "nids_cum": 87.0,
-                "gmv_cum": 131989514.0
+                "nids": 14.0,
+                "gmv": 21445856.0,
+                "nids_cum": 88.0,
+                "gmv_cum": 132639514.0
               },
               {
                 "dia": 11,
                 "nids": 10.0,
                 "gmv": 14659289.0,
-                "nids_cum": 97.0,
-                "gmv_cum": 146648803.0
+                "nids_cum": 98.0,
+                "gmv_cum": 147298803.0
               },
               {
                 "dia": 12,
                 "nids": 1.0,
                 "gmv": 695000.0,
-                "nids_cum": 98.0,
-                "gmv_cum": 147343803.0
+                "nids_cum": 99.0,
+                "gmv_cum": 147993803.0
               },
               {
                 "dia": 13,
                 "nids": 10.0,
                 "gmv": 22142099.0,
-                "nids_cum": 108.0,
-                "gmv_cum": 169485902.0
+                "nids_cum": 109.0,
+                "gmv_cum": 170135902.0
               },
               {
                 "dia": 14,
                 "nids": 14.0,
                 "gmv": 23297298.0,
-                "nids_cum": 122.0,
-                "gmv_cum": 192783200.0
+                "nids_cum": 123.0,
+                "gmv_cum": 193433200.0
               },
               {
                 "dia": 15,
-                "nids": 15.0,
-                "gmv": 21812534.0,
-                "nids_cum": 137.0,
-                "gmv_cum": 214595734.0
+                "nids": 16.0,
+                "gmv": 23054034.0,
+                "nids_cum": 139.0,
+                "gmv_cum": 216487234.0
               },
               {
                 "dia": 16,
                 "nids": 13.0,
                 "gmv": 26624551.0,
-                "nids_cum": 150.0,
-                "gmv_cum": 241220285.0
+                "nids_cum": 152.0,
+                "gmv_cum": 243111785.0
               },
               {
                 "dia": 17,
-                "nids": 5.0,
-                "gmv": 4751074.0,
-                "nids_cum": 155.0,
-                "gmv_cum": 245971359.0
+                "nids": 11.0,
+                "gmv": 13436529.0,
+                "nids_cum": 163.0,
+                "gmv_cum": 256548314.0
+              },
+              {
+                "dia": 18,
+                "nids": 4.0,
+                "gmv": 6964756.0,
+                "nids_cum": 167.0,
+                "gmv_cum": 263513070.0
+              },
+              {
+                "dia": 19,
+                "nids": 2.0,
+                "gmv": 5667729.0,
+                "nids_cum": 169.0,
+                "gmv_cum": 269180799.0
+              },
+              {
+                "dia": 20,
+                "nids": 12.0,
+                "gmv": 19562460.0,
+                "nids_cum": 181.0,
+                "gmv_cum": 288743259.0
+              },
+              {
+                "dia": 21,
+                "nids": 4.0,
+                "gmv": 8479040.0,
+                "nids_cum": 185.0,
+                "gmv_cum": 297222299.0
               }
             ],
             "nids_budget": 453.63054187192114,
@@ -4675,8 +4843,8 @@
             "ventana": "mes_actual",
             "mes": "2026-07",
             "dias_en_mes": 31,
-            "nids_total": 44.0,
-            "gmv_total": 10701600000.0,
+            "nids_total": 46.0,
+            "gmv_total": 11071698365.0,
             "curva": [
               {
                 "dia": 1,
@@ -4778,24 +4946,38 @@
               },
               {
                 "dia": 14,
-                "nids": 5.0,
-                "gmv": 1083000000.0,
-                "nids_cum": 38.0,
-                "gmv_cum": 9431800000.0
+                "nids": 6.0,
+                "gmv": 1403000000.0,
+                "nids_cum": 39.0,
+                "gmv_cum": 9751800000.0
               },
               {
                 "dia": 15,
                 "nids": 4.0,
                 "gmv": 861500000.0,
-                "nids_cum": 42.0,
-                "gmv_cum": 10293300000.0
+                "nids_cum": 43.0,
+                "gmv_cum": 10613300000.0
               },
               {
                 "dia": 16,
                 "nids": 2.0,
                 "gmv": 408300000.0,
-                "nids_cum": 44.0,
-                "gmv_cum": 10701600000.0
+                "nids_cum": 45.0,
+                "gmv_cum": 11021600000.0
+              },
+              {
+                "dia": 17,
+                "nids": 1.0,
+                "gmv": 184000000.0,
+                "nids_cum": 46.0,
+                "gmv_cum": 11205600000.0
+              },
+              {
+                "dia": 19,
+                "nids": 1.0,
+                "gmv": 186098365.0,
+                "nids_cum": 47.0,
+                "gmv_cum": 11391698365.0
               }
             ],
             "nids_budget": 107.08701385289513,
@@ -5295,8 +5477,8 @@
             "ventana": "mes_actual",
             "mes": "2026-07",
             "dias_en_mes": 31,
-            "nids_total": 38.0,
-            "gmv_total": 44444773.0,
+            "nids_total": 40.0,
+            "gmv_total": 46510773.0,
             "curva": [
               {
                 "dia": 3,
@@ -5563,6 +5745,20 @@
                 "gmv": 1010000.0,
                 "nids_cum": 47.0,
                 "gmv_cum": 55380587.0
+              },
+              {
+                "dia": 17,
+                "nids": 1.0,
+                "gmv": 586000.0,
+                "nids_cum": 48.0,
+                "gmv_cum": 55966587.0
+              },
+              {
+                "dia": 20,
+                "nids": 1.0,
+                "gmv": 1480000.0,
+                "nids_cum": 49.0,
+                "gmv_cum": 57446587.0
               }
             ],
             "nids_budget": 82.0,
@@ -6347,8 +6543,8 @@
             "ventana": "mes_actual",
             "mes": "2026-07",
             "dias_en_mes": 31,
-            "nids_total": 25.0,
-            "gmv_total": 5889180000.0,
+            "nids_total": 33.0,
+            "gmv_total": 7775180000.0,
             "curva": [
               {
                 "dia": 1,
@@ -6429,10 +6625,10 @@
               },
               {
                 "dia": 17,
-                "nids": 4.0,
-                "gmv": 798000000.0,
-                "nids_cum": 29.0,
-                "gmv_cum": 6687180000.0
+                "nids": 8.0,
+                "gmv": 1886000000.0,
+                "nids_cum": 33.0,
+                "gmv_cum": 7775180000.0
               }
             ],
             "nids_budget": 81.79432711898319,
@@ -6750,8 +6946,8 @@
             "ventana": "mes_actual",
             "mes": "2026-07",
             "dias_en_mes": 31,
-            "nids_total": 5.0,
-            "gmv_total": 8374354.0,
+            "nids_total": 10.0,
+            "gmv_total": 13114354.0,
             "curva": [
               {
                 "dia": 3,
@@ -6773,6 +6969,20 @@
                 "gmv": 3248407.0,
                 "nids_cum": 5.0,
                 "gmv_cum": 8374354.0
+              },
+              {
+                "dia": 14,
+                "nids": 1.0,
+                "gmv": 586000.0,
+                "nids_cum": 6.0,
+                "gmv_cum": 8960354.0
+              },
+              {
+                "dia": 17,
+                "nids": 5.0,
+                "gmv": 5356000.0,
+                "nids_cum": 11.0,
+                "gmv_cum": 14316354.0
               }
             ],
             "nids_budget": 41.0,
@@ -7011,15 +7221,15 @@
             "ventana": "mes_actual",
             "mes": "2026-07",
             "dias_en_mes": 31,
-            "nids_total": 0.0,
-            "gmv_total": 0.0,
+            "nids_total": 2046.0,
+            "gmv_total": 468046551246.0,
             "curva": [
               {
                 "dia": 1,
-                "nids": 1947.0,
-                "gmv": 446605006868.0,
-                "nids_cum": 1947.0,
-                "gmv_cum": 446605006868.0
+                "nids": 2046.0,
+                "gmv": 468046551246.0,
+                "nids_cum": 2046.0,
+                "gmv_cum": 468046551246.0
               }
             ],
             "nids_budget": 2678.52,
@@ -7029,8 +7239,8 @@
             "ventana": "mes_anterior",
             "mes": "2026-06",
             "dias_en_mes": 30,
-            "nids_total": 3209.0,
-            "gmv_total": 764098219228.0,
+            "nids_total": 3297.0,
+            "gmv_total": 781390994019.0,
             "curva": [
               {
                 "dia": 1,
@@ -7045,8 +7255,8 @@
             "ventana": "mes_yoy",
             "mes": "2025-07",
             "dias_en_mes": 31,
-            "nids_total": 2818.0,
-            "gmv_total": 657681534269.0,
+            "nids_total": 2822.0,
+            "gmv_total": 656917272269.0,
             "curva": [
               {
                 "dia": 1,
@@ -7240,15 +7450,15 @@
             "ventana": "mes_actual",
             "mes": "2026-07",
             "dias_en_mes": 31,
-            "nids_total": 0.0,
-            "gmv_total": 0.0,
+            "nids_total": 839.0,
+            "gmv_total": 177185600463.0,
             "curva": [
               {
                 "dia": 1,
-                "nids": 796.0,
-                "gmv": 168089823691.0,
-                "nids_cum": 796.0,
-                "gmv_cum": 168089823691.0
+                "nids": 839.0,
+                "gmv": 177185600463.0,
+                "nids_cum": 839.0,
+                "gmv_cum": 177185600463.0
               }
             ],
             "nids_budget": 1787.55,
@@ -7258,15 +7468,15 @@
             "ventana": "mes_anterior",
             "mes": "2026-06",
             "dias_en_mes": 30,
-            "nids_total": 1436.0,
-            "gmv_total": 309505157583.0,
+            "nids_total": 1613.0,
+            "gmv_total": 361574903212.0,
             "curva": [
               {
                 "dia": 1,
-                "nids": 1608.0,
-                "gmv": 360162436527.0,
-                "nids_cum": 1608.0,
-                "gmv_cum": 360162436527.0
+                "nids": 1613.0,
+                "gmv": 361574903212.0,
+                "nids_cum": 1613.0,
+                "gmv_cum": 361574903212.0
               }
             ]
           },
@@ -7274,8 +7484,8 @@
             "ventana": "mes_yoy",
             "mes": "2025-07",
             "dias_en_mes": 31,
-            "nids_total": 1655.0,
-            "gmv_total": 332915504775.0,
+            "nids_total": 1679.0,
+            "gmv_total": 338253348893.0,
             "curva": [
               {
                 "dia": 1,
@@ -7334,8 +7544,8 @@
             "ventana": "mes_actual",
             "mes": "2026-07",
             "dias_en_mes": 31,
-            "nids_total": 0.0,
-            "gmv_total": 0.0,
+            "nids_total": 226.0,
+            "gmv_total": 45482034970.0,
             "curva": [
               {
                 "dia": 1,
@@ -7409,24 +7619,24 @@
               },
               {
                 "dia": 15,
-                "nids": 19.0,
-                "gmv": 4443963289.0,
-                "nids_cum": 189.0,
-                "gmv_cum": 38201979177.0
+                "nids": 20.0,
+                "gmv": 4571963289.0,
+                "nids_cum": 190.0,
+                "gmv_cum": 38329979177.0
               },
               {
                 "dia": 16,
-                "nids": 23.0,
-                "gmv": 3972864089.0,
-                "nids_cum": 212.0,
-                "gmv_cum": 42174843266.0
+                "nids": 27.0,
+                "gmv": 5181564089.0,
+                "nids_cum": 217.0,
+                "gmv_cum": 43511543266.0
               },
               {
                 "dia": 17,
-                "nids": 3.0,
-                "gmv": 879993503.0,
-                "nids_cum": 215.0,
-                "gmv_cum": 43054836769.0
+                "nids": 9.0,
+                "gmv": 1970491704.0,
+                "nids_cum": 226.0,
+                "gmv_cum": 45482034970.0
               }
             ],
             "nids_budget": 612.68,
@@ -7436,8 +7646,8 @@
             "ventana": "mes_anterior",
             "mes": "2026-06",
             "dias_en_mes": 30,
-            "nids_total": 424.0,
-            "gmv_total": 94885579251.0,
+            "nids_total": 485.0,
+            "gmv_total": 105860499113.0,
             "curva": [
               {
                 "dia": 1,
@@ -7599,8 +7809,8 @@
             "ventana": "mes_yoy",
             "mes": "2025-07",
             "dias_en_mes": 31,
-            "nids_total": 634.0,
-            "gmv_total": 123966664602.0,
+            "nids_total": 635.0,
+            "gmv_total": 124020796688.0,
             "curva": [
               {
                 "dia": 1,
@@ -7779,7 +7989,7 @@
             "ventana": "mes_actual",
             "mes": "2026-07",
             "dias_en_mes": 31,
-            "nids_total": 24.0,
+            "nids_total": 34.0,
             "gmv_total": 0.0,
             "curva": [
               {
@@ -7826,37 +8036,44 @@
               },
               {
                 "dia": 13,
-                "nids": 1.0,
+                "nids": 2.0,
                 "gmv": 0.0,
-                "nids_cum": 19.0,
+                "nids_cum": 20.0,
                 "gmv_cum": 0.0
               },
               {
                 "dia": 14,
                 "nids": 2.0,
                 "gmv": 0.0,
-                "nids_cum": 21.0,
-                "gmv_cum": 0.0
-              },
-              {
-                "dia": 15,
-                "nids": 1.0,
-                "gmv": 0.0,
                 "nids_cum": 22.0,
                 "gmv_cum": 0.0
               },
               {
-                "dia": 16,
+                "dia": 15,
                 "nids": 2.0,
                 "gmv": 0.0,
                 "nids_cum": 24.0,
                 "gmv_cum": 0.0
               },
               {
-                "dia": 17,
-                "nids": 1.0,
+                "dia": 16,
+                "nids": 2.0,
                 "gmv": 0.0,
-                "nids_cum": 25.0,
+                "nids_cum": 26.0,
+                "gmv_cum": 0.0
+              },
+              {
+                "dia": 17,
+                "nids": 5.0,
+                "gmv": 0.0,
+                "nids_cum": 31.0,
+                "gmv_cum": 0.0
+              },
+              {
+                "dia": 20,
+                "nids": 3.0,
+                "gmv": 0.0,
+                "nids_cum": 34.0,
                 "gmv_cum": 0.0
               }
             ],
@@ -8227,11 +8444,11 @@
             "ventana": "mes_actual",
             "mes": "2026-07",
             "dias_en_mes": 31,
-            "revenue_total": 10912000000.0,
-            "cost_total": 8307776114.0,
-            "gp_total": 2604223886.0,
-            "nids_total": 59.0,
-            "margen_pct": 23.865688104838707,
+            "revenue_total": 11858000000.0,
+            "cost_total": 9054870441.0,
+            "gp_total": 2803129559.0,
+            "nids_total": 63.0,
+            "margen_pct": 23.63914284870973,
             "curva": [
               {
                 "dia": 1,
@@ -8343,15 +8560,15 @@
               },
               {
                 "dia": 17,
-                "revenue": 285000000.0,
-                "cost": 208098000.0,
-                "gp": 76902000.0,
-                "nids": 2.0,
-                "revenue_cum": 10912000000.0,
-                "cost_cum": 8307776114.0,
-                "gp_cum": 2604223886.0,
-                "nids_cum": 59.0,
-                "margen_cum_pct": 23.865688104838707
+                "revenue": 1231000000.0,
+                "cost": 955192327.0,
+                "gp": 275807673.0,
+                "nids": 6.0,
+                "revenue_cum": 11858000000.0,
+                "cost_cum": 9054870441.0,
+                "gp_cum": 2803129559.0,
+                "nids_cum": 63.0,
+                "margen_cum_pct": 23.63914284870973
               }
             ]
           },
@@ -8360,10 +8577,10 @@
             "mes": "2026-06",
             "dias_en_mes": 30,
             "revenue_total": 37103598190.0,
-            "cost_total": 28385789571.059998,
-            "gp_total": 8717808618.940002,
+            "cost_total": 28385789571.06,
+            "gp_total": 8717808618.939999,
             "nids_total": 194.0,
-            "margen_pct": 23.495857663986854,
+            "margen_pct": 23.495857663986843,
             "curva": [
               {
                 "dia": 1,
@@ -8794,11 +9011,11 @@
             "ventana": "mes_actual",
             "mes": "2026-07",
             "dias_en_mes": 31,
-            "revenue_total": 14121512.5,
-            "cost_total": 11605470.12,
-            "gp_total": 2516042.380000001,
-            "nids_total": 9.0,
-            "margen_pct": 17.817088502382454,
+            "revenue_total": 19235012.5,
+            "cost_total": 15824953.120000001,
+            "gp_total": 3410059.379999999,
+            "nids_total": 12.0,
+            "margen_pct": 17.728397005200797,
             "curva": [
               {
                 "dia": 7,
@@ -8859,6 +9076,18 @@
                 "gp_cum": 2516042.380000001,
                 "nids_cum": 9.0,
                 "margen_cum_pct": 17.817088502382454
+              },
+              {
+                "dia": 17,
+                "revenue": 5113500.0,
+                "cost": 4219483.0,
+                "gp": 894017.0,
+                "nids": 3.0,
+                "revenue_cum": 19235012.5,
+                "cost_cum": 15824953.12,
+                "gp_cum": 3410059.380000001,
+                "nids_cum": 12.0,
+                "margen_cum_pct": 17.728397005200808
               }
             ]
           },
@@ -9332,10 +9561,10 @@
           "moneda": "COP",
           "mes_actual": {
             "mes": "2026-07",
-            "revenue_bet": 9808112063.210003,
-            "mm_revenue_bet": 7525669819.690002,
-            "tape_sum": 10627000000.0,
-            "adj_revenue": 12909442243.52,
+            "revenue_bet": 10154690399.380001,
+            "mm_revenue_bet": 7866573993.790003,
+            "tape_sum": 11858000000.0,
+            "adj_revenue": 14146116405.589998,
             "adj_revenue_budget": 38222913713.26564
           },
           "mes_anterior": {
@@ -9359,18 +9588,18 @@
           "moneda": "MXN",
           "mes_actual": {
             "mes": "2026-07",
-            "revenue_bet": 2928617.3299999996,
-            "mm_revenue_bet": 1260043.9299999997,
-            "tape_sum": 14121512.5,
-            "adj_revenue": 15790085.9,
+            "revenue_bet": 6926542.060000001,
+            "mm_revenue_bet": 5250702.280000001,
+            "tape_sum": 19235012.5,
+            "adj_revenue": 20910852.28,
             "adj_revenue_budget": 46122979.68372246
           },
           "mes_anterior": {
             "mes": "2026-06",
             "revenue_bet": 27774897.590000004,
             "mm_revenue_bet": 22443272.810000002,
-            "tape_sum": 89291375.99000001,
-            "adj_revenue": 94623000.77000001,
+            "tape_sum": 89291375.99,
+            "adj_revenue": 94623000.77,
             "adj_revenue_budget": 45101757.213911034
           },
           "mes_yoy": {
