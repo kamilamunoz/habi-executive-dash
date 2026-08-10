@@ -1,9 +1,9 @@
 {
-  "generado_en": "2026-07-29T10:04:41",
-  "mes_corte": "2026-06-01",
-  "mes_corte_label": "Jun 2026",
-  "mes_max": "2026-07-01",
-  "mes_max_label": "Jul 2026",
+  "generado_en": "2026-08-10T10:03:19",
+  "mes_corte": "2026-07-01",
+  "mes_corte_label": "Jul 2026",
+  "mes_max": "2026-08-01",
+  "mes_max_label": "Ago 2026",
   "es_mes_parcial": true,
   "fx_default": {
     "COP": 3700.0,
